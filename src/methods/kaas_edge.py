@@ -175,6 +175,9 @@ class KaaSEdge(FederatedMethod):
         n_ref = len(ref_images)
         
         # ── Stage 2: Selected devices compute logits ──
+        # All selected devices compute logits on the FULL D_ref.
+        # v_i* determines cost accounting and quality weight q_i(v_i),
+        # NOT the literal number of logits computed (which is always n_ref).
         all_logits = []
         all_weights = []
         participants = []
@@ -211,14 +214,15 @@ class KaaSEdge(FederatedMethod):
                     loss.backward()
                     local_optimizer.step()
             
-            # ── Compute logits on reference dataset ──
+            # ── Compute logits on FULL reference dataset ──
+            # In FD, every selected device computes logits on the entire D_ref.
+            # The upload volume v_i* controls cost, not coverage.
             local_model.eval()
-            n_logits = min(int(alloc.v_star), n_ref)
             logit_chunks = []
             bs = 512
             with torch.no_grad():
-                for start in range(0, n_logits, bs):
-                    end = min(start + bs, n_logits)
+                for start in range(0, n_ref, bs):
+                    end = min(start + bs, n_ref)
                     batch = ref_images[start:end].to(self.device)
                     logits = local_model(batch)
                     logits = torch.clamp(logits, -C, C)
@@ -227,25 +231,29 @@ class KaaSEdge(FederatedMethod):
             if logit_chunks:
                 device_logits = torch.cat(logit_chunks, dim=0)
                 
-                # ── Privacy perturbation (modeled by rho_i) ──
-                # rho_i < 1 means some information is lost to privacy
-                # We simulate this by adding noise proportional to (1 - rho_i)
+                # ── Privacy attenuation (modeled by rho_i) ──
+                # rho_i ∈ (0,1]: models quality degradation from privacy mechanisms
+                # Simulated as: attenuated logits + mild noise
+                # rho=1.0: no degradation; rho=0.2: 80% info lost
                 rho = alloc.rho_i
                 if rho < 1.0:
-                    noise_scale = C * (1.0 - rho) / max(rho, 0.01)
-                    noise = torch.randn_like(device_logits) * noise_scale
-                    device_logits = device_logits + noise
+                    # Attenuate signal toward uniform (privacy masks discriminative info)
+                    uniform_logit = device_logits.mean(dim=1, keepdim=True)
+                    device_logits = rho * device_logits + (1 - rho) * uniform_logit
+                    # Small additional noise
+                    noise_scale = C * 0.1 * (1 - rho)
+                    device_logits = device_logits + torch.randn_like(device_logits) * noise_scale
                 
                 all_logits.append(device_logits)
-                # Quality-weighted aggregation: w_i = rho_i * q_i
-                all_weights.append(rho * alloc.quality)
+                # Quality-weighted aggregation: w_i = q_i(v_i)
+                # q_i already incorporates rho_i: q = rho * v/(v+theta)
+                all_weights.append(alloc.quality)
             
-            # Energy accounting (simplified for EDGE: abstract costs)
-            total_energy["training"] += alloc.cost * 0.4   # ~40% training
-            total_energy["inference"] += alloc.cost * 0.3   # ~30% inference
-            total_energy["communication"] += alloc.cost * 0.3  # ~30% comm
+            # Energy accounting using RADS cost model
+            total_energy["training"] += alloc.cost * 0.4
+            total_energy["inference"] += alloc.cost * 0.3
+            total_energy["communication"] += alloc.cost * 0.3
             
-            # Free local model to save memory
             del local_model, local_optimizer
         
         # ── Stage 3: Quality-weighted aggregation + distillation ──
