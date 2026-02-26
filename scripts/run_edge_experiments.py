@@ -167,6 +167,7 @@ def run_main_comparison(args):
     from src.methods.kaas_edge import (
         KaaSEdge, KaaSEdgeConfig,
         FullParticipationFD, RandomSelectionFD,
+        FedCSFD, FedSKDFD,
         generate_edge_devices
     )
     from torch.utils.data import DataLoader
@@ -214,8 +215,16 @@ def run_main_comparison(args):
             'KaaS-Edge': lambda: KaaSEdge(
                 create_model(), config=config, device=args.device
             ),
-            'FullParticipation': lambda: FullParticipationFD(
+            'FedMD': lambda: FullParticipationFD(
                 create_model(), config=config, device=args.device
+            ),
+            'FedSKD': lambda: FedSKDFD(
+                create_model(), config=config, device=args.device,
+                select_ratio=0.5
+            ),
+            'FedCS-FD': lambda: FedCSFD(
+                create_model(), config=config, device=args.device,
+                budget=config.budget
             ),
             'RandomSelection': lambda: RandomSelectionFD(
                 create_model(), config=config, device=args.device,

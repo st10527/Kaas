@@ -709,6 +709,341 @@ class RandomSelectionFD(FederatedMethod):
     def aggregate(self, updates, weights): pass
 
 
+class FedCSFD(FederatedMethod):
+    """
+    Baseline: FedCS-style resource-aware client selection for FD.
+    
+    Adapted from: Nishio & Yonetani, "Client Selection for Federated Learning 
+    with Heterogeneous Resources in Mobile Edge", ICC 2019.
+    
+    Core idea: Under a per-round budget B, greedily select devices sorted by 
+    efficiency (cost-effectiveness), then allocate EQUAL upload volume to each.
+    This isolates the benefit of water-filling allocation in KaaS-Edge:
+    FedCS selects well but allocates uniformly.
+    """
+    
+    def __init__(self, server_model, config=None, n_classes=100, device=None,
+                 budget=8.0):
+        if device is None:
+            device = "cuda" if torch.cuda.is_available() else "cpu"
+        super().__init__(server_model, n_classes, device)
+        self.config = config or KaaSEdgeConfig()
+        self.budget = budget
+        self.distill_optimizer = torch.optim.Adam(
+            self.server_model.parameters(), lr=self.config.distill_lr
+        )
+        self._pretrained = False
+    
+    def run_round(self, round_idx, devices, client_loaders, public_loader,
+                  test_loader=None):
+        self.current_round = round_idx
+        if not self._pretrained:
+            self._pretrain(public_loader)
+            self._pretrained = True
+        
+        # ── FedCS selection: sort by efficiency, greedy pick under budget ──
+        # Efficiency = 1/b_i (lower cost = higher efficiency)
+        dev_info = []
+        for i, dev in enumerate(devices):
+            dev_id = dev['device_id'] if isinstance(dev, dict) else getattr(dev, 'device_id', i)
+            b_i = dev.get('b_i', 0.15) if isinstance(dev, dict) else getattr(dev, 'b_i', 0.15)
+            a_i = dev.get('a_i', 0.1) if isinstance(dev, dict) else getattr(dev, 'a_i', 0.1)
+            rho = dev.get('rho_i', 0.8) if isinstance(dev, dict) else getattr(dev, 'rho_i', 0.8)
+            dev_info.append({'dev_id': dev_id, 'b_i': b_i, 'a_i': a_i, 'rho_i': rho})
+        
+        # Sort by efficiency (low b_i first = most cost-effective)
+        dev_info.sort(key=lambda x: x['b_i'])
+        
+        # Greedy selection under budget
+        selected = []
+        remaining_budget = self.budget
+        for d in dev_info:
+            # Minimum cost to include this device: a_i + b_i * 1 (at least 1 unit)
+            min_cost = d['a_i'] + d['b_i']
+            if min_cost <= remaining_budget:
+                selected.append(d)
+                remaining_budget -= d['a_i']  # Reserve activation cost
+        
+        # Equal allocation of remaining budget among selected devices
+        if selected:
+            per_device_budget = remaining_budget / len(selected)
+            for d in selected:
+                d['v_alloc'] = min(per_device_budget / d['b_i'], self.config.v_max)
+        
+        # Collect reference data
+        ref_imgs, ref_lbls = [], []
+        for d, l in public_loader:
+            ref_imgs.append(d); ref_lbls.append(l)
+        ref_imgs = torch.cat(ref_imgs); ref_lbls = torch.cat(ref_lbls)
+        n_ref = len(ref_imgs)
+        
+        all_logits, all_weights, participants = [], [], []
+        C = self.config.clip_bound
+        total_cost = 0.0
+        
+        for d in selected:
+            dev_id = d['dev_id']
+            if dev_id not in client_loaders:
+                continue
+            participants.append(dev_id)
+            
+            # Local training
+            local_model = copy_model(self.server_model, device=self.device)
+            opt = torch.optim.SGD(local_model.parameters(), lr=self.config.local_lr,
+                                  momentum=0.9, weight_decay=5e-4)
+            local_model.train()
+            crit = nn.CrossEntropyLoss()
+            for _ in range(self.config.local_epochs):
+                for data, target in client_loaders[dev_id]:
+                    data, target = data.to(self.device), target.to(self.device)
+                    opt.zero_grad(); crit(local_model(data), target).backward(); opt.step()
+            
+            # Compute logits on full D_ref (same as other methods)
+            local_model.eval()
+            chunks = []
+            with torch.no_grad():
+                for s in range(0, n_ref, 512):
+                    e = min(s+512, n_ref)
+                    chunks.append(torch.clamp(local_model(ref_imgs[s:e].to(self.device)), -C, C).cpu())
+            device_logits = torch.cat(chunks)
+            
+            # Privacy attenuation (same model as KaaS-Edge for fairness)
+            rho = d['rho_i']
+            if rho < 1.0:
+                uniform_logit = device_logits.mean(dim=1, keepdim=True)
+                device_logits = rho * device_logits + (1 - rho) * uniform_logit
+                device_logits = device_logits + torch.randn_like(device_logits) * C * 0.1 * (1 - rho)
+            
+            all_logits.append(device_logits)
+            all_weights.append(1.0)  # Equal weight (FedCS has no quality-weighted agg)
+            
+            # Cost: a_i + b_i * v_alloc
+            total_cost += d['a_i'] + d['b_i'] * d.get('v_alloc', n_ref)
+            del local_model, opt
+        
+        # Equal-weight aggregation + distillation
+        if all_logits:
+            min_len = min(len(l) for l in all_logits)
+            agg = sum(l[:min_len] for l in all_logits) / len(all_logits)
+            T = self.config.temperature
+            teacher = F.softmax(agg / T, dim=1)
+            self._distill(teacher, ref_imgs[:min_len], ref_lbls[:min_len])
+        
+        acc, loss = 0.0, 0.0
+        if test_loader:
+            ev = self.evaluate(test_loader); acc = ev["accuracy"]; loss = ev["loss"]
+        
+        result = RoundResult(
+            round_idx=round_idx, accuracy=acc, loss=loss,
+            participation_rate=len(participants)/len(devices) if devices else 0,
+            n_participants=len(participants),
+            energy={"training": total_cost*0.4, "inference": total_cost*0.3, "communication": total_cost*0.3},
+            extra={"total_cost": total_cost, "method": "FedCS-FD",
+                   "n_selected": len(selected), "budget": self.budget}
+        )
+        self.round_history.append(result)
+        return result
+    
+    def _pretrain(self, loader):
+        print(f"  [FedCS-FD Pre-train] {self.config.pretrain_epochs} epochs ...")
+        aug = transforms.Compose([transforms.RandomCrop(32,padding=4,padding_mode='reflect'),
+                                  transforms.RandomHorizontalFlip()])
+        opt = torch.optim.SGD(self.server_model.parameters(), lr=self.config.pretrain_lr,
+                              momentum=0.9, weight_decay=5e-4)
+        sched = torch.optim.lr_scheduler.CosineAnnealingLR(opt, self.config.pretrain_epochs)
+        crit = nn.CrossEntropyLoss()
+        for ep in range(self.config.pretrain_epochs):
+            self.server_model.train()
+            for d, t in loader:
+                d=aug(d).to(self.device); t=t.to(self.device)
+                opt.zero_grad(); crit(self.server_model(d),t).backward(); opt.step()
+            sched.step()
+        print(f"  [FedCS-FD Pre-train] Done.")
+    
+    def _distill(self, teacher_probs, ref_imgs, ref_lbls=None):
+        self.server_model.train()
+        T = self.config.temperature
+        alpha = getattr(self.config, 'distill_alpha', 0.5)
+        ce_crit = nn.CrossEntropyLoss()
+        aug = transforms.Compose([transforms.RandomCrop(32,padding=4,padding_mode='reflect'),
+                                  transforms.RandomHorizontalFlip()])
+        n = min(len(teacher_probs), len(ref_imgs))
+        for _ in range(self.config.distill_epochs):
+            perm = torch.randperm(n)
+            for s in range(0, n, 256):
+                e = min(s+256, n); idx = perm[s:e]
+                d = aug(ref_imgs[idx]).to(self.device)
+                tp = teacher_probs[idx].to(self.device)
+                sl = self.server_model(d)
+                loss_kl = F.kl_div(F.log_softmax(sl/T,dim=1), tp, reduction='batchmean')*(T*T)
+                if ref_lbls is not None and alpha < 1.0:
+                    tl = ref_lbls[idx].to(self.device)
+                    loss = alpha * loss_kl + (1-alpha) * ce_crit(sl, tl)
+                else:
+                    loss = loss_kl
+                self.distill_optimizer.zero_grad(); loss.backward()
+                torch.nn.utils.clip_grad_norm_(self.server_model.parameters(), 5.0)
+                self.distill_optimizer.step()
+    
+    def aggregate(self, updates, weights): pass
+
+
+class FedSKDFD(FederatedMethod):
+    """
+    Baseline: FedSKD-style selective knowledge distillation for FD.
+    
+    Adapted from: Gad et al., "Federated Learning with Selective Knowledge 
+    Distillation over Bandwidth-Constrained Wireless Networks", ICC 2024.
+    
+    Core idea: ALL devices participate, but each uploads only the top-K 
+    logit classes (fixed fraction, e.g., 50%), zeroing out the rest.
+    This represents bandwidth-aware but not device-selection-aware FD.
+    """
+    
+    def __init__(self, server_model, config=None, n_classes=100, device=None,
+                 select_ratio=0.5):
+        if device is None:
+            device = "cuda" if torch.cuda.is_available() else "cpu"
+        super().__init__(server_model, n_classes, device)
+        self.config = config or KaaSEdgeConfig()
+        self.select_ratio = select_ratio  # Fraction of logit classes to keep
+        self.n_classes = n_classes
+        self.distill_optimizer = torch.optim.Adam(
+            self.server_model.parameters(), lr=self.config.distill_lr
+        )
+        self._pretrained = False
+    
+    def run_round(self, round_idx, devices, client_loaders, public_loader,
+                  test_loader=None):
+        self.current_round = round_idx
+        if not self._pretrained:
+            self._pretrain(public_loader)
+            self._pretrained = True
+        
+        # Collect reference data
+        ref_imgs, ref_lbls = [], []
+        for d, l in public_loader:
+            ref_imgs.append(d); ref_lbls.append(l)
+        ref_imgs = torch.cat(ref_imgs); ref_lbls = torch.cat(ref_lbls)
+        n_ref = len(ref_imgs)
+        
+        # Number of top-K classes to keep per logit vector
+        K_keep = max(1, int(self.n_classes * self.select_ratio))
+        
+        all_logits, participants = [], []
+        C = self.config.clip_bound
+        total_cost = 0.0
+        
+        for i, dev in enumerate(devices):
+            dev_id = dev['device_id'] if isinstance(dev, dict) else getattr(dev, 'device_id', i)
+            if dev_id not in client_loaders:
+                continue
+            participants.append(dev_id)
+            
+            # Local training
+            local_model = copy_model(self.server_model, device=self.device)
+            opt = torch.optim.SGD(local_model.parameters(), lr=self.config.local_lr,
+                                  momentum=0.9, weight_decay=5e-4)
+            local_model.train()
+            crit = nn.CrossEntropyLoss()
+            for _ in range(self.config.local_epochs):
+                for data, target in client_loaders[dev_id]:
+                    data, target = data.to(self.device), target.to(self.device)
+                    opt.zero_grad(); crit(local_model(data), target).backward(); opt.step()
+            
+            # Compute logits on full D_ref
+            local_model.eval()
+            chunks = []
+            with torch.no_grad():
+                for s in range(0, n_ref, 512):
+                    e = min(s+512, n_ref)
+                    logits = local_model(ref_imgs[s:e].to(self.device))
+                    logits = torch.clamp(logits, -C, C)
+                    
+                    # ── Selective KD: keep only top-K classes, zero out rest ──
+                    # This simulates bandwidth saving from selective transmission
+                    _, top_idx = logits.topk(K_keep, dim=1)
+                    mask = torch.zeros_like(logits)
+                    mask.scatter_(1, top_idx, 1.0)
+                    logits = logits * mask  # Zero out non-top-K classes
+                    
+                    chunks.append(logits.cpu())
+            
+            all_logits.append(torch.cat(chunks))
+            
+            # Cost: all devices participate, but transmit only select_ratio fraction
+            b_i = dev.get('b_i', 0.15) if isinstance(dev, dict) else getattr(dev, 'b_i', 0.15)
+            a_i = dev.get('a_i', 0.1) if isinstance(dev, dict) else getattr(dev, 'a_i', 0.1)
+            total_cost += a_i + b_i * n_ref * self.select_ratio  # Reduced comm cost
+            del local_model, opt
+        
+        # Equal-weight aggregation + distillation
+        if all_logits:
+            min_len = min(len(l) for l in all_logits)
+            agg = sum(l[:min_len] for l in all_logits) / len(all_logits)
+            T = self.config.temperature
+            teacher = F.softmax(agg / T, dim=1)
+            self._distill(teacher, ref_imgs[:min_len], ref_lbls[:min_len])
+        
+        acc, loss = 0.0, 0.0
+        if test_loader:
+            ev = self.evaluate(test_loader); acc = ev["accuracy"]; loss = ev["loss"]
+        
+        result = RoundResult(
+            round_idx=round_idx, accuracy=acc, loss=loss,
+            participation_rate=len(participants)/len(devices) if devices else 0,
+            n_participants=len(participants),
+            energy={"training": total_cost*0.4, "inference": total_cost*0.3, "communication": total_cost*0.3},
+            extra={"total_cost": total_cost, "method": "FedSKD",
+                   "select_ratio": self.select_ratio, "K_keep": K_keep}
+        )
+        self.round_history.append(result)
+        return result
+    
+    def _pretrain(self, loader):
+        print(f"  [FedSKD Pre-train] {self.config.pretrain_epochs} epochs ...")
+        aug = transforms.Compose([transforms.RandomCrop(32,padding=4,padding_mode='reflect'),
+                                  transforms.RandomHorizontalFlip()])
+        opt = torch.optim.SGD(self.server_model.parameters(), lr=self.config.pretrain_lr,
+                              momentum=0.9, weight_decay=5e-4)
+        sched = torch.optim.lr_scheduler.CosineAnnealingLR(opt, self.config.pretrain_epochs)
+        crit = nn.CrossEntropyLoss()
+        for ep in range(self.config.pretrain_epochs):
+            self.server_model.train()
+            for d, t in loader:
+                d=aug(d).to(self.device); t=t.to(self.device)
+                opt.zero_grad(); crit(self.server_model(d),t).backward(); opt.step()
+            sched.step()
+        print(f"  [FedSKD Pre-train] Done.")
+    
+    def _distill(self, teacher_probs, ref_imgs, ref_lbls=None):
+        self.server_model.train()
+        T = self.config.temperature
+        alpha = getattr(self.config, 'distill_alpha', 0.5)
+        ce_crit = nn.CrossEntropyLoss()
+        aug = transforms.Compose([transforms.RandomCrop(32,padding=4,padding_mode='reflect'),
+                                  transforms.RandomHorizontalFlip()])
+        n = min(len(teacher_probs), len(ref_imgs))
+        for _ in range(self.config.distill_epochs):
+            perm = torch.randperm(n)
+            for s in range(0, n, 256):
+                e = min(s+256, n); idx = perm[s:e]
+                d = aug(ref_imgs[idx]).to(self.device)
+                tp = teacher_probs[idx].to(self.device)
+                sl = self.server_model(d)
+                loss_kl = F.kl_div(F.log_softmax(sl/T,dim=1), tp, reduction='batchmean')*(T*T)
+                if ref_lbls is not None and alpha < 1.0:
+                    tl = ref_lbls[idx].to(self.device)
+                    loss = alpha * loss_kl + (1-alpha) * ce_crit(sl, tl)
+                else:
+                    loss = loss_kl
+                self.distill_optimizer.zero_grad(); loss.backward()
+                torch.nn.utils.clip_grad_norm_(self.server_model.parameters(), 5.0)
+                self.distill_optimizer.step()
+    
+    def aggregate(self, updates, weights): pass
+
+
 # ============================================================================
 # Device Generator for EDGE Paper
 # ============================================================================
