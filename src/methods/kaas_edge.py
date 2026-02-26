@@ -62,7 +62,8 @@ class KaaSEdgeConfig:
     
     # ── Distillation ──
     distill_epochs: int = 3          # Server distillation epochs per round
-    distill_lr: float = 0.005        # Adam learning rate for distillation
+    distill_lr: float = 0.001        # Adam learning rate (conservative to avoid destruction)
+    distill_alpha: float = 0.5       # α×KL(teacher) + (1-α)×CE(true): CE anchors model
     temperature: float = 3.0         # Soft-label temperature
     
     # ── Pre-training ──
@@ -261,7 +262,7 @@ class KaaSEdge(FederatedMethod):
                 w * l[:min_len] for w, l in zip(norm_w, all_logits)
             )
             
-            # Distill to server model
+            # Distill to server model (with CE anchor)
             T = self.config.temperature
             teacher_probs = F.softmax(aggregated / T, dim=1)
             self._distill_to_server(
@@ -362,13 +363,17 @@ class KaaSEdge(FederatedMethod):
         ref_labels: torch.Tensor = None
     ):
         """
-        KL distillation from aggregated teacher to server model.
+        Mixed-loss distillation: α×KL(teacher) + (1-α)×CE(true).
         
-        Pure KL loss (no mixed CE) — cleaner for EDGE paper.
+        KL transfers ensemble knowledge from aggregated logits.
+        CE anchors to ground truth, preventing catastrophic forgetting
+        when teachers are noisy (key lesson from TMC development).
         """
         self.server_model.train()
         optimizer = self.distill_optimizer
         T = self.config.temperature
+        alpha = self.config.distill_alpha
+        ce_criterion = nn.CrossEntropyLoss()
         
         augment = transforms.Compose([
             transforms.RandomCrop(32, padding=4, padding_mode='reflect'),
@@ -390,11 +395,20 @@ class KaaSEdge(FederatedMethod):
                 
                 student_logits = self.server_model(data)
                 
-                loss = F.kl_div(
+                # KL distillation from teacher
+                loss_kl = F.kl_div(
                     F.log_softmax(student_logits / T, dim=1),
                     target_probs,
                     reduction='batchmean'
                 ) * (T * T)
+                
+                # CE anchor to ground truth (prevents destruction by noisy teachers)
+                if ref_labels is not None and alpha < 1.0:
+                    true_labels = ref_labels[idx].to(self.device)
+                    loss_ce = ce_criterion(student_logits, true_labels)
+                    loss = alpha * loss_kl + (1 - alpha) * loss_ce
+                else:
+                    loss = loss_kl
                 
                 optimizer.zero_grad()
                 loss.backward()
@@ -489,7 +503,7 @@ class FullParticipationFD(FederatedMethod):
             agg = sum(l[:min_len] for l in all_logits) / len(all_logits)
             T = self.config.temperature
             teacher = F.softmax(agg / T, dim=1)
-            self._distill(teacher, ref_imgs[:min_len])
+            self._distill(teacher, ref_imgs[:min_len], ref_lbls[:min_len])
         
         acc, loss = 0.0, 0.0
         if test_loader:
@@ -521,9 +535,11 @@ class FullParticipationFD(FederatedMethod):
             sched.step()
         print(f"  [FullFD Pre-train] Done.")
     
-    def _distill(self, teacher_probs, ref_imgs):
+    def _distill(self, teacher_probs, ref_imgs, ref_lbls=None):
         self.server_model.train()
         T = self.config.temperature
+        alpha = getattr(self.config, 'distill_alpha', 0.5)
+        ce_crit = nn.CrossEntropyLoss()
         aug = transforms.Compose([transforms.RandomCrop(32,padding=4,padding_mode='reflect'),
                                   transforms.RandomHorizontalFlip()])
         n = min(len(teacher_probs), len(ref_imgs))
@@ -534,7 +550,12 @@ class FullParticipationFD(FederatedMethod):
                 d = aug(ref_imgs[idx]).to(self.device)
                 tp = teacher_probs[idx].to(self.device)
                 sl = self.server_model(d)
-                loss = F.kl_div(F.log_softmax(sl/T,dim=1), tp, reduction='batchmean')*(T*T)
+                loss_kl = F.kl_div(F.log_softmax(sl/T,dim=1), tp, reduction='batchmean')*(T*T)
+                if ref_lbls is not None and alpha < 1.0:
+                    tl = ref_lbls[idx].to(self.device)
+                    loss = alpha * loss_kl + (1-alpha) * ce_crit(sl, tl)
+                else:
+                    loss = loss_kl
                 self.distill_optimizer.zero_grad(); loss.backward()
                 torch.nn.utils.clip_grad_norm_(self.server_model.parameters(), 5.0)
                 self.distill_optimizer.step()
@@ -619,7 +640,7 @@ class RandomSelectionFD(FederatedMethod):
             agg = sum(l[:min_len] for l in all_logits) / len(all_logits)
             T = self.config.temperature
             teacher = F.softmax(agg / T, dim=1)
-            self._distill(teacher, ref_imgs[:min_len])
+            self._distill(teacher, ref_imgs[:min_len], ref_lbls[:min_len])
         
         acc, loss = 0.0, 0.0
         if test_loader:
@@ -652,9 +673,11 @@ class RandomSelectionFD(FederatedMethod):
             sched.step()
         print(f"  [RandomFD Pre-train] Done.")
     
-    def _distill(self, teacher_probs, ref_imgs):
+    def _distill(self, teacher_probs, ref_imgs, ref_lbls=None):
         self.server_model.train()
         T = self.config.temperature
+        alpha = getattr(self.config, 'distill_alpha', 0.5)
+        ce_crit = nn.CrossEntropyLoss()
         aug = transforms.Compose([transforms.RandomCrop(32,padding=4,padding_mode='reflect'),
                                   transforms.RandomHorizontalFlip()])
         n = min(len(teacher_probs), len(ref_imgs))
@@ -665,7 +688,12 @@ class RandomSelectionFD(FederatedMethod):
                 d = aug(ref_imgs[idx]).to(self.device)
                 tp = teacher_probs[idx].to(self.device)
                 sl = self.server_model(d)
-                loss = F.kl_div(F.log_softmax(sl/T,dim=1), tp, reduction='batchmean')*(T*T)
+                loss_kl = F.kl_div(F.log_softmax(sl/T,dim=1), tp, reduction='batchmean')*(T*T)
+                if ref_lbls is not None and alpha < 1.0:
+                    tl = ref_lbls[idx].to(self.device)
+                    loss = alpha * loss_kl + (1-alpha) * ce_crit(sl, tl)
+                else:
+                    loss = loss_kl
                 self.distill_optimizer.zero_grad(); loss.backward()
                 torch.nn.utils.clip_grad_norm_(self.server_model.parameters(), 5.0)
                 self.distill_optimizer.step()

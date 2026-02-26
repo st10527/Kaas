@@ -72,7 +72,7 @@ def load_data(n_public=10000, quick=False):
     from src.data.datasets import load_cifar100_safe_split
     
     if quick:
-        n_public = 2000
+        n_public = 5000
     
     private_set, public_set, test_set = load_cifar100_safe_split(
         root='./data', n_public=n_public, seed=42
@@ -177,7 +177,7 @@ def run_main_comparison(args):
     
     n_rounds = 10 if args.quick else 50
     n_devices = 10 if args.quick else 20
-    n_public = 2000 if args.quick else 10000
+    n_public = 5000 if args.quick else 10000
     seeds = [42] if args.quick else [42, 123, 456]
     
     all_results = {}
@@ -205,8 +205,8 @@ def run_main_comparison(args):
             v_max=200,
             local_epochs=2,
             distill_epochs=3,
-            distill_lr=0.005,
-            pretrain_epochs=5 if args.quick else 10,
+            distill_lr=0.001,
+            pretrain_epochs=10,
             n_ref_samples=n_public,
         )
         
@@ -278,8 +278,8 @@ def run_budget_sensitivity(args):
             v_max=200,
             local_epochs=2,
             distill_epochs=3,
-            distill_lr=0.005,
-            pretrain_epochs=5 if args.quick else 10,
+            distill_lr=0.001,
+            pretrain_epochs=10,
         )
         method = KaaSEdge(create_model(), config=config, device=args.device)
         result = run_method(
@@ -317,7 +317,7 @@ def run_device_scalability(args):
     torch.manual_seed(seed)
     np.random.seed(seed)
     
-    n_public = 2000 if args.quick else 10000
+    n_public = 5000 if args.quick else 10000
     private_set, public_set, test_set = load_data(n_public=n_public, quick=args.quick)
     public_loader = DataLoader(public_set, batch_size=64, shuffle=False,
                                num_workers=2, pin_memory=True)
@@ -338,8 +338,8 @@ def run_device_scalability(args):
             v_max=200,
             local_epochs=2,
             distill_epochs=3,
-            distill_lr=0.005,
-            pretrain_epochs=5 if args.quick else 10,
+            distill_lr=0.001,
+            pretrain_epochs=10,
         )
         method = KaaSEdge(create_model(), config=config, device=args.device)
         result = run_method(
@@ -419,8 +419,8 @@ def run_privacy_impact(args):
             v_max=200,
             local_epochs=2,
             distill_epochs=3,
-            distill_lr=0.005,
-            pretrain_epochs=5 if args.quick else 10,
+            distill_lr=0.001,
+            pretrain_epochs=10,
         )
         method = KaaSEdge(create_model(), config=config, device=args.device)
         result = run_method(
