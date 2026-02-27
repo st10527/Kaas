@@ -1,0 +1,6708 @@
+{
+  "B=2": {
+    "method": "KaaS-Edge (B=2)",
+    "history": [
+      {
+        "round": 0,
+        "accuracy": 0.2249,
+        "loss": 3.2294448081970213,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 0.7999993319024421,
+          "inference": 0.5999994989268316,
+          "communication": 0.5999994989268316
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.27576762967422647,
+          "total_cost": 1.9999983297561053,
+          "water_level": 0.13222239658816715,
+          "budget": 2
+        }
+      },
+      {
+        "round": 1,
+        "accuracy": 0.2544,
+        "loss": 3.084346125793457,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 0.7999993319024421,
+          "inference": 0.5999994989268316,
+          "communication": 0.5999994989268316
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.27576762967422647,
+          "total_cost": 1.9999983297561053,
+          "water_level": 0.13222239658816715,
+          "budget": 2
+        }
+      },
+      {
+        "round": 2,
+        "accuracy": 0.2903,
+        "loss": 2.9033352302551267,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 0.7999993319024421,
+          "inference": 0.5999994989268316,
+          "communication": 0.5999994989268316
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.27576762967422647,
+          "total_cost": 1.9999983297561053,
+          "water_level": 0.13222239658816715,
+          "budget": 2
+        }
+      },
+      {
+        "round": 3,
+        "accuracy": 0.3172,
+        "loss": 2.7769440559387206,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 0.7999993319024421,
+          "inference": 0.5999994989268316,
+          "communication": 0.5999994989268316
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.27576762967422647,
+          "total_cost": 1.9999983297561053,
+          "water_level": 0.13222239658816715,
+          "budget": 2
+        }
+      },
+      {
+        "round": 4,
+        "accuracy": 0.3664,
+        "loss": 2.560313249206543,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 0.7999993319024421,
+          "inference": 0.5999994989268316,
+          "communication": 0.5999994989268316
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.27576762967422647,
+          "total_cost": 1.9999983297561053,
+          "water_level": 0.13222239658816715,
+          "budget": 2
+        }
+      },
+      {
+        "round": 5,
+        "accuracy": 0.3753,
+        "loss": 2.533796014404297,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 0.7999993319024421,
+          "inference": 0.5999994989268316,
+          "communication": 0.5999994989268316
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.27576762967422647,
+          "total_cost": 1.9999983297561053,
+          "water_level": 0.13222239658816715,
+          "budget": 2
+        }
+      },
+      {
+        "round": 6,
+        "accuracy": 0.413,
+        "loss": 2.3591891616821288,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 0.7999993319024421,
+          "inference": 0.5999994989268316,
+          "communication": 0.5999994989268316
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.27576762967422647,
+          "total_cost": 1.9999983297561053,
+          "water_level": 0.13222239658816715,
+          "budget": 2
+        }
+      },
+      {
+        "round": 7,
+        "accuracy": 0.4136,
+        "loss": 2.3819780021667483,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 0.7999993319024421,
+          "inference": 0.5999994989268316,
+          "communication": 0.5999994989268316
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.27576762967422647,
+          "total_cost": 1.9999983297561053,
+          "water_level": 0.13222239658816715,
+          "budget": 2
+        }
+      },
+      {
+        "round": 8,
+        "accuracy": 0.4346,
+        "loss": 2.2677169998168947,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 0.7999993319024421,
+          "inference": 0.5999994989268316,
+          "communication": 0.5999994989268316
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.27576762967422647,
+          "total_cost": 1.9999983297561053,
+          "water_level": 0.13222239658816715,
+          "budget": 2
+        }
+      },
+      {
+        "round": 9,
+        "accuracy": 0.4398,
+        "loss": 2.234652102661133,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 0.7999993319024421,
+          "inference": 0.5999994989268316,
+          "communication": 0.5999994989268316
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.27576762967422647,
+          "total_cost": 1.9999983297561053,
+          "water_level": 0.13222239658816715,
+          "budget": 2
+        }
+      },
+      {
+        "round": 10,
+        "accuracy": 0.4447,
+        "loss": 2.2380505388259886,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 0.7999993319024421,
+          "inference": 0.5999994989268316,
+          "communication": 0.5999994989268316
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.27576762967422647,
+          "total_cost": 1.9999983297561053,
+          "water_level": 0.13222239658816715,
+          "budget": 2
+        }
+      },
+      {
+        "round": 11,
+        "accuracy": 0.4684,
+        "loss": 2.1557207092285156,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 0.7999993319024421,
+          "inference": 0.5999994989268316,
+          "communication": 0.5999994989268316
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.27576762967422647,
+          "total_cost": 1.9999983297561053,
+          "water_level": 0.13222239658816715,
+          "budget": 2
+        }
+      },
+      {
+        "round": 12,
+        "accuracy": 0.4746,
+        "loss": 2.1366619533538818,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 0.7999993319024421,
+          "inference": 0.5999994989268316,
+          "communication": 0.5999994989268316
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.27576762967422647,
+          "total_cost": 1.9999983297561053,
+          "water_level": 0.13222239658816715,
+          "budget": 2
+        }
+      },
+      {
+        "round": 13,
+        "accuracy": 0.4814,
+        "loss": 2.1249612228393553,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 0.7999993319024421,
+          "inference": 0.5999994989268316,
+          "communication": 0.5999994989268316
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.27576762967422647,
+          "total_cost": 1.9999983297561053,
+          "water_level": 0.13222239658816715,
+          "budget": 2
+        }
+      },
+      {
+        "round": 14,
+        "accuracy": 0.4909,
+        "loss": 2.0848322404861452,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 0.7999993319024421,
+          "inference": 0.5999994989268316,
+          "communication": 0.5999994989268316
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.27576762967422647,
+          "total_cost": 1.9999983297561053,
+          "water_level": 0.13222239658816715,
+          "budget": 2
+        }
+      },
+      {
+        "round": 15,
+        "accuracy": 0.4828,
+        "loss": 2.1245436321258544,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 0.7999993319024421,
+          "inference": 0.5999994989268316,
+          "communication": 0.5999994989268316
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.27576762967422647,
+          "total_cost": 1.9999983297561053,
+          "water_level": 0.13222239658816715,
+          "budget": 2
+        }
+      },
+      {
+        "round": 16,
+        "accuracy": 0.4895,
+        "loss": 2.121705944442749,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 0.7999993319024421,
+          "inference": 0.5999994989268316,
+          "communication": 0.5999994989268316
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.27576762967422647,
+          "total_cost": 1.9999983297561053,
+          "water_level": 0.13222239658816715,
+          "budget": 2
+        }
+      },
+      {
+        "round": 17,
+        "accuracy": 0.4909,
+        "loss": 2.1017176609039305,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 0.7999993319024421,
+          "inference": 0.5999994989268316,
+          "communication": 0.5999994989268316
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.27576762967422647,
+          "total_cost": 1.9999983297561053,
+          "water_level": 0.13222239658816715,
+          "budget": 2
+        }
+      },
+      {
+        "round": 18,
+        "accuracy": 0.4902,
+        "loss": 2.1097281505584715,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 0.7999993319024421,
+          "inference": 0.5999994989268316,
+          "communication": 0.5999994989268316
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.27576762967422647,
+          "total_cost": 1.9999983297561053,
+          "water_level": 0.13222239658816715,
+          "budget": 2
+        }
+      },
+      {
+        "round": 19,
+        "accuracy": 0.4926,
+        "loss": 2.1134076164245608,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 0.7999993319024421,
+          "inference": 0.5999994989268316,
+          "communication": 0.5999994989268316
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.27576762967422647,
+          "total_cost": 1.9999983297561053,
+          "water_level": 0.13222239658816715,
+          "budget": 2
+        }
+      },
+      {
+        "round": 20,
+        "accuracy": 0.4872,
+        "loss": 2.127679906654358,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 0.7999993319024421,
+          "inference": 0.5999994989268316,
+          "communication": 0.5999994989268316
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.27576762967422647,
+          "total_cost": 1.9999983297561053,
+          "water_level": 0.13222239658816715,
+          "budget": 2
+        }
+      },
+      {
+        "round": 21,
+        "accuracy": 0.4993,
+        "loss": 2.1013958461761475,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 0.7999993319024421,
+          "inference": 0.5999994989268316,
+          "communication": 0.5999994989268316
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.27576762967422647,
+          "total_cost": 1.9999983297561053,
+          "water_level": 0.13222239658816715,
+          "budget": 2
+        }
+      },
+      {
+        "round": 22,
+        "accuracy": 0.498,
+        "loss": 2.092249008560181,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 0.7999993319024421,
+          "inference": 0.5999994989268316,
+          "communication": 0.5999994989268316
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.27576762967422647,
+          "total_cost": 1.9999983297561053,
+          "water_level": 0.13222239658816715,
+          "budget": 2
+        }
+      },
+      {
+        "round": 23,
+        "accuracy": 0.5021,
+        "loss": 2.103568159294128,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 0.7999993319024421,
+          "inference": 0.5999994989268316,
+          "communication": 0.5999994989268316
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.27576762967422647,
+          "total_cost": 1.9999983297561053,
+          "water_level": 0.13222239658816715,
+          "budget": 2
+        }
+      },
+      {
+        "round": 24,
+        "accuracy": 0.5072,
+        "loss": 2.0917998504638673,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 0.7999993319024421,
+          "inference": 0.5999994989268316,
+          "communication": 0.5999994989268316
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.27576762967422647,
+          "total_cost": 1.9999983297561053,
+          "water_level": 0.13222239658816715,
+          "budget": 2
+        }
+      },
+      {
+        "round": 25,
+        "accuracy": 0.5053,
+        "loss": 2.1120778987884523,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 0.7999993319024421,
+          "inference": 0.5999994989268316,
+          "communication": 0.5999994989268316
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.27576762967422647,
+          "total_cost": 1.9999983297561053,
+          "water_level": 0.13222239658816715,
+          "budget": 2
+        }
+      },
+      {
+        "round": 26,
+        "accuracy": 0.5028,
+        "loss": 2.1137581451416017,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 0.7999993319024421,
+          "inference": 0.5999994989268316,
+          "communication": 0.5999994989268316
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.27576762967422647,
+          "total_cost": 1.9999983297561053,
+          "water_level": 0.13222239658816715,
+          "budget": 2
+        }
+      },
+      {
+        "round": 27,
+        "accuracy": 0.5008,
+        "loss": 2.1043834009170532,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 0.7999993319024421,
+          "inference": 0.5999994989268316,
+          "communication": 0.5999994989268316
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.27576762967422647,
+          "total_cost": 1.9999983297561053,
+          "water_level": 0.13222239658816715,
+          "budget": 2
+        }
+      },
+      {
+        "round": 28,
+        "accuracy": 0.4994,
+        "loss": 2.131725872039795,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 0.7999993319024421,
+          "inference": 0.5999994989268316,
+          "communication": 0.5999994989268316
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.27576762967422647,
+          "total_cost": 1.9999983297561053,
+          "water_level": 0.13222239658816715,
+          "budget": 2
+        }
+      },
+      {
+        "round": 29,
+        "accuracy": 0.5047,
+        "loss": 2.082965461730957,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 0.7999993319024421,
+          "inference": 0.5999994989268316,
+          "communication": 0.5999994989268316
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.27576762967422647,
+          "total_cost": 1.9999983297561053,
+          "water_level": 0.13222239658816715,
+          "budget": 2
+        }
+      },
+      {
+        "round": 30,
+        "accuracy": 0.5025,
+        "loss": 2.108526598548889,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 0.7999993319024421,
+          "inference": 0.5999994989268316,
+          "communication": 0.5999994989268316
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.27576762967422647,
+          "total_cost": 1.9999983297561053,
+          "water_level": 0.13222239658816715,
+          "budget": 2
+        }
+      },
+      {
+        "round": 31,
+        "accuracy": 0.5109,
+        "loss": 2.0701669160842897,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 0.7999993319024421,
+          "inference": 0.5999994989268316,
+          "communication": 0.5999994989268316
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.27576762967422647,
+          "total_cost": 1.9999983297561053,
+          "water_level": 0.13222239658816715,
+          "budget": 2
+        }
+      },
+      {
+        "round": 32,
+        "accuracy": 0.5098,
+        "loss": 2.0673925125122072,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 0.7999993319024421,
+          "inference": 0.5999994989268316,
+          "communication": 0.5999994989268316
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.27576762967422647,
+          "total_cost": 1.9999983297561053,
+          "water_level": 0.13222239658816715,
+          "budget": 2
+        }
+      },
+      {
+        "round": 33,
+        "accuracy": 0.5103,
+        "loss": 2.109052634048462,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 0.7999993319024421,
+          "inference": 0.5999994989268316,
+          "communication": 0.5999994989268316
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.27576762967422647,
+          "total_cost": 1.9999983297561053,
+          "water_level": 0.13222239658816715,
+          "budget": 2
+        }
+      },
+      {
+        "round": 34,
+        "accuracy": 0.5021,
+        "loss": 2.145840933418274,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 0.7999993319024421,
+          "inference": 0.5999994989268316,
+          "communication": 0.5999994989268316
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.27576762967422647,
+          "total_cost": 1.9999983297561053,
+          "water_level": 0.13222239658816715,
+          "budget": 2
+        }
+      },
+      {
+        "round": 35,
+        "accuracy": 0.5104,
+        "loss": 2.0825119369506835,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 0.7999993319024421,
+          "inference": 0.5999994989268316,
+          "communication": 0.5999994989268316
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.27576762967422647,
+          "total_cost": 1.9999983297561053,
+          "water_level": 0.13222239658816715,
+          "budget": 2
+        }
+      },
+      {
+        "round": 36,
+        "accuracy": 0.5039,
+        "loss": 2.1294457080841065,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 0.7999993319024421,
+          "inference": 0.5999994989268316,
+          "communication": 0.5999994989268316
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.27576762967422647,
+          "total_cost": 1.9999983297561053,
+          "water_level": 0.13222239658816715,
+          "budget": 2
+        }
+      },
+      {
+        "round": 37,
+        "accuracy": 0.5121,
+        "loss": 2.0998862800598146,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 0.7999993319024421,
+          "inference": 0.5999994989268316,
+          "communication": 0.5999994989268316
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.27576762967422647,
+          "total_cost": 1.9999983297561053,
+          "water_level": 0.13222239658816715,
+          "budget": 2
+        }
+      },
+      {
+        "round": 38,
+        "accuracy": 0.5096,
+        "loss": 2.117322695350647,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 0.7999993319024421,
+          "inference": 0.5999994989268316,
+          "communication": 0.5999994989268316
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.27576762967422647,
+          "total_cost": 1.9999983297561053,
+          "water_level": 0.13222239658816715,
+          "budget": 2
+        }
+      },
+      {
+        "round": 39,
+        "accuracy": 0.504,
+        "loss": 2.1164840724945067,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 0.7999993319024421,
+          "inference": 0.5999994989268316,
+          "communication": 0.5999994989268316
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.27576762967422647,
+          "total_cost": 1.9999983297561053,
+          "water_level": 0.13222239658816715,
+          "budget": 2
+        }
+      },
+      {
+        "round": 40,
+        "accuracy": 0.5133,
+        "loss": 2.1100462354660032,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 0.7999993319024421,
+          "inference": 0.5999994989268316,
+          "communication": 0.5999994989268316
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.27576762967422647,
+          "total_cost": 1.9999983297561053,
+          "water_level": 0.13222239658816715,
+          "budget": 2
+        }
+      },
+      {
+        "round": 41,
+        "accuracy": 0.5082,
+        "loss": 2.1157419086456297,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 0.7999993319024421,
+          "inference": 0.5999994989268316,
+          "communication": 0.5999994989268316
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.27576762967422647,
+          "total_cost": 1.9999983297561053,
+          "water_level": 0.13222239658816715,
+          "budget": 2
+        }
+      },
+      {
+        "round": 42,
+        "accuracy": 0.5094,
+        "loss": 2.100846706008911,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 0.7999993319024421,
+          "inference": 0.5999994989268316,
+          "communication": 0.5999994989268316
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.27576762967422647,
+          "total_cost": 1.9999983297561053,
+          "water_level": 0.13222239658816715,
+          "budget": 2
+        }
+      },
+      {
+        "round": 43,
+        "accuracy": 0.5114,
+        "loss": 2.089644429397583,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 0.7999993319024421,
+          "inference": 0.5999994989268316,
+          "communication": 0.5999994989268316
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.27576762967422647,
+          "total_cost": 1.9999983297561053,
+          "water_level": 0.13222239658816715,
+          "budget": 2
+        }
+      },
+      {
+        "round": 44,
+        "accuracy": 0.5113,
+        "loss": 2.0946138818740843,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 0.7999993319024421,
+          "inference": 0.5999994989268316,
+          "communication": 0.5999994989268316
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.27576762967422647,
+          "total_cost": 1.9999983297561053,
+          "water_level": 0.13222239658816715,
+          "budget": 2
+        }
+      },
+      {
+        "round": 45,
+        "accuracy": 0.5115,
+        "loss": 2.102235083961487,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 0.7999993319024421,
+          "inference": 0.5999994989268316,
+          "communication": 0.5999994989268316
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.27576762967422647,
+          "total_cost": 1.9999983297561053,
+          "water_level": 0.13222239658816715,
+          "budget": 2
+        }
+      },
+      {
+        "round": 46,
+        "accuracy": 0.5119,
+        "loss": 2.1014618677139283,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 0.7999993319024421,
+          "inference": 0.5999994989268316,
+          "communication": 0.5999994989268316
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.27576762967422647,
+          "total_cost": 1.9999983297561053,
+          "water_level": 0.13222239658816715,
+          "budget": 2
+        }
+      },
+      {
+        "round": 47,
+        "accuracy": 0.508,
+        "loss": 2.115640008544922,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 0.7999993319024421,
+          "inference": 0.5999994989268316,
+          "communication": 0.5999994989268316
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.27576762967422647,
+          "total_cost": 1.9999983297561053,
+          "water_level": 0.13222239658816715,
+          "budget": 2
+        }
+      },
+      {
+        "round": 48,
+        "accuracy": 0.5117,
+        "loss": 2.1017674228668213,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 0.7999993319024421,
+          "inference": 0.5999994989268316,
+          "communication": 0.5999994989268316
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.27576762967422647,
+          "total_cost": 1.9999983297561053,
+          "water_level": 0.13222239658816715,
+          "budget": 2
+        }
+      },
+      {
+        "round": 49,
+        "accuracy": 0.5099,
+        "loss": 2.104953730583191,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 0.7999993319024421,
+          "inference": 0.5999994989268316,
+          "communication": 0.5999994989268316
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.27576762967422647,
+          "total_cost": 1.9999983297561053,
+          "water_level": 0.13222239658816715,
+          "budget": 2
+        }
+      }
+    ],
+    "final_accuracy": 0.5099,
+    "best_accuracy": 0.5133,
+    "total_time": 334.0752136707306
+  },
+  "B=4": {
+    "method": "KaaS-Edge (B=4)",
+    "history": [
+      {
+        "round": 0,
+        "accuracy": 0.1806,
+        "loss": 3.4491079505920412,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 1.599999948913736,
+          "inference": 1.1999999616853019,
+          "communication": 1.1999999616853019
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.5009517728296511,
+          "total_cost": 3.9999998722843397,
+          "water_level": 0.09587600402583075,
+          "budget": 4
+        }
+      },
+      {
+        "round": 1,
+        "accuracy": 0.2386,
+        "loss": 3.179882356262207,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 1.599999948913736,
+          "inference": 1.1999999616853019,
+          "communication": 1.1999999616853019
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.5009517728296511,
+          "total_cost": 3.9999998722843397,
+          "water_level": 0.09587600402583075,
+          "budget": 4
+        }
+      },
+      {
+        "round": 2,
+        "accuracy": 0.2853,
+        "loss": 2.990172497177124,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 1.599999948913736,
+          "inference": 1.1999999616853019,
+          "communication": 1.1999999616853019
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.5009517728296511,
+          "total_cost": 3.9999998722843397,
+          "water_level": 0.09587600402583075,
+          "budget": 4
+        }
+      },
+      {
+        "round": 3,
+        "accuracy": 0.3134,
+        "loss": 2.8112937194824217,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 1.599999948913736,
+          "inference": 1.1999999616853019,
+          "communication": 1.1999999616853019
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.5009517728296511,
+          "total_cost": 3.9999998722843397,
+          "water_level": 0.09587600402583075,
+          "budget": 4
+        }
+      },
+      {
+        "round": 4,
+        "accuracy": 0.3456,
+        "loss": 2.665247543334961,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 1.599999948913736,
+          "inference": 1.1999999616853019,
+          "communication": 1.1999999616853019
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.5009517728296511,
+          "total_cost": 3.9999998722843397,
+          "water_level": 0.09587600402583075,
+          "budget": 4
+        }
+      },
+      {
+        "round": 5,
+        "accuracy": 0.372,
+        "loss": 2.5634775901794433,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 1.599999948913736,
+          "inference": 1.1999999616853019,
+          "communication": 1.1999999616853019
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.5009517728296511,
+          "total_cost": 3.9999998722843397,
+          "water_level": 0.09587600402583075,
+          "budget": 4
+        }
+      },
+      {
+        "round": 6,
+        "accuracy": 0.3944,
+        "loss": 2.461492343902588,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 1.599999948913736,
+          "inference": 1.1999999616853019,
+          "communication": 1.1999999616853019
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.5009517728296511,
+          "total_cost": 3.9999998722843397,
+          "water_level": 0.09587600402583075,
+          "budget": 4
+        }
+      },
+      {
+        "round": 7,
+        "accuracy": 0.4059,
+        "loss": 2.3932286170959474,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 1.599999948913736,
+          "inference": 1.1999999616853019,
+          "communication": 1.1999999616853019
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.5009517728296511,
+          "total_cost": 3.9999998722843397,
+          "water_level": 0.09587600402583075,
+          "budget": 4
+        }
+      },
+      {
+        "round": 8,
+        "accuracy": 0.4306,
+        "loss": 2.2967189907073973,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 1.599999948913736,
+          "inference": 1.1999999616853019,
+          "communication": 1.1999999616853019
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.5009517728296511,
+          "total_cost": 3.9999998722843397,
+          "water_level": 0.09587600402583075,
+          "budget": 4
+        }
+      },
+      {
+        "round": 9,
+        "accuracy": 0.4559,
+        "loss": 2.2094568561553953,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 1.599999948913736,
+          "inference": 1.1999999616853019,
+          "communication": 1.1999999616853019
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.5009517728296511,
+          "total_cost": 3.9999998722843397,
+          "water_level": 0.09587600402583075,
+          "budget": 4
+        }
+      },
+      {
+        "round": 10,
+        "accuracy": 0.4436,
+        "loss": 2.257059196472168,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 1.599999948913736,
+          "inference": 1.1999999616853019,
+          "communication": 1.1999999616853019
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.5009517728296511,
+          "total_cost": 3.9999998722843397,
+          "water_level": 0.09587600402583075,
+          "budget": 4
+        }
+      },
+      {
+        "round": 11,
+        "accuracy": 0.4528,
+        "loss": 2.213404694366455,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 1.599999948913736,
+          "inference": 1.1999999616853019,
+          "communication": 1.1999999616853019
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.5009517728296511,
+          "total_cost": 3.9999998722843397,
+          "water_level": 0.09587600402583075,
+          "budget": 4
+        }
+      },
+      {
+        "round": 12,
+        "accuracy": 0.4687,
+        "loss": 2.1666415149688723,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 1.599999948913736,
+          "inference": 1.1999999616853019,
+          "communication": 1.1999999616853019
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.5009517728296511,
+          "total_cost": 3.9999998722843397,
+          "water_level": 0.09587600402583075,
+          "budget": 4
+        }
+      },
+      {
+        "round": 13,
+        "accuracy": 0.4659,
+        "loss": 2.189551747894287,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 1.599999948913736,
+          "inference": 1.1999999616853019,
+          "communication": 1.1999999616853019
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.5009517728296511,
+          "total_cost": 3.9999998722843397,
+          "water_level": 0.09587600402583075,
+          "budget": 4
+        }
+      },
+      {
+        "round": 14,
+        "accuracy": 0.4747,
+        "loss": 2.1391709548950195,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 1.599999948913736,
+          "inference": 1.1999999616853019,
+          "communication": 1.1999999616853019
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.5009517728296511,
+          "total_cost": 3.9999998722843397,
+          "water_level": 0.09587600402583075,
+          "budget": 4
+        }
+      },
+      {
+        "round": 15,
+        "accuracy": 0.4776,
+        "loss": 2.147659655380249,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 1.599999948913736,
+          "inference": 1.1999999616853019,
+          "communication": 1.1999999616853019
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.5009517728296511,
+          "total_cost": 3.9999998722843397,
+          "water_level": 0.09587600402583075,
+          "budget": 4
+        }
+      },
+      {
+        "round": 16,
+        "accuracy": 0.478,
+        "loss": 2.1525190269470214,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 1.599999948913736,
+          "inference": 1.1999999616853019,
+          "communication": 1.1999999616853019
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.5009517728296511,
+          "total_cost": 3.9999998722843397,
+          "water_level": 0.09587600402583075,
+          "budget": 4
+        }
+      },
+      {
+        "round": 17,
+        "accuracy": 0.4891,
+        "loss": 2.108435084533691,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 1.599999948913736,
+          "inference": 1.1999999616853019,
+          "communication": 1.1999999616853019
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.5009517728296511,
+          "total_cost": 3.9999998722843397,
+          "water_level": 0.09587600402583075,
+          "budget": 4
+        }
+      },
+      {
+        "round": 18,
+        "accuracy": 0.4884,
+        "loss": 2.1120792556762695,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 1.599999948913736,
+          "inference": 1.1999999616853019,
+          "communication": 1.1999999616853019
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.5009517728296511,
+          "total_cost": 3.9999998722843397,
+          "water_level": 0.09587600402583075,
+          "budget": 4
+        }
+      },
+      {
+        "round": 19,
+        "accuracy": 0.4841,
+        "loss": 2.174153104400635,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 1.599999948913736,
+          "inference": 1.1999999616853019,
+          "communication": 1.1999999616853019
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.5009517728296511,
+          "total_cost": 3.9999998722843397,
+          "water_level": 0.09587600402583075,
+          "budget": 4
+        }
+      },
+      {
+        "round": 20,
+        "accuracy": 0.4882,
+        "loss": 2.125988235473633,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 1.599999948913736,
+          "inference": 1.1999999616853019,
+          "communication": 1.1999999616853019
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.5009517728296511,
+          "total_cost": 3.9999998722843397,
+          "water_level": 0.09587600402583075,
+          "budget": 4
+        }
+      },
+      {
+        "round": 21,
+        "accuracy": 0.489,
+        "loss": 2.142962153625488,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 1.599999948913736,
+          "inference": 1.1999999616853019,
+          "communication": 1.1999999616853019
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.5009517728296511,
+          "total_cost": 3.9999998722843397,
+          "water_level": 0.09587600402583075,
+          "budget": 4
+        }
+      },
+      {
+        "round": 22,
+        "accuracy": 0.4853,
+        "loss": 2.16983063583374,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 1.599999948913736,
+          "inference": 1.1999999616853019,
+          "communication": 1.1999999616853019
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.5009517728296511,
+          "total_cost": 3.9999998722843397,
+          "water_level": 0.09587600402583075,
+          "budget": 4
+        }
+      },
+      {
+        "round": 23,
+        "accuracy": 0.4853,
+        "loss": 2.157190978431702,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 1.599999948913736,
+          "inference": 1.1999999616853019,
+          "communication": 1.1999999616853019
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.5009517728296511,
+          "total_cost": 3.9999998722843397,
+          "water_level": 0.09587600402583075,
+          "budget": 4
+        }
+      },
+      {
+        "round": 24,
+        "accuracy": 0.4954,
+        "loss": 2.119386319732666,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 1.599999948913736,
+          "inference": 1.1999999616853019,
+          "communication": 1.1999999616853019
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.5009517728296511,
+          "total_cost": 3.9999998722843397,
+          "water_level": 0.09587600402583075,
+          "budget": 4
+        }
+      },
+      {
+        "round": 25,
+        "accuracy": 0.4934,
+        "loss": 2.1330058334350586,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 1.599999948913736,
+          "inference": 1.1999999616853019,
+          "communication": 1.1999999616853019
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.5009517728296511,
+          "total_cost": 3.9999998722843397,
+          "water_level": 0.09587600402583075,
+          "budget": 4
+        }
+      },
+      {
+        "round": 26,
+        "accuracy": 0.4968,
+        "loss": 2.1465573307037356,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 1.599999948913736,
+          "inference": 1.1999999616853019,
+          "communication": 1.1999999616853019
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.5009517728296511,
+          "total_cost": 3.9999998722843397,
+          "water_level": 0.09587600402583075,
+          "budget": 4
+        }
+      },
+      {
+        "round": 27,
+        "accuracy": 0.4938,
+        "loss": 2.162285012817383,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 1.599999948913736,
+          "inference": 1.1999999616853019,
+          "communication": 1.1999999616853019
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.5009517728296511,
+          "total_cost": 3.9999998722843397,
+          "water_level": 0.09587600402583075,
+          "budget": 4
+        }
+      },
+      {
+        "round": 28,
+        "accuracy": 0.4965,
+        "loss": 2.1173553256988527,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 1.599999948913736,
+          "inference": 1.1999999616853019,
+          "communication": 1.1999999616853019
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.5009517728296511,
+          "total_cost": 3.9999998722843397,
+          "water_level": 0.09587600402583075,
+          "budget": 4
+        }
+      },
+      {
+        "round": 29,
+        "accuracy": 0.4904,
+        "loss": 2.164644490814209,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 1.599999948913736,
+          "inference": 1.1999999616853019,
+          "communication": 1.1999999616853019
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.5009517728296511,
+          "total_cost": 3.9999998722843397,
+          "water_level": 0.09587600402583075,
+          "budget": 4
+        }
+      },
+      {
+        "round": 30,
+        "accuracy": 0.4968,
+        "loss": 2.139796145248413,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 1.599999948913736,
+          "inference": 1.1999999616853019,
+          "communication": 1.1999999616853019
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.5009517728296511,
+          "total_cost": 3.9999998722843397,
+          "water_level": 0.09587600402583075,
+          "budget": 4
+        }
+      },
+      {
+        "round": 31,
+        "accuracy": 0.4991,
+        "loss": 2.141536312484741,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 1.599999948913736,
+          "inference": 1.1999999616853019,
+          "communication": 1.1999999616853019
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.5009517728296511,
+          "total_cost": 3.9999998722843397,
+          "water_level": 0.09587600402583075,
+          "budget": 4
+        }
+      },
+      {
+        "round": 32,
+        "accuracy": 0.4972,
+        "loss": 2.1430668113708498,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 1.599999948913736,
+          "inference": 1.1999999616853019,
+          "communication": 1.1999999616853019
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.5009517728296511,
+          "total_cost": 3.9999998722843397,
+          "water_level": 0.09587600402583075,
+          "budget": 4
+        }
+      },
+      {
+        "round": 33,
+        "accuracy": 0.4962,
+        "loss": 2.132556575393677,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 1.599999948913736,
+          "inference": 1.1999999616853019,
+          "communication": 1.1999999616853019
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.5009517728296511,
+          "total_cost": 3.9999998722843397,
+          "water_level": 0.09587600402583075,
+          "budget": 4
+        }
+      },
+      {
+        "round": 34,
+        "accuracy": 0.4962,
+        "loss": 2.1346727531433105,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 1.599999948913736,
+          "inference": 1.1999999616853019,
+          "communication": 1.1999999616853019
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.5009517728296511,
+          "total_cost": 3.9999998722843397,
+          "water_level": 0.09587600402583075,
+          "budget": 4
+        }
+      },
+      {
+        "round": 35,
+        "accuracy": 0.4986,
+        "loss": 2.1459418746948242,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 1.599999948913736,
+          "inference": 1.1999999616853019,
+          "communication": 1.1999999616853019
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.5009517728296511,
+          "total_cost": 3.9999998722843397,
+          "water_level": 0.09587600402583075,
+          "budget": 4
+        }
+      },
+      {
+        "round": 36,
+        "accuracy": 0.5021,
+        "loss": 2.139950280380249,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 1.599999948913736,
+          "inference": 1.1999999616853019,
+          "communication": 1.1999999616853019
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.5009517728296511,
+          "total_cost": 3.9999998722843397,
+          "water_level": 0.09587600402583075,
+          "budget": 4
+        }
+      },
+      {
+        "round": 37,
+        "accuracy": 0.4965,
+        "loss": 2.148367546081543,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 1.599999948913736,
+          "inference": 1.1999999616853019,
+          "communication": 1.1999999616853019
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.5009517728296511,
+          "total_cost": 3.9999998722843397,
+          "water_level": 0.09587600402583075,
+          "budget": 4
+        }
+      },
+      {
+        "round": 38,
+        "accuracy": 0.4961,
+        "loss": 2.1536009853363036,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 1.599999948913736,
+          "inference": 1.1999999616853019,
+          "communication": 1.1999999616853019
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.5009517728296511,
+          "total_cost": 3.9999998722843397,
+          "water_level": 0.09587600402583075,
+          "budget": 4
+        }
+      },
+      {
+        "round": 39,
+        "accuracy": 0.4968,
+        "loss": 2.146037540435791,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 1.599999948913736,
+          "inference": 1.1999999616853019,
+          "communication": 1.1999999616853019
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.5009517728296511,
+          "total_cost": 3.9999998722843397,
+          "water_level": 0.09587600402583075,
+          "budget": 4
+        }
+      },
+      {
+        "round": 40,
+        "accuracy": 0.5034,
+        "loss": 2.128777812194824,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 1.599999948913736,
+          "inference": 1.1999999616853019,
+          "communication": 1.1999999616853019
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.5009517728296511,
+          "total_cost": 3.9999998722843397,
+          "water_level": 0.09587600402583075,
+          "budget": 4
+        }
+      },
+      {
+        "round": 41,
+        "accuracy": 0.505,
+        "loss": 2.136838675689697,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 1.599999948913736,
+          "inference": 1.1999999616853019,
+          "communication": 1.1999999616853019
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.5009517728296511,
+          "total_cost": 3.9999998722843397,
+          "water_level": 0.09587600402583075,
+          "budget": 4
+        }
+      },
+      {
+        "round": 42,
+        "accuracy": 0.5006,
+        "loss": 2.155794440460205,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 1.599999948913736,
+          "inference": 1.1999999616853019,
+          "communication": 1.1999999616853019
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.5009517728296511,
+          "total_cost": 3.9999998722843397,
+          "water_level": 0.09587600402583075,
+          "budget": 4
+        }
+      },
+      {
+        "round": 43,
+        "accuracy": 0.5044,
+        "loss": 2.1665745433807375,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 1.599999948913736,
+          "inference": 1.1999999616853019,
+          "communication": 1.1999999616853019
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.5009517728296511,
+          "total_cost": 3.9999998722843397,
+          "water_level": 0.09587600402583075,
+          "budget": 4
+        }
+      },
+      {
+        "round": 44,
+        "accuracy": 0.502,
+        "loss": 2.1438946907043457,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 1.599999948913736,
+          "inference": 1.1999999616853019,
+          "communication": 1.1999999616853019
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.5009517728296511,
+          "total_cost": 3.9999998722843397,
+          "water_level": 0.09587600402583075,
+          "budget": 4
+        }
+      },
+      {
+        "round": 45,
+        "accuracy": 0.5022,
+        "loss": 2.1522453075408934,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 1.599999948913736,
+          "inference": 1.1999999616853019,
+          "communication": 1.1999999616853019
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.5009517728296511,
+          "total_cost": 3.9999998722843397,
+          "water_level": 0.09587600402583075,
+          "budget": 4
+        }
+      },
+      {
+        "round": 46,
+        "accuracy": 0.4978,
+        "loss": 2.1583486961364744,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 1.599999948913736,
+          "inference": 1.1999999616853019,
+          "communication": 1.1999999616853019
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.5009517728296511,
+          "total_cost": 3.9999998722843397,
+          "water_level": 0.09587600402583075,
+          "budget": 4
+        }
+      },
+      {
+        "round": 47,
+        "accuracy": 0.5036,
+        "loss": 2.1454712348937988,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 1.599999948913736,
+          "inference": 1.1999999616853019,
+          "communication": 1.1999999616853019
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.5009517728296511,
+          "total_cost": 3.9999998722843397,
+          "water_level": 0.09587600402583075,
+          "budget": 4
+        }
+      },
+      {
+        "round": 48,
+        "accuracy": 0.5059,
+        "loss": 2.1503809844970703,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 1.599999948913736,
+          "inference": 1.1999999616853019,
+          "communication": 1.1999999616853019
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.5009517728296511,
+          "total_cost": 3.9999998722843397,
+          "water_level": 0.09587600402583075,
+          "budget": 4
+        }
+      },
+      {
+        "round": 49,
+        "accuracy": 0.5023,
+        "loss": 2.1342560953140257,
+        "participation_rate": 0.1,
+        "n_participants": 2,
+        "energy": {
+          "training": 1.599999948913736,
+          "inference": 1.1999999616853019,
+          "communication": 1.1999999616853019
+        },
+        "extra": {
+          "n_selected": 2,
+          "total_quality": 0.5009517728296511,
+          "total_cost": 3.9999998722843397,
+          "water_level": 0.09587600402583075,
+          "budget": 4
+        }
+      }
+    ],
+    "final_accuracy": 0.5023,
+    "best_accuracy": 0.5059,
+    "total_time": 334.8092133998871
+  },
+  "B=6": {
+    "method": "KaaS-Edge (B=6)",
+    "history": [
+      {
+        "round": 0,
+        "accuracy": 0.1972,
+        "loss": 3.3374975826263427,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 2.400000739175551,
+          "inference": 1.800000554381663,
+          "communication": 1.800000554381663
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.6722082208883808,
+          "total_cost": 6.0000018479388775,
+          "water_level": 0.08301398679677686,
+          "budget": 6
+        }
+      },
+      {
+        "round": 1,
+        "accuracy": 0.2493,
+        "loss": 3.0942062507629395,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 2.400000739175551,
+          "inference": 1.800000554381663,
+          "communication": 1.800000554381663
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.6722082208883808,
+          "total_cost": 6.0000018479388775,
+          "water_level": 0.08301398679677686,
+          "budget": 6
+        }
+      },
+      {
+        "round": 2,
+        "accuracy": 0.2785,
+        "loss": 2.9379685409545897,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 2.400000739175551,
+          "inference": 1.800000554381663,
+          "communication": 1.800000554381663
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.6722082208883808,
+          "total_cost": 6.0000018479388775,
+          "water_level": 0.08301398679677686,
+          "budget": 6
+        }
+      },
+      {
+        "round": 3,
+        "accuracy": 0.3184,
+        "loss": 2.7910357360839844,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 2.400000739175551,
+          "inference": 1.800000554381663,
+          "communication": 1.800000554381663
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.6722082208883808,
+          "total_cost": 6.0000018479388775,
+          "water_level": 0.08301398679677686,
+          "budget": 6
+        }
+      },
+      {
+        "round": 4,
+        "accuracy": 0.3442,
+        "loss": 2.6463129318237306,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 2.400000739175551,
+          "inference": 1.800000554381663,
+          "communication": 1.800000554381663
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.6722082208883808,
+          "total_cost": 6.0000018479388775,
+          "water_level": 0.08301398679677686,
+          "budget": 6
+        }
+      },
+      {
+        "round": 5,
+        "accuracy": 0.3897,
+        "loss": 2.480687894821167,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 2.400000739175551,
+          "inference": 1.800000554381663,
+          "communication": 1.800000554381663
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.6722082208883808,
+          "total_cost": 6.0000018479388775,
+          "water_level": 0.08301398679677686,
+          "budget": 6
+        }
+      },
+      {
+        "round": 6,
+        "accuracy": 0.3949,
+        "loss": 2.424417121887207,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 2.400000739175551,
+          "inference": 1.800000554381663,
+          "communication": 1.800000554381663
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.6722082208883808,
+          "total_cost": 6.0000018479388775,
+          "water_level": 0.08301398679677686,
+          "budget": 6
+        }
+      },
+      {
+        "round": 7,
+        "accuracy": 0.4078,
+        "loss": 2.4030219661712646,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 2.400000739175551,
+          "inference": 1.800000554381663,
+          "communication": 1.800000554381663
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.6722082208883808,
+          "total_cost": 6.0000018479388775,
+          "water_level": 0.08301398679677686,
+          "budget": 6
+        }
+      },
+      {
+        "round": 8,
+        "accuracy": 0.4321,
+        "loss": 2.259081893157959,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 2.400000739175551,
+          "inference": 1.800000554381663,
+          "communication": 1.800000554381663
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.6722082208883808,
+          "total_cost": 6.0000018479388775,
+          "water_level": 0.08301398679677686,
+          "budget": 6
+        }
+      },
+      {
+        "round": 9,
+        "accuracy": 0.4534,
+        "loss": 2.184501561164856,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 2.400000739175551,
+          "inference": 1.800000554381663,
+          "communication": 1.800000554381663
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.6722082208883808,
+          "total_cost": 6.0000018479388775,
+          "water_level": 0.08301398679677686,
+          "budget": 6
+        }
+      },
+      {
+        "round": 10,
+        "accuracy": 0.4677,
+        "loss": 2.141755759811401,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 2.400000739175551,
+          "inference": 1.800000554381663,
+          "communication": 1.800000554381663
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.6722082208883808,
+          "total_cost": 6.0000018479388775,
+          "water_level": 0.08301398679677686,
+          "budget": 6
+        }
+      },
+      {
+        "round": 11,
+        "accuracy": 0.4749,
+        "loss": 2.1185641674041746,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 2.400000739175551,
+          "inference": 1.800000554381663,
+          "communication": 1.800000554381663
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.6722082208883808,
+          "total_cost": 6.0000018479388775,
+          "water_level": 0.08301398679677686,
+          "budget": 6
+        }
+      },
+      {
+        "round": 12,
+        "accuracy": 0.4399,
+        "loss": 2.2522061553955077,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 2.400000739175551,
+          "inference": 1.800000554381663,
+          "communication": 1.800000554381663
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.6722082208883808,
+          "total_cost": 6.0000018479388775,
+          "water_level": 0.08301398679677686,
+          "budget": 6
+        }
+      },
+      {
+        "round": 13,
+        "accuracy": 0.4724,
+        "loss": 2.1266109985351562,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 2.400000739175551,
+          "inference": 1.800000554381663,
+          "communication": 1.800000554381663
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.6722082208883808,
+          "total_cost": 6.0000018479388775,
+          "water_level": 0.08301398679677686,
+          "budget": 6
+        }
+      },
+      {
+        "round": 14,
+        "accuracy": 0.4937,
+        "loss": 2.0405567459106444,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 2.400000739175551,
+          "inference": 1.800000554381663,
+          "communication": 1.800000554381663
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.6722082208883808,
+          "total_cost": 6.0000018479388775,
+          "water_level": 0.08301398679677686,
+          "budget": 6
+        }
+      },
+      {
+        "round": 15,
+        "accuracy": 0.4855,
+        "loss": 2.0635844785690307,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 2.400000739175551,
+          "inference": 1.800000554381663,
+          "communication": 1.800000554381663
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.6722082208883808,
+          "total_cost": 6.0000018479388775,
+          "water_level": 0.08301398679677686,
+          "budget": 6
+        }
+      },
+      {
+        "round": 16,
+        "accuracy": 0.4998,
+        "loss": 2.0346134147644044,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 2.400000739175551,
+          "inference": 1.800000554381663,
+          "communication": 1.800000554381663
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.6722082208883808,
+          "total_cost": 6.0000018479388775,
+          "water_level": 0.08301398679677686,
+          "budget": 6
+        }
+      },
+      {
+        "round": 17,
+        "accuracy": 0.4982,
+        "loss": 2.0263348045349123,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 2.400000739175551,
+          "inference": 1.800000554381663,
+          "communication": 1.800000554381663
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.6722082208883808,
+          "total_cost": 6.0000018479388775,
+          "water_level": 0.08301398679677686,
+          "budget": 6
+        }
+      },
+      {
+        "round": 18,
+        "accuracy": 0.502,
+        "loss": 2.045833192253113,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 2.400000739175551,
+          "inference": 1.800000554381663,
+          "communication": 1.800000554381663
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.6722082208883808,
+          "total_cost": 6.0000018479388775,
+          "water_level": 0.08301398679677686,
+          "budget": 6
+        }
+      },
+      {
+        "round": 19,
+        "accuracy": 0.4957,
+        "loss": 2.0587713619232177,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 2.400000739175551,
+          "inference": 1.800000554381663,
+          "communication": 1.800000554381663
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.6722082208883808,
+          "total_cost": 6.0000018479388775,
+          "water_level": 0.08301398679677686,
+          "budget": 6
+        }
+      },
+      {
+        "round": 20,
+        "accuracy": 0.4979,
+        "loss": 2.0562106868743895,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 2.400000739175551,
+          "inference": 1.800000554381663,
+          "communication": 1.800000554381663
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.6722082208883808,
+          "total_cost": 6.0000018479388775,
+          "water_level": 0.08301398679677686,
+          "budget": 6
+        }
+      },
+      {
+        "round": 21,
+        "accuracy": 0.5137,
+        "loss": 1.9914700546264648,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 2.400000739175551,
+          "inference": 1.800000554381663,
+          "communication": 1.800000554381663
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.6722082208883808,
+          "total_cost": 6.0000018479388775,
+          "water_level": 0.08301398679677686,
+          "budget": 6
+        }
+      },
+      {
+        "round": 22,
+        "accuracy": 0.5117,
+        "loss": 2.030491265487671,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 2.400000739175551,
+          "inference": 1.800000554381663,
+          "communication": 1.800000554381663
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.6722082208883808,
+          "total_cost": 6.0000018479388775,
+          "water_level": 0.08301398679677686,
+          "budget": 6
+        }
+      },
+      {
+        "round": 23,
+        "accuracy": 0.4999,
+        "loss": 2.075204891204834,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 2.400000739175551,
+          "inference": 1.800000554381663,
+          "communication": 1.800000554381663
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.6722082208883808,
+          "total_cost": 6.0000018479388775,
+          "water_level": 0.08301398679677686,
+          "budget": 6
+        }
+      },
+      {
+        "round": 24,
+        "accuracy": 0.5114,
+        "loss": 2.020040476799011,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 2.400000739175551,
+          "inference": 1.800000554381663,
+          "communication": 1.800000554381663
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.6722082208883808,
+          "total_cost": 6.0000018479388775,
+          "water_level": 0.08301398679677686,
+          "budget": 6
+        }
+      },
+      {
+        "round": 25,
+        "accuracy": 0.5077,
+        "loss": 2.02056661567688,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 2.400000739175551,
+          "inference": 1.800000554381663,
+          "communication": 1.800000554381663
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.6722082208883808,
+          "total_cost": 6.0000018479388775,
+          "water_level": 0.08301398679677686,
+          "budget": 6
+        }
+      },
+      {
+        "round": 26,
+        "accuracy": 0.5113,
+        "loss": 2.050748713493347,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 2.400000739175551,
+          "inference": 1.800000554381663,
+          "communication": 1.800000554381663
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.6722082208883808,
+          "total_cost": 6.0000018479388775,
+          "water_level": 0.08301398679677686,
+          "budget": 6
+        }
+      },
+      {
+        "round": 27,
+        "accuracy": 0.5095,
+        "loss": 2.069417756843567,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 2.400000739175551,
+          "inference": 1.800000554381663,
+          "communication": 1.800000554381663
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.6722082208883808,
+          "total_cost": 6.0000018479388775,
+          "water_level": 0.08301398679677686,
+          "budget": 6
+        }
+      },
+      {
+        "round": 28,
+        "accuracy": 0.509,
+        "loss": 2.0411230699539185,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 2.400000739175551,
+          "inference": 1.800000554381663,
+          "communication": 1.800000554381663
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.6722082208883808,
+          "total_cost": 6.0000018479388775,
+          "water_level": 0.08301398679677686,
+          "budget": 6
+        }
+      },
+      {
+        "round": 29,
+        "accuracy": 0.5118,
+        "loss": 2.0323305210113527,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 2.400000739175551,
+          "inference": 1.800000554381663,
+          "communication": 1.800000554381663
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.6722082208883808,
+          "total_cost": 6.0000018479388775,
+          "water_level": 0.08301398679677686,
+          "budget": 6
+        }
+      },
+      {
+        "round": 30,
+        "accuracy": 0.51,
+        "loss": 2.0270551084518433,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 2.400000739175551,
+          "inference": 1.800000554381663,
+          "communication": 1.800000554381663
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.6722082208883808,
+          "total_cost": 6.0000018479388775,
+          "water_level": 0.08301398679677686,
+          "budget": 6
+        }
+      },
+      {
+        "round": 31,
+        "accuracy": 0.514,
+        "loss": 2.0125951601028444,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 2.400000739175551,
+          "inference": 1.800000554381663,
+          "communication": 1.800000554381663
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.6722082208883808,
+          "total_cost": 6.0000018479388775,
+          "water_level": 0.08301398679677686,
+          "budget": 6
+        }
+      },
+      {
+        "round": 32,
+        "accuracy": 0.513,
+        "loss": 2.0657298177719117,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 2.400000739175551,
+          "inference": 1.800000554381663,
+          "communication": 1.800000554381663
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.6722082208883808,
+          "total_cost": 6.0000018479388775,
+          "water_level": 0.08301398679677686,
+          "budget": 6
+        }
+      },
+      {
+        "round": 33,
+        "accuracy": 0.5131,
+        "loss": 2.0652198930740355,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 2.400000739175551,
+          "inference": 1.800000554381663,
+          "communication": 1.800000554381663
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.6722082208883808,
+          "total_cost": 6.0000018479388775,
+          "water_level": 0.08301398679677686,
+          "budget": 6
+        }
+      },
+      {
+        "round": 34,
+        "accuracy": 0.5139,
+        "loss": 2.050084673690796,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 2.400000739175551,
+          "inference": 1.800000554381663,
+          "communication": 1.800000554381663
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.6722082208883808,
+          "total_cost": 6.0000018479388775,
+          "water_level": 0.08301398679677686,
+          "budget": 6
+        }
+      },
+      {
+        "round": 35,
+        "accuracy": 0.5144,
+        "loss": 2.0432467624664308,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 2.400000739175551,
+          "inference": 1.800000554381663,
+          "communication": 1.800000554381663
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.6722082208883808,
+          "total_cost": 6.0000018479388775,
+          "water_level": 0.08301398679677686,
+          "budget": 6
+        }
+      },
+      {
+        "round": 36,
+        "accuracy": 0.5188,
+        "loss": 2.0415978622436524,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 2.400000739175551,
+          "inference": 1.800000554381663,
+          "communication": 1.800000554381663
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.6722082208883808,
+          "total_cost": 6.0000018479388775,
+          "water_level": 0.08301398679677686,
+          "budget": 6
+        }
+      },
+      {
+        "round": 37,
+        "accuracy": 0.5157,
+        "loss": 2.027710014915466,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 2.400000739175551,
+          "inference": 1.800000554381663,
+          "communication": 1.800000554381663
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.6722082208883808,
+          "total_cost": 6.0000018479388775,
+          "water_level": 0.08301398679677686,
+          "budget": 6
+        }
+      },
+      {
+        "round": 38,
+        "accuracy": 0.5157,
+        "loss": 2.0574904224395754,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 2.400000739175551,
+          "inference": 1.800000554381663,
+          "communication": 1.800000554381663
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.6722082208883808,
+          "total_cost": 6.0000018479388775,
+          "water_level": 0.08301398679677686,
+          "budget": 6
+        }
+      },
+      {
+        "round": 39,
+        "accuracy": 0.5184,
+        "loss": 2.037107435798645,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 2.400000739175551,
+          "inference": 1.800000554381663,
+          "communication": 1.800000554381663
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.6722082208883808,
+          "total_cost": 6.0000018479388775,
+          "water_level": 0.08301398679677686,
+          "budget": 6
+        }
+      },
+      {
+        "round": 40,
+        "accuracy": 0.519,
+        "loss": 2.022658837890625,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 2.400000739175551,
+          "inference": 1.800000554381663,
+          "communication": 1.800000554381663
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.6722082208883808,
+          "total_cost": 6.0000018479388775,
+          "water_level": 0.08301398679677686,
+          "budget": 6
+        }
+      },
+      {
+        "round": 41,
+        "accuracy": 0.5213,
+        "loss": 2.0378599098205568,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 2.400000739175551,
+          "inference": 1.800000554381663,
+          "communication": 1.800000554381663
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.6722082208883808,
+          "total_cost": 6.0000018479388775,
+          "water_level": 0.08301398679677686,
+          "budget": 6
+        }
+      },
+      {
+        "round": 42,
+        "accuracy": 0.5212,
+        "loss": 2.0185771585464476,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 2.400000739175551,
+          "inference": 1.800000554381663,
+          "communication": 1.800000554381663
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.6722082208883808,
+          "total_cost": 6.0000018479388775,
+          "water_level": 0.08301398679677686,
+          "budget": 6
+        }
+      },
+      {
+        "round": 43,
+        "accuracy": 0.5221,
+        "loss": 2.053814001464844,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 2.400000739175551,
+          "inference": 1.800000554381663,
+          "communication": 1.800000554381663
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.6722082208883808,
+          "total_cost": 6.0000018479388775,
+          "water_level": 0.08301398679677686,
+          "budget": 6
+        }
+      },
+      {
+        "round": 44,
+        "accuracy": 0.5252,
+        "loss": 2.0305260276794432,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 2.400000739175551,
+          "inference": 1.800000554381663,
+          "communication": 1.800000554381663
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.6722082208883808,
+          "total_cost": 6.0000018479388775,
+          "water_level": 0.08301398679677686,
+          "budget": 6
+        }
+      },
+      {
+        "round": 45,
+        "accuracy": 0.5272,
+        "loss": 2.0243662300109864,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 2.400000739175551,
+          "inference": 1.800000554381663,
+          "communication": 1.800000554381663
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.6722082208883808,
+          "total_cost": 6.0000018479388775,
+          "water_level": 0.08301398679677686,
+          "budget": 6
+        }
+      },
+      {
+        "round": 46,
+        "accuracy": 0.5243,
+        "loss": 2.029211305999756,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 2.400000739175551,
+          "inference": 1.800000554381663,
+          "communication": 1.800000554381663
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.6722082208883808,
+          "total_cost": 6.0000018479388775,
+          "water_level": 0.08301398679677686,
+          "budget": 6
+        }
+      },
+      {
+        "round": 47,
+        "accuracy": 0.5242,
+        "loss": 2.035387136077881,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 2.400000739175551,
+          "inference": 1.800000554381663,
+          "communication": 1.800000554381663
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.6722082208883808,
+          "total_cost": 6.0000018479388775,
+          "water_level": 0.08301398679677686,
+          "budget": 6
+        }
+      },
+      {
+        "round": 48,
+        "accuracy": 0.522,
+        "loss": 2.045649530029297,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 2.400000739175551,
+          "inference": 1.800000554381663,
+          "communication": 1.800000554381663
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.6722082208883808,
+          "total_cost": 6.0000018479388775,
+          "water_level": 0.08301398679677686,
+          "budget": 6
+        }
+      },
+      {
+        "round": 49,
+        "accuracy": 0.5167,
+        "loss": 2.066400313949585,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 2.400000739175551,
+          "inference": 1.800000554381663,
+          "communication": 1.800000554381663
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.6722082208883808,
+          "total_cost": 6.0000018479388775,
+          "water_level": 0.08301398679677686,
+          "budget": 6
+        }
+      }
+    ],
+    "final_accuracy": 0.5167,
+    "best_accuracy": 0.5272,
+    "total_time": 408.2639548778534
+  },
+  "B=8": {
+    "method": "KaaS-Edge (B=8)",
+    "history": [
+      {
+        "round": 0,
+        "accuracy": 0.1724,
+        "loss": 3.5071891204833983,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 3.200000792144344,
+          "inference": 2.400000594108257,
+          "communication": 2.400000594108257
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.8249569976681443,
+          "total_cost": 8.00000198036086,
+          "water_level": 0.07026582693570117,
+          "budget": 8
+        }
+      },
+      {
+        "round": 1,
+        "accuracy": 0.233,
+        "loss": 3.1856381675720216,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 3.200000792144344,
+          "inference": 2.400000594108257,
+          "communication": 2.400000594108257
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.8249569976681443,
+          "total_cost": 8.00000198036086,
+          "water_level": 0.07026582693570117,
+          "budget": 8
+        }
+      },
+      {
+        "round": 2,
+        "accuracy": 0.2684,
+        "loss": 3.0239508026123048,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 3.200000792144344,
+          "inference": 2.400000594108257,
+          "communication": 2.400000594108257
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.8249569976681443,
+          "total_cost": 8.00000198036086,
+          "water_level": 0.07026582693570117,
+          "budget": 8
+        }
+      },
+      {
+        "round": 3,
+        "accuracy": 0.3107,
+        "loss": 2.8085499671936036,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 3.200000792144344,
+          "inference": 2.400000594108257,
+          "communication": 2.400000594108257
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.8249569976681443,
+          "total_cost": 8.00000198036086,
+          "water_level": 0.07026582693570117,
+          "budget": 8
+        }
+      },
+      {
+        "round": 4,
+        "accuracy": 0.3228,
+        "loss": 2.745270627593994,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 3.200000792144344,
+          "inference": 2.400000594108257,
+          "communication": 2.400000594108257
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.8249569976681443,
+          "total_cost": 8.00000198036086,
+          "water_level": 0.07026582693570117,
+          "budget": 8
+        }
+      },
+      {
+        "round": 5,
+        "accuracy": 0.365,
+        "loss": 2.568229914855957,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 3.200000792144344,
+          "inference": 2.400000594108257,
+          "communication": 2.400000594108257
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.8249569976681443,
+          "total_cost": 8.00000198036086,
+          "water_level": 0.07026582693570117,
+          "budget": 8
+        }
+      },
+      {
+        "round": 6,
+        "accuracy": 0.3936,
+        "loss": 2.4315693744659423,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 3.200000792144344,
+          "inference": 2.400000594108257,
+          "communication": 2.400000594108257
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.8249569976681443,
+          "total_cost": 8.00000198036086,
+          "water_level": 0.07026582693570117,
+          "budget": 8
+        }
+      },
+      {
+        "round": 7,
+        "accuracy": 0.3982,
+        "loss": 2.4291838199615476,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 3.200000792144344,
+          "inference": 2.400000594108257,
+          "communication": 2.400000594108257
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.8249569976681443,
+          "total_cost": 8.00000198036086,
+          "water_level": 0.07026582693570117,
+          "budget": 8
+        }
+      },
+      {
+        "round": 8,
+        "accuracy": 0.418,
+        "loss": 2.3231183696746824,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 3.200000792144344,
+          "inference": 2.400000594108257,
+          "communication": 2.400000594108257
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.8249569976681443,
+          "total_cost": 8.00000198036086,
+          "water_level": 0.07026582693570117,
+          "budget": 8
+        }
+      },
+      {
+        "round": 9,
+        "accuracy": 0.4392,
+        "loss": 2.2688096694946287,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 3.200000792144344,
+          "inference": 2.400000594108257,
+          "communication": 2.400000594108257
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.8249569976681443,
+          "total_cost": 8.00000198036086,
+          "water_level": 0.07026582693570117,
+          "budget": 8
+        }
+      },
+      {
+        "round": 10,
+        "accuracy": 0.4538,
+        "loss": 2.205556689453125,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 3.200000792144344,
+          "inference": 2.400000594108257,
+          "communication": 2.400000594108257
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.8249569976681443,
+          "total_cost": 8.00000198036086,
+          "water_level": 0.07026582693570117,
+          "budget": 8
+        }
+      },
+      {
+        "round": 11,
+        "accuracy": 0.4397,
+        "loss": 2.27255728263855,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 3.200000792144344,
+          "inference": 2.400000594108257,
+          "communication": 2.400000594108257
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.8249569976681443,
+          "total_cost": 8.00000198036086,
+          "water_level": 0.07026582693570117,
+          "budget": 8
+        }
+      },
+      {
+        "round": 12,
+        "accuracy": 0.4688,
+        "loss": 2.1654146299362185,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 3.200000792144344,
+          "inference": 2.400000594108257,
+          "communication": 2.400000594108257
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.8249569976681443,
+          "total_cost": 8.00000198036086,
+          "water_level": 0.07026582693570117,
+          "budget": 8
+        }
+      },
+      {
+        "round": 13,
+        "accuracy": 0.4695,
+        "loss": 2.129063821411133,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 3.200000792144344,
+          "inference": 2.400000594108257,
+          "communication": 2.400000594108257
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.8249569976681443,
+          "total_cost": 8.00000198036086,
+          "water_level": 0.07026582693570117,
+          "budget": 8
+        }
+      },
+      {
+        "round": 14,
+        "accuracy": 0.4734,
+        "loss": 2.1453522434234618,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 3.200000792144344,
+          "inference": 2.400000594108257,
+          "communication": 2.400000594108257
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.8249569976681443,
+          "total_cost": 8.00000198036086,
+          "water_level": 0.07026582693570117,
+          "budget": 8
+        }
+      },
+      {
+        "round": 15,
+        "accuracy": 0.476,
+        "loss": 2.1330906593322756,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 3.200000792144344,
+          "inference": 2.400000594108257,
+          "communication": 2.400000594108257
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.8249569976681443,
+          "total_cost": 8.00000198036086,
+          "water_level": 0.07026582693570117,
+          "budget": 8
+        }
+      },
+      {
+        "round": 16,
+        "accuracy": 0.4832,
+        "loss": 2.1298256999969483,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 3.200000792144344,
+          "inference": 2.400000594108257,
+          "communication": 2.400000594108257
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.8249569976681443,
+          "total_cost": 8.00000198036086,
+          "water_level": 0.07026582693570117,
+          "budget": 8
+        }
+      },
+      {
+        "round": 17,
+        "accuracy": 0.4795,
+        "loss": 2.133672894668579,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 3.200000792144344,
+          "inference": 2.400000594108257,
+          "communication": 2.400000594108257
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.8249569976681443,
+          "total_cost": 8.00000198036086,
+          "water_level": 0.07026582693570117,
+          "budget": 8
+        }
+      },
+      {
+        "round": 18,
+        "accuracy": 0.4814,
+        "loss": 2.1394122467041017,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 3.200000792144344,
+          "inference": 2.400000594108257,
+          "communication": 2.400000594108257
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.8249569976681443,
+          "total_cost": 8.00000198036086,
+          "water_level": 0.07026582693570117,
+          "budget": 8
+        }
+      },
+      {
+        "round": 19,
+        "accuracy": 0.492,
+        "loss": 2.113309429168701,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 3.200000792144344,
+          "inference": 2.400000594108257,
+          "communication": 2.400000594108257
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.8249569976681443,
+          "total_cost": 8.00000198036086,
+          "water_level": 0.07026582693570117,
+          "budget": 8
+        }
+      },
+      {
+        "round": 20,
+        "accuracy": 0.4926,
+        "loss": 2.102557495689392,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 3.200000792144344,
+          "inference": 2.400000594108257,
+          "communication": 2.400000594108257
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.8249569976681443,
+          "total_cost": 8.00000198036086,
+          "water_level": 0.07026582693570117,
+          "budget": 8
+        }
+      },
+      {
+        "round": 21,
+        "accuracy": 0.4981,
+        "loss": 2.0918051948547363,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 3.200000792144344,
+          "inference": 2.400000594108257,
+          "communication": 2.400000594108257
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.8249569976681443,
+          "total_cost": 8.00000198036086,
+          "water_level": 0.07026582693570117,
+          "budget": 8
+        }
+      },
+      {
+        "round": 22,
+        "accuracy": 0.5002,
+        "loss": 2.081128275299072,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 3.200000792144344,
+          "inference": 2.400000594108257,
+          "communication": 2.400000594108257
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.8249569976681443,
+          "total_cost": 8.00000198036086,
+          "water_level": 0.07026582693570117,
+          "budget": 8
+        }
+      },
+      {
+        "round": 23,
+        "accuracy": 0.4909,
+        "loss": 2.101583408355713,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 3.200000792144344,
+          "inference": 2.400000594108257,
+          "communication": 2.400000594108257
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.8249569976681443,
+          "total_cost": 8.00000198036086,
+          "water_level": 0.07026582693570117,
+          "budget": 8
+        }
+      },
+      {
+        "round": 24,
+        "accuracy": 0.4932,
+        "loss": 2.112952052307129,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 3.200000792144344,
+          "inference": 2.400000594108257,
+          "communication": 2.400000594108257
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.8249569976681443,
+          "total_cost": 8.00000198036086,
+          "water_level": 0.07026582693570117,
+          "budget": 8
+        }
+      },
+      {
+        "round": 25,
+        "accuracy": 0.4951,
+        "loss": 2.1122687406539917,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 3.200000792144344,
+          "inference": 2.400000594108257,
+          "communication": 2.400000594108257
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.8249569976681443,
+          "total_cost": 8.00000198036086,
+          "water_level": 0.07026582693570117,
+          "budget": 8
+        }
+      },
+      {
+        "round": 26,
+        "accuracy": 0.4985,
+        "loss": 2.088854501724243,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 3.200000792144344,
+          "inference": 2.400000594108257,
+          "communication": 2.400000594108257
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.8249569976681443,
+          "total_cost": 8.00000198036086,
+          "water_level": 0.07026582693570117,
+          "budget": 8
+        }
+      },
+      {
+        "round": 27,
+        "accuracy": 0.4995,
+        "loss": 2.0899717807769775,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 3.200000792144344,
+          "inference": 2.400000594108257,
+          "communication": 2.400000594108257
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.8249569976681443,
+          "total_cost": 8.00000198036086,
+          "water_level": 0.07026582693570117,
+          "budget": 8
+        }
+      },
+      {
+        "round": 28,
+        "accuracy": 0.5044,
+        "loss": 2.0798930923461914,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 3.200000792144344,
+          "inference": 2.400000594108257,
+          "communication": 2.400000594108257
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.8249569976681443,
+          "total_cost": 8.00000198036086,
+          "water_level": 0.07026582693570117,
+          "budget": 8
+        }
+      },
+      {
+        "round": 29,
+        "accuracy": 0.4958,
+        "loss": 2.1004230529785155,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 3.200000792144344,
+          "inference": 2.400000594108257,
+          "communication": 2.400000594108257
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.8249569976681443,
+          "total_cost": 8.00000198036086,
+          "water_level": 0.07026582693570117,
+          "budget": 8
+        }
+      },
+      {
+        "round": 30,
+        "accuracy": 0.501,
+        "loss": 2.1046344816207885,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 3.200000792144344,
+          "inference": 2.400000594108257,
+          "communication": 2.400000594108257
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.8249569976681443,
+          "total_cost": 8.00000198036086,
+          "water_level": 0.07026582693570117,
+          "budget": 8
+        }
+      },
+      {
+        "round": 31,
+        "accuracy": 0.5024,
+        "loss": 2.1014231777191164,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 3.200000792144344,
+          "inference": 2.400000594108257,
+          "communication": 2.400000594108257
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.8249569976681443,
+          "total_cost": 8.00000198036086,
+          "water_level": 0.07026582693570117,
+          "budget": 8
+        }
+      },
+      {
+        "round": 32,
+        "accuracy": 0.4915,
+        "loss": 2.141316076660156,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 3.200000792144344,
+          "inference": 2.400000594108257,
+          "communication": 2.400000594108257
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.8249569976681443,
+          "total_cost": 8.00000198036086,
+          "water_level": 0.07026582693570117,
+          "budget": 8
+        }
+      },
+      {
+        "round": 33,
+        "accuracy": 0.4982,
+        "loss": 2.132177997207642,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 3.200000792144344,
+          "inference": 2.400000594108257,
+          "communication": 2.400000594108257
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.8249569976681443,
+          "total_cost": 8.00000198036086,
+          "water_level": 0.07026582693570117,
+          "budget": 8
+        }
+      },
+      {
+        "round": 34,
+        "accuracy": 0.5063,
+        "loss": 2.1158850719451903,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 3.200000792144344,
+          "inference": 2.400000594108257,
+          "communication": 2.400000594108257
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.8249569976681443,
+          "total_cost": 8.00000198036086,
+          "water_level": 0.07026582693570117,
+          "budget": 8
+        }
+      },
+      {
+        "round": 35,
+        "accuracy": 0.4992,
+        "loss": 2.138703344154358,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 3.200000792144344,
+          "inference": 2.400000594108257,
+          "communication": 2.400000594108257
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.8249569976681443,
+          "total_cost": 8.00000198036086,
+          "water_level": 0.07026582693570117,
+          "budget": 8
+        }
+      },
+      {
+        "round": 36,
+        "accuracy": 0.5047,
+        "loss": 2.1100175901412963,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 3.200000792144344,
+          "inference": 2.400000594108257,
+          "communication": 2.400000594108257
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.8249569976681443,
+          "total_cost": 8.00000198036086,
+          "water_level": 0.07026582693570117,
+          "budget": 8
+        }
+      },
+      {
+        "round": 37,
+        "accuracy": 0.5023,
+        "loss": 2.132177479362488,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 3.200000792144344,
+          "inference": 2.400000594108257,
+          "communication": 2.400000594108257
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.8249569976681443,
+          "total_cost": 8.00000198036086,
+          "water_level": 0.07026582693570117,
+          "budget": 8
+        }
+      },
+      {
+        "round": 38,
+        "accuracy": 0.4962,
+        "loss": 2.1112067094802858,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 3.200000792144344,
+          "inference": 2.400000594108257,
+          "communication": 2.400000594108257
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.8249569976681443,
+          "total_cost": 8.00000198036086,
+          "water_level": 0.07026582693570117,
+          "budget": 8
+        }
+      },
+      {
+        "round": 39,
+        "accuracy": 0.5002,
+        "loss": 2.1068969984054564,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 3.200000792144344,
+          "inference": 2.400000594108257,
+          "communication": 2.400000594108257
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.8249569976681443,
+          "total_cost": 8.00000198036086,
+          "water_level": 0.07026582693570117,
+          "budget": 8
+        }
+      },
+      {
+        "round": 40,
+        "accuracy": 0.5004,
+        "loss": 2.1220200428009033,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 3.200000792144344,
+          "inference": 2.400000594108257,
+          "communication": 2.400000594108257
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.8249569976681443,
+          "total_cost": 8.00000198036086,
+          "water_level": 0.07026582693570117,
+          "budget": 8
+        }
+      },
+      {
+        "round": 41,
+        "accuracy": 0.5106,
+        "loss": 2.092535064315796,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 3.200000792144344,
+          "inference": 2.400000594108257,
+          "communication": 2.400000594108257
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.8249569976681443,
+          "total_cost": 8.00000198036086,
+          "water_level": 0.07026582693570117,
+          "budget": 8
+        }
+      },
+      {
+        "round": 42,
+        "accuracy": 0.5077,
+        "loss": 2.11092490901947,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 3.200000792144344,
+          "inference": 2.400000594108257,
+          "communication": 2.400000594108257
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.8249569976681443,
+          "total_cost": 8.00000198036086,
+          "water_level": 0.07026582693570117,
+          "budget": 8
+        }
+      },
+      {
+        "round": 43,
+        "accuracy": 0.5061,
+        "loss": 2.1016974220275877,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 3.200000792144344,
+          "inference": 2.400000594108257,
+          "communication": 2.400000594108257
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.8249569976681443,
+          "total_cost": 8.00000198036086,
+          "water_level": 0.07026582693570117,
+          "budget": 8
+        }
+      },
+      {
+        "round": 44,
+        "accuracy": 0.5023,
+        "loss": 2.1374772254943846,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 3.200000792144344,
+          "inference": 2.400000594108257,
+          "communication": 2.400000594108257
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.8249569976681443,
+          "total_cost": 8.00000198036086,
+          "water_level": 0.07026582693570117,
+          "budget": 8
+        }
+      },
+      {
+        "round": 45,
+        "accuracy": 0.5069,
+        "loss": 2.108303875732422,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 3.200000792144344,
+          "inference": 2.400000594108257,
+          "communication": 2.400000594108257
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.8249569976681443,
+          "total_cost": 8.00000198036086,
+          "water_level": 0.07026582693570117,
+          "budget": 8
+        }
+      },
+      {
+        "round": 46,
+        "accuracy": 0.5091,
+        "loss": 2.1165701391220093,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 3.200000792144344,
+          "inference": 2.400000594108257,
+          "communication": 2.400000594108257
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.8249569976681443,
+          "total_cost": 8.00000198036086,
+          "water_level": 0.07026582693570117,
+          "budget": 8
+        }
+      },
+      {
+        "round": 47,
+        "accuracy": 0.5084,
+        "loss": 2.104649185752869,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 3.200000792144344,
+          "inference": 2.400000594108257,
+          "communication": 2.400000594108257
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.8249569976681443,
+          "total_cost": 8.00000198036086,
+          "water_level": 0.07026582693570117,
+          "budget": 8
+        }
+      },
+      {
+        "round": 48,
+        "accuracy": 0.503,
+        "loss": 2.1107263580322266,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 3.200000792144344,
+          "inference": 2.400000594108257,
+          "communication": 2.400000594108257
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.8249569976681443,
+          "total_cost": 8.00000198036086,
+          "water_level": 0.07026582693570117,
+          "budget": 8
+        }
+      },
+      {
+        "round": 49,
+        "accuracy": 0.5072,
+        "loss": 2.106662847518921,
+        "participation_rate": 0.15,
+        "n_participants": 3,
+        "energy": {
+          "training": 3.200000792144344,
+          "inference": 2.400000594108257,
+          "communication": 2.400000594108257
+        },
+        "extra": {
+          "n_selected": 3,
+          "total_quality": 0.8249569976681443,
+          "total_cost": 8.00000198036086,
+          "water_level": 0.07026582693570117,
+          "budget": 8
+        }
+      }
+    ],
+    "final_accuracy": 0.5072,
+    "best_accuracy": 0.5106,
+    "total_time": 407.9650001525879
+  },
+  "B=10": {
+    "method": "KaaS-Edge (B=10)",
+    "history": [
+      {
+        "round": 0,
+        "accuracy": 0.2161,
+        "loss": 3.244849030303955,
+        "participation_rate": 0.2,
+        "n_participants": 4,
+        "energy": {
+          "training": 4.000000727192458,
+          "inference": 3.0000005453943435,
+          "communication": 3.0000005453943435
+        },
+        "extra": {
+          "n_selected": 4,
+          "total_quality": 0.9584087637730442,
+          "total_cost": 10.000001817981145,
+          "water_level": 0.06471688607334682,
+          "budget": 10
+        }
+      },
+      {
+        "round": 1,
+        "accuracy": 0.2567,
+        "loss": 3.0690991172790527,
+        "participation_rate": 0.2,
+        "n_participants": 4,
+        "energy": {
+          "training": 4.000000727192458,
+          "inference": 3.0000005453943435,
+          "communication": 3.0000005453943435
+        },
+        "extra": {
+          "n_selected": 4,
+          "total_quality": 0.9584087637730442,
+          "total_cost": 10.000001817981145,
+          "water_level": 0.06471688607334682,
+          "budget": 10
+        }
+      },
+      {
+        "round": 2,
+        "accuracy": 0.2876,
+        "loss": 2.9165276119232177,
+        "participation_rate": 0.2,
+        "n_participants": 4,
+        "energy": {
+          "training": 4.000000727192458,
+          "inference": 3.0000005453943435,
+          "communication": 3.0000005453943435
+        },
+        "extra": {
+          "n_selected": 4,
+          "total_quality": 0.9584087637730442,
+          "total_cost": 10.000001817981145,
+          "water_level": 0.06471688607334682,
+          "budget": 10
+        }
+      },
+      {
+        "round": 3,
+        "accuracy": 0.3242,
+        "loss": 2.733894282913208,
+        "participation_rate": 0.2,
+        "n_participants": 4,
+        "energy": {
+          "training": 4.000000727192458,
+          "inference": 3.0000005453943435,
+          "communication": 3.0000005453943435
+        },
+        "extra": {
+          "n_selected": 4,
+          "total_quality": 0.9584087637730442,
+          "total_cost": 10.000001817981145,
+          "water_level": 0.06471688607334682,
+          "budget": 10
+        }
+      },
+      {
+        "round": 4,
+        "accuracy": 0.3447,
+        "loss": 2.667642472076416,
+        "participation_rate": 0.2,
+        "n_participants": 4,
+        "energy": {
+          "training": 4.000000727192458,
+          "inference": 3.0000005453943435,
+          "communication": 3.0000005453943435
+        },
+        "extra": {
+          "n_selected": 4,
+          "total_quality": 0.9584087637730442,
+          "total_cost": 10.000001817981145,
+          "water_level": 0.06471688607334682,
+          "budget": 10
+        }
+      },
+      {
+        "round": 5,
+        "accuracy": 0.3742,
+        "loss": 2.5420689277648925,
+        "participation_rate": 0.2,
+        "n_participants": 4,
+        "energy": {
+          "training": 4.000000727192458,
+          "inference": 3.0000005453943435,
+          "communication": 3.0000005453943435
+        },
+        "extra": {
+          "n_selected": 4,
+          "total_quality": 0.9584087637730442,
+          "total_cost": 10.000001817981145,
+          "water_level": 0.06471688607334682,
+          "budget": 10
+        }
+      },
+      {
+        "round": 6,
+        "accuracy": 0.3944,
+        "loss": 2.4580833728790283,
+        "participation_rate": 0.2,
+        "n_participants": 4,
+        "energy": {
+          "training": 4.000000727192458,
+          "inference": 3.0000005453943435,
+          "communication": 3.0000005453943435
+        },
+        "extra": {
+          "n_selected": 4,
+          "total_quality": 0.9584087637730442,
+          "total_cost": 10.000001817981145,
+          "water_level": 0.06471688607334682,
+          "budget": 10
+        }
+      },
+      {
+        "round": 7,
+        "accuracy": 0.4009,
+        "loss": 2.426731602478027,
+        "participation_rate": 0.2,
+        "n_participants": 4,
+        "energy": {
+          "training": 4.000000727192458,
+          "inference": 3.0000005453943435,
+          "communication": 3.0000005453943435
+        },
+        "extra": {
+          "n_selected": 4,
+          "total_quality": 0.9584087637730442,
+          "total_cost": 10.000001817981145,
+          "water_level": 0.06471688607334682,
+          "budget": 10
+        }
+      },
+      {
+        "round": 8,
+        "accuracy": 0.426,
+        "loss": 2.336147108078003,
+        "participation_rate": 0.2,
+        "n_participants": 4,
+        "energy": {
+          "training": 4.000000727192458,
+          "inference": 3.0000005453943435,
+          "communication": 3.0000005453943435
+        },
+        "extra": {
+          "n_selected": 4,
+          "total_quality": 0.9584087637730442,
+          "total_cost": 10.000001817981145,
+          "water_level": 0.06471688607334682,
+          "budget": 10
+        }
+      },
+      {
+        "round": 9,
+        "accuracy": 0.4374,
+        "loss": 2.2885230884552,
+        "participation_rate": 0.2,
+        "n_participants": 4,
+        "energy": {
+          "training": 4.000000727192458,
+          "inference": 3.0000005453943435,
+          "communication": 3.0000005453943435
+        },
+        "extra": {
+          "n_selected": 4,
+          "total_quality": 0.9584087637730442,
+          "total_cost": 10.000001817981145,
+          "water_level": 0.06471688607334682,
+          "budget": 10
+        }
+      },
+      {
+        "round": 10,
+        "accuracy": 0.4299,
+        "loss": 2.3052169456481932,
+        "participation_rate": 0.2,
+        "n_participants": 4,
+        "energy": {
+          "training": 4.000000727192458,
+          "inference": 3.0000005453943435,
+          "communication": 3.0000005453943435
+        },
+        "extra": {
+          "n_selected": 4,
+          "total_quality": 0.9584087637730442,
+          "total_cost": 10.000001817981145,
+          "water_level": 0.06471688607334682,
+          "budget": 10
+        }
+      },
+      {
+        "round": 11,
+        "accuracy": 0.452,
+        "loss": 2.2153452354431153,
+        "participation_rate": 0.2,
+        "n_participants": 4,
+        "energy": {
+          "training": 4.000000727192458,
+          "inference": 3.0000005453943435,
+          "communication": 3.0000005453943435
+        },
+        "extra": {
+          "n_selected": 4,
+          "total_quality": 0.9584087637730442,
+          "total_cost": 10.000001817981145,
+          "water_level": 0.06471688607334682,
+          "budget": 10
+        }
+      },
+      {
+        "round": 12,
+        "accuracy": 0.4576,
+        "loss": 2.202819200897217,
+        "participation_rate": 0.2,
+        "n_participants": 4,
+        "energy": {
+          "training": 4.000000727192458,
+          "inference": 3.0000005453943435,
+          "communication": 3.0000005453943435
+        },
+        "extra": {
+          "n_selected": 4,
+          "total_quality": 0.9584087637730442,
+          "total_cost": 10.000001817981145,
+          "water_level": 0.06471688607334682,
+          "budget": 10
+        }
+      },
+      {
+        "round": 13,
+        "accuracy": 0.4631,
+        "loss": 2.1790982177734377,
+        "participation_rate": 0.2,
+        "n_participants": 4,
+        "energy": {
+          "training": 4.000000727192458,
+          "inference": 3.0000005453943435,
+          "communication": 3.0000005453943435
+        },
+        "extra": {
+          "n_selected": 4,
+          "total_quality": 0.9584087637730442,
+          "total_cost": 10.000001817981145,
+          "water_level": 0.06471688607334682,
+          "budget": 10
+        }
+      },
+      {
+        "round": 14,
+        "accuracy": 0.4724,
+        "loss": 2.1737101432800294,
+        "participation_rate": 0.2,
+        "n_participants": 4,
+        "energy": {
+          "training": 4.000000727192458,
+          "inference": 3.0000005453943435,
+          "communication": 3.0000005453943435
+        },
+        "extra": {
+          "n_selected": 4,
+          "total_quality": 0.9584087637730442,
+          "total_cost": 10.000001817981145,
+          "water_level": 0.06471688607334682,
+          "budget": 10
+        }
+      },
+      {
+        "round": 15,
+        "accuracy": 0.468,
+        "loss": 2.1853884983062746,
+        "participation_rate": 0.2,
+        "n_participants": 4,
+        "energy": {
+          "training": 4.000000727192458,
+          "inference": 3.0000005453943435,
+          "communication": 3.0000005453943435
+        },
+        "extra": {
+          "n_selected": 4,
+          "total_quality": 0.9584087637730442,
+          "total_cost": 10.000001817981145,
+          "water_level": 0.06471688607334682,
+          "budget": 10
+        }
+      },
+      {
+        "round": 16,
+        "accuracy": 0.472,
+        "loss": 2.1831265741348265,
+        "participation_rate": 0.2,
+        "n_participants": 4,
+        "energy": {
+          "training": 4.000000727192458,
+          "inference": 3.0000005453943435,
+          "communication": 3.0000005453943435
+        },
+        "extra": {
+          "n_selected": 4,
+          "total_quality": 0.9584087637730442,
+          "total_cost": 10.000001817981145,
+          "water_level": 0.06471688607334682,
+          "budget": 10
+        }
+      },
+      {
+        "round": 17,
+        "accuracy": 0.4672,
+        "loss": 2.2082605140686034,
+        "participation_rate": 0.2,
+        "n_participants": 4,
+        "energy": {
+          "training": 4.000000727192458,
+          "inference": 3.0000005453943435,
+          "communication": 3.0000005453943435
+        },
+        "extra": {
+          "n_selected": 4,
+          "total_quality": 0.9584087637730442,
+          "total_cost": 10.000001817981145,
+          "water_level": 0.06471688607334682,
+          "budget": 10
+        }
+      },
+      {
+        "round": 18,
+        "accuracy": 0.476,
+        "loss": 2.184948197174072,
+        "participation_rate": 0.2,
+        "n_participants": 4,
+        "energy": {
+          "training": 4.000000727192458,
+          "inference": 3.0000005453943435,
+          "communication": 3.0000005453943435
+        },
+        "extra": {
+          "n_selected": 4,
+          "total_quality": 0.9584087637730442,
+          "total_cost": 10.000001817981145,
+          "water_level": 0.06471688607334682,
+          "budget": 10
+        }
+      },
+      {
+        "round": 19,
+        "accuracy": 0.4875,
+        "loss": 2.1264322826385498,
+        "participation_rate": 0.2,
+        "n_participants": 4,
+        "energy": {
+          "training": 4.000000727192458,
+          "inference": 3.0000005453943435,
+          "communication": 3.0000005453943435
+        },
+        "extra": {
+          "n_selected": 4,
+          "total_quality": 0.9584087637730442,
+          "total_cost": 10.000001817981145,
+          "water_level": 0.06471688607334682,
+          "budget": 10
+        }
+      },
+      {
+        "round": 20,
+        "accuracy": 0.4803,
+        "loss": 2.1865086406707763,
+        "participation_rate": 0.2,
+        "n_participants": 4,
+        "energy": {
+          "training": 4.000000727192458,
+          "inference": 3.0000005453943435,
+          "communication": 3.0000005453943435
+        },
+        "extra": {
+          "n_selected": 4,
+          "total_quality": 0.9584087637730442,
+          "total_cost": 10.000001817981145,
+          "water_level": 0.06471688607334682,
+          "budget": 10
+        }
+      },
+      {
+        "round": 21,
+        "accuracy": 0.4845,
+        "loss": 2.184383738327026,
+        "participation_rate": 0.2,
+        "n_participants": 4,
+        "energy": {
+          "training": 4.000000727192458,
+          "inference": 3.0000005453943435,
+          "communication": 3.0000005453943435
+        },
+        "extra": {
+          "n_selected": 4,
+          "total_quality": 0.9584087637730442,
+          "total_cost": 10.000001817981145,
+          "water_level": 0.06471688607334682,
+          "budget": 10
+        }
+      },
+      {
+        "round": 22,
+        "accuracy": 0.4856,
+        "loss": 2.1590361598968504,
+        "participation_rate": 0.2,
+        "n_participants": 4,
+        "energy": {
+          "training": 4.000000727192458,
+          "inference": 3.0000005453943435,
+          "communication": 3.0000005453943435
+        },
+        "extra": {
+          "n_selected": 4,
+          "total_quality": 0.9584087637730442,
+          "total_cost": 10.000001817981145,
+          "water_level": 0.06471688607334682,
+          "budget": 10
+        }
+      },
+      {
+        "round": 23,
+        "accuracy": 0.4826,
+        "loss": 2.1925713504791258,
+        "participation_rate": 0.2,
+        "n_participants": 4,
+        "energy": {
+          "training": 4.000000727192458,
+          "inference": 3.0000005453943435,
+          "communication": 3.0000005453943435
+        },
+        "extra": {
+          "n_selected": 4,
+          "total_quality": 0.9584087637730442,
+          "total_cost": 10.000001817981145,
+          "water_level": 0.06471688607334682,
+          "budget": 10
+        }
+      },
+      {
+        "round": 24,
+        "accuracy": 0.4767,
+        "loss": 2.205687533569336,
+        "participation_rate": 0.2,
+        "n_participants": 4,
+        "energy": {
+          "training": 4.000000727192458,
+          "inference": 3.0000005453943435,
+          "communication": 3.0000005453943435
+        },
+        "extra": {
+          "n_selected": 4,
+          "total_quality": 0.9584087637730442,
+          "total_cost": 10.000001817981145,
+          "water_level": 0.06471688607334682,
+          "budget": 10
+        }
+      },
+      {
+        "round": 25,
+        "accuracy": 0.4852,
+        "loss": 2.1842039669036866,
+        "participation_rate": 0.2,
+        "n_participants": 4,
+        "energy": {
+          "training": 4.000000727192458,
+          "inference": 3.0000005453943435,
+          "communication": 3.0000005453943435
+        },
+        "extra": {
+          "n_selected": 4,
+          "total_quality": 0.9584087637730442,
+          "total_cost": 10.000001817981145,
+          "water_level": 0.06471688607334682,
+          "budget": 10
+        }
+      },
+      {
+        "round": 26,
+        "accuracy": 0.4917,
+        "loss": 2.180532658004761,
+        "participation_rate": 0.2,
+        "n_participants": 4,
+        "energy": {
+          "training": 4.000000727192458,
+          "inference": 3.0000005453943435,
+          "communication": 3.0000005453943435
+        },
+        "extra": {
+          "n_selected": 4,
+          "total_quality": 0.9584087637730442,
+          "total_cost": 10.000001817981145,
+          "water_level": 0.06471688607334682,
+          "budget": 10
+        }
+      },
+      {
+        "round": 27,
+        "accuracy": 0.4851,
+        "loss": 2.1937432132720946,
+        "participation_rate": 0.2,
+        "n_participants": 4,
+        "energy": {
+          "training": 4.000000727192458,
+          "inference": 3.0000005453943435,
+          "communication": 3.0000005453943435
+        },
+        "extra": {
+          "n_selected": 4,
+          "total_quality": 0.9584087637730442,
+          "total_cost": 10.000001817981145,
+          "water_level": 0.06471688607334682,
+          "budget": 10
+        }
+      },
+      {
+        "round": 28,
+        "accuracy": 0.4875,
+        "loss": 2.1931213745117186,
+        "participation_rate": 0.2,
+        "n_participants": 4,
+        "energy": {
+          "training": 4.000000727192458,
+          "inference": 3.0000005453943435,
+          "communication": 3.0000005453943435
+        },
+        "extra": {
+          "n_selected": 4,
+          "total_quality": 0.9584087637730442,
+          "total_cost": 10.000001817981145,
+          "water_level": 0.06471688607334682,
+          "budget": 10
+        }
+      },
+      {
+        "round": 29,
+        "accuracy": 0.4817,
+        "loss": 2.2165950874328613,
+        "participation_rate": 0.2,
+        "n_participants": 4,
+        "energy": {
+          "training": 4.000000727192458,
+          "inference": 3.0000005453943435,
+          "communication": 3.0000005453943435
+        },
+        "extra": {
+          "n_selected": 4,
+          "total_quality": 0.9584087637730442,
+          "total_cost": 10.000001817981145,
+          "water_level": 0.06471688607334682,
+          "budget": 10
+        }
+      },
+      {
+        "round": 30,
+        "accuracy": 0.4858,
+        "loss": 2.1998210836410523,
+        "participation_rate": 0.2,
+        "n_participants": 4,
+        "energy": {
+          "training": 4.000000727192458,
+          "inference": 3.0000005453943435,
+          "communication": 3.0000005453943435
+        },
+        "extra": {
+          "n_selected": 4,
+          "total_quality": 0.9584087637730442,
+          "total_cost": 10.000001817981145,
+          "water_level": 0.06471688607334682,
+          "budget": 10
+        }
+      },
+      {
+        "round": 31,
+        "accuracy": 0.4844,
+        "loss": 2.1992617256164553,
+        "participation_rate": 0.2,
+        "n_participants": 4,
+        "energy": {
+          "training": 4.000000727192458,
+          "inference": 3.0000005453943435,
+          "communication": 3.0000005453943435
+        },
+        "extra": {
+          "n_selected": 4,
+          "total_quality": 0.9584087637730442,
+          "total_cost": 10.000001817981145,
+          "water_level": 0.06471688607334682,
+          "budget": 10
+        }
+      },
+      {
+        "round": 32,
+        "accuracy": 0.4939,
+        "loss": 2.168901015472412,
+        "participation_rate": 0.2,
+        "n_participants": 4,
+        "energy": {
+          "training": 4.000000727192458,
+          "inference": 3.0000005453943435,
+          "communication": 3.0000005453943435
+        },
+        "extra": {
+          "n_selected": 4,
+          "total_quality": 0.9584087637730442,
+          "total_cost": 10.000001817981145,
+          "water_level": 0.06471688607334682,
+          "budget": 10
+        }
+      },
+      {
+        "round": 33,
+        "accuracy": 0.4849,
+        "loss": 2.228623307800293,
+        "participation_rate": 0.2,
+        "n_participants": 4,
+        "energy": {
+          "training": 4.000000727192458,
+          "inference": 3.0000005453943435,
+          "communication": 3.0000005453943435
+        },
+        "extra": {
+          "n_selected": 4,
+          "total_quality": 0.9584087637730442,
+          "total_cost": 10.000001817981145,
+          "water_level": 0.06471688607334682,
+          "budget": 10
+        }
+      },
+      {
+        "round": 34,
+        "accuracy": 0.4909,
+        "loss": 2.195621750640869,
+        "participation_rate": 0.2,
+        "n_participants": 4,
+        "energy": {
+          "training": 4.000000727192458,
+          "inference": 3.0000005453943435,
+          "communication": 3.0000005453943435
+        },
+        "extra": {
+          "n_selected": 4,
+          "total_quality": 0.9584087637730442,
+          "total_cost": 10.000001817981145,
+          "water_level": 0.06471688607334682,
+          "budget": 10
+        }
+      },
+      {
+        "round": 35,
+        "accuracy": 0.4846,
+        "loss": 2.2099064044952392,
+        "participation_rate": 0.2,
+        "n_participants": 4,
+        "energy": {
+          "training": 4.000000727192458,
+          "inference": 3.0000005453943435,
+          "communication": 3.0000005453943435
+        },
+        "extra": {
+          "n_selected": 4,
+          "total_quality": 0.9584087637730442,
+          "total_cost": 10.000001817981145,
+          "water_level": 0.06471688607334682,
+          "budget": 10
+        }
+      },
+      {
+        "round": 36,
+        "accuracy": 0.4892,
+        "loss": 2.1803832527160645,
+        "participation_rate": 0.2,
+        "n_participants": 4,
+        "energy": {
+          "training": 4.000000727192458,
+          "inference": 3.0000005453943435,
+          "communication": 3.0000005453943435
+        },
+        "extra": {
+          "n_selected": 4,
+          "total_quality": 0.9584087637730442,
+          "total_cost": 10.000001817981145,
+          "water_level": 0.06471688607334682,
+          "budget": 10
+        }
+      },
+      {
+        "round": 37,
+        "accuracy": 0.4881,
+        "loss": 2.199725407028198,
+        "participation_rate": 0.2,
+        "n_participants": 4,
+        "energy": {
+          "training": 4.000000727192458,
+          "inference": 3.0000005453943435,
+          "communication": 3.0000005453943435
+        },
+        "extra": {
+          "n_selected": 4,
+          "total_quality": 0.9584087637730442,
+          "total_cost": 10.000001817981145,
+          "water_level": 0.06471688607334682,
+          "budget": 10
+        }
+      },
+      {
+        "round": 38,
+        "accuracy": 0.4888,
+        "loss": 2.1862756866455078,
+        "participation_rate": 0.2,
+        "n_participants": 4,
+        "energy": {
+          "training": 4.000000727192458,
+          "inference": 3.0000005453943435,
+          "communication": 3.0000005453943435
+        },
+        "extra": {
+          "n_selected": 4,
+          "total_quality": 0.9584087637730442,
+          "total_cost": 10.000001817981145,
+          "water_level": 0.06471688607334682,
+          "budget": 10
+        }
+      },
+      {
+        "round": 39,
+        "accuracy": 0.4962,
+        "loss": 2.1737624713897703,
+        "participation_rate": 0.2,
+        "n_participants": 4,
+        "energy": {
+          "training": 4.000000727192458,
+          "inference": 3.0000005453943435,
+          "communication": 3.0000005453943435
+        },
+        "extra": {
+          "n_selected": 4,
+          "total_quality": 0.9584087637730442,
+          "total_cost": 10.000001817981145,
+          "water_level": 0.06471688607334682,
+          "budget": 10
+        }
+      },
+      {
+        "round": 40,
+        "accuracy": 0.4902,
+        "loss": 2.185381580734253,
+        "participation_rate": 0.2,
+        "n_participants": 4,
+        "energy": {
+          "training": 4.000000727192458,
+          "inference": 3.0000005453943435,
+          "communication": 3.0000005453943435
+        },
+        "extra": {
+          "n_selected": 4,
+          "total_quality": 0.9584087637730442,
+          "total_cost": 10.000001817981145,
+          "water_level": 0.06471688607334682,
+          "budget": 10
+        }
+      },
+      {
+        "round": 41,
+        "accuracy": 0.4935,
+        "loss": 2.171785395050049,
+        "participation_rate": 0.2,
+        "n_participants": 4,
+        "energy": {
+          "training": 4.000000727192458,
+          "inference": 3.0000005453943435,
+          "communication": 3.0000005453943435
+        },
+        "extra": {
+          "n_selected": 4,
+          "total_quality": 0.9584087637730442,
+          "total_cost": 10.000001817981145,
+          "water_level": 0.06471688607334682,
+          "budget": 10
+        }
+      },
+      {
+        "round": 42,
+        "accuracy": 0.4951,
+        "loss": 2.185211803817749,
+        "participation_rate": 0.2,
+        "n_participants": 4,
+        "energy": {
+          "training": 4.000000727192458,
+          "inference": 3.0000005453943435,
+          "communication": 3.0000005453943435
+        },
+        "extra": {
+          "n_selected": 4,
+          "total_quality": 0.9584087637730442,
+          "total_cost": 10.000001817981145,
+          "water_level": 0.06471688607334682,
+          "budget": 10
+        }
+      },
+      {
+        "round": 43,
+        "accuracy": 0.4935,
+        "loss": 2.1898370517730714,
+        "participation_rate": 0.2,
+        "n_participants": 4,
+        "energy": {
+          "training": 4.000000727192458,
+          "inference": 3.0000005453943435,
+          "communication": 3.0000005453943435
+        },
+        "extra": {
+          "n_selected": 4,
+          "total_quality": 0.9584087637730442,
+          "total_cost": 10.000001817981145,
+          "water_level": 0.06471688607334682,
+          "budget": 10
+        }
+      },
+      {
+        "round": 44,
+        "accuracy": 0.4957,
+        "loss": 2.167956315612793,
+        "participation_rate": 0.2,
+        "n_participants": 4,
+        "energy": {
+          "training": 4.000000727192458,
+          "inference": 3.0000005453943435,
+          "communication": 3.0000005453943435
+        },
+        "extra": {
+          "n_selected": 4,
+          "total_quality": 0.9584087637730442,
+          "total_cost": 10.000001817981145,
+          "water_level": 0.06471688607334682,
+          "budget": 10
+        }
+      },
+      {
+        "round": 45,
+        "accuracy": 0.4967,
+        "loss": 2.17647839050293,
+        "participation_rate": 0.2,
+        "n_participants": 4,
+        "energy": {
+          "training": 4.000000727192458,
+          "inference": 3.0000005453943435,
+          "communication": 3.0000005453943435
+        },
+        "extra": {
+          "n_selected": 4,
+          "total_quality": 0.9584087637730442,
+          "total_cost": 10.000001817981145,
+          "water_level": 0.06471688607334682,
+          "budget": 10
+        }
+      },
+      {
+        "round": 46,
+        "accuracy": 0.4914,
+        "loss": 2.1716519466400146,
+        "participation_rate": 0.2,
+        "n_participants": 4,
+        "energy": {
+          "training": 4.000000727192458,
+          "inference": 3.0000005453943435,
+          "communication": 3.0000005453943435
+        },
+        "extra": {
+          "n_selected": 4,
+          "total_quality": 0.9584087637730442,
+          "total_cost": 10.000001817981145,
+          "water_level": 0.06471688607334682,
+          "budget": 10
+        }
+      },
+      {
+        "round": 47,
+        "accuracy": 0.4907,
+        "loss": 2.18653076171875,
+        "participation_rate": 0.2,
+        "n_participants": 4,
+        "energy": {
+          "training": 4.000000727192458,
+          "inference": 3.0000005453943435,
+          "communication": 3.0000005453943435
+        },
+        "extra": {
+          "n_selected": 4,
+          "total_quality": 0.9584087637730442,
+          "total_cost": 10.000001817981145,
+          "water_level": 0.06471688607334682,
+          "budget": 10
+        }
+      },
+      {
+        "round": 48,
+        "accuracy": 0.4969,
+        "loss": 2.166432658004761,
+        "participation_rate": 0.2,
+        "n_participants": 4,
+        "energy": {
+          "training": 4.000000727192458,
+          "inference": 3.0000005453943435,
+          "communication": 3.0000005453943435
+        },
+        "extra": {
+          "n_selected": 4,
+          "total_quality": 0.9584087637730442,
+          "total_cost": 10.000001817981145,
+          "water_level": 0.06471688607334682,
+          "budget": 10
+        }
+      },
+      {
+        "round": 49,
+        "accuracy": 0.4989,
+        "loss": 2.1679442184448243,
+        "participation_rate": 0.2,
+        "n_participants": 4,
+        "energy": {
+          "training": 4.000000727192458,
+          "inference": 3.0000005453943435,
+          "communication": 3.0000005453943435
+        },
+        "extra": {
+          "n_selected": 4,
+          "total_quality": 0.9584087637730442,
+          "total_cost": 10.000001817981145,
+          "water_level": 0.06471688607334682,
+          "budget": 10
+        }
+      }
+    ],
+    "final_accuracy": 0.4989,
+    "best_accuracy": 0.4989,
+    "total_time": 479.6783998012543
+  },
+  "B=15": {
+    "method": "KaaS-Edge (B=15)",
+    "history": [
+      {
+        "round": 0,
+        "accuracy": 0.2026,
+        "loss": 3.3723475723266603,
+        "participation_rate": 0.25,
+        "n_participants": 5,
+        "energy": {
+          "training": 5.999998685201899,
+          "inference": 4.499999013901425,
+          "communication": 4.499999013901425
+        },
+        "extra": {
+          "n_selected": 5,
+          "total_quality": 1.2473857431639286,
+          "total_cost": 14.999996713004748,
+          "water_level": 0.053951126234187095,
+          "budget": 15
+        }
+      },
+      {
+        "round": 1,
+        "accuracy": 0.2323,
+        "loss": 3.1865869773864746,
+        "participation_rate": 0.25,
+        "n_participants": 5,
+        "energy": {
+          "training": 5.999998685201899,
+          "inference": 4.499999013901425,
+          "communication": 4.499999013901425
+        },
+        "extra": {
+          "n_selected": 5,
+          "total_quality": 1.2473857431639286,
+          "total_cost": 14.999996713004748,
+          "water_level": 0.053951126234187095,
+          "budget": 15
+        }
+      },
+      {
+        "round": 2,
+        "accuracy": 0.2756,
+        "loss": 2.9707972164154053,
+        "participation_rate": 0.25,
+        "n_participants": 5,
+        "energy": {
+          "training": 5.999998685201899,
+          "inference": 4.499999013901425,
+          "communication": 4.499999013901425
+        },
+        "extra": {
+          "n_selected": 5,
+          "total_quality": 1.2473857431639286,
+          "total_cost": 14.999996713004748,
+          "water_level": 0.053951126234187095,
+          "budget": 15
+        }
+      },
+      {
+        "round": 3,
+        "accuracy": 0.3156,
+        "loss": 2.7966041034698486,
+        "participation_rate": 0.25,
+        "n_participants": 5,
+        "energy": {
+          "training": 5.999998685201899,
+          "inference": 4.499999013901425,
+          "communication": 4.499999013901425
+        },
+        "extra": {
+          "n_selected": 5,
+          "total_quality": 1.2473857431639286,
+          "total_cost": 14.999996713004748,
+          "water_level": 0.053951126234187095,
+          "budget": 15
+        }
+      },
+      {
+        "round": 4,
+        "accuracy": 0.3263,
+        "loss": 2.7261460140228273,
+        "participation_rate": 0.25,
+        "n_participants": 5,
+        "energy": {
+          "training": 5.999998685201899,
+          "inference": 4.499999013901425,
+          "communication": 4.499999013901425
+        },
+        "extra": {
+          "n_selected": 5,
+          "total_quality": 1.2473857431639286,
+          "total_cost": 14.999996713004748,
+          "water_level": 0.053951126234187095,
+          "budget": 15
+        }
+      },
+      {
+        "round": 5,
+        "accuracy": 0.3572,
+        "loss": 2.617502071380615,
+        "participation_rate": 0.25,
+        "n_participants": 5,
+        "energy": {
+          "training": 5.999998685201899,
+          "inference": 4.499999013901425,
+          "communication": 4.499999013901425
+        },
+        "extra": {
+          "n_selected": 5,
+          "total_quality": 1.2473857431639286,
+          "total_cost": 14.999996713004748,
+          "water_level": 0.053951126234187095,
+          "budget": 15
+        }
+      },
+      {
+        "round": 6,
+        "accuracy": 0.3868,
+        "loss": 2.4579309661865234,
+        "participation_rate": 0.25,
+        "n_participants": 5,
+        "energy": {
+          "training": 5.999998685201899,
+          "inference": 4.499999013901425,
+          "communication": 4.499999013901425
+        },
+        "extra": {
+          "n_selected": 5,
+          "total_quality": 1.2473857431639286,
+          "total_cost": 14.999996713004748,
+          "water_level": 0.053951126234187095,
+          "budget": 15
+        }
+      },
+      {
+        "round": 7,
+        "accuracy": 0.4174,
+        "loss": 2.3275491218566895,
+        "participation_rate": 0.25,
+        "n_participants": 5,
+        "energy": {
+          "training": 5.999998685201899,
+          "inference": 4.499999013901425,
+          "communication": 4.499999013901425
+        },
+        "extra": {
+          "n_selected": 5,
+          "total_quality": 1.2473857431639286,
+          "total_cost": 14.999996713004748,
+          "water_level": 0.053951126234187095,
+          "budget": 15
+        }
+      },
+      {
+        "round": 8,
+        "accuracy": 0.4414,
+        "loss": 2.261335338973999,
+        "participation_rate": 0.25,
+        "n_participants": 5,
+        "energy": {
+          "training": 5.999998685201899,
+          "inference": 4.499999013901425,
+          "communication": 4.499999013901425
+        },
+        "extra": {
+          "n_selected": 5,
+          "total_quality": 1.2473857431639286,
+          "total_cost": 14.999996713004748,
+          "water_level": 0.053951126234187095,
+          "budget": 15
+        }
+      },
+      {
+        "round": 9,
+        "accuracy": 0.4459,
+        "loss": 2.2368891735076906,
+        "participation_rate": 0.25,
+        "n_participants": 5,
+        "energy": {
+          "training": 5.999998685201899,
+          "inference": 4.499999013901425,
+          "communication": 4.499999013901425
+        },
+        "extra": {
+          "n_selected": 5,
+          "total_quality": 1.2473857431639286,
+          "total_cost": 14.999996713004748,
+          "water_level": 0.053951126234187095,
+          "budget": 15
+        }
+      },
+      {
+        "round": 10,
+        "accuracy": 0.4438,
+        "loss": 2.221919303894043,
+        "participation_rate": 0.25,
+        "n_participants": 5,
+        "energy": {
+          "training": 5.999998685201899,
+          "inference": 4.499999013901425,
+          "communication": 4.499999013901425
+        },
+        "extra": {
+          "n_selected": 5,
+          "total_quality": 1.2473857431639286,
+          "total_cost": 14.999996713004748,
+          "water_level": 0.053951126234187095,
+          "budget": 15
+        }
+      },
+      {
+        "round": 11,
+        "accuracy": 0.4549,
+        "loss": 2.208712159347534,
+        "participation_rate": 0.25,
+        "n_participants": 5,
+        "energy": {
+          "training": 5.999998685201899,
+          "inference": 4.499999013901425,
+          "communication": 4.499999013901425
+        },
+        "extra": {
+          "n_selected": 5,
+          "total_quality": 1.2473857431639286,
+          "total_cost": 14.999996713004748,
+          "water_level": 0.053951126234187095,
+          "budget": 15
+        }
+      },
+      {
+        "round": 12,
+        "accuracy": 0.4599,
+        "loss": 2.17449070892334,
+        "participation_rate": 0.25,
+        "n_participants": 5,
+        "energy": {
+          "training": 5.999998685201899,
+          "inference": 4.499999013901425,
+          "communication": 4.499999013901425
+        },
+        "extra": {
+          "n_selected": 5,
+          "total_quality": 1.2473857431639286,
+          "total_cost": 14.999996713004748,
+          "water_level": 0.053951126234187095,
+          "budget": 15
+        }
+      },
+      {
+        "round": 13,
+        "accuracy": 0.4745,
+        "loss": 2.1068213508605957,
+        "participation_rate": 0.25,
+        "n_participants": 5,
+        "energy": {
+          "training": 5.999998685201899,
+          "inference": 4.499999013901425,
+          "communication": 4.499999013901425
+        },
+        "extra": {
+          "n_selected": 5,
+          "total_quality": 1.2473857431639286,
+          "total_cost": 14.999996713004748,
+          "water_level": 0.053951126234187095,
+          "budget": 15
+        }
+      },
+      {
+        "round": 14,
+        "accuracy": 0.4701,
+        "loss": 2.1443030715942384,
+        "participation_rate": 0.25,
+        "n_participants": 5,
+        "energy": {
+          "training": 5.999998685201899,
+          "inference": 4.499999013901425,
+          "communication": 4.499999013901425
+        },
+        "extra": {
+          "n_selected": 5,
+          "total_quality": 1.2473857431639286,
+          "total_cost": 14.999996713004748,
+          "water_level": 0.053951126234187095,
+          "budget": 15
+        }
+      },
+      {
+        "round": 15,
+        "accuracy": 0.4799,
+        "loss": 2.1297057247161866,
+        "participation_rate": 0.25,
+        "n_participants": 5,
+        "energy": {
+          "training": 5.999998685201899,
+          "inference": 4.499999013901425,
+          "communication": 4.499999013901425
+        },
+        "extra": {
+          "n_selected": 5,
+          "total_quality": 1.2473857431639286,
+          "total_cost": 14.999996713004748,
+          "water_level": 0.053951126234187095,
+          "budget": 15
+        }
+      },
+      {
+        "round": 16,
+        "accuracy": 0.4865,
+        "loss": 2.0961182264328,
+        "participation_rate": 0.25,
+        "n_participants": 5,
+        "energy": {
+          "training": 5.999998685201899,
+          "inference": 4.499999013901425,
+          "communication": 4.499999013901425
+        },
+        "extra": {
+          "n_selected": 5,
+          "total_quality": 1.2473857431639286,
+          "total_cost": 14.999996713004748,
+          "water_level": 0.053951126234187095,
+          "budget": 15
+        }
+      },
+      {
+        "round": 17,
+        "accuracy": 0.4773,
+        "loss": 2.138059669494629,
+        "participation_rate": 0.25,
+        "n_participants": 5,
+        "energy": {
+          "training": 5.999998685201899,
+          "inference": 4.499999013901425,
+          "communication": 4.499999013901425
+        },
+        "extra": {
+          "n_selected": 5,
+          "total_quality": 1.2473857431639286,
+          "total_cost": 14.999996713004748,
+          "water_level": 0.053951126234187095,
+          "budget": 15
+        }
+      },
+      {
+        "round": 18,
+        "accuracy": 0.4735,
+        "loss": 2.18456231842041,
+        "participation_rate": 0.25,
+        "n_participants": 5,
+        "energy": {
+          "training": 5.999998685201899,
+          "inference": 4.499999013901425,
+          "communication": 4.499999013901425
+        },
+        "extra": {
+          "n_selected": 5,
+          "total_quality": 1.2473857431639286,
+          "total_cost": 14.999996713004748,
+          "water_level": 0.053951126234187095,
+          "budget": 15
+        }
+      },
+      {
+        "round": 19,
+        "accuracy": 0.4895,
+        "loss": 2.11200202293396,
+        "participation_rate": 0.25,
+        "n_participants": 5,
+        "energy": {
+          "training": 5.999998685201899,
+          "inference": 4.499999013901425,
+          "communication": 4.499999013901425
+        },
+        "extra": {
+          "n_selected": 5,
+          "total_quality": 1.2473857431639286,
+          "total_cost": 14.999996713004748,
+          "water_level": 0.053951126234187095,
+          "budget": 15
+        }
+      },
+      {
+        "round": 20,
+        "accuracy": 0.4815,
+        "loss": 2.1538780162811277,
+        "participation_rate": 0.25,
+        "n_participants": 5,
+        "energy": {
+          "training": 5.999998685201899,
+          "inference": 4.499999013901425,
+          "communication": 4.499999013901425
+        },
+        "extra": {
+          "n_selected": 5,
+          "total_quality": 1.2473857431639286,
+          "total_cost": 14.999996713004748,
+          "water_level": 0.053951126234187095,
+          "budget": 15
+        }
+      },
+      {
+        "round": 21,
+        "accuracy": 0.4878,
+        "loss": 2.1292629020690916,
+        "participation_rate": 0.25,
+        "n_participants": 5,
+        "energy": {
+          "training": 5.999998685201899,
+          "inference": 4.499999013901425,
+          "communication": 4.499999013901425
+        },
+        "extra": {
+          "n_selected": 5,
+          "total_quality": 1.2473857431639286,
+          "total_cost": 14.999996713004748,
+          "water_level": 0.053951126234187095,
+          "budget": 15
+        }
+      },
+      {
+        "round": 22,
+        "accuracy": 0.4912,
+        "loss": 2.10068696975708,
+        "participation_rate": 0.25,
+        "n_participants": 5,
+        "energy": {
+          "training": 5.999998685201899,
+          "inference": 4.499999013901425,
+          "communication": 4.499999013901425
+        },
+        "extra": {
+          "n_selected": 5,
+          "total_quality": 1.2473857431639286,
+          "total_cost": 14.999996713004748,
+          "water_level": 0.053951126234187095,
+          "budget": 15
+        }
+      },
+      {
+        "round": 23,
+        "accuracy": 0.4983,
+        "loss": 2.0741700134277345,
+        "participation_rate": 0.25,
+        "n_participants": 5,
+        "energy": {
+          "training": 5.999998685201899,
+          "inference": 4.499999013901425,
+          "communication": 4.499999013901425
+        },
+        "extra": {
+          "n_selected": 5,
+          "total_quality": 1.2473857431639286,
+          "total_cost": 14.999996713004748,
+          "water_level": 0.053951126234187095,
+          "budget": 15
+        }
+      },
+      {
+        "round": 24,
+        "accuracy": 0.4883,
+        "loss": 2.1367160327911376,
+        "participation_rate": 0.25,
+        "n_participants": 5,
+        "energy": {
+          "training": 5.999998685201899,
+          "inference": 4.499999013901425,
+          "communication": 4.499999013901425
+        },
+        "extra": {
+          "n_selected": 5,
+          "total_quality": 1.2473857431639286,
+          "total_cost": 14.999996713004748,
+          "water_level": 0.053951126234187095,
+          "budget": 15
+        }
+      },
+      {
+        "round": 25,
+        "accuracy": 0.4961,
+        "loss": 2.099414658355713,
+        "participation_rate": 0.25,
+        "n_participants": 5,
+        "energy": {
+          "training": 5.999998685201899,
+          "inference": 4.499999013901425,
+          "communication": 4.499999013901425
+        },
+        "extra": {
+          "n_selected": 5,
+          "total_quality": 1.2473857431639286,
+          "total_cost": 14.999996713004748,
+          "water_level": 0.053951126234187095,
+          "budget": 15
+        }
+      },
+      {
+        "round": 26,
+        "accuracy": 0.4978,
+        "loss": 2.097055319213867,
+        "participation_rate": 0.25,
+        "n_participants": 5,
+        "energy": {
+          "training": 5.999998685201899,
+          "inference": 4.499999013901425,
+          "communication": 4.499999013901425
+        },
+        "extra": {
+          "n_selected": 5,
+          "total_quality": 1.2473857431639286,
+          "total_cost": 14.999996713004748,
+          "water_level": 0.053951126234187095,
+          "budget": 15
+        }
+      },
+      {
+        "round": 27,
+        "accuracy": 0.497,
+        "loss": 2.118882942199707,
+        "participation_rate": 0.25,
+        "n_participants": 5,
+        "energy": {
+          "training": 5.999998685201899,
+          "inference": 4.499999013901425,
+          "communication": 4.499999013901425
+        },
+        "extra": {
+          "n_selected": 5,
+          "total_quality": 1.2473857431639286,
+          "total_cost": 14.999996713004748,
+          "water_level": 0.053951126234187095,
+          "budget": 15
+        }
+      },
+      {
+        "round": 28,
+        "accuracy": 0.5025,
+        "loss": 2.0925459007263183,
+        "participation_rate": 0.25,
+        "n_participants": 5,
+        "energy": {
+          "training": 5.999998685201899,
+          "inference": 4.499999013901425,
+          "communication": 4.499999013901425
+        },
+        "extra": {
+          "n_selected": 5,
+          "total_quality": 1.2473857431639286,
+          "total_cost": 14.999996713004748,
+          "water_level": 0.053951126234187095,
+          "budget": 15
+        }
+      },
+      {
+        "round": 29,
+        "accuracy": 0.4996,
+        "loss": 2.0972790771484373,
+        "participation_rate": 0.25,
+        "n_participants": 5,
+        "energy": {
+          "training": 5.999998685201899,
+          "inference": 4.499999013901425,
+          "communication": 4.499999013901425
+        },
+        "extra": {
+          "n_selected": 5,
+          "total_quality": 1.2473857431639286,
+          "total_cost": 14.999996713004748,
+          "water_level": 0.053951126234187095,
+          "budget": 15
+        }
+      },
+      {
+        "round": 30,
+        "accuracy": 0.4999,
+        "loss": 2.1028506256103516,
+        "participation_rate": 0.25,
+        "n_participants": 5,
+        "energy": {
+          "training": 5.999998685201899,
+          "inference": 4.499999013901425,
+          "communication": 4.499999013901425
+        },
+        "extra": {
+          "n_selected": 5,
+          "total_quality": 1.2473857431639286,
+          "total_cost": 14.999996713004748,
+          "water_level": 0.053951126234187095,
+          "budget": 15
+        }
+      },
+      {
+        "round": 31,
+        "accuracy": 0.4977,
+        "loss": 2.110339322090149,
+        "participation_rate": 0.25,
+        "n_participants": 5,
+        "energy": {
+          "training": 5.999998685201899,
+          "inference": 4.499999013901425,
+          "communication": 4.499999013901425
+        },
+        "extra": {
+          "n_selected": 5,
+          "total_quality": 1.2473857431639286,
+          "total_cost": 14.999996713004748,
+          "water_level": 0.053951126234187095,
+          "budget": 15
+        }
+      },
+      {
+        "round": 32,
+        "accuracy": 0.4972,
+        "loss": 2.1314844005584717,
+        "participation_rate": 0.25,
+        "n_participants": 5,
+        "energy": {
+          "training": 5.999998685201899,
+          "inference": 4.499999013901425,
+          "communication": 4.499999013901425
+        },
+        "extra": {
+          "n_selected": 5,
+          "total_quality": 1.2473857431639286,
+          "total_cost": 14.999996713004748,
+          "water_level": 0.053951126234187095,
+          "budget": 15
+        }
+      },
+      {
+        "round": 33,
+        "accuracy": 0.5067,
+        "loss": 2.093020829772949,
+        "participation_rate": 0.25,
+        "n_participants": 5,
+        "energy": {
+          "training": 5.999998685201899,
+          "inference": 4.499999013901425,
+          "communication": 4.499999013901425
+        },
+        "extra": {
+          "n_selected": 5,
+          "total_quality": 1.2473857431639286,
+          "total_cost": 14.999996713004748,
+          "water_level": 0.053951126234187095,
+          "budget": 15
+        }
+      },
+      {
+        "round": 34,
+        "accuracy": 0.4969,
+        "loss": 2.115444253540039,
+        "participation_rate": 0.25,
+        "n_participants": 5,
+        "energy": {
+          "training": 5.999998685201899,
+          "inference": 4.499999013901425,
+          "communication": 4.499999013901425
+        },
+        "extra": {
+          "n_selected": 5,
+          "total_quality": 1.2473857431639286,
+          "total_cost": 14.999996713004748,
+          "water_level": 0.053951126234187095,
+          "budget": 15
+        }
+      },
+      {
+        "round": 35,
+        "accuracy": 0.4981,
+        "loss": 2.1284395378112793,
+        "participation_rate": 0.25,
+        "n_participants": 5,
+        "energy": {
+          "training": 5.999998685201899,
+          "inference": 4.499999013901425,
+          "communication": 4.499999013901425
+        },
+        "extra": {
+          "n_selected": 5,
+          "total_quality": 1.2473857431639286,
+          "total_cost": 14.999996713004748,
+          "water_level": 0.053951126234187095,
+          "budget": 15
+        }
+      },
+      {
+        "round": 36,
+        "accuracy": 0.5005,
+        "loss": 2.102988617515564,
+        "participation_rate": 0.25,
+        "n_participants": 5,
+        "energy": {
+          "training": 5.999998685201899,
+          "inference": 4.499999013901425,
+          "communication": 4.499999013901425
+        },
+        "extra": {
+          "n_selected": 5,
+          "total_quality": 1.2473857431639286,
+          "total_cost": 14.999996713004748,
+          "water_level": 0.053951126234187095,
+          "budget": 15
+        }
+      },
+      {
+        "round": 37,
+        "accuracy": 0.5016,
+        "loss": 2.1165821371078493,
+        "participation_rate": 0.25,
+        "n_participants": 5,
+        "energy": {
+          "training": 5.999998685201899,
+          "inference": 4.499999013901425,
+          "communication": 4.499999013901425
+        },
+        "extra": {
+          "n_selected": 5,
+          "total_quality": 1.2473857431639286,
+          "total_cost": 14.999996713004748,
+          "water_level": 0.053951126234187095,
+          "budget": 15
+        }
+      },
+      {
+        "round": 38,
+        "accuracy": 0.5081,
+        "loss": 2.111538501930237,
+        "participation_rate": 0.25,
+        "n_participants": 5,
+        "energy": {
+          "training": 5.999998685201899,
+          "inference": 4.499999013901425,
+          "communication": 4.499999013901425
+        },
+        "extra": {
+          "n_selected": 5,
+          "total_quality": 1.2473857431639286,
+          "total_cost": 14.999996713004748,
+          "water_level": 0.053951126234187095,
+          "budget": 15
+        }
+      },
+      {
+        "round": 39,
+        "accuracy": 0.5041,
+        "loss": 2.1124444793701174,
+        "participation_rate": 0.25,
+        "n_participants": 5,
+        "energy": {
+          "training": 5.999998685201899,
+          "inference": 4.499999013901425,
+          "communication": 4.499999013901425
+        },
+        "extra": {
+          "n_selected": 5,
+          "total_quality": 1.2473857431639286,
+          "total_cost": 14.999996713004748,
+          "water_level": 0.053951126234187095,
+          "budget": 15
+        }
+      },
+      {
+        "round": 40,
+        "accuracy": 0.5044,
+        "loss": 2.113104555130005,
+        "participation_rate": 0.25,
+        "n_participants": 5,
+        "energy": {
+          "training": 5.999998685201899,
+          "inference": 4.499999013901425,
+          "communication": 4.499999013901425
+        },
+        "extra": {
+          "n_selected": 5,
+          "total_quality": 1.2473857431639286,
+          "total_cost": 14.999996713004748,
+          "water_level": 0.053951126234187095,
+          "budget": 15
+        }
+      },
+      {
+        "round": 41,
+        "accuracy": 0.5001,
+        "loss": 2.140116647720337,
+        "participation_rate": 0.25,
+        "n_participants": 5,
+        "energy": {
+          "training": 5.999998685201899,
+          "inference": 4.499999013901425,
+          "communication": 4.499999013901425
+        },
+        "extra": {
+          "n_selected": 5,
+          "total_quality": 1.2473857431639286,
+          "total_cost": 14.999996713004748,
+          "water_level": 0.053951126234187095,
+          "budget": 15
+        }
+      },
+      {
+        "round": 42,
+        "accuracy": 0.5072,
+        "loss": 2.113905729675293,
+        "participation_rate": 0.25,
+        "n_participants": 5,
+        "energy": {
+          "training": 5.999998685201899,
+          "inference": 4.499999013901425,
+          "communication": 4.499999013901425
+        },
+        "extra": {
+          "n_selected": 5,
+          "total_quality": 1.2473857431639286,
+          "total_cost": 14.999996713004748,
+          "water_level": 0.053951126234187095,
+          "budget": 15
+        }
+      },
+      {
+        "round": 43,
+        "accuracy": 0.5035,
+        "loss": 2.1141756298065184,
+        "participation_rate": 0.25,
+        "n_participants": 5,
+        "energy": {
+          "training": 5.999998685201899,
+          "inference": 4.499999013901425,
+          "communication": 4.499999013901425
+        },
+        "extra": {
+          "n_selected": 5,
+          "total_quality": 1.2473857431639286,
+          "total_cost": 14.999996713004748,
+          "water_level": 0.053951126234187095,
+          "budget": 15
+        }
+      },
+      {
+        "round": 44,
+        "accuracy": 0.5043,
+        "loss": 2.1235204555511475,
+        "participation_rate": 0.25,
+        "n_participants": 5,
+        "energy": {
+          "training": 5.999998685201899,
+          "inference": 4.499999013901425,
+          "communication": 4.499999013901425
+        },
+        "extra": {
+          "n_selected": 5,
+          "total_quality": 1.2473857431639286,
+          "total_cost": 14.999996713004748,
+          "water_level": 0.053951126234187095,
+          "budget": 15
+        }
+      },
+      {
+        "round": 45,
+        "accuracy": 0.5099,
+        "loss": 2.1099399951934816,
+        "participation_rate": 0.25,
+        "n_participants": 5,
+        "energy": {
+          "training": 5.999998685201899,
+          "inference": 4.499999013901425,
+          "communication": 4.499999013901425
+        },
+        "extra": {
+          "n_selected": 5,
+          "total_quality": 1.2473857431639286,
+          "total_cost": 14.999996713004748,
+          "water_level": 0.053951126234187095,
+          "budget": 15
+        }
+      },
+      {
+        "round": 46,
+        "accuracy": 0.5132,
+        "loss": 2.101893503189087,
+        "participation_rate": 0.25,
+        "n_participants": 5,
+        "energy": {
+          "training": 5.999998685201899,
+          "inference": 4.499999013901425,
+          "communication": 4.499999013901425
+        },
+        "extra": {
+          "n_selected": 5,
+          "total_quality": 1.2473857431639286,
+          "total_cost": 14.999996713004748,
+          "water_level": 0.053951126234187095,
+          "budget": 15
+        }
+      },
+      {
+        "round": 47,
+        "accuracy": 0.5052,
+        "loss": 2.1087322299957276,
+        "participation_rate": 0.25,
+        "n_participants": 5,
+        "energy": {
+          "training": 5.999998685201899,
+          "inference": 4.499999013901425,
+          "communication": 4.499999013901425
+        },
+        "extra": {
+          "n_selected": 5,
+          "total_quality": 1.2473857431639286,
+          "total_cost": 14.999996713004748,
+          "water_level": 0.053951126234187095,
+          "budget": 15
+        }
+      },
+      {
+        "round": 48,
+        "accuracy": 0.5063,
+        "loss": 2.1316814964294433,
+        "participation_rate": 0.25,
+        "n_participants": 5,
+        "energy": {
+          "training": 5.999998685201899,
+          "inference": 4.499999013901425,
+          "communication": 4.499999013901425
+        },
+        "extra": {
+          "n_selected": 5,
+          "total_quality": 1.2473857431639286,
+          "total_cost": 14.999996713004748,
+          "water_level": 0.053951126234187095,
+          "budget": 15
+        }
+      },
+      {
+        "round": 49,
+        "accuracy": 0.5112,
+        "loss": 2.0957330574035646,
+        "participation_rate": 0.25,
+        "n_participants": 5,
+        "energy": {
+          "training": 5.999998685201899,
+          "inference": 4.499999013901425,
+          "communication": 4.499999013901425
+        },
+        "extra": {
+          "n_selected": 5,
+          "total_quality": 1.2473857431639286,
+          "total_cost": 14.999996713004748,
+          "water_level": 0.053951126234187095,
+          "budget": 15
+        }
+      }
+    ],
+    "final_accuracy": 0.5112,
+    "best_accuracy": 0.5132,
+    "total_time": 561.7386016845703
+  },
+  "B=20": {
+    "method": "KaaS-Edge (B=20)",
+    "history": [
+      {
+        "round": 0,
+        "accuracy": 0.2056,
+        "loss": 3.307066696929932,
+        "participation_rate": 0.3,
+        "n_participants": 6,
+        "energy": {
+          "training": 7.999995984165848,
+          "inference": 5.999996988124384,
+          "communication": 5.999996988124384
+        },
+        "extra": {
+          "n_selected": 6,
+          "total_quality": 1.508485286063382,
+          "total_cost": 19.999989960414617,
+          "water_level": 0.0488805795849653,
+          "budget": 20
+        }
+      },
+      {
+        "round": 1,
+        "accuracy": 0.2502,
+        "loss": 3.1178832080841064,
+        "participation_rate": 0.3,
+        "n_participants": 6,
+        "energy": {
+          "training": 7.999995984165848,
+          "inference": 5.999996988124384,
+          "communication": 5.999996988124384
+        },
+        "extra": {
+          "n_selected": 6,
+          "total_quality": 1.508485286063382,
+          "total_cost": 19.999989960414617,
+          "water_level": 0.0488805795849653,
+          "budget": 20
+        }
+      },
+      {
+        "round": 2,
+        "accuracy": 0.2803,
+        "loss": 2.9284109504699707,
+        "participation_rate": 0.3,
+        "n_participants": 6,
+        "energy": {
+          "training": 7.999995984165848,
+          "inference": 5.999996988124384,
+          "communication": 5.999996988124384
+        },
+        "extra": {
+          "n_selected": 6,
+          "total_quality": 1.508485286063382,
+          "total_cost": 19.999989960414617,
+          "water_level": 0.0488805795849653,
+          "budget": 20
+        }
+      },
+      {
+        "round": 3,
+        "accuracy": 0.3207,
+        "loss": 2.7848850967407226,
+        "participation_rate": 0.3,
+        "n_participants": 6,
+        "energy": {
+          "training": 7.999995984165848,
+          "inference": 5.999996988124384,
+          "communication": 5.999996988124384
+        },
+        "extra": {
+          "n_selected": 6,
+          "total_quality": 1.508485286063382,
+          "total_cost": 19.999989960414617,
+          "water_level": 0.0488805795849653,
+          "budget": 20
+        }
+      },
+      {
+        "round": 4,
+        "accuracy": 0.3393,
+        "loss": 2.6748286308288574,
+        "participation_rate": 0.3,
+        "n_participants": 6,
+        "energy": {
+          "training": 7.999995984165848,
+          "inference": 5.999996988124384,
+          "communication": 5.999996988124384
+        },
+        "extra": {
+          "n_selected": 6,
+          "total_quality": 1.508485286063382,
+          "total_cost": 19.999989960414617,
+          "water_level": 0.0488805795849653,
+          "budget": 20
+        }
+      },
+      {
+        "round": 5,
+        "accuracy": 0.3613,
+        "loss": 2.5706504852294922,
+        "participation_rate": 0.3,
+        "n_participants": 6,
+        "energy": {
+          "training": 7.999995984165848,
+          "inference": 5.999996988124384,
+          "communication": 5.999996988124384
+        },
+        "extra": {
+          "n_selected": 6,
+          "total_quality": 1.508485286063382,
+          "total_cost": 19.999989960414617,
+          "water_level": 0.0488805795849653,
+          "budget": 20
+        }
+      },
+      {
+        "round": 6,
+        "accuracy": 0.3939,
+        "loss": 2.4456570804595947,
+        "participation_rate": 0.3,
+        "n_participants": 6,
+        "energy": {
+          "training": 7.999995984165848,
+          "inference": 5.999996988124384,
+          "communication": 5.999996988124384
+        },
+        "extra": {
+          "n_selected": 6,
+          "total_quality": 1.508485286063382,
+          "total_cost": 19.999989960414617,
+          "water_level": 0.0488805795849653,
+          "budget": 20
+        }
+      },
+      {
+        "round": 7,
+        "accuracy": 0.4103,
+        "loss": 2.373059194946289,
+        "participation_rate": 0.3,
+        "n_participants": 6,
+        "energy": {
+          "training": 7.999995984165848,
+          "inference": 5.999996988124384,
+          "communication": 5.999996988124384
+        },
+        "extra": {
+          "n_selected": 6,
+          "total_quality": 1.508485286063382,
+          "total_cost": 19.999989960414617,
+          "water_level": 0.0488805795849653,
+          "budget": 20
+        }
+      },
+      {
+        "round": 8,
+        "accuracy": 0.436,
+        "loss": 2.259475453567505,
+        "participation_rate": 0.3,
+        "n_participants": 6,
+        "energy": {
+          "training": 7.999995984165848,
+          "inference": 5.999996988124384,
+          "communication": 5.999996988124384
+        },
+        "extra": {
+          "n_selected": 6,
+          "total_quality": 1.508485286063382,
+          "total_cost": 19.999989960414617,
+          "water_level": 0.0488805795849653,
+          "budget": 20
+        }
+      },
+      {
+        "round": 9,
+        "accuracy": 0.442,
+        "loss": 2.2398840785980223,
+        "participation_rate": 0.3,
+        "n_participants": 6,
+        "energy": {
+          "training": 7.999995984165848,
+          "inference": 5.999996988124384,
+          "communication": 5.999996988124384
+        },
+        "extra": {
+          "n_selected": 6,
+          "total_quality": 1.508485286063382,
+          "total_cost": 19.999989960414617,
+          "water_level": 0.0488805795849653,
+          "budget": 20
+        }
+      },
+      {
+        "round": 10,
+        "accuracy": 0.459,
+        "loss": 2.190710973739624,
+        "participation_rate": 0.3,
+        "n_participants": 6,
+        "energy": {
+          "training": 7.999995984165848,
+          "inference": 5.999996988124384,
+          "communication": 5.999996988124384
+        },
+        "extra": {
+          "n_selected": 6,
+          "total_quality": 1.508485286063382,
+          "total_cost": 19.999989960414617,
+          "water_level": 0.0488805795849653,
+          "budget": 20
+        }
+      },
+      {
+        "round": 11,
+        "accuracy": 0.4635,
+        "loss": 2.179710738372803,
+        "participation_rate": 0.3,
+        "n_participants": 6,
+        "energy": {
+          "training": 7.999995984165848,
+          "inference": 5.999996988124384,
+          "communication": 5.999996988124384
+        },
+        "extra": {
+          "n_selected": 6,
+          "total_quality": 1.508485286063382,
+          "total_cost": 19.999989960414617,
+          "water_level": 0.0488805795849653,
+          "budget": 20
+        }
+      },
+      {
+        "round": 12,
+        "accuracy": 0.4681,
+        "loss": 2.170496030807495,
+        "participation_rate": 0.3,
+        "n_participants": 6,
+        "energy": {
+          "training": 7.999995984165848,
+          "inference": 5.999996988124384,
+          "communication": 5.999996988124384
+        },
+        "extra": {
+          "n_selected": 6,
+          "total_quality": 1.508485286063382,
+          "total_cost": 19.999989960414617,
+          "water_level": 0.0488805795849653,
+          "budget": 20
+        }
+      },
+      {
+        "round": 13,
+        "accuracy": 0.4778,
+        "loss": 2.133616839027405,
+        "participation_rate": 0.3,
+        "n_participants": 6,
+        "energy": {
+          "training": 7.999995984165848,
+          "inference": 5.999996988124384,
+          "communication": 5.999996988124384
+        },
+        "extra": {
+          "n_selected": 6,
+          "total_quality": 1.508485286063382,
+          "total_cost": 19.999989960414617,
+          "water_level": 0.0488805795849653,
+          "budget": 20
+        }
+      },
+      {
+        "round": 14,
+        "accuracy": 0.4747,
+        "loss": 2.1266258777618408,
+        "participation_rate": 0.3,
+        "n_participants": 6,
+        "energy": {
+          "training": 7.999995984165848,
+          "inference": 5.999996988124384,
+          "communication": 5.999996988124384
+        },
+        "extra": {
+          "n_selected": 6,
+          "total_quality": 1.508485286063382,
+          "total_cost": 19.999989960414617,
+          "water_level": 0.0488805795849653,
+          "budget": 20
+        }
+      },
+      {
+        "round": 15,
+        "accuracy": 0.4814,
+        "loss": 2.09888145198822,
+        "participation_rate": 0.3,
+        "n_participants": 6,
+        "energy": {
+          "training": 7.999995984165848,
+          "inference": 5.999996988124384,
+          "communication": 5.999996988124384
+        },
+        "extra": {
+          "n_selected": 6,
+          "total_quality": 1.508485286063382,
+          "total_cost": 19.999989960414617,
+          "water_level": 0.0488805795849653,
+          "budget": 20
+        }
+      },
+      {
+        "round": 16,
+        "accuracy": 0.474,
+        "loss": 2.163898241043091,
+        "participation_rate": 0.3,
+        "n_participants": 6,
+        "energy": {
+          "training": 7.999995984165848,
+          "inference": 5.999996988124384,
+          "communication": 5.999996988124384
+        },
+        "extra": {
+          "n_selected": 6,
+          "total_quality": 1.508485286063382,
+          "total_cost": 19.999989960414617,
+          "water_level": 0.0488805795849653,
+          "budget": 20
+        }
+      },
+      {
+        "round": 17,
+        "accuracy": 0.4881,
+        "loss": 2.096958667755127,
+        "participation_rate": 0.3,
+        "n_participants": 6,
+        "energy": {
+          "training": 7.999995984165848,
+          "inference": 5.999996988124384,
+          "communication": 5.999996988124384
+        },
+        "extra": {
+          "n_selected": 6,
+          "total_quality": 1.508485286063382,
+          "total_cost": 19.999989960414617,
+          "water_level": 0.0488805795849653,
+          "budget": 20
+        }
+      },
+      {
+        "round": 18,
+        "accuracy": 0.4901,
+        "loss": 2.1060807331085205,
+        "participation_rate": 0.3,
+        "n_participants": 6,
+        "energy": {
+          "training": 7.999995984165848,
+          "inference": 5.999996988124384,
+          "communication": 5.999996988124384
+        },
+        "extra": {
+          "n_selected": 6,
+          "total_quality": 1.508485286063382,
+          "total_cost": 19.999989960414617,
+          "water_level": 0.0488805795849653,
+          "budget": 20
+        }
+      },
+      {
+        "round": 19,
+        "accuracy": 0.4856,
+        "loss": 2.12635627784729,
+        "participation_rate": 0.3,
+        "n_participants": 6,
+        "energy": {
+          "training": 7.999995984165848,
+          "inference": 5.999996988124384,
+          "communication": 5.999996988124384
+        },
+        "extra": {
+          "n_selected": 6,
+          "total_quality": 1.508485286063382,
+          "total_cost": 19.999989960414617,
+          "water_level": 0.0488805795849653,
+          "budget": 20
+        }
+      },
+      {
+        "round": 20,
+        "accuracy": 0.4935,
+        "loss": 2.095412247276306,
+        "participation_rate": 0.3,
+        "n_participants": 6,
+        "energy": {
+          "training": 7.999995984165848,
+          "inference": 5.999996988124384,
+          "communication": 5.999996988124384
+        },
+        "extra": {
+          "n_selected": 6,
+          "total_quality": 1.508485286063382,
+          "total_cost": 19.999989960414617,
+          "water_level": 0.0488805795849653,
+          "budget": 20
+        }
+      },
+      {
+        "round": 21,
+        "accuracy": 0.4897,
+        "loss": 2.112349331665039,
+        "participation_rate": 0.3,
+        "n_participants": 6,
+        "energy": {
+          "training": 7.999995984165848,
+          "inference": 5.999996988124384,
+          "communication": 5.999996988124384
+        },
+        "extra": {
+          "n_selected": 6,
+          "total_quality": 1.508485286063382,
+          "total_cost": 19.999989960414617,
+          "water_level": 0.0488805795849653,
+          "budget": 20
+        }
+      },
+      {
+        "round": 22,
+        "accuracy": 0.492,
+        "loss": 2.123237509536743,
+        "participation_rate": 0.3,
+        "n_participants": 6,
+        "energy": {
+          "training": 7.999995984165848,
+          "inference": 5.999996988124384,
+          "communication": 5.999996988124384
+        },
+        "extra": {
+          "n_selected": 6,
+          "total_quality": 1.508485286063382,
+          "total_cost": 19.999989960414617,
+          "water_level": 0.0488805795849653,
+          "budget": 20
+        }
+      },
+      {
+        "round": 23,
+        "accuracy": 0.4987,
+        "loss": 2.1112182638168333,
+        "participation_rate": 0.3,
+        "n_participants": 6,
+        "energy": {
+          "training": 7.999995984165848,
+          "inference": 5.999996988124384,
+          "communication": 5.999996988124384
+        },
+        "extra": {
+          "n_selected": 6,
+          "total_quality": 1.508485286063382,
+          "total_cost": 19.999989960414617,
+          "water_level": 0.0488805795849653,
+          "budget": 20
+        }
+      },
+      {
+        "round": 24,
+        "accuracy": 0.5031,
+        "loss": 2.1035094705581665,
+        "participation_rate": 0.3,
+        "n_participants": 6,
+        "energy": {
+          "training": 7.999995984165848,
+          "inference": 5.999996988124384,
+          "communication": 5.999996988124384
+        },
+        "extra": {
+          "n_selected": 6,
+          "total_quality": 1.508485286063382,
+          "total_cost": 19.999989960414617,
+          "water_level": 0.0488805795849653,
+          "budget": 20
+        }
+      },
+      {
+        "round": 25,
+        "accuracy": 0.4976,
+        "loss": 2.149870220565796,
+        "participation_rate": 0.3,
+        "n_participants": 6,
+        "energy": {
+          "training": 7.999995984165848,
+          "inference": 5.999996988124384,
+          "communication": 5.999996988124384
+        },
+        "extra": {
+          "n_selected": 6,
+          "total_quality": 1.508485286063382,
+          "total_cost": 19.999989960414617,
+          "water_level": 0.0488805795849653,
+          "budget": 20
+        }
+      },
+      {
+        "round": 26,
+        "accuracy": 0.4998,
+        "loss": 2.109071326446533,
+        "participation_rate": 0.3,
+        "n_participants": 6,
+        "energy": {
+          "training": 7.999995984165848,
+          "inference": 5.999996988124384,
+          "communication": 5.999996988124384
+        },
+        "extra": {
+          "n_selected": 6,
+          "total_quality": 1.508485286063382,
+          "total_cost": 19.999989960414617,
+          "water_level": 0.0488805795849653,
+          "budget": 20
+        }
+      },
+      {
+        "round": 27,
+        "accuracy": 0.4914,
+        "loss": 2.159766262817383,
+        "participation_rate": 0.3,
+        "n_participants": 6,
+        "energy": {
+          "training": 7.999995984165848,
+          "inference": 5.999996988124384,
+          "communication": 5.999996988124384
+        },
+        "extra": {
+          "n_selected": 6,
+          "total_quality": 1.508485286063382,
+          "total_cost": 19.999989960414617,
+          "water_level": 0.0488805795849653,
+          "budget": 20
+        }
+      },
+      {
+        "round": 28,
+        "accuracy": 0.5066,
+        "loss": 2.084516110229492,
+        "participation_rate": 0.3,
+        "n_participants": 6,
+        "energy": {
+          "training": 7.999995984165848,
+          "inference": 5.999996988124384,
+          "communication": 5.999996988124384
+        },
+        "extra": {
+          "n_selected": 6,
+          "total_quality": 1.508485286063382,
+          "total_cost": 19.999989960414617,
+          "water_level": 0.0488805795849653,
+          "budget": 20
+        }
+      },
+      {
+        "round": 29,
+        "accuracy": 0.4974,
+        "loss": 2.1056147901535036,
+        "participation_rate": 0.3,
+        "n_participants": 6,
+        "energy": {
+          "training": 7.999995984165848,
+          "inference": 5.999996988124384,
+          "communication": 5.999996988124384
+        },
+        "extra": {
+          "n_selected": 6,
+          "total_quality": 1.508485286063382,
+          "total_cost": 19.999989960414617,
+          "water_level": 0.0488805795849653,
+          "budget": 20
+        }
+      },
+      {
+        "round": 30,
+        "accuracy": 0.5009,
+        "loss": 2.1150729175567626,
+        "participation_rate": 0.3,
+        "n_participants": 6,
+        "energy": {
+          "training": 7.999995984165848,
+          "inference": 5.999996988124384,
+          "communication": 5.999996988124384
+        },
+        "extra": {
+          "n_selected": 6,
+          "total_quality": 1.508485286063382,
+          "total_cost": 19.999989960414617,
+          "water_level": 0.0488805795849653,
+          "budget": 20
+        }
+      },
+      {
+        "round": 31,
+        "accuracy": 0.506,
+        "loss": 2.0958345315933227,
+        "participation_rate": 0.3,
+        "n_participants": 6,
+        "energy": {
+          "training": 7.999995984165848,
+          "inference": 5.999996988124384,
+          "communication": 5.999996988124384
+        },
+        "extra": {
+          "n_selected": 6,
+          "total_quality": 1.508485286063382,
+          "total_cost": 19.999989960414617,
+          "water_level": 0.0488805795849653,
+          "budget": 20
+        }
+      },
+      {
+        "round": 32,
+        "accuracy": 0.502,
+        "loss": 2.110283299446106,
+        "participation_rate": 0.3,
+        "n_participants": 6,
+        "energy": {
+          "training": 7.999995984165848,
+          "inference": 5.999996988124384,
+          "communication": 5.999996988124384
+        },
+        "extra": {
+          "n_selected": 6,
+          "total_quality": 1.508485286063382,
+          "total_cost": 19.999989960414617,
+          "water_level": 0.0488805795849653,
+          "budget": 20
+        }
+      },
+      {
+        "round": 33,
+        "accuracy": 0.4996,
+        "loss": 2.1170890071868897,
+        "participation_rate": 0.3,
+        "n_participants": 6,
+        "energy": {
+          "training": 7.999995984165848,
+          "inference": 5.999996988124384,
+          "communication": 5.999996988124384
+        },
+        "extra": {
+          "n_selected": 6,
+          "total_quality": 1.508485286063382,
+          "total_cost": 19.999989960414617,
+          "water_level": 0.0488805795849653,
+          "budget": 20
+        }
+      },
+      {
+        "round": 34,
+        "accuracy": 0.5033,
+        "loss": 2.1050003969192503,
+        "participation_rate": 0.3,
+        "n_participants": 6,
+        "energy": {
+          "training": 7.999995984165848,
+          "inference": 5.999996988124384,
+          "communication": 5.999996988124384
+        },
+        "extra": {
+          "n_selected": 6,
+          "total_quality": 1.508485286063382,
+          "total_cost": 19.999989960414617,
+          "water_level": 0.0488805795849653,
+          "budget": 20
+        }
+      },
+      {
+        "round": 35,
+        "accuracy": 0.5049,
+        "loss": 2.1011701009750365,
+        "participation_rate": 0.3,
+        "n_participants": 6,
+        "energy": {
+          "training": 7.999995984165848,
+          "inference": 5.999996988124384,
+          "communication": 5.999996988124384
+        },
+        "extra": {
+          "n_selected": 6,
+          "total_quality": 1.508485286063382,
+          "total_cost": 19.999989960414617,
+          "water_level": 0.0488805795849653,
+          "budget": 20
+        }
+      },
+      {
+        "round": 36,
+        "accuracy": 0.5086,
+        "loss": 2.0959291589736937,
+        "participation_rate": 0.3,
+        "n_participants": 6,
+        "energy": {
+          "training": 7.999995984165848,
+          "inference": 5.999996988124384,
+          "communication": 5.999996988124384
+        },
+        "extra": {
+          "n_selected": 6,
+          "total_quality": 1.508485286063382,
+          "total_cost": 19.999989960414617,
+          "water_level": 0.0488805795849653,
+          "budget": 20
+        }
+      },
+      {
+        "round": 37,
+        "accuracy": 0.5032,
+        "loss": 2.1131441204071044,
+        "participation_rate": 0.3,
+        "n_participants": 6,
+        "energy": {
+          "training": 7.999995984165848,
+          "inference": 5.999996988124384,
+          "communication": 5.999996988124384
+        },
+        "extra": {
+          "n_selected": 6,
+          "total_quality": 1.508485286063382,
+          "total_cost": 19.999989960414617,
+          "water_level": 0.0488805795849653,
+          "budget": 20
+        }
+      },
+      {
+        "round": 38,
+        "accuracy": 0.5051,
+        "loss": 2.1078202096939087,
+        "participation_rate": 0.3,
+        "n_participants": 6,
+        "energy": {
+          "training": 7.999995984165848,
+          "inference": 5.999996988124384,
+          "communication": 5.999996988124384
+        },
+        "extra": {
+          "n_selected": 6,
+          "total_quality": 1.508485286063382,
+          "total_cost": 19.999989960414617,
+          "water_level": 0.0488805795849653,
+          "budget": 20
+        }
+      },
+      {
+        "round": 39,
+        "accuracy": 0.5048,
+        "loss": 2.1140943799972534,
+        "participation_rate": 0.3,
+        "n_participants": 6,
+        "energy": {
+          "training": 7.999995984165848,
+          "inference": 5.999996988124384,
+          "communication": 5.999996988124384
+        },
+        "extra": {
+          "n_selected": 6,
+          "total_quality": 1.508485286063382,
+          "total_cost": 19.999989960414617,
+          "water_level": 0.0488805795849653,
+          "budget": 20
+        }
+      },
+      {
+        "round": 40,
+        "accuracy": 0.5047,
+        "loss": 2.098296782684326,
+        "participation_rate": 0.3,
+        "n_participants": 6,
+        "energy": {
+          "training": 7.999995984165848,
+          "inference": 5.999996988124384,
+          "communication": 5.999996988124384
+        },
+        "extra": {
+          "n_selected": 6,
+          "total_quality": 1.508485286063382,
+          "total_cost": 19.999989960414617,
+          "water_level": 0.0488805795849653,
+          "budget": 20
+        }
+      },
+      {
+        "round": 41,
+        "accuracy": 0.5071,
+        "loss": 2.1121783056259154,
+        "participation_rate": 0.3,
+        "n_participants": 6,
+        "energy": {
+          "training": 7.999995984165848,
+          "inference": 5.999996988124384,
+          "communication": 5.999996988124384
+        },
+        "extra": {
+          "n_selected": 6,
+          "total_quality": 1.508485286063382,
+          "total_cost": 19.999989960414617,
+          "water_level": 0.0488805795849653,
+          "budget": 20
+        }
+      },
+      {
+        "round": 42,
+        "accuracy": 0.5051,
+        "loss": 2.118411085510254,
+        "participation_rate": 0.3,
+        "n_participants": 6,
+        "energy": {
+          "training": 7.999995984165848,
+          "inference": 5.999996988124384,
+          "communication": 5.999996988124384
+        },
+        "extra": {
+          "n_selected": 6,
+          "total_quality": 1.508485286063382,
+          "total_cost": 19.999989960414617,
+          "water_level": 0.0488805795849653,
+          "budget": 20
+        }
+      },
+      {
+        "round": 43,
+        "accuracy": 0.5081,
+        "loss": 2.1079847858428957,
+        "participation_rate": 0.3,
+        "n_participants": 6,
+        "energy": {
+          "training": 7.999995984165848,
+          "inference": 5.999996988124384,
+          "communication": 5.999996988124384
+        },
+        "extra": {
+          "n_selected": 6,
+          "total_quality": 1.508485286063382,
+          "total_cost": 19.999989960414617,
+          "water_level": 0.0488805795849653,
+          "budget": 20
+        }
+      },
+      {
+        "round": 44,
+        "accuracy": 0.5096,
+        "loss": 2.1083154220581055,
+        "participation_rate": 0.3,
+        "n_participants": 6,
+        "energy": {
+          "training": 7.999995984165848,
+          "inference": 5.999996988124384,
+          "communication": 5.999996988124384
+        },
+        "extra": {
+          "n_selected": 6,
+          "total_quality": 1.508485286063382,
+          "total_cost": 19.999989960414617,
+          "water_level": 0.0488805795849653,
+          "budget": 20
+        }
+      },
+      {
+        "round": 45,
+        "accuracy": 0.509,
+        "loss": 2.1032944892883303,
+        "participation_rate": 0.3,
+        "n_participants": 6,
+        "energy": {
+          "training": 7.999995984165848,
+          "inference": 5.999996988124384,
+          "communication": 5.999996988124384
+        },
+        "extra": {
+          "n_selected": 6,
+          "total_quality": 1.508485286063382,
+          "total_cost": 19.999989960414617,
+          "water_level": 0.0488805795849653,
+          "budget": 20
+        }
+      },
+      {
+        "round": 46,
+        "accuracy": 0.5062,
+        "loss": 2.0915150880813598,
+        "participation_rate": 0.3,
+        "n_participants": 6,
+        "energy": {
+          "training": 7.999995984165848,
+          "inference": 5.999996988124384,
+          "communication": 5.999996988124384
+        },
+        "extra": {
+          "n_selected": 6,
+          "total_quality": 1.508485286063382,
+          "total_cost": 19.999989960414617,
+          "water_level": 0.0488805795849653,
+          "budget": 20
+        }
+      },
+      {
+        "round": 47,
+        "accuracy": 0.5131,
+        "loss": 2.108807667160034,
+        "participation_rate": 0.3,
+        "n_participants": 6,
+        "energy": {
+          "training": 7.999995984165848,
+          "inference": 5.999996988124384,
+          "communication": 5.999996988124384
+        },
+        "extra": {
+          "n_selected": 6,
+          "total_quality": 1.508485286063382,
+          "total_cost": 19.999989960414617,
+          "water_level": 0.0488805795849653,
+          "budget": 20
+        }
+      },
+      {
+        "round": 48,
+        "accuracy": 0.5054,
+        "loss": 2.129383983039856,
+        "participation_rate": 0.3,
+        "n_participants": 6,
+        "energy": {
+          "training": 7.999995984165848,
+          "inference": 5.999996988124384,
+          "communication": 5.999996988124384
+        },
+        "extra": {
+          "n_selected": 6,
+          "total_quality": 1.508485286063382,
+          "total_cost": 19.999989960414617,
+          "water_level": 0.0488805795849653,
+          "budget": 20
+        }
+      },
+      {
+        "round": 49,
+        "accuracy": 0.5062,
+        "loss": 2.096132180213928,
+        "participation_rate": 0.3,
+        "n_participants": 6,
+        "energy": {
+          "training": 7.999995984165848,
+          "inference": 5.999996988124384,
+          "communication": 5.999996988124384
+        },
+        "extra": {
+          "n_selected": 6,
+          "total_quality": 1.508485286063382,
+          "total_cost": 19.999989960414617,
+          "water_level": 0.0488805795849653,
+          "budget": 20
+        }
+      }
+    ],
+    "final_accuracy": 0.5062,
+    "best_accuracy": 0.5131,
+    "total_time": 630.6094000339508
+  }
+}
