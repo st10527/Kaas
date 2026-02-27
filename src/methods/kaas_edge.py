@@ -23,8 +23,8 @@ from ..models.utils import copy_model
 
 @dataclass
 class KaaSEdgeConfig:
-    budget: float = 50.0
-    v_max: float = 5000.0
+    budget: float = 10.0
+    v_max: float = 10000.0
     local_epochs: int = 2
     local_lr: float = 0.01
     local_momentum: float = 0.9

@@ -3,7 +3,7 @@
 KaaS-Edge Experiment Runner v2 — IEEE EDGE 2026
 =================================================
 Changes from v1:
-  - alpha=0.1 (extreme non-IID) for meaningful class coverage differentiation
+  - alpha=0.3 (strong non-IID) for meaningful class coverage differentiation
   - Budget sensitivity: 3 seeds averaged
   - Cost model: log-normal b_i, results include comm_mb
   - Privacy: proper Laplace LDP with separated rho levels
@@ -52,8 +52,8 @@ def load_data(n_public=10000, quick=False):
     return load_cifar100_safe_split(root='./data', n_public=n_public, seed=42)
 
 
-def partition_data(private_set, n_devices, alpha=0.1, seed=42):
-    """Partition with alpha=0.1 (extreme non-IID)."""
+def partition_data(private_set, n_devices, alpha=0.3, seed=42):
+    """Partition with alpha=0.3 (strong non-IID, each device ~10-15 dominant classes)."""
     from src.data.partition import DirichletPartitioner, create_client_loaders
     if hasattr(private_set, 'dataset') and hasattr(private_set.dataset, 'targets'):
         all_targets = np.array(private_set.dataset.targets)
@@ -124,14 +124,14 @@ def run_main_comparison(args):
     from torch.utils.data import DataLoader
 
     print("\n" + "="*70)
-    print("  EXPERIMENT: Main Comparison (v2 — extreme non-IID, v_i subsampling)")
+    print("  EXPERIMENT: Main Comparison (v2 — strong non-IID, v_i subsampling)")
     print("="*70)
 
     n_rounds = 10 if args.quick else 50
     n_devices = 10 if args.quick else 20
     n_public = 5000 if args.quick else 10000
-    seeds = [42] if args.quick else [42, 123, 456]
-    budget = 8.0
+    seeds = args._seeds or ([42] if args.quick else [42, 123, 456])
+    budget = 50.0
 
     all_results = {}
 
@@ -141,7 +141,7 @@ def run_main_comparison(args):
         np.random.seed(seed)
 
         private_set, public_set, test_set = load_data(n_public=n_public, quick=args.quick)
-        client_loaders, _ = partition_data(private_set, n_devices, alpha=0.1, seed=seed)
+        client_loaders, _ = partition_data(private_set, n_devices, alpha=0.3, seed=seed)
         public_loader = DataLoader(public_set, batch_size=64, shuffle=False,
                                    num_workers=2, pin_memory=True)
         test_loader = DataLoader(test_set, batch_size=128, shuffle=False,
@@ -169,7 +169,8 @@ def run_main_comparison(args):
                                 test_loader, n_rounds=n_rounds, method_name=name)
             all_results[f"{name}_seed{seed}"] = result
 
-    save_json(all_results, str(PROJECT_ROOT / "results" / "edge" / "main_comparison.json"))
+    suffix = f"_seed{seeds[0]}" if len(seeds) == 1 else ""
+    save_json(all_results, str(PROJECT_ROOT / "results" / "edge" / f"main_comparison{suffix}.json"))
     return all_results
 
 
@@ -187,8 +188,8 @@ def run_budget_sensitivity(args):
 
     n_rounds = 10 if args.quick else 50
     n_devices = 10 if args.quick else 20
-    budgets = [2, 4, 6, 8, 12, 16, 20] if not args.quick else [4, 8, 16]
-    seeds = [42] if args.quick else [42, 123, 456]
+    budgets = [10, 20, 30, 40, 50, 60, 80] if not args.quick else [20, 40, 60]
+    seeds = args._seeds or ([42] if args.quick else [42, 123, 456])
 
     results = {}
 
@@ -197,7 +198,7 @@ def run_budget_sensitivity(args):
         for seed in seeds:
             torch.manual_seed(seed); np.random.seed(seed)
             private_set, public_set, test_set = load_data(quick=args.quick)
-            client_loaders, _ = partition_data(private_set, n_devices, alpha=0.1, seed=seed)
+            client_loaders, _ = partition_data(private_set, n_devices, alpha=0.3, seed=seed)
             public_loader = DataLoader(public_set, batch_size=64, shuffle=False,
                                        num_workers=2, pin_memory=True)
             test_loader = DataLoader(test_set, batch_size=128, shuffle=False,
@@ -226,7 +227,8 @@ def run_budget_sensitivity(args):
             'history': seed_results[0]['history'],
         }
 
-    save_json(results, str(PROJECT_ROOT / "results" / "edge" / "budget_sensitivity.json"))
+    suffix = f"_seed{seeds[0]}" if len(seeds) == 1 else ""
+    save_json(results, str(PROJECT_ROOT / "results" / "edge" / f"budget_sensitivity{suffix}.json"))
     return results
 
 
@@ -244,7 +246,7 @@ def run_device_scalability(args):
 
     n_rounds = 10 if args.quick else 50
     device_counts = [5, 10, 20] if args.quick else [5, 10, 20, 30, 50]
-    seeds = [42] if args.quick else [42, 123, 456]
+    seeds = args._seeds or ([42] if args.quick else [42, 123, 456])
 
     results = {}
 
@@ -254,16 +256,16 @@ def run_device_scalability(args):
             torch.manual_seed(seed); np.random.seed(seed)
             n_public = 5000 if args.quick else 10000
             private_set, public_set, test_set = load_data(n_public=n_public, quick=args.quick)
-            client_loaders, _ = partition_data(private_set, M, alpha=0.1, seed=seed)
+            client_loaders, _ = partition_data(private_set, M, alpha=0.3, seed=seed)
             public_loader = DataLoader(public_set, batch_size=64, shuffle=False,
                                        num_workers=2, pin_memory=True)
             test_loader = DataLoader(test_set, batch_size=128, shuffle=False,
                                      num_workers=2, pin_memory=True)
             devices = generate_edge_devices(n_devices=M, seed=seed)
 
-            # Fixed per-device budget ratio: B = 0.6 * M
-            # Ensures more devices = proportionally more budget
-            budget = 0.6 * M
+            # Per-device budget ~2.5: enough for meaningful v_i allocation
+            # M=5→B=12.5 (select ~2-3), M=20→B=50 (select ~8-10), M=50→B=125
+            budget = 2.5 * M
 
             config = KaaSEdgeConfig(
                 budget=budget, v_max=len(public_set),
@@ -284,10 +286,11 @@ def run_device_scalability(args):
             'final_accuracy_std': float(np.std([r['final_accuracy'] for r in seed_results])),
             'best_accuracy': float(np.mean([r['best_accuracy'] for r in seed_results])),
             'history': seed_results[0]['history'],
-            'budget': 0.6 * M,
+            'budget': 2.5 * M,
         }
 
-    save_json(results, str(PROJECT_ROOT / "results" / "edge" / "device_scalability.json"))
+    suffix = f"_seed{seeds[0]}" if len(seeds) == 1 else ""
+    save_json(results, str(PROJECT_ROOT / "results" / "edge" / f"device_scalability{suffix}.json"))
     return results
 
 
@@ -305,7 +308,7 @@ def run_privacy_impact(args):
 
     n_rounds = 10 if args.quick else 50
     n_devices = 10 if args.quick else 20
-    seeds = [42] if args.quick else [42, 123, 456]
+    seeds = args._seeds or ([42] if args.quick else [42, 123, 456])
 
     # Privacy scenarios: control rho_i for ALL devices
     # With Laplace LDP: rho=1 → no noise, rho=0.05 → eps=0.053 → very heavy noise
@@ -327,7 +330,7 @@ def run_privacy_impact(args):
             rho_values = rho_fn(n_devices, rng)
 
             private_set, public_set, test_set = load_data(quick=args.quick)
-            client_loaders, _ = partition_data(private_set, n_devices, alpha=0.1, seed=seed)
+            client_loaders, _ = partition_data(private_set, n_devices, alpha=0.3, seed=seed)
             public_loader = DataLoader(public_set, batch_size=64, shuffle=False,
                                        num_workers=2, pin_memory=True)
             test_loader = DataLoader(test_set, batch_size=128, shuffle=False,
@@ -351,7 +354,7 @@ def run_privacy_impact(args):
                 })
 
             config = KaaSEdgeConfig(
-                budget=8.0, v_max=len(public_set),
+                budget=50.0, v_max=len(public_set),
                 local_epochs=2, distill_epochs=3, distill_lr=0.001,
                 pretrain_epochs=10,
             )
@@ -373,7 +376,8 @@ def run_privacy_impact(args):
             'history': seed_results[0]['history'],
         }
 
-    save_json(results, str(PROJECT_ROOT / "results" / "edge" / "privacy_impact.json"))
+    suffix = f"_seed{seeds[0]}" if len(seeds) == 1 else ""
+    save_json(results, str(PROJECT_ROOT / "results" / "edge" / f"privacy_impact{suffix}.json"))
     return results
 
 
@@ -388,14 +392,22 @@ def main():
     parser.add_argument('--all', action='store_true')
     parser.add_argument('--quick', action='store_true')
     parser.add_argument('--device', type=str, default=None)
+    parser.add_argument('--seed', type=int, default=None,
+                        help='Run single seed (for parallel execution)')
     args = parser.parse_args()
 
     if args.device is None:
         args.device = "cuda" if torch.cuda.is_available() else "cpu"
 
+    # Single-seed mode: override the seeds list globally
+    if args.seed is not None:
+        args._seeds = [args.seed]
+    else:
+        args._seeds = None  # Use defaults
+
     print(f"\n{'#'*70}")
     print(f"  KaaS-Edge Experiments v2 — IEEE EDGE 2026")
-    print(f"  Key changes: alpha=0.1, v_i subsampling, Laplace LDP, log-normal costs")
+    print(f"  Key changes: alpha=0.3, B=50, v_i subsampling, Laplace LDP, log-normal costs")
     print(f"  Device: {args.device}")
     print(f"  Quick: {args.quick}")
     print(f"  Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
