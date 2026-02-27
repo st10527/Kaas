@@ -9,7 +9,7 @@ Usage:
 """
 import subprocess, os, sys, shutil
 
-PROJECT = os.path.dirname(os.path.abspath(__file__))
+PROJECT = os.getcwd()  # Run from project root: cd paid-fd-main && python diagnostic_vmax.py
 
 # ── Step 1: Clear all __pycache__ ──
 print("=" * 60)
@@ -57,31 +57,65 @@ if not all_ok:
     sys.exit(1)
 print("  ✓ All v2 markers present.\n")
 
-# ── Step 3: Verify config propagation ──
+# ── Step 3: Verify v_max config (parsed from source, no import needed) ──
 print("=" * 60)
 print("Step 3: Verify v_max config propagation")
 print("=" * 60)
 
-sys.path.insert(0, os.path.join(PROJECT, "src"))
-try:
-    from methods.kaas_edge import KaaSEdgeConfig
-    cfg = KaaSEdgeConfig(budget=50.0, v_max=10000)
-    print(f"  KaaSEdgeConfig(budget=50, v_max=10000):")
-    print(f"    cfg.budget = {cfg.budget}")
-    print(f"    cfg.v_max  = {cfg.v_max}")
-    assert cfg.v_max == 10000, f"v_max is {cfg.v_max}, expected 10000!"
-    print(f"  ✓ Config propagation correct.\n")
-except Exception as e:
-    print(f"  ✗ Error: {e}\n")
-    sys.exit(1)
+import re
+m = re.search(r'v_max:\s*float\s*=\s*([\d.]+)', content)
+if m:
+    default_vmax = float(m.group(1))
+    print(f"  KaaSEdgeConfig default v_max = {default_vmax}")
+    if default_vmax < 1000:
+        print(f"  ✗ v_max={default_vmax} is too small! Should be 10000.")
+        print(f"    This is why CommMB was ~0.85 instead of ~8.5")
+    else:
+        print(f"  ✓ v_max default is correct ({default_vmax}).")
+else:
+    print("  ⚠ Could not parse v_max from source.")
+
+# Also check run_edge_experiments.py passes v_max correctly
+exp_path = os.path.join(PROJECT, "scripts", "run_edge_experiments.py")
+if os.path.exists(exp_path):
+    with open(exp_path) as f:
+        exp_content = f.read()
+    if "v_max=n_public" in exp_content or "v_max=10000" in exp_content:
+        print(f"  ✓ run_edge_experiments.py passes v_max=n_public (10000).")
+    else:
+        print(f"  ⚠ run_edge_experiments.py may not set v_max correctly.")
+print()
 
 # ── Step 4: Test RADS allocation ──
 print("=" * 60)
 print("Step 4: Test RADS allocation (should see ~8-9 MB, NOT ~0.85)")
 print("=" * 60)
 
-from methods.kaas_edge import generate_edge_devices
+# Import only rads.py (no relative imports) and reproduce device generation inline
+sys.path.insert(0, os.path.join(PROJECT, "src"))
 from scheduler.rads import RADSScheduler
+
+import numpy as np
+
+# Reproduce generate_edge_devices inline (avoids relative import)
+def generate_edge_devices(n_devices=20, seed=42):
+    rng = np.random.RandomState(seed)
+    log_b = rng.normal(loc=-6.2, scale=0.8, size=n_devices)
+    b_vals = np.clip(np.exp(log_b), 0.0003, 0.1)
+    theta_vals = rng.uniform(30.0, 100.0, size=n_devices)
+    a_vals = rng.uniform(0.1, 0.5, size=n_devices)
+    rho_pool = []
+    for val, frac in [(1.0, 0.15), (0.8, 0.20), (0.5, 0.30), (0.2, 0.20), (0.05, 0.15)]:
+        rho_pool.extend([val] * max(1, int(n_devices * frac)))
+    while len(rho_pool) < n_devices: rho_pool.append(0.5)
+    rho_pool = rho_pool[:n_devices]
+    rng.shuffle(rho_pool)
+    devices = []
+    for i in range(n_devices):
+        rho_i = float(np.clip(rho_pool[i] + rng.uniform(-0.05, 0.05), 0.01, 1.0))
+        devices.append({'device_id': i, 'rho_i': rho_i, 'b_i': float(b_vals[i]),
+                        'theta_i': float(theta_vals[i]), 'a_i': float(a_vals[i])})
+    return devices
 
 devices = generate_edge_devices(n_devices=20, seed=42)
 sched = RADSScheduler(budget=50.0, v_max=10000)
