@@ -1,0 +1,17 @@
+\begin{table}[t]
+\centering
+\caption{Performance Comparison (Mean $\pm$ Std over 3 Seeds, 50 Rounds)}
+\label{tab:main_comparison}
+\small
+\begin{tabular}{lccc}
+\toprule
+Method & Accuracy (\%) & Cost/Round & Cost Ratio \\
+\midrule
+\textbf{KaaS-Edge (Proposed)} & \textbf{51.0 $\pm$ 0.3} & \textbf{8.0} & \textbf{1$\times$} \\
+FedMD [Full] & 51.0 $\pm$ 0.5 & 81K & 10,163$\times$ \\
+FedSKD [Selective] & 50.8 $\pm$ 1.1 & 41K & 5,082$\times$ \\
+FedCS-FD [Equal Alloc.] & 50.7 $\pm$ 1.1 & 8.0 & 1$\times$ \\
+Random Selection & 50.8 $\pm$ 0.5 & 44K & 5,489$\times$ \\
+\bottomrule
+\end{tabular}
+\end{table}
