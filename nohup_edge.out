@@ -3,14 +3,15 @@ nohup: 忽略輸入
   entry = pickle.load(f, encoding="latin1")
 
 ######################################################################
-  KaaS-Edge Experiments — IEEE EDGE 2026
+  KaaS-Edge Experiments v2 — IEEE EDGE 2026
+  Key changes: alpha=0.3, B=50, v_i subsampling, Laplace LDP, log-normal costs
   Device: cuda:0
-  Quick mode: False
-  Time: 2026-02-26 17:27:39
+  Quick: False
+  Time: 2026-02-27 22:18:06
 ######################################################################
 
 ======================================================================
-  EXPERIMENT: Main Comparison (KaaS-Edge vs Baselines)
+  EXPERIMENT: Main Comparison (v2 — strong non-IID, v_i subsampling)
 ======================================================================
 
 --- Seed 42 ---
@@ -20,77 +21,74 @@ nohup: 忽略輸入
   Test (Evaluation):10000 samples (from Test)
 
 ============================================================
-  Running: KaaS-Edge (seed=42) (50 rounds)
+  Running: KaaS-Edge (50 rounds)
 ============================================================
-  [KaaS-Edge Pre-training] 10 epochs ...
-    Epoch 1/10: loss=4.6612
-    Epoch 5/10: loss=3.8113
-    Epoch 10/10: loss=3.1712
-  [KaaS-Edge Pre-training] Done.
-  Round   1/50: Acc=0.2132  Part=0.15  Cost=8.00  [16.2s]
-  Round  10/50: Acc=0.4491  Part=0.15  Cost=8.00  [87.5s]
-  Round  20/50: Acc=0.4935  Part=0.15  Cost=8.00  [166.7s]
-  Round  30/50: Acc=0.4990  Part=0.15  Cost=8.00  [246.0s]
-  Round  40/50: Acc=0.5135  Part=0.15  Cost=8.00  [325.5s]
-  Round  50/50: Acc=0.5096  Part=0.15  Cost=8.00  [405.2s]
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1670  Part=1.00  CommMB=8.53  [36.9s]
+  Round  10/50: Acc=0.3256  Part=1.00  CommMB=8.53  [297.7s]
+  Round  20/50: Acc=0.3978  Part=1.00  CommMB=8.53  [587.8s]
+  Round  30/50: Acc=0.4325  Part=1.00  CommMB=8.53  [877.5s]
+  Round  40/50: Acc=0.4504  Part=1.00  CommMB=8.53  [1167.4s]
+  Round  50/50: Acc=0.4495  Part=1.00  CommMB=8.53  [1457.5s]
 
-  KaaS-Edge (seed=42) Done: final=0.5096, best=0.5157, time=405.2s
+  KaaS-Edge Done: final=0.4495, best=0.4504, time=1457.5s
 
 ============================================================
-  Running: FedMD (seed=42) (50 rounds)
+  Running: FedMD (50 rounds)
 ============================================================
-  [FullFD Pre-train] 10 epochs ...
-  [FullFD Pre-train] Done.
-  Round   1/50: Acc=0.2361  Part=1.00  Cost=78845.04  [40.3s]
-  Round  10/50: Acc=0.4510  Part=1.00  Cost=78845.04  [335.4s]
-  Round  20/50: Acc=0.4999  Part=1.00  Cost=78845.04  [662.0s]
-  Round  30/50: Acc=0.5086  Part=1.00  Cost=78845.04  [988.5s]
-  Round  40/50: Acc=0.5094  Part=1.00  Cost=78845.04  [1314.8s]
-  Round  50/50: Acc=0.5080  Part=1.00  Cost=78845.04  [1640.3s]
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1290  Part=1.00  CommMB=76.29  [41.2s]
+  Round  10/50: Acc=0.2355  Part=1.00  CommMB=76.29  [342.6s]
+  Round  20/50: Acc=0.3320  Part=1.00  CommMB=76.29  [677.5s]
+  Round  30/50: Acc=0.3825  Part=1.00  CommMB=76.29  [1012.3s]
+  Round  40/50: Acc=0.4258  Part=1.00  CommMB=76.29  [1347.1s]
+  Round  50/50: Acc=0.4316  Part=1.00  CommMB=76.29  [1681.7s]
 
-  FedMD (seed=42) Done: final=0.5080, best=0.5174, time=1640.3s
-
-============================================================
-  Running: FedSKD (seed=42) (50 rounds)
-============================================================
-  [FedSKD Pre-train] 10 epochs ...
-  [FedSKD Pre-train] Done.
-  Round   1/50: Acc=0.1902  Part=1.00  Cost=39423.78  [39.9s]
-  Round  10/50: Acc=0.4406  Part=1.00  Cost=39423.78  [333.3s]
-  Round  20/50: Acc=0.4761  Part=1.00  Cost=39423.78  [659.8s]
-  Round  30/50: Acc=0.4877  Part=1.00  Cost=39423.78  [985.5s]
-  Round  40/50: Acc=0.4993  Part=1.00  Cost=39423.78  [1311.3s]
-  Round  50/50: Acc=0.5057  Part=1.00  Cost=39423.78  [1636.6s]
-
-  FedSKD (seed=42) Done: final=0.5057, best=0.5057, time=1636.6s
+  FedMD Done: final=0.4316, best=0.4448, time=1681.7s
 
 ============================================================
-  Running: FedCS-FD (seed=42) (50 rounds)
+  Running: FedSKD (50 rounds)
 ============================================================
-  [FedCS-FD Pre-train] 10 epochs ...
-  [FedCS-FD Pre-train] Done.
-  Round   1/50: Acc=0.1778  Part=1.00  Cost=8.00  [40.2s]
-  Round  10/50: Acc=0.4461  Part=1.00  Cost=8.00  [333.7s]
-  Round  20/50: Acc=0.4979  Part=1.00  Cost=8.00  [659.9s]
-  Round  30/50: Acc=0.5063  Part=1.00  Cost=8.00  [986.6s]
-  Round  40/50: Acc=0.5111  Part=1.00  Cost=8.00  [1313.9s]
-  Round  50/50: Acc=0.5134  Part=1.00  Cost=8.00  [1639.6s]
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1253  Part=1.00  CommMB=38.15  [40.9s]
+  Round  10/50: Acc=0.2351  Part=1.00  CommMB=38.15  [339.8s]
+  Round  20/50: Acc=0.3134  Part=1.00  CommMB=38.15  [671.2s]
+  Round  30/50: Acc=0.3795  Part=1.00  CommMB=38.15  [1003.7s]
+  Round  40/50: Acc=0.3991  Part=1.00  CommMB=38.15  [1335.3s]
+  Round  50/50: Acc=0.4397  Part=1.00  CommMB=38.15  [1667.3s]
 
-  FedCS-FD (seed=42) Done: final=0.5134, best=0.5176, time=1639.6s
+  FedSKD Done: final=0.4397, best=0.4397, time=1667.3s
 
 ============================================================
-  Running: RandomSelection (seed=42) (50 rounds)
+  Running: FedCS-FD (50 rounds)
 ============================================================
-  [RandomFD Pre-train] 10 epochs ...
-  [RandomFD Pre-train] Done.
-  Round   1/50: Acc=0.1686  Part=0.50  Cost=42122.26  [25.8s]
-  Round  10/50: Acc=0.4394  Part=0.50  Cost=41495.65  [187.9s]
-  Round  20/50: Acc=0.4930  Part=0.50  Cost=23811.22  [366.6s]
-  Round  30/50: Acc=0.4914  Part=0.50  Cost=29953.58  [546.7s]
-  Round  40/50: Acc=0.5033  Part=0.50  Cost=28006.33  [728.0s]
-  Round  50/50: Acc=0.5141  Part=0.50  Cost=36493.48  [908.0s]
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1289  Part=1.00  CommMB=12.43  [37.2s]
+  Round  10/50: Acc=0.2717  Part=1.00  CommMB=12.43  [302.2s]
+  Round  20/50: Acc=0.3592  Part=1.00  CommMB=12.43  [596.8s]
+  Round  30/50: Acc=0.3901  Part=1.00  CommMB=12.43  [891.5s]
+  Round  40/50: Acc=0.4329  Part=1.00  CommMB=12.43  [1186.6s]
+  Round  50/50: Acc=0.4446  Part=1.00  CommMB=12.43  [1480.6s]
 
-  RandomSelection (seed=42) Done: final=0.5141, best=0.5141, time=908.0s
+  FedCS-FD Done: final=0.4446, best=0.4446, time=1480.6s
+
+============================================================
+  Running: RandomSelection (50 rounds)
+============================================================
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1403  Part=0.50  CommMB=38.15  [26.9s]
+  Round  10/50: Acc=0.2559  Part=0.50  CommMB=38.15  [194.2s]
+  Round  20/50: Acc=0.3295  Part=0.50  CommMB=38.15  [375.2s]
+  Round  30/50: Acc=0.3873  Part=0.50  CommMB=38.15  [564.0s]
+  Round  40/50: Acc=0.4205  Part=0.50  CommMB=38.15  [748.6s]
+  Round  50/50: Acc=0.4406  Part=0.50  CommMB=38.15  [931.6s]
+
+  RandomSelection Done: final=0.4406, best=0.4486, time=931.6s
 
 --- Seed 123 ---
 [TMC Safe Mode] Split Report:
@@ -99,77 +97,74 @@ nohup: 忽略輸入
   Test (Evaluation):10000 samples (from Test)
 
 ============================================================
-  Running: KaaS-Edge (seed=123) (50 rounds)
+  Running: KaaS-Edge (50 rounds)
 ============================================================
-  [KaaS-Edge Pre-training] 10 epochs ...
-    Epoch 1/10: loss=4.6752
-    Epoch 5/10: loss=3.8564
-    Epoch 10/10: loss=3.2087
-  [KaaS-Edge Pre-training] Done.
-  Round   1/50: Acc=0.2084  Part=0.20  Cost=8.00  [17.4s]
-  Round  10/50: Acc=0.4332  Part=0.20  Cost=8.00  [100.7s]
-  Round  20/50: Acc=0.4865  Part=0.20  Cost=8.00  [193.2s]
-  Round  30/50: Acc=0.5004  Part=0.20  Cost=8.00  [285.8s]
-  Round  40/50: Acc=0.5009  Part=0.20  Cost=8.00  [378.7s]
-  Round  50/50: Acc=0.5067  Part=0.20  Cost=8.00  [471.3s]
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1775  Part=1.00  CommMB=8.42  [36.8s]
+  Round  10/50: Acc=0.3359  Part=1.00  CommMB=8.42  [298.0s]
+  Round  20/50: Acc=0.4058  Part=1.00  CommMB=8.42  [587.2s]
+  Round  30/50: Acc=0.4273  Part=1.00  CommMB=8.42  [877.1s]
+  Round  40/50: Acc=0.4507  Part=1.00  CommMB=8.42  [1166.4s]
+  Round  50/50: Acc=0.4510  Part=1.00  CommMB=8.42  [1456.7s]
 
-  KaaS-Edge (seed=123) Done: final=0.5067, best=0.5120, time=471.3s
+  KaaS-Edge Done: final=0.4510, best=0.4510, time=1456.7s
 
 ============================================================
-  Running: FedMD (seed=123) (50 rounds)
+  Running: FedMD (50 rounds)
 ============================================================
-  [FullFD Pre-train] 10 epochs ...
-  [FullFD Pre-train] Done.
-  Round   1/50: Acc=0.1704  Part=1.00  Cost=90018.76  [40.5s]
-  Round  10/50: Acc=0.4271  Part=1.00  Cost=90018.76  [334.0s]
-  Round  20/50: Acc=0.4860  Part=1.00  Cost=90018.76  [660.6s]
-  Round  30/50: Acc=0.5028  Part=1.00  Cost=90018.76  [987.7s]
-  Round  40/50: Acc=0.5105  Part=1.00  Cost=90018.76  [1314.9s]
-  Round  50/50: Acc=0.5171  Part=1.00  Cost=90018.76  [1641.9s]
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1272  Part=1.00  CommMB=76.29  [41.2s]
+  Round  10/50: Acc=0.2281  Part=1.00  CommMB=76.29  [342.5s]
+  Round  20/50: Acc=0.3002  Part=1.00  CommMB=76.29  [675.4s]
+  Round  30/50: Acc=0.3447  Part=1.00  CommMB=76.29  [1010.1s]
+  Round  40/50: Acc=0.3892  Part=1.00  CommMB=76.29  [1343.7s]
+  Round  50/50: Acc=0.4159  Part=1.00  CommMB=76.29  [1679.9s]
 
-  FedMD (seed=123) Done: final=0.5171, best=0.5182, time=1641.9s
-
-============================================================
-  Running: FedSKD (seed=123) (50 rounds)
-============================================================
-  [FedSKD Pre-train] 10 epochs ...
-  [FedSKD Pre-train] Done.
-  Round   1/50: Acc=0.1800  Part=1.00  Cost=45010.66  [40.4s]
-  Round  10/50: Acc=0.4221  Part=1.00  Cost=45010.66  [334.5s]
-  Round  20/50: Acc=0.4751  Part=1.00  Cost=45010.66  [660.5s]
-  Round  30/50: Acc=0.4886  Part=1.00  Cost=45010.66  [988.0s]
-  Round  40/50: Acc=0.4875  Part=1.00  Cost=45010.66  [1314.9s]
-  Round  50/50: Acc=0.4969  Part=1.00  Cost=45010.66  [1641.6s]
-
-  FedSKD (seed=123) Done: final=0.4969, best=0.5010, time=1641.6s
+  FedMD Done: final=0.4159, best=0.4161, time=1679.9s
 
 ============================================================
-  Running: FedCS-FD (seed=123) (50 rounds)
+  Running: FedSKD (50 rounds)
 ============================================================
-  [FedCS-FD Pre-train] 10 epochs ...
-  [FedCS-FD Pre-train] Done.
-  Round   1/50: Acc=0.1798  Part=1.00  Cost=8.00  [40.5s]
-  Round  10/50: Acc=0.4154  Part=1.00  Cost=8.00  [335.8s]
-  Round  20/50: Acc=0.4779  Part=1.00  Cost=8.00  [663.6s]
-  Round  30/50: Acc=0.4821  Part=1.00  Cost=8.00  [991.4s]
-  Round  40/50: Acc=0.4868  Part=1.00  Cost=8.00  [1318.9s]
-  Round  50/50: Acc=0.4919  Part=1.00  Cost=8.00  [1646.7s]
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1312  Part=1.00  CommMB=38.15  [41.0s]
+  Round  10/50: Acc=0.2494  Part=1.00  CommMB=38.15  [341.2s]
+  Round  20/50: Acc=0.3269  Part=1.00  CommMB=38.15  [674.3s]
+  Round  30/50: Acc=0.3835  Part=1.00  CommMB=38.15  [1007.1s]
+  Round  40/50: Acc=0.4226  Part=1.00  CommMB=38.15  [1339.2s]
+  Round  50/50: Acc=0.4415  Part=1.00  CommMB=38.15  [1671.2s]
 
-  FedCS-FD (seed=123) Done: final=0.4919, best=0.4935, time=1646.7s
+  FedSKD Done: final=0.4415, best=0.4461, time=1671.2s
 
 ============================================================
-  Running: RandomSelection (seed=123) (50 rounds)
+  Running: FedCS-FD (50 rounds)
 ============================================================
-  [RandomFD Pre-train] 10 epochs ...
-  [RandomFD Pre-train] Done.
-  Round   1/50: Acc=0.2114  Part=0.50  Cost=37730.81  [25.4s]
-  Round  10/50: Acc=0.4303  Part=0.50  Cost=31517.63  [189.5s]
-  Round  20/50: Acc=0.4920  Part=0.50  Cost=55968.07  [370.9s]
-  Round  30/50: Acc=0.5067  Part=0.50  Cost=41792.24  [550.3s]
-  Round  40/50: Acc=0.5103  Part=0.50  Cost=45006.62  [729.3s]
-  Round  50/50: Acc=0.5047  Part=0.50  Cost=50051.29  [910.9s]
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1607  Part=1.00  CommMB=11.68  [37.1s]
+  Round  10/50: Acc=0.2895  Part=1.00  CommMB=11.68  [301.4s]
+  Round  20/50: Acc=0.3690  Part=1.00  CommMB=11.68  [595.4s]
+  Round  30/50: Acc=0.4167  Part=1.00  CommMB=11.68  [889.4s]
+  Round  40/50: Acc=0.4237  Part=1.00  CommMB=11.68  [1182.8s]
+  Round  50/50: Acc=0.4238  Part=1.00  CommMB=11.68  [1477.4s]
 
-  RandomSelection (seed=123) Done: final=0.5047, best=0.5158, time=910.9s
+  FedCS-FD Done: final=0.4238, best=0.4354, time=1477.4s
+
+============================================================
+  Running: RandomSelection (50 rounds)
+============================================================
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1226  Part=0.50  CommMB=38.15  [26.8s]
+  Round  10/50: Acc=0.2410  Part=0.50  CommMB=38.15  [194.1s]
+  Round  20/50: Acc=0.3161  Part=0.50  CommMB=38.15  [377.9s]
+  Round  30/50: Acc=0.3815  Part=0.50  CommMB=38.15  [558.7s]
+  Round  40/50: Acc=0.4162  Part=0.50  CommMB=38.15  [743.9s]
+  Round  50/50: Acc=0.4297  Part=0.50  CommMB=38.15  [929.0s]
+
+  RandomSelection Done: final=0.4297, best=0.4349, time=929.0s
 
 --- Seed 456 ---
 [TMC Safe Mode] Split Report:
@@ -178,81 +173,78 @@ nohup: 忽略輸入
   Test (Evaluation):10000 samples (from Test)
 
 ============================================================
-  Running: KaaS-Edge (seed=456) (50 rounds)
+  Running: KaaS-Edge (50 rounds)
 ============================================================
-  [KaaS-Edge Pre-training] 10 epochs ...
-    Epoch 1/10: loss=4.7483
-    Epoch 5/10: loss=3.8727
-    Epoch 10/10: loss=3.2547
-  [KaaS-Edge Pre-training] Done.
-  Round   1/50: Acc=0.1971  Part=0.15  Cost=8.00  [15.8s]
-  Round  10/50: Acc=0.4418  Part=0.15  Cost=8.00  [83.3s]
-  Round  20/50: Acc=0.5003  Part=0.15  Cost=8.00  [158.5s]
-  Round  30/50: Acc=0.5097  Part=0.15  Cost=8.00  [233.5s]
-  Round  40/50: Acc=0.5078  Part=0.15  Cost=8.00  [308.6s]
-  Round  50/50: Acc=0.5141  Part=0.15  Cost=8.00  [383.7s]
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1480  Part=1.00  CommMB=6.54  [36.2s]
+  Round  10/50: Acc=0.2959  Part=1.00  CommMB=6.54  [294.6s]
+  Round  20/50: Acc=0.3867  Part=1.00  CommMB=6.54  [581.7s]
+  Round  30/50: Acc=0.4256  Part=1.00  CommMB=6.54  [869.6s]
+  Round  40/50: Acc=0.4344  Part=1.00  CommMB=6.54  [1156.7s]
+  Round  50/50: Acc=0.4349  Part=1.00  CommMB=6.54  [1444.5s]
 
-  KaaS-Edge (seed=456) Done: final=0.5141, best=0.5165, time=383.7s
+  KaaS-Edge Done: final=0.4349, best=0.4479, time=1444.5s
 
 ============================================================
-  Running: FedMD (seed=456) (50 rounds)
+  Running: FedMD (50 rounds)
 ============================================================
-  [FullFD Pre-train] 10 epochs ...
-  [FullFD Pre-train] Done.
-  Round   1/50: Acc=0.1959  Part=1.00  Cost=75042.23  [40.3s]
-  Round  10/50: Acc=0.4034  Part=1.00  Cost=75042.23  [334.6s]
-  Round  20/50: Acc=0.4731  Part=1.00  Cost=75042.23  [662.0s]
-  Round  30/50: Acc=0.4960  Part=1.00  Cost=75042.23  [988.8s]
-  Round  40/50: Acc=0.5062  Part=1.00  Cost=75042.23  [1316.1s]
-  Round  50/50: Acc=0.5060  Part=1.00  Cost=75042.23  [1643.0s]
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1370  Part=1.00  CommMB=76.29  [41.2s]
+  Round  10/50: Acc=0.2543  Part=1.00  CommMB=76.29  [342.1s]
+  Round  20/50: Acc=0.3349  Part=1.00  CommMB=76.29  [676.2s]
+  Round  30/50: Acc=0.4018  Part=1.00  CommMB=76.29  [1009.9s]
+  Round  40/50: Acc=0.4188  Part=1.00  CommMB=76.29  [1344.0s]
+  Round  50/50: Acc=0.4434  Part=1.00  CommMB=76.29  [1678.0s]
 
-  FedMD (seed=456) Done: final=0.5060, best=0.5062, time=1643.0s
-
-============================================================
-  Running: FedSKD (seed=456) (50 rounds)
-============================================================
-  [FedSKD Pre-train] 10 epochs ...
-  [FedSKD Pre-train] Done.
-  Round   1/50: Acc=0.2061  Part=1.00  Cost=37522.44  [40.4s]
-  Round  10/50: Acc=0.4424  Part=1.00  Cost=37522.44  [334.5s]
-  Round  20/50: Acc=0.5016  Part=1.00  Cost=37522.44  [661.4s]
-  Round  30/50: Acc=0.5077  Part=1.00  Cost=37522.44  [988.6s]
-  Round  40/50: Acc=0.5089  Part=1.00  Cost=37522.44  [1314.8s]
-  Round  50/50: Acc=0.5227  Part=1.00  Cost=37522.44  [1642.2s]
-
-  FedSKD (seed=456) Done: final=0.5227, best=0.5227, time=1642.2s
+  FedMD Done: final=0.4434, best=0.4436, time=1678.0s
 
 ============================================================
-  Running: FedCS-FD (seed=456) (50 rounds)
+  Running: FedSKD (50 rounds)
 ============================================================
-  [FedCS-FD Pre-train] 10 epochs ...
-  [FedCS-FD Pre-train] Done.
-  Round   1/50: Acc=0.2152  Part=1.00  Cost=8.00  [40.5s]
-  Round  10/50: Acc=0.4430  Part=1.00  Cost=8.00  [335.5s]
-  Round  20/50: Acc=0.4944  Part=1.00  Cost=8.00  [660.8s]
-  Round  30/50: Acc=0.5072  Part=1.00  Cost=8.00  [987.9s]
-  Round  40/50: Acc=0.5169  Part=1.00  Cost=8.00  [1314.9s]
-  Round  50/50: Acc=0.5171  Part=1.00  Cost=8.00  [1642.4s]
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1278  Part=1.00  CommMB=38.15  [41.0s]
+  Round  10/50: Acc=0.2687  Part=1.00  CommMB=38.15  [340.8s]
+  Round  20/50: Acc=0.3581  Part=1.00  CommMB=38.15  [673.5s]
+  Round  30/50: Acc=0.4174  Part=1.00  CommMB=38.15  [1006.1s]
+  Round  40/50: Acc=0.4379  Part=1.00  CommMB=38.15  [1338.0s]
+  Round  50/50: Acc=0.4533  Part=1.00  CommMB=38.15  [1669.7s]
 
-  FedCS-FD (seed=456) Done: final=0.5171, best=0.5194, time=1642.4s
+  FedSKD Done: final=0.4533, best=0.4533, time=1669.7s
 
 ============================================================
-  Running: RandomSelection (seed=456) (50 rounds)
+  Running: FedCS-FD (50 rounds)
 ============================================================
-  [RandomFD Pre-train] 10 epochs ...
-  [RandomFD Pre-train] Done.
-  Round   1/50: Acc=0.2095  Part=0.50  Cost=44933.81  [26.5s]
-  Round  10/50: Acc=0.4317  Part=0.50  Cost=30894.08  [190.1s]
-  Round  20/50: Acc=0.4734  Part=0.50  Cost=47476.22  [369.7s]
-  Round  30/50: Acc=0.4953  Part=0.50  Cost=52354.08  [547.3s]
-  Round  40/50: Acc=0.4923  Part=0.50  Cost=46712.48  [726.9s]
-  Round  50/50: Acc=0.5044  Part=0.50  Cost=45195.10  [905.8s]
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1226  Part=1.00  CommMB=9.45  [37.0s]
+  Round  10/50: Acc=0.2285  Part=1.00  CommMB=9.45  [299.3s]
+  Round  20/50: Acc=0.3373  Part=1.00  CommMB=9.45  [590.5s]
+  Round  30/50: Acc=0.3793  Part=1.00  CommMB=9.45  [882.1s]
+  Round  40/50: Acc=0.3979  Part=1.00  CommMB=9.45  [1173.7s]
+  Round  50/50: Acc=0.4243  Part=1.00  CommMB=9.45  [1465.3s]
 
-  RandomSelection (seed=456) Done: final=0.5044, best=0.5099, time=905.8s
+  FedCS-FD Done: final=0.4243, best=0.4310, time=1465.3s
+
+============================================================
+  Running: RandomSelection (50 rounds)
+============================================================
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1203  Part=0.50  CommMB=38.15  [26.8s]
+  Round  10/50: Acc=0.2346  Part=0.50  CommMB=38.15  [193.3s]
+  Round  20/50: Acc=0.3222  Part=0.50  CommMB=38.15  [376.7s]
+  Round  30/50: Acc=0.3872  Part=0.50  CommMB=38.15  [561.1s]
+  Round  40/50: Acc=0.4247  Part=0.50  CommMB=38.15  [744.6s]
+  Round  50/50: Acc=0.4255  Part=0.50  CommMB=38.15  [927.2s]
+
+  RandomSelection Done: final=0.4255, best=0.4318, time=927.2s
   Saved: /home/aelab-2/EDGE_2026/Kaas/results/edge/main_comparison.json
 
 ======================================================================
-  EXPERIMENT: Budget Sensitivity
+  EXPERIMENT: Budget Sensitivity (3 seeds)
 ======================================================================
 [TMC Safe Mode] Split Report:
   Public (Server):  10000 samples (from Train)
@@ -260,123 +252,378 @@ nohup: 忽略輸入
   Test (Evaluation):10000 samples (from Test)
 
 ============================================================
-  Running: KaaS-Edge (B=2) (50 rounds)
+  Running: KaaS-Edge (B=10, seed=42) (50 rounds)
 ============================================================
-  [KaaS-Edge Pre-training] 10 epochs ...
-    Epoch 1/10: loss=4.6587
-    Epoch 5/10: loss=3.8328
-    Epoch 10/10: loss=3.1845
-  [KaaS-Edge Pre-training] Done.
-  Round   1/50: Acc=0.2249  Part=0.10  Cost=2.00  [14.7s]
-  Round  10/50: Acc=0.4398  Part=0.10  Cost=2.00  [73.4s]
-  Round  20/50: Acc=0.4926  Part=0.10  Cost=2.00  [138.6s]
-  Round  30/50: Acc=0.5047  Part=0.10  Cost=2.00  [203.7s]
-  Round  40/50: Acc=0.5040  Part=0.10  Cost=2.00  [268.9s]
-  Round  50/50: Acc=0.5099  Part=0.10  Cost=2.00  [334.1s]
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1453  Part=0.75  CommMB=1.09  [28.7s]
+  Round  10/50: Acc=0.2195  Part=0.75  CommMB=1.09  [219.3s]
+  Round  20/50: Acc=0.2551  Part=0.75  CommMB=1.09  [431.1s]
+  Round  30/50: Acc=0.3010  Part=0.75  CommMB=1.09  [642.8s]
+  Round  40/50: Acc=0.3169  Part=0.75  CommMB=1.09  [855.1s]
+  Round  50/50: Acc=0.3522  Part=0.75  CommMB=1.09  [1066.9s]
 
-  KaaS-Edge (B=2) Done: final=0.5099, best=0.5133, time=334.1s
-
-============================================================
-  Running: KaaS-Edge (B=4) (50 rounds)
-============================================================
-  [KaaS-Edge Pre-training] 10 epochs ...
-    Epoch 1/10: loss=4.6953
-    Epoch 5/10: loss=3.9189
-    Epoch 10/10: loss=3.2709
-  [KaaS-Edge Pre-training] Done.
-  Round   1/50: Acc=0.1806  Part=0.10  Cost=4.00  [15.2s]
-  Round  10/50: Acc=0.4559  Part=0.10  Cost=4.00  [73.8s]
-  Round  20/50: Acc=0.4841  Part=0.10  Cost=4.00  [139.3s]
-  Round  30/50: Acc=0.4904  Part=0.10  Cost=4.00  [204.4s]
-  Round  40/50: Acc=0.4968  Part=0.10  Cost=4.00  [269.6s]
-  Round  50/50: Acc=0.5023  Part=0.10  Cost=4.00  [334.8s]
-
-  KaaS-Edge (B=4) Done: final=0.5023, best=0.5059, time=334.8s
+  KaaS-Edge (B=10, seed=42) Done: final=0.3522, best=0.3528, time=1066.9s
+[TMC Safe Mode] Split Report:
+  Public (Server):  10000 samples (from Train)
+  Private (Users):  40000 samples (from Train)
+  Test (Evaluation):10000 samples (from Test)
 
 ============================================================
-  Running: KaaS-Edge (B=6) (50 rounds)
+  Running: KaaS-Edge (B=10, seed=123) (50 rounds)
 ============================================================
-  [KaaS-Edge Pre-training] 10 epochs ...
-    Epoch 1/10: loss=4.7856
-    Epoch 5/10: loss=3.9535
-    Epoch 10/10: loss=3.3034
-  [KaaS-Edge Pre-training] Done.
-  Round   1/50: Acc=0.1972  Part=0.15  Cost=6.00  [16.6s]
-  Round  10/50: Acc=0.4534  Part=0.15  Cost=6.00  [88.6s]
-  Round  20/50: Acc=0.4957  Part=0.15  Cost=6.00  [168.6s]
-  Round  30/50: Acc=0.5118  Part=0.15  Cost=6.00  [248.5s]
-  Round  40/50: Acc=0.5184  Part=0.15  Cost=6.00  [328.3s]
-  Round  50/50: Acc=0.5167  Part=0.15  Cost=6.00  [408.3s]
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1797  Part=0.70  CommMB=1.42  [27.2s]
+  Round  10/50: Acc=0.2418  Part=0.70  CommMB=1.42  [204.2s]
+  Round  20/50: Acc=0.3067  Part=0.70  CommMB=1.42  [401.0s]
+  Round  30/50: Acc=0.3469  Part=0.70  CommMB=1.42  [597.8s]
+  Round  40/50: Acc=0.3674  Part=0.70  CommMB=1.42  [794.2s]
+  Round  50/50: Acc=0.3915  Part=0.70  CommMB=1.42  [990.8s]
 
-  KaaS-Edge (B=6) Done: final=0.5167, best=0.5272, time=408.3s
-
-============================================================
-  Running: KaaS-Edge (B=8) (50 rounds)
-============================================================
-  [KaaS-Edge Pre-training] 10 epochs ...
-    Epoch 1/10: loss=4.7589
-    Epoch 5/10: loss=3.9311
-    Epoch 10/10: loss=3.3851
-  [KaaS-Edge Pre-training] Done.
-  Round   1/50: Acc=0.1724  Part=0.15  Cost=8.00  [16.3s]
-  Round  10/50: Acc=0.4392  Part=0.15  Cost=8.00  [88.3s]
-  Round  20/50: Acc=0.4920  Part=0.15  Cost=8.00  [168.3s]
-  Round  30/50: Acc=0.4958  Part=0.15  Cost=8.00  [248.3s]
-  Round  40/50: Acc=0.5002  Part=0.15  Cost=8.00  [328.1s]
-  Round  50/50: Acc=0.5072  Part=0.15  Cost=8.00  [408.0s]
-
-  KaaS-Edge (B=8) Done: final=0.5072, best=0.5106, time=408.0s
+  KaaS-Edge (B=10, seed=123) Done: final=0.3915, best=0.3928, time=990.8s
+[TMC Safe Mode] Split Report:
+  Public (Server):  10000 samples (from Train)
+  Private (Users):  40000 samples (from Train)
+  Test (Evaluation):10000 samples (from Test)
 
 ============================================================
-  Running: KaaS-Edge (B=10) (50 rounds)
+  Running: KaaS-Edge (B=10, seed=456) (50 rounds)
 ============================================================
-  [KaaS-Edge Pre-training] 10 epochs ...
-    Epoch 1/10: loss=4.6632
-    Epoch 5/10: loss=3.8373
-    Epoch 10/10: loss=3.1711
-  [KaaS-Edge Pre-training] Done.
-  Round   1/50: Acc=0.2161  Part=0.20  Cost=10.00  [17.7s]
-  Round  10/50: Acc=0.4374  Part=0.20  Cost=10.00  [102.6s]
-  Round  20/50: Acc=0.4875  Part=0.20  Cost=10.00  [197.0s]
-  Round  30/50: Acc=0.4817  Part=0.20  Cost=10.00  [291.2s]
-  Round  40/50: Acc=0.4962  Part=0.20  Cost=10.00  [385.4s]
-  Round  50/50: Acc=0.4989  Part=0.20  Cost=10.00  [479.7s]
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1163  Part=0.80  CommMB=0.93  [29.3s]
+  Round  10/50: Acc=0.1647  Part=0.80  CommMB=0.93  [223.5s]
+  Round  20/50: Acc=0.2151  Part=0.80  CommMB=0.93  [440.4s]
+  Round  30/50: Acc=0.2208  Part=0.80  CommMB=0.93  [656.5s]
+  Round  40/50: Acc=0.2650  Part=0.80  CommMB=0.93  [872.5s]
+  Round  50/50: Acc=0.3008  Part=0.80  CommMB=0.93  [1088.3s]
 
-  KaaS-Edge (B=10) Done: final=0.4989, best=0.4989, time=479.7s
-
-============================================================
-  Running: KaaS-Edge (B=15) (50 rounds)
-============================================================
-  [KaaS-Edge Pre-training] 10 epochs ...
-    Epoch 1/10: loss=4.7658
-    Epoch 5/10: loss=3.9010
-    Epoch 10/10: loss=3.3090
-  [KaaS-Edge Pre-training] Done.
-  Round   1/50: Acc=0.2026  Part=0.25  Cost=15.00  [19.3s]
-  Round  10/50: Acc=0.4459  Part=0.25  Cost=15.00  [119.0s]
-  Round  20/50: Acc=0.4895  Part=0.25  Cost=15.00  [229.9s]
-  Round  30/50: Acc=0.4996  Part=0.25  Cost=15.00  [340.4s]
-  Round  40/50: Acc=0.5041  Part=0.25  Cost=15.00  [451.0s]
-  Round  50/50: Acc=0.5112  Part=0.25  Cost=15.00  [561.7s]
-
-  KaaS-Edge (B=15) Done: final=0.5112, best=0.5132, time=561.7s
+  KaaS-Edge (B=10, seed=456) Done: final=0.3008, best=0.3008, time=1088.3s
+[TMC Safe Mode] Split Report:
+  Public (Server):  10000 samples (from Train)
+  Private (Users):  40000 samples (from Train)
+  Test (Evaluation):10000 samples (from Test)
 
 ============================================================
-  Running: KaaS-Edge (B=20) (50 rounds)
+  Running: KaaS-Edge (B=20, seed=42) (50 rounds)
 ============================================================
-  [KaaS-Edge Pre-training] 10 epochs ...
-    Epoch 1/10: loss=4.7406
-    Epoch 5/10: loss=3.8192
-    Epoch 10/10: loss=3.1855
-  [KaaS-Edge Pre-training] Done.
-  Round   1/50: Acc=0.2056  Part=0.30  Cost=20.00  [20.7s]
-  Round  10/50: Acc=0.4420  Part=0.30  Cost=20.00  [132.8s]
-  Round  20/50: Acc=0.4856  Part=0.30  Cost=20.00  [257.4s]
-  Round  30/50: Acc=0.4974  Part=0.30  Cost=20.00  [382.0s]
-  Round  40/50: Acc=0.5048  Part=0.30  Cost=20.00  [506.3s]
-  Round  50/50: Acc=0.5062  Part=0.30  Cost=20.00  [630.6s]
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1545  Part=0.95  CommMB=2.77  [34.3s]
+  Round  10/50: Acc=0.2483  Part=0.95  CommMB=2.77  [272.2s]
+  Round  20/50: Acc=0.3299  Part=0.95  CommMB=2.77  [537.7s]
+  Round  30/50: Acc=0.3778  Part=0.95  CommMB=2.77  [803.2s]
+  Round  40/50: Acc=0.4097  Part=0.95  CommMB=2.77  [1068.7s]
+  Round  50/50: Acc=0.4154  Part=0.95  CommMB=2.77  [1333.5s]
 
-  KaaS-Edge (B=20) Done: final=0.5062, best=0.5131, time=630.6s
+  KaaS-Edge (B=20, seed=42) Done: final=0.4154, best=0.4269, time=1333.5s
+[TMC Safe Mode] Split Report:
+  Public (Server):  10000 samples (from Train)
+  Private (Users):  40000 samples (from Train)
+  Test (Evaluation):10000 samples (from Test)
+
+============================================================
+  Running: KaaS-Edge (B=20, seed=123) (50 rounds)
+============================================================
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1849  Part=0.90  CommMB=3.14  [33.4s]
+  Round  10/50: Acc=0.2870  Part=0.90  CommMB=3.14  [263.7s]
+  Round  20/50: Acc=0.3605  Part=0.90  CommMB=3.14  [519.7s]
+  Round  30/50: Acc=0.3910  Part=0.90  CommMB=3.14  [775.4s]
+  Round  40/50: Acc=0.4228  Part=0.90  CommMB=3.14  [1031.3s]
+  Round  50/50: Acc=0.4387  Part=0.90  CommMB=3.14  [1287.1s]
+
+  KaaS-Edge (B=20, seed=123) Done: final=0.4387, best=0.4387, time=1287.1s
+[TMC Safe Mode] Split Report:
+  Public (Server):  10000 samples (from Train)
+  Private (Users):  40000 samples (from Train)
+  Test (Evaluation):10000 samples (from Test)
+
+============================================================
+  Running: KaaS-Edge (B=20, seed=456) (50 rounds)
+============================================================
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1331  Part=0.90  CommMB=2.30  [32.8s]
+  Round  10/50: Acc=0.2333  Part=0.90  CommMB=2.30  [257.8s]
+  Round  20/50: Acc=0.2814  Part=0.90  CommMB=2.30  [507.0s]
+  Round  30/50: Acc=0.3367  Part=0.90  CommMB=2.30  [757.0s]
+  Round  40/50: Acc=0.3906  Part=0.90  CommMB=2.30  [1006.8s]
+  Round  50/50: Acc=0.4079  Part=0.90  CommMB=2.30  [1256.2s]
+
+  KaaS-Edge (B=20, seed=456) Done: final=0.4079, best=0.4079, time=1256.2s
+[TMC Safe Mode] Split Report:
+  Public (Server):  10000 samples (from Train)
+  Private (Users):  40000 samples (from Train)
+  Test (Evaluation):10000 samples (from Test)
+
+============================================================
+  Running: KaaS-Edge (B=30, seed=42) (50 rounds)
+============================================================
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1725  Part=1.00  CommMB=4.69  [36.2s]
+  Round  10/50: Acc=0.2676  Part=1.00  CommMB=4.69  [290.6s]
+  Round  20/50: Acc=0.3672  Part=1.00  CommMB=4.69  [574.2s]
+  Round  30/50: Acc=0.4129  Part=1.00  CommMB=4.69  [858.9s]
+  Round  40/50: Acc=0.4359  Part=1.00  CommMB=4.69  [1143.6s]
+  Round  50/50: Acc=0.4411  Part=1.00  CommMB=4.69  [1428.2s]
+
+  KaaS-Edge (B=30, seed=42) Done: final=0.4411, best=0.4457, time=1428.2s
+[TMC Safe Mode] Split Report:
+  Public (Server):  10000 samples (from Train)
+  Private (Users):  40000 samples (from Train)
+  Test (Evaluation):10000 samples (from Test)
+
+============================================================
+  Running: KaaS-Edge (B=30, seed=123) (50 rounds)
+============================================================
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1611  Part=1.00  CommMB=4.73  [36.1s]
+  Round  10/50: Acc=0.2985  Part=1.00  CommMB=4.73  [291.0s]
+  Round  20/50: Acc=0.3914  Part=1.00  CommMB=4.73  [576.6s]
+  Round  30/50: Acc=0.4156  Part=1.00  CommMB=4.73  [859.4s]
+  Round  40/50: Acc=0.4311  Part=1.00  CommMB=4.73  [1143.6s]
+  Round  50/50: Acc=0.4493  Part=1.00  CommMB=4.73  [1428.0s]
+
+  KaaS-Edge (B=30, seed=123) Done: final=0.4493, best=0.4493, time=1428.0s
+[TMC Safe Mode] Split Report:
+  Public (Server):  10000 samples (from Train)
+  Private (Users):  40000 samples (from Train)
+  Test (Evaluation):10000 samples (from Test)
+
+============================================================
+  Running: KaaS-Edge (B=30, seed=456) (50 rounds)
+============================================================
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1256  Part=1.00  CommMB=3.61  [35.9s]
+  Round  10/50: Acc=0.2182  Part=1.00  CommMB=3.61  [288.9s]
+  Round  20/50: Acc=0.3249  Part=1.00  CommMB=3.61  [569.1s]
+  Round  30/50: Acc=0.3682  Part=1.00  CommMB=3.61  [849.3s]
+  Round  40/50: Acc=0.3949  Part=1.00  CommMB=3.61  [1130.4s]
+  Round  50/50: Acc=0.4325  Part=1.00  CommMB=3.61  [1410.7s]
+
+  KaaS-Edge (B=30, seed=456) Done: final=0.4325, best=0.4325, time=1410.7s
+[TMC Safe Mode] Split Report:
+  Public (Server):  10000 samples (from Train)
+  Private (Users):  40000 samples (from Train)
+  Test (Evaluation):10000 samples (from Test)
+
+============================================================
+  Running: KaaS-Edge (B=40, seed=42) (50 rounds)
+============================================================
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1786  Part=1.00  CommMB=6.61  [36.5s]
+  Round  10/50: Acc=0.2932  Part=1.00  CommMB=6.61  [295.9s]
+  Round  20/50: Acc=0.3831  Part=1.00  CommMB=6.61  [584.3s]
+  Round  30/50: Acc=0.4195  Part=1.00  CommMB=6.61  [872.6s]
+  Round  40/50: Acc=0.4394  Part=1.00  CommMB=6.61  [1160.1s]
+  Round  50/50: Acc=0.4366  Part=1.00  CommMB=6.61  [1447.1s]
+
+  KaaS-Edge (B=40, seed=42) Done: final=0.4366, best=0.4471, time=1447.1s
+[TMC Safe Mode] Split Report:
+  Public (Server):  10000 samples (from Train)
+  Private (Users):  40000 samples (from Train)
+  Test (Evaluation):10000 samples (from Test)
+
+============================================================
+  Running: KaaS-Edge (B=40, seed=123) (50 rounds)
+============================================================
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1721  Part=1.00  CommMB=6.57  [36.6s]
+  Round  10/50: Acc=0.3080  Part=1.00  CommMB=6.57  [295.0s]
+  Round  20/50: Acc=0.3970  Part=1.00  CommMB=6.57  [581.9s]
+  Round  30/50: Acc=0.4362  Part=1.00  CommMB=6.57  [869.2s]
+  Round  40/50: Acc=0.4520  Part=1.00  CommMB=6.57  [1157.1s]
+  Round  50/50: Acc=0.4541  Part=1.00  CommMB=6.57  [1444.6s]
+
+  KaaS-Edge (B=40, seed=123) Done: final=0.4541, best=0.4630, time=1444.6s
+[TMC Safe Mode] Split Report:
+  Public (Server):  10000 samples (from Train)
+  Private (Users):  40000 samples (from Train)
+  Test (Evaluation):10000 samples (from Test)
+
+============================================================
+  Running: KaaS-Edge (B=40, seed=456) (50 rounds)
+============================================================
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1516  Part=1.00  CommMB=5.07  [35.9s]
+  Round  10/50: Acc=0.2743  Part=1.00  CommMB=5.07  [292.3s]
+  Round  20/50: Acc=0.3437  Part=1.00  CommMB=5.07  [577.4s]
+  Round  30/50: Acc=0.4046  Part=1.00  CommMB=5.07  [862.9s]
+  Round  40/50: Acc=0.4204  Part=1.00  CommMB=5.07  [1146.3s]
+  Round  50/50: Acc=0.4273  Part=1.00  CommMB=5.07  [1431.3s]
+
+  KaaS-Edge (B=40, seed=456) Done: final=0.4273, best=0.4297, time=1431.3s
+[TMC Safe Mode] Split Report:
+  Public (Server):  10000 samples (from Train)
+  Private (Users):  40000 samples (from Train)
+  Test (Evaluation):10000 samples (from Test)
+
+============================================================
+  Running: KaaS-Edge (B=50, seed=42) (50 rounds)
+============================================================
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1681  Part=1.00  CommMB=8.53  [36.8s]
+  Round  10/50: Acc=0.3428  Part=1.00  CommMB=8.53  [298.1s]
+  Round  20/50: Acc=0.4087  Part=1.00  CommMB=8.53  [589.1s]
+  Round  30/50: Acc=0.4284  Part=1.00  CommMB=8.53  [880.1s]
+  Round  40/50: Acc=0.4583  Part=1.00  CommMB=8.53  [1170.5s]
+  Round  50/50: Acc=0.4414  Part=1.00  CommMB=8.53  [1461.3s]
+
+  KaaS-Edge (B=50, seed=42) Done: final=0.4414, best=0.4591, time=1461.3s
+[TMC Safe Mode] Split Report:
+  Public (Server):  10000 samples (from Train)
+  Private (Users):  40000 samples (from Train)
+  Test (Evaluation):10000 samples (from Test)
+
+============================================================
+  Running: KaaS-Edge (B=50, seed=123) (50 rounds)
+============================================================
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1905  Part=1.00  CommMB=8.42  [36.4s]
+  Round  10/50: Acc=0.3457  Part=1.00  CommMB=8.42  [298.3s]
+  Round  20/50: Acc=0.4087  Part=1.00  CommMB=8.42  [587.7s]
+  Round  30/50: Acc=0.4356  Part=1.00  CommMB=8.42  [877.5s]
+  Round  40/50: Acc=0.4482  Part=1.00  CommMB=8.42  [1168.3s]
+  Round  50/50: Acc=0.4502  Part=1.00  CommMB=8.42  [1458.8s]
+
+  KaaS-Edge (B=50, seed=123) Done: final=0.4502, best=0.4529, time=1458.8s
+[TMC Safe Mode] Split Report:
+  Public (Server):  10000 samples (from Train)
+  Private (Users):  40000 samples (from Train)
+  Test (Evaluation):10000 samples (from Test)
+
+============================================================
+  Running: KaaS-Edge (B=50, seed=456) (50 rounds)
+============================================================
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1542  Part=1.00  CommMB=6.54  [36.5s]
+  Round  10/50: Acc=0.2791  Part=1.00  CommMB=6.54  [295.6s]
+  Round  20/50: Acc=0.3871  Part=1.00  CommMB=6.54  [583.4s]
+  Round  30/50: Acc=0.4230  Part=1.00  CommMB=6.54  [870.9s]
+  Round  40/50: Acc=0.4357  Part=1.00  CommMB=6.54  [1158.7s]
+  Round  50/50: Acc=0.4457  Part=1.00  CommMB=6.54  [1446.5s]
+
+  KaaS-Edge (B=50, seed=456) Done: final=0.4457, best=0.4457, time=1446.5s
+[TMC Safe Mode] Split Report:
+  Public (Server):  10000 samples (from Train)
+  Private (Users):  40000 samples (from Train)
+  Test (Evaluation):10000 samples (from Test)
+
+============================================================
+  Running: KaaS-Edge (B=60, seed=42) (50 rounds)
+============================================================
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1960  Part=1.00  CommMB=10.45  [36.9s]
+  Round  10/50: Acc=0.3317  Part=1.00  CommMB=10.45  [300.0s]
+  Round  20/50: Acc=0.4146  Part=1.00  CommMB=10.45  [592.8s]
+  Round  30/50: Acc=0.4541  Part=1.00  CommMB=10.45  [886.0s]
+  Round  40/50: Acc=0.4542  Part=1.00  CommMB=10.45  [1179.0s]
+  Round  50/50: Acc=0.4563  Part=1.00  CommMB=10.45  [1472.2s]
+
+  KaaS-Edge (B=60, seed=42) Done: final=0.4563, best=0.4615, time=1472.2s
+[TMC Safe Mode] Split Report:
+  Public (Server):  10000 samples (from Train)
+  Private (Users):  40000 samples (from Train)
+  Test (Evaluation):10000 samples (from Test)
+
+============================================================
+  Running: KaaS-Edge (B=60, seed=123) (50 rounds)
+============================================================
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1946  Part=1.00  CommMB=10.26  [37.0s]
+  Round  10/50: Acc=0.3367  Part=1.00  CommMB=10.26  [300.6s]
+  Round  20/50: Acc=0.4151  Part=1.00  CommMB=10.26  [593.5s]
+  Round  30/50: Acc=0.4245  Part=1.00  CommMB=10.26  [886.3s]
+  Round  40/50: Acc=0.4421  Part=1.00  CommMB=10.26  [1179.1s]
+  Round  50/50: Acc=0.4556  Part=1.00  CommMB=10.26  [1470.7s]
+
+  KaaS-Edge (B=60, seed=123) Done: final=0.4556, best=0.4581, time=1470.7s
+[TMC Safe Mode] Split Report:
+  Public (Server):  10000 samples (from Train)
+  Private (Users):  40000 samples (from Train)
+  Test (Evaluation):10000 samples (from Test)
+
+============================================================
+  Running: KaaS-Edge (B=60, seed=456) (50 rounds)
+============================================================
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1457  Part=1.00  CommMB=8.01  [36.7s]
+  Round  10/50: Acc=0.2827  Part=1.00  CommMB=8.01  [297.5s]
+  Round  20/50: Acc=0.3835  Part=1.00  CommMB=8.01  [587.7s]
+  Round  30/50: Acc=0.4263  Part=1.00  CommMB=8.01  [877.6s]
+  Round  40/50: Acc=0.4455  Part=1.00  CommMB=8.01  [1167.6s]
+  Round  50/50: Acc=0.4524  Part=1.00  CommMB=8.01  [1457.5s]
+
+  KaaS-Edge (B=60, seed=456) Done: final=0.4524, best=0.4524, time=1457.5s
+[TMC Safe Mode] Split Report:
+  Public (Server):  10000 samples (from Train)
+  Private (Users):  40000 samples (from Train)
+  Test (Evaluation):10000 samples (from Test)
+
+============================================================
+  Running: KaaS-Edge (B=80, seed=42) (50 rounds)
+============================================================
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1911  Part=1.00  CommMB=14.29  [37.4s]
+  Round  10/50: Acc=0.3533  Part=1.00  CommMB=14.29  [303.8s]
+  Round  20/50: Acc=0.4263  Part=1.00  CommMB=14.29  [598.4s]
+  Round  30/50: Acc=0.4526  Part=1.00  CommMB=14.29  [892.1s]
+  Round  40/50: Acc=0.4559  Part=1.00  CommMB=14.29  [1187.5s]
+  Round  50/50: Acc=0.4585  Part=1.00  CommMB=14.29  [1482.9s]
+
+  KaaS-Edge (B=80, seed=42) Done: final=0.4585, best=0.4642, time=1482.9s
+[TMC Safe Mode] Split Report:
+  Public (Server):  10000 samples (from Train)
+  Private (Users):  40000 samples (from Train)
+  Test (Evaluation):10000 samples (from Test)
+
+============================================================
+  Running: KaaS-Edge (B=80, seed=123) (50 rounds)
+============================================================
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1898  Part=1.00  CommMB=13.95  [37.0s]
+  Round  10/50: Acc=0.3756  Part=1.00  CommMB=13.95  [303.7s]
+  Round  20/50: Acc=0.4332  Part=1.00  CommMB=13.95  [599.2s]
+  Round  30/50: Acc=0.4528  Part=1.00  CommMB=13.95  [894.8s]
+  Round  40/50: Acc=0.4495  Part=1.00  CommMB=13.95  [1191.4s]
+  Round  50/50: Acc=0.4530  Part=1.00  CommMB=13.95  [1487.6s]
+
+  KaaS-Edge (B=80, seed=123) Done: final=0.4530, best=0.4595, time=1487.6s
+[TMC Safe Mode] Split Report:
+  Public (Server):  10000 samples (from Train)
+  Private (Users):  40000 samples (from Train)
+  Test (Evaluation):10000 samples (from Test)
+
+============================================================
+  Running: KaaS-Edge (B=80, seed=456) (50 rounds)
+============================================================
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1400  Part=1.00  CommMB=10.94  [37.2s]
+  Round  10/50: Acc=0.3210  Part=1.00  CommMB=10.94  [301.7s]
+  Round  20/50: Acc=0.3957  Part=1.00  CommMB=10.94  [595.3s]
+  Round  30/50: Acc=0.4430  Part=1.00  CommMB=10.94  [888.9s]
+  Round  40/50: Acc=0.4313  Part=1.00  CommMB=10.94  [1182.5s]
+  Round  50/50: Acc=0.4395  Part=1.00  CommMB=10.94  [1475.5s]
+
+  KaaS-Edge (B=80, seed=456) Done: final=0.4395, best=0.4544, time=1475.5s
   Saved: /home/aelab-2/EDGE_2026/Kaas/results/edge/budget_sensitivity.json
 
 ======================================================================
@@ -388,93 +635,274 @@ nohup: 忽略輸入
   Test (Evaluation):10000 samples (from Test)
 
 ============================================================
-  Running: KaaS-Edge (M=5, B=4.0) (50 rounds)
+  Running: KaaS-Edge (M=5, B=12.5, seed=42) (50 rounds)
 ============================================================
-  [KaaS-Edge Pre-training] 10 epochs ...
-    Epoch 1/10: loss=4.6444
-    Epoch 5/10: loss=3.8092
-    Epoch 10/10: loss=3.1018
-  [KaaS-Edge Pre-training] Done.
-  Round   1/50: Acc=0.2456  Part=0.40  Cost=4.00  [21.9s]
-  Round  10/50: Acc=0.4591  Part=0.40  Cost=4.00  [144.2s]
-  Round  20/50: Acc=0.5025  Part=0.40  Cost=4.00  [279.8s]
-  Round  30/50: Acc=0.5004  Part=0.40  Cost=4.00  [415.1s]
-  Round  40/50: Acc=0.5170  Part=0.40  Cost=4.00  [550.4s]
-  Round  50/50: Acc=0.5194  Part=0.40  Cost=4.00  [685.6s]
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1520  Part=1.00  CommMB=1.38  [34.7s]
+  Round  10/50: Acc=0.2439  Part=1.00  CommMB=1.38  [278.6s]
+  Round  20/50: Acc=0.3104  Part=1.00  CommMB=1.38  [550.8s]
+  Round  30/50: Acc=0.3528  Part=1.00  CommMB=1.38  [822.8s]
+  Round  40/50: Acc=0.3814  Part=1.00  CommMB=1.38  [1094.1s]
+  Round  50/50: Acc=0.4080  Part=1.00  CommMB=1.38  [1366.3s]
 
-  KaaS-Edge (M=5, B=4.0) Done: final=0.5194, best=0.5217, time=685.6s
-
-============================================================
-  Running: KaaS-Edge (M=10, B=6.0) (50 rounds)
-============================================================
-  [KaaS-Edge Pre-training] 10 epochs ...
-    Epoch 1/10: loss=4.7800
-    Epoch 5/10: loss=3.9414
-    Epoch 10/10: loss=3.4243
-  [KaaS-Edge Pre-training] Done.
-  Round   1/50: Acc=0.1739  Part=0.30  Cost=6.00  [19.6s]
-  Round  10/50: Acc=0.4288  Part=0.30  Cost=6.00  [122.1s]
-  Round  20/50: Acc=0.4916  Part=0.30  Cost=6.00  [236.0s]
-  Round  30/50: Acc=0.5136  Part=0.30  Cost=6.00  [350.0s]
-  Round  40/50: Acc=0.5100  Part=0.30  Cost=6.00  [464.0s]
-  Round  50/50: Acc=0.5144  Part=0.30  Cost=6.00  [577.9s]
-
-  KaaS-Edge (M=10, B=6.0) Done: final=0.5144, best=0.5242, time=577.9s
+  KaaS-Edge (M=5, B=12.5, seed=42) Done: final=0.4080, best=0.4080, time=1366.3s
+[TMC Safe Mode] Split Report:
+  Public (Server):  10000 samples (from Train)
+  Private (Users):  40000 samples (from Train)
+  Test (Evaluation):10000 samples (from Test)
 
 ============================================================
-  Running: KaaS-Edge (M=20, B=10.0) (50 rounds)
+  Running: KaaS-Edge (M=5, B=12.5, seed=123) (50 rounds)
 ============================================================
-  [KaaS-Edge Pre-training] 10 epochs ...
-    Epoch 1/10: loss=4.7977
-    Epoch 5/10: loss=3.8747
-    Epoch 10/10: loss=3.2792
-  [KaaS-Edge Pre-training] Done.
-  Round   1/50: Acc=0.2017  Part=0.20  Cost=10.00  [17.7s]
-  Round  10/50: Acc=0.4288  Part=0.20  Cost=10.00  [102.5s]
-  Round  20/50: Acc=0.4812  Part=0.20  Cost=10.00  [196.8s]
-  Round  30/50: Acc=0.4932  Part=0.20  Cost=10.00  [291.1s]
-  Round  40/50: Acc=0.4992  Part=0.20  Cost=10.00  [385.2s]
-  Round  50/50: Acc=0.4941  Part=0.20  Cost=10.00  [479.4s]
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1301  Part=1.00  CommMB=2.28  [35.3s]
+  Round  10/50: Acc=0.2373  Part=1.00  CommMB=2.28  [283.0s]
+  Round  20/50: Acc=0.3167  Part=1.00  CommMB=2.28  [559.2s]
+  Round  30/50: Acc=0.3603  Part=1.00  CommMB=2.28  [834.8s]
+  Round  40/50: Acc=0.3935  Part=1.00  CommMB=2.28  [1110.9s]
+  Round  50/50: Acc=0.3979  Part=1.00  CommMB=2.28  [1387.1s]
 
-  KaaS-Edge (M=20, B=10.0) Done: final=0.4941, best=0.4992, time=479.4s
-
-============================================================
-  Running: KaaS-Edge (M=30, B=14.0) (50 rounds)
-============================================================
-  [KaaS-Edge Pre-training] 10 epochs ...
-    Epoch 1/10: loss=4.7359
-    Epoch 5/10: loss=3.9328
-    Epoch 10/10: loss=3.3766
-  [KaaS-Edge Pre-training] Done.
-  Round   1/50: Acc=0.1904  Part=0.23  Cost=14.00  [19.2s]
-  Round  10/50: Acc=0.4217  Part=0.23  Cost=14.00  [116.9s]
-  Round  20/50: Acc=0.4730  Part=0.23  Cost=14.00  [225.7s]
-  Round  30/50: Acc=0.4930  Part=0.23  Cost=14.00  [334.6s]
-  Round  40/50: Acc=0.4922  Part=0.23  Cost=14.00  [443.6s]
-  Round  50/50: Acc=0.4898  Part=0.23  Cost=14.00  [552.4s]
-
-  KaaS-Edge (M=30, B=14.0) Done: final=0.4898, best=0.4988, time=552.4s
+  KaaS-Edge (M=5, B=12.5, seed=123) Done: final=0.3979, best=0.4039, time=1387.1s
+[TMC Safe Mode] Split Report:
+  Public (Server):  10000 samples (from Train)
+  Private (Users):  40000 samples (from Train)
+  Test (Evaluation):10000 samples (from Test)
 
 ============================================================
-  Running: KaaS-Edge (M=50, B=22.0) (50 rounds)
+  Running: KaaS-Edge (M=5, B=12.5, seed=456) (50 rounds)
 ============================================================
-  [KaaS-Edge Pre-training] 10 epochs ...
-    Epoch 1/10: loss=4.7774
-    Epoch 5/10: loss=3.9220
-    Epoch 10/10: loss=3.3536
-  [KaaS-Edge Pre-training] Done.
-  Round   1/50: Acc=0.1746  Part=0.18  Cost=22.00  [18.0s]
-  Round  10/50: Acc=0.4404  Part=0.18  Cost=22.00  [105.8s]
-  Round  20/50: Acc=0.4812  Part=0.18  Cost=22.00  [203.4s]
-  Round  30/50: Acc=0.5006  Part=0.18  Cost=22.00  [301.0s]
-  Round  40/50: Acc=0.4963  Part=0.18  Cost=22.00  [398.6s]
-  Round  50/50: Acc=0.5025  Part=0.18  Cost=22.00  [496.3s]
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1312  Part=1.00  CommMB=1.38  [35.1s]
+  Round  10/50: Acc=0.1889  Part=1.00  CommMB=1.38  [280.4s]
+  Round  20/50: Acc=0.2358  Part=1.00  CommMB=1.38  [552.5s]
+  Round  30/50: Acc=0.2868  Part=1.00  CommMB=1.38  [823.8s]
+  Round  40/50: Acc=0.3144  Part=1.00  CommMB=1.38  [1096.4s]
+  Round  50/50: Acc=0.3421  Part=1.00  CommMB=1.38  [1368.4s]
 
-  KaaS-Edge (M=50, B=22.0) Done: final=0.5025, best=0.5061, time=496.3s
+  KaaS-Edge (M=5, B=12.5, seed=456) Done: final=0.3421, best=0.3489, time=1368.4s
+[TMC Safe Mode] Split Report:
+  Public (Server):  10000 samples (from Train)
+  Private (Users):  40000 samples (from Train)
+  Test (Evaluation):10000 samples (from Test)
+
+============================================================
+  Running: KaaS-Edge (M=10, B=25.0, seed=42) (50 rounds)
+============================================================
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1591  Part=1.00  CommMB=2.74  [35.5s]
+  Round  10/50: Acc=0.2423  Part=1.00  CommMB=2.74  [285.7s]
+  Round  20/50: Acc=0.3259  Part=1.00  CommMB=2.74  [563.5s]
+  Round  30/50: Acc=0.3670  Part=1.00  CommMB=2.74  [841.8s]
+  Round  40/50: Acc=0.3892  Part=1.00  CommMB=2.74  [1119.5s]
+  Round  50/50: Acc=0.4339  Part=1.00  CommMB=2.74  [1396.4s]
+
+  KaaS-Edge (M=10, B=25.0, seed=42) Done: final=0.4339, best=0.4339, time=1396.4s
+[TMC Safe Mode] Split Report:
+  Public (Server):  10000 samples (from Train)
+  Private (Users):  40000 samples (from Train)
+  Test (Evaluation):10000 samples (from Test)
+
+============================================================
+  Running: KaaS-Edge (M=10, B=25.0, seed=123) (50 rounds)
+============================================================
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1580  Part=1.00  CommMB=5.36  [36.2s]
+  Round  10/50: Acc=0.2868  Part=1.00  CommMB=5.36  [292.7s]
+  Round  20/50: Acc=0.3710  Part=1.00  CommMB=5.36  [578.3s]
+  Round  30/50: Acc=0.4210  Part=1.00  CommMB=5.36  [863.8s]
+  Round  40/50: Acc=0.4332  Part=1.00  CommMB=5.36  [1149.0s]
+  Round  50/50: Acc=0.4513  Part=1.00  CommMB=5.36  [1433.2s]
+
+  KaaS-Edge (M=10, B=25.0, seed=123) Done: final=0.4513, best=0.4513, time=1433.2s
+[TMC Safe Mode] Split Report:
+  Public (Server):  10000 samples (from Train)
+  Private (Users):  40000 samples (from Train)
+  Test (Evaluation):10000 samples (from Test)
+
+============================================================
+  Running: KaaS-Edge (M=10, B=25.0, seed=456) (50 rounds)
+============================================================
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1489  Part=1.00  CommMB=4.02  [35.8s]
+  Round  10/50: Acc=0.2785  Part=1.00  CommMB=4.02  [289.8s]
+  Round  20/50: Acc=0.3529  Part=1.00  CommMB=4.02  [571.9s]
+  Round  30/50: Acc=0.4087  Part=1.00  CommMB=4.02  [854.2s]
+  Round  40/50: Acc=0.4156  Part=1.00  CommMB=4.02  [1136.4s]
+  Round  50/50: Acc=0.4300  Part=1.00  CommMB=4.02  [1418.0s]
+
+  KaaS-Edge (M=10, B=25.0, seed=456) Done: final=0.4300, best=0.4351, time=1418.0s
+[TMC Safe Mode] Split Report:
+  Public (Server):  10000 samples (from Train)
+  Private (Users):  40000 samples (from Train)
+  Test (Evaluation):10000 samples (from Test)
+
+============================================================
+  Running: KaaS-Edge (M=20, B=50.0, seed=42) (50 rounds)
+============================================================
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1730  Part=1.00  CommMB=8.53  [37.0s]
+  Round  10/50: Acc=0.3354  Part=1.00  CommMB=8.53  [299.1s]
+  Round  20/50: Acc=0.4076  Part=1.00  CommMB=8.53  [594.0s]
+  Round  30/50: Acc=0.4283  Part=1.00  CommMB=8.53  [884.9s]
+  Round  40/50: Acc=0.4498  Part=1.00  CommMB=8.53  [1178.3s]
+  Round  50/50: Acc=0.4431  Part=1.00  CommMB=8.53  [1469.5s]
+
+  KaaS-Edge (M=20, B=50.0, seed=42) Done: final=0.4431, best=0.4551, time=1469.5s
+[TMC Safe Mode] Split Report:
+  Public (Server):  10000 samples (from Train)
+  Private (Users):  40000 samples (from Train)
+  Test (Evaluation):10000 samples (from Test)
+
+============================================================
+  Running: KaaS-Edge (M=20, B=50.0, seed=123) (50 rounds)
+============================================================
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1804  Part=1.00  CommMB=8.42  [36.8s]
+  Round  10/50: Acc=0.3294  Part=1.00  CommMB=8.42  [298.0s]
+  Round  20/50: Acc=0.4010  Part=1.00  CommMB=8.42  [589.1s]
+  Round  30/50: Acc=0.4279  Part=1.00  CommMB=8.42  [880.1s]
+  Round  40/50: Acc=0.4415  Part=1.00  CommMB=8.42  [1170.3s]
+  Round  50/50: Acc=0.4374  Part=1.00  CommMB=8.42  [1461.1s]
+
+  KaaS-Edge (M=20, B=50.0, seed=123) Done: final=0.4374, best=0.4470, time=1461.1s
+[TMC Safe Mode] Split Report:
+  Public (Server):  10000 samples (from Train)
+  Private (Users):  40000 samples (from Train)
+  Test (Evaluation):10000 samples (from Test)
+
+============================================================
+  Running: KaaS-Edge (M=20, B=50.0, seed=456) (50 rounds)
+============================================================
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1501  Part=1.00  CommMB=6.54  [36.6s]
+  Round  10/50: Acc=0.2939  Part=1.00  CommMB=6.54  [296.0s]
+  Round  20/50: Acc=0.3821  Part=1.00  CommMB=6.54  [584.7s]
+  Round  30/50: Acc=0.4183  Part=1.00  CommMB=6.54  [873.5s]
+  Round  40/50: Acc=0.4239  Part=1.00  CommMB=6.54  [1161.4s]
+  Round  50/50: Acc=0.4444  Part=1.00  CommMB=6.54  [1450.1s]
+
+  KaaS-Edge (M=20, B=50.0, seed=456) Done: final=0.4444, best=0.4444, time=1450.1s
+[TMC Safe Mode] Split Report:
+  Public (Server):  10000 samples (from Train)
+  Private (Users):  40000 samples (from Train)
+  Test (Evaluation):10000 samples (from Test)
+
+============================================================
+  Running: KaaS-Edge (M=30, B=75.0, seed=42) (50 rounds)
+============================================================
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1850  Part=1.00  CommMB=13.70  [37.4s]
+  Round  10/50: Acc=0.3328  Part=1.00  CommMB=13.70  [304.1s]
+  Round  20/50: Acc=0.4192  Part=1.00  CommMB=13.70  [600.7s]
+  Round  30/50: Acc=0.4453  Part=1.00  CommMB=13.70  [897.6s]
+  Round  40/50: Acc=0.4556  Part=1.00  CommMB=13.70  [1194.3s]
+  Round  50/50: Acc=0.4526  Part=1.00  CommMB=13.70  [1490.4s]
+
+  KaaS-Edge (M=30, B=75.0, seed=42) Done: final=0.4526, best=0.4556, time=1490.4s
+[TMC Safe Mode] Split Report:
+  Public (Server):  10000 samples (from Train)
+  Private (Users):  40000 samples (from Train)
+  Test (Evaluation):10000 samples (from Test)
+
+============================================================
+  Running: KaaS-Edge (M=30, B=75.0, seed=123) (50 rounds)
+============================================================
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1904  Part=0.97  CommMB=14.02  [36.7s]
+  Round  10/50: Acc=0.3739  Part=0.97  CommMB=14.02  [296.8s]
+  Round  20/50: Acc=0.4314  Part=0.97  CommMB=14.02  [584.9s]
+  Round  30/50: Acc=0.4480  Part=0.97  CommMB=14.02  [873.6s]
+  Round  40/50: Acc=0.4471  Part=0.97  CommMB=14.02  [1162.7s]
+  Round  50/50: Acc=0.4610  Part=0.97  CommMB=14.02  [1451.3s]
+
+  KaaS-Edge (M=30, B=75.0, seed=123) Done: final=0.4610, best=0.4610, time=1451.3s
+[TMC Safe Mode] Split Report:
+  Public (Server):  10000 samples (from Train)
+  Private (Users):  40000 samples (from Train)
+  Test (Evaluation):10000 samples (from Test)
+
+============================================================
+  Running: KaaS-Edge (M=30, B=75.0, seed=456) (50 rounds)
+============================================================
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1654  Part=0.97  CommMB=11.49  [36.4s]
+  Round  10/50: Acc=0.3099  Part=0.97  CommMB=11.49  [294.2s]
+  Round  20/50: Acc=0.4041  Part=0.97  CommMB=11.49  [581.2s]
+  Round  30/50: Acc=0.4221  Part=0.97  CommMB=11.49  [868.0s]
+  Round  40/50: Acc=0.4327  Part=0.97  CommMB=11.49  [1155.1s]
+  Round  50/50: Acc=0.4371  Part=0.97  CommMB=11.49  [1441.7s]
+
+  KaaS-Edge (M=30, B=75.0, seed=456) Done: final=0.4371, best=0.4374, time=1441.7s
+[TMC Safe Mode] Split Report:
+  Public (Server):  10000 samples (from Train)
+  Private (Users):  40000 samples (from Train)
+  Test (Evaluation):10000 samples (from Test)
+
+============================================================
+  Running: KaaS-Edge (M=50, B=125.0, seed=42) (50 rounds)
+============================================================
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.2121  Part=1.00  CommMB=24.49  [38.1s]
+  Round  10/50: Acc=0.3612  Part=1.00  CommMB=24.49  [313.1s]
+  Round  20/50: Acc=0.4373  Part=1.00  CommMB=24.49  [619.0s]
+  Round  30/50: Acc=0.4613  Part=1.00  CommMB=24.49  [925.7s]
+  Round  40/50: Acc=0.4647  Part=1.00  CommMB=24.49  [1231.6s]
+  Round  50/50: Acc=0.4751  Part=1.00  CommMB=24.49  [1535.4s]
+
+  KaaS-Edge (M=50, B=125.0, seed=42) Done: final=0.4751, best=0.4761, time=1535.4s
+[TMC Safe Mode] Split Report:
+  Public (Server):  10000 samples (from Train)
+  Private (Users):  40000 samples (from Train)
+  Test (Evaluation):10000 samples (from Test)
+
+============================================================
+  Running: KaaS-Edge (M=50, B=125.0, seed=123) (50 rounds)
+============================================================
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1623  Part=1.00  CommMB=20.84  [37.8s]
+  Round  10/50: Acc=0.3417  Part=1.00  CommMB=20.84  [311.6s]
+  Round  20/50: Acc=0.4166  Part=1.00  CommMB=20.84  [615.4s]
+  Round  30/50: Acc=0.4366  Part=1.00  CommMB=20.84  [919.4s]
+  Round  40/50: Acc=0.4333  Part=1.00  CommMB=20.84  [1223.6s]
+  Round  50/50: Acc=0.4362  Part=1.00  CommMB=20.84  [1527.8s]
+
+  KaaS-Edge (M=50, B=125.0, seed=123) Done: final=0.4362, best=0.4414, time=1527.8s
+[TMC Safe Mode] Split Report:
+  Public (Server):  10000 samples (from Train)
+  Private (Users):  40000 samples (from Train)
+  Test (Evaluation):10000 samples (from Test)
+
+============================================================
+  Running: KaaS-Edge (M=50, B=125.0, seed=456) (50 rounds)
+============================================================
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1648  Part=1.00  CommMB=18.05  [38.0s]
+  Round  10/50: Acc=0.3576  Part=1.00  CommMB=18.05  [308.8s]
+  Round  20/50: Acc=0.4257  Part=1.00  CommMB=18.05  [610.7s]
+  Round  30/50: Acc=0.4506  Part=1.00  CommMB=18.05  [912.6s]
+  Round  40/50: Acc=0.4481  Part=1.00  CommMB=18.05  [1214.2s]
+  Round  50/50: Acc=0.4533  Part=1.00  CommMB=18.05  [1515.4s]
+
+  KaaS-Edge (M=50, B=125.0, seed=456) Done: final=0.4533, best=0.4580, time=1515.4s
   Saved: /home/aelab-2/EDGE_2026/Kaas/results/edge/device_scalability.json
 
 ======================================================================
-  EXPERIMENT: Privacy Impact
+  EXPERIMENT: Privacy Impact (proper Laplace LDP)
 ======================================================================
 [TMC Safe Mode] Split Report:
   Public (Server):  10000 samples (from Train)
@@ -482,70 +910,214 @@ nohup: 忽略輸入
   Test (Evaluation):10000 samples (from Test)
 
 ============================================================
-  Running: KaaS-Edge (no_privacy, avg_rho=1.00) (50 rounds)
+  Running: KaaS-Edge (no_privacy, seed=42) (50 rounds)
 ============================================================
-  [KaaS-Edge Pre-training] 10 epochs ...
-    Epoch 1/10: loss=4.6451
-    Epoch 5/10: loss=3.8125
-    Epoch 10/10: loss=3.1669
-  [KaaS-Edge Pre-training] Done.
-  Round   1/50: Acc=0.2070  Part=0.25  Cost=8.00  [18.9s]
-  Round  10/50: Acc=0.4481  Part=0.25  Cost=8.00  [114.6s]
-  Round  20/50: Acc=0.4939  Part=0.25  Cost=8.00  [220.8s]
-  Round  30/50: Acc=0.5016  Part=0.25  Cost=8.00  [327.2s]
-  Round  40/50: Acc=0.5105  Part=0.25  Cost=8.00  [433.6s]
-  Round  50/50: Acc=0.5052  Part=0.25  Cost=8.00  [540.0s]
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.2358  Part=1.00  CommMB=9.95  [37.0s]
+  Round  10/50: Acc=0.4352  Part=1.00  CommMB=9.95  [300.7s]
+  Round  20/50: Acc=0.4850  Part=1.00  CommMB=9.95  [592.3s]
+  Round  30/50: Acc=0.4993  Part=1.00  CommMB=9.95  [885.4s]
+  Round  40/50: Acc=0.4972  Part=1.00  CommMB=9.95  [1178.2s]
+  Round  50/50: Acc=0.5037  Part=1.00  CommMB=9.95  [1470.3s]
 
-  KaaS-Edge (no_privacy, avg_rho=1.00) Done: final=0.5052, best=0.5122, time=540.0s
-
-============================================================
-  Running: KaaS-Edge (mild_privacy, avg_rho=0.84) (50 rounds)
-============================================================
-  [KaaS-Edge Pre-training] 10 epochs ...
-    Epoch 1/10: loss=4.7209
-    Epoch 5/10: loss=3.8787
-    Epoch 10/10: loss=3.3249
-  [KaaS-Edge Pre-training] Done.
-  Round   1/50: Acc=0.1809  Part=0.25  Cost=8.00  [19.0s]
-  Round  10/50: Acc=0.4302  Part=0.25  Cost=8.00  [115.5s]
-  Round  20/50: Acc=0.4823  Part=0.25  Cost=8.00  [222.9s]
-  Round  30/50: Acc=0.4964  Part=0.25  Cost=8.00  [330.4s]
-  Round  40/50: Acc=0.5023  Part=0.25  Cost=8.00  [437.9s]
-  Round  50/50: Acc=0.5069  Part=0.25  Cost=8.00  [545.4s]
-
-  KaaS-Edge (mild_privacy, avg_rho=0.84) Done: final=0.5069, best=0.5069, time=545.4s
+  KaaS-Edge (no_privacy, seed=42) Done: final=0.5037, best=0.5110, time=1470.3s
+[TMC Safe Mode] Split Report:
+  Public (Server):  10000 samples (from Train)
+  Private (Users):  40000 samples (from Train)
+  Test (Evaluation):10000 samples (from Test)
 
 ============================================================
-  Running: KaaS-Edge (mixed_privacy, avg_rho=0.57) (50 rounds)
+  Running: KaaS-Edge (no_privacy, seed=123) (50 rounds)
 ============================================================
-  [KaaS-Edge Pre-training] 10 epochs ...
-    Epoch 1/10: loss=4.7300
-    Epoch 5/10: loss=3.9072
-    Epoch 10/10: loss=3.3686
-  [KaaS-Edge Pre-training] Done.
-  Round   1/50: Acc=0.1867  Part=0.25  Cost=8.00  [19.5s]
-  Round  10/50: Acc=0.4380  Part=0.25  Cost=8.00  [120.9s]
-  Round  20/50: Acc=0.4897  Part=0.25  Cost=8.00  [233.5s]
-  Round  30/50: Acc=0.4987  Part=0.25  Cost=8.00  [346.2s]
-  Round  40/50: Acc=0.5087  Part=0.25  Cost=8.00  [458.9s]
-  Round  50/50: Acc=0.5053  Part=0.25  Cost=8.00  [571.5s]
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.2100  Part=1.00  CommMB=7.62  [36.8s]
+  Round  10/50: Acc=0.4350  Part=1.00  CommMB=7.62  [297.8s]
+  Round  20/50: Acc=0.4863  Part=1.00  CommMB=7.62  [586.0s]
+  Round  30/50: Acc=0.4958  Part=1.00  CommMB=7.62  [876.7s]
+  Round  40/50: Acc=0.5058  Part=1.00  CommMB=7.62  [1166.2s]
+  Round  50/50: Acc=0.5087  Part=1.00  CommMB=7.62  [1456.1s]
 
-  KaaS-Edge (mixed_privacy, avg_rho=0.57) Done: final=0.5053, best=0.5164, time=571.5s
+  KaaS-Edge (no_privacy, seed=123) Done: final=0.5087, best=0.5087, time=1456.1s
+[TMC Safe Mode] Split Report:
+  Public (Server):  10000 samples (from Train)
+  Private (Users):  40000 samples (from Train)
+  Test (Evaluation):10000 samples (from Test)
 
 ============================================================
-  Running: KaaS-Edge (strong_privacy, avg_rho=0.16) (50 rounds)
+  Running: KaaS-Edge (no_privacy, seed=456) (50 rounds)
 ============================================================
-  [KaaS-Edge Pre-training] 10 epochs ...
-    Epoch 1/10: loss=4.6730
-    Epoch 5/10: loss=3.8662
-    Epoch 10/10: loss=3.2719
-  [KaaS-Edge Pre-training] Done.
-  Round   1/50: Acc=0.1840  Part=0.15  Cost=8.00  [15.9s]
-  Round  10/50: Acc=0.4518  Part=0.15  Cost=8.00  [84.7s]
-  Round  20/50: Acc=0.5029  Part=0.15  Cost=8.00  [161.0s]
-  Round  30/50: Acc=0.5097  Part=0.15  Cost=8.00  [237.3s]
-  Round  40/50: Acc=0.5136  Part=0.15  Cost=8.00  [313.5s]
-  Round  50/50: Acc=0.5151  Part=0.15  Cost=8.00  [390.0s]
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1909  Part=1.00  CommMB=6.75  [36.7s]
+  Round  10/50: Acc=0.4230  Part=1.00  CommMB=6.75  [296.9s]
+  Round  20/50: Acc=0.4669  Part=1.00  CommMB=6.75  [585.9s]
+  Round  30/50: Acc=0.4995  Part=1.00  CommMB=6.75  [874.8s]
+  Round  40/50: Acc=0.5039  Part=1.00  CommMB=6.75  [1163.3s]
+  Round  50/50: Acc=0.5093  Part=1.00  CommMB=6.75  [1450.8s]
 
-  KaaS-Edge (strong_privacy, avg_rho=0.16) Done: final=0.5151, best=0.5225, time=390.0s
+  KaaS-Edge (no_privacy, seed=456) Done: final=0.5093, best=0.5093, time=1450.8s
+[TMC Safe Mode] Split Report:
+  Public (Server):  10000 samples (from Train)
+  Private (Users):  40000 samples (from Train)
+  Test (Evaluation):10000 samples (from Test)
+
+============================================================
+  Running: KaaS-Edge (mild_privacy, seed=42) (50 rounds)
+============================================================
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.2156  Part=1.00  CommMB=9.82  [36.8s]
+  Round  10/50: Acc=0.4166  Part=1.00  CommMB=9.82  [300.8s]
+  Round  20/50: Acc=0.4701  Part=1.00  CommMB=9.82  [593.3s]
+  Round  30/50: Acc=0.4763  Part=1.00  CommMB=9.82  [886.4s]
+  Round  40/50: Acc=0.4827  Part=1.00  CommMB=9.82  [1178.8s]
+  Round  50/50: Acc=0.4870  Part=1.00  CommMB=9.82  [1471.7s]
+
+  KaaS-Edge (mild_privacy, seed=42) Done: final=0.4870, best=0.4895, time=1471.7s
+[TMC Safe Mode] Split Report:
+  Public (Server):  10000 samples (from Train)
+  Private (Users):  40000 samples (from Train)
+  Test (Evaluation):10000 samples (from Test)
+
+============================================================
+  Running: KaaS-Edge (mild_privacy, seed=123) (50 rounds)
+============================================================
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1941  Part=1.00  CommMB=7.76  [36.5s]
+  Round  10/50: Acc=0.4237  Part=1.00  CommMB=7.76  [297.3s]
+  Round  20/50: Acc=0.4569  Part=1.00  CommMB=7.76  [587.4s]
+  Round  30/50: Acc=0.4687  Part=1.00  CommMB=7.76  [877.8s]
+  Round  40/50: Acc=0.4796  Part=1.00  CommMB=7.76  [1167.5s]
+  Round  50/50: Acc=0.4845  Part=1.00  CommMB=7.76  [1456.8s]
+
+  KaaS-Edge (mild_privacy, seed=123) Done: final=0.4845, best=0.4883, time=1456.8s
+[TMC Safe Mode] Split Report:
+  Public (Server):  10000 samples (from Train)
+  Private (Users):  40000 samples (from Train)
+  Test (Evaluation):10000 samples (from Test)
+
+============================================================
+  Running: KaaS-Edge (mild_privacy, seed=456) (50 rounds)
+============================================================
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.2000  Part=1.00  CommMB=6.67  [36.6s]
+  Round  10/50: Acc=0.3884  Part=1.00  CommMB=6.67  [296.7s]
+  Round  20/50: Acc=0.4623  Part=1.00  CommMB=6.67  [586.0s]
+  Round  30/50: Acc=0.4787  Part=1.00  CommMB=6.67  [875.1s]
+  Round  40/50: Acc=0.4929  Part=1.00  CommMB=6.67  [1164.0s]
+  Round  50/50: Acc=0.4954  Part=1.00  CommMB=6.67  [1453.0s]
+
+  KaaS-Edge (mild_privacy, seed=456) Done: final=0.4954, best=0.4974, time=1453.0s
+[TMC Safe Mode] Split Report:
+  Public (Server):  10000 samples (from Train)
+  Private (Users):  40000 samples (from Train)
+  Test (Evaluation):10000 samples (from Test)
+
+============================================================
+  Running: KaaS-Edge (mixed_privacy, seed=42) (50 rounds)
+============================================================
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.2037  Part=1.00  CommMB=10.75  [37.3s]
+  Round  10/50: Acc=0.3709  Part=1.00  CommMB=10.75  [302.4s]
+  Round  20/50: Acc=0.4485  Part=1.00  CommMB=10.75  [595.4s]
+  Round  30/50: Acc=0.4487  Part=1.00  CommMB=10.75  [889.1s]
+  Round  40/50: Acc=0.4641  Part=1.00  CommMB=10.75  [1183.1s]
+  Round  50/50: Acc=0.4718  Part=1.00  CommMB=10.75  [1477.0s]
+
+  KaaS-Edge (mixed_privacy, seed=42) Done: final=0.4718, best=0.4718, time=1477.0s
+[TMC Safe Mode] Split Report:
+  Public (Server):  10000 samples (from Train)
+  Private (Users):  40000 samples (from Train)
+  Test (Evaluation):10000 samples (from Test)
+
+============================================================
+  Running: KaaS-Edge (mixed_privacy, seed=123) (50 rounds)
+============================================================
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1471  Part=1.00  CommMB=6.81  [36.7s]
+  Round  10/50: Acc=0.2854  Part=1.00  CommMB=6.81  [298.4s]
+  Round  20/50: Acc=0.3854  Part=1.00  CommMB=6.81  [587.9s]
+  Round  30/50: Acc=0.4290  Part=1.00  CommMB=6.81  [880.5s]
+  Round  40/50: Acc=0.4401  Part=1.00  CommMB=6.81  [1170.5s]
+  Round  50/50: Acc=0.4441  Part=1.00  CommMB=6.81  [1459.3s]
+
+  KaaS-Edge (mixed_privacy, seed=123) Done: final=0.4441, best=0.4501, time=1459.3s
+[TMC Safe Mode] Split Report:
+  Public (Server):  10000 samples (from Train)
+  Private (Users):  40000 samples (from Train)
+  Test (Evaluation):10000 samples (from Test)
+
+============================================================
+  Running: KaaS-Edge (mixed_privacy, seed=456) (50 rounds)
+============================================================
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1566  Part=1.00  CommMB=7.24  [36.8s]
+  Round  10/50: Acc=0.3131  Part=1.00  CommMB=7.24  [297.1s]
+  Round  20/50: Acc=0.4045  Part=1.00  CommMB=7.24  [590.2s]
+  Round  30/50: Acc=0.4286  Part=1.00  CommMB=7.24  [890.6s]
+  Round  40/50: Acc=0.4514  Part=1.00  CommMB=7.24  [1180.7s]
+  Round  50/50: Acc=0.4504  Part=1.00  CommMB=7.24  [1470.6s]
+
+  KaaS-Edge (mixed_privacy, seed=456) Done: final=0.4504, best=0.4523, time=1470.6s
+[TMC Safe Mode] Split Report:
+  Public (Server):  10000 samples (from Train)
+  Private (Users):  40000 samples (from Train)
+  Test (Evaluation):10000 samples (from Test)
+
+============================================================
+  Running: KaaS-Edge (strong_privacy, seed=42) (50 rounds)
+============================================================
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1136  Part=1.00  CommMB=9.27  [36.9s]
+  Round  10/50: Acc=0.2439  Part=1.00  CommMB=9.27  [300.8s]
+  Round  20/50: Acc=0.3239  Part=1.00  CommMB=9.27  [594.1s]
+  Round  30/50: Acc=0.3699  Part=1.00  CommMB=9.27  [886.7s]
+  Round  40/50: Acc=0.3985  Part=1.00  CommMB=9.27  [1180.1s]
+  Round  50/50: Acc=0.4228  Part=1.00  CommMB=9.27  [1471.8s]
+
+  KaaS-Edge (strong_privacy, seed=42) Done: final=0.4228, best=0.4228, time=1471.8s
+[TMC Safe Mode] Split Report:
+  Public (Server):  10000 samples (from Train)
+  Private (Users):  40000 samples (from Train)
+  Test (Evaluation):10000 samples (from Test)
+
+============================================================
+  Running: KaaS-Edge (strong_privacy, seed=123) (50 rounds)
+============================================================
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1155  Part=1.00  CommMB=8.39  [37.0s]
+  Round  10/50: Acc=0.2292  Part=1.00  CommMB=8.39  [299.6s]
+  Round  20/50: Acc=0.3031  Part=1.00  CommMB=8.39  [590.7s]
+  Round  30/50: Acc=0.3666  Part=1.00  CommMB=8.39  [881.9s]
+  Round  40/50: Acc=0.3952  Part=1.00  CommMB=8.39  [1173.6s]
+  Round  50/50: Acc=0.4065  Part=1.00  CommMB=8.39  [1465.6s]
+
+  KaaS-Edge (strong_privacy, seed=123) Done: final=0.4065, best=0.4080, time=1465.6s
+[TMC Safe Mode] Split Report:
+  Public (Server):  10000 samples (from Train)
+  Private (Users):  40000 samples (from Train)
+  Test (Evaluation):10000 samples (from Test)
+
+============================================================
+  Running: KaaS-Edge (strong_privacy, seed=456) (50 rounds)
+============================================================
+  [Pre-train] 10 epochs ...
+  [Pre-train] Done.
+  Round   1/50: Acc=0.1141  Part=1.00  CommMB=6.33  [36.4s]
+  Round  10/50: Acc=0.2164  Part=1.00  CommMB=6.33  [296.0s]
+  Round  20/50: Acc=0.3007  Part=1.00  CommMB=6.33  [583.8s]
+  Round  30/50: Acc=0.3512  Part=1.00  CommMB=6.33  [871.5s]
+  Round  40/50: Acc=0.3908  Part=1.00  CommMB=6.33  [1159.3s]
+  Round  50/50: Acc=0.4093  Part=1.00  CommMB=6.33  [1448.3s]
+
+  KaaS-Edge (strong_privacy, seed=456) Done: final=0.4093, best=0.4095, time=1448.3s
   Saved: /home/aelab-2/EDGE_2026/Kaas/results/edge/privacy_impact.json
