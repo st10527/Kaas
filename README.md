@@ -6,7 +6,7 @@
 
 A simulation framework for **Knowledge-as-a-Service at the Edge (KaaS-Edge)**, extending the original [PAID-FD](https://github.com/st10527/paid-fd) codebase with a new resource-aware distillation scheduling algorithm targeting IEEE EDGE 2026.
 
-> **Base paper (PAID-FD)**: Privacy-Aware Incentive-Driven Federated Distillation — Submitted to IEEE Transactions on Mobile Computing (TMC)
+> **Base paper (PAID-FD)**: Privacy-Aware Incentive-Driven Federated Distillation — Targeting IEEE Transactions on Mobile Computing (TMC)
 >
 > **This extension (KaaS-Edge)**: Knowledge-as-a-Service for Edge Intelligence — Targeting IEEE EDGE 2026
 
@@ -350,7 +350,7 @@ This project is licensed under the MIT License — see the [LICENSE](LICENSE) fi
 
 ## 🙏 Acknowledgments
 
-- CIFAR-100 and STL-10 datasets
+- CIFAR-100
 - PyTorch team
 - Federated learning community
 - Original PAID-FD authors
