@@ -129,4 +129,10 @@ results/logs/*.log
 *.pt
 *.pth
 *.ckpt
-paid-fd
+
+# Output files
+nohup*.out
+
+# Paper PDF (do not push to public repo)
+*.pdf
+!figures/*.pdf

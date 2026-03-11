@@ -1,5 +1,5 @@
 """
-Energy Consumption Model for PAID-FD
+Energy Consumption Model for KaaS-Edge
 
 Computes energy breakdown:
 - E_train: Local model training energy
@@ -271,7 +271,7 @@ class EnergyCalculator:
         channel_gain: float = 1.0
     ) -> Tuple[float, float]:
         """
-        Compute marginal costs c_inf and c_comm for the Stackelberg game.
+        Compute marginal costs c_inf and c_comm for the scheduling algorithm.
         
         These are the per-logit costs used in the utility function.
         
@@ -359,10 +359,10 @@ class EnergyCalculator:
         n_devices: int
     ) -> Dict[str, float]:
         """
-        Compare protocol overhead between PAID-FD and auction-based methods.
+        Compare protocol overhead between KaaS-Edge and auction-based methods.
         
-        PAID-FD (Stackelberg, one-shot):
-        - 1 downlink (price broadcast)
+        KaaS-Edge (one-shot scheduling):
+        - 1 downlink (allocation broadcast)
         - 1 uplink per participant (logits)
         
         CSRA (Reverse Auction):
@@ -374,25 +374,25 @@ class EnergyCalculator:
         Returns:
             Overhead comparison in milliseconds
         """
-        # PAID-FD: 2 communications per round
-        paid_fd_comms = 2
-        paid_fd_overhead = self.estimate_protocol_overhead(paid_fd_comms)
+        # KaaS-Edge: 2 communications per round
+        kaas_comms = 2
+        kaas_overhead = self.estimate_protocol_overhead(kaas_comms)
         
         # CSRA: 4 communications per round
         csra_comms = 4
         csra_overhead = self.estimate_protocol_overhead(csra_comms)
         
         return {
-            "paid_fd": {
-                "n_communications": paid_fd_comms,
-                "overhead_ms": paid_fd_overhead
+            "kaas_edge": {
+                "n_communications": kaas_comms,
+                "overhead_ms": kaas_overhead
             },
             "csra": {
                 "n_communications": csra_comms,
                 "overhead_ms": csra_overhead
             },
-            "reduction_ms": csra_overhead - paid_fd_overhead,
-            "reduction_percent": (1 - paid_fd_overhead / csra_overhead) * 100
+            "reduction_ms": csra_overhead - kaas_overhead,
+            "reduction_percent": (1 - kaas_overhead / csra_overhead) * 100
         }
 
 

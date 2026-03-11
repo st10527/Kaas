@@ -1,14 +1,9 @@
 """
-Dataset Loading for PAID-FD
+Dataset Loading for KaaS-Edge
 
 Supports:
 - CIFAR-100: Private data for local training (100 classes, 32x32)
-- STL-10: Public data for knowledge distillation (96x96 -> 32x32)
 - Synthetic: For testing without downloading
-
-Cross-domain setup:
-- Private: CIFAR-100 (fine-grained classification)
-- Public: STL-10 unlabeled (from ImageNet, different distribution)
 """
 
 import numpy as np
@@ -479,11 +474,11 @@ def create_synthetic_datasets(
     return train, test, public
 
 # ==========================================
-# [TMC Safe Mode] 新增：安全切割函數
+# Safe Split: CIFAR-100 train/public/test
 # ==========================================
 def load_cifar100_safe_split(root='./data', n_public=10000, seed=42):
     """
-    TMC Safe Mode: 
+    Safe Split:
     將 CIFAR-100 Training Set (50k) 切割為：
     1. Private Data (40k): 給 User 做 Local Training (Non-IID)
     2. Public Data (10k): 給 Server 做 Knowledge Distillation (IID)
@@ -536,7 +531,7 @@ def load_cifar100_safe_split(root='./data', n_public=10000, seed=42):
     # Public data: NO augmentation (deterministic inference for logit alignment)
     public_set = Subset(full_train_clean, public_indices)
 
-    print(f"[TMC Safe Mode] Split Report:")
+    print(f"[Safe Split] Report:")
     print(f"  Public (Server):  {len(public_set)} samples (from Train)")
     print(f"  Private (Users):  {len(private_set)} samples (from Train)")
     print(f"  Test (Evaluation):{len(test_set)} samples (from Test)")

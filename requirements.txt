@@ -1,4 +1,4 @@
-# PAID-FD: Privacy-Aware Incentive-Driven Federated Distillation
+# KaaS-Edge: Knowledge-as-a-Service for Edge Intelligence
 # Requirements
 
 # Deep Learning

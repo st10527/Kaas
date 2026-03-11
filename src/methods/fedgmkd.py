@@ -14,19 +14,7 @@ Key mechanism per round:
   4. Clients send model params + prototypes + discrepancy to server
   5. Server aggregates both params and prototypes via DAT weights
 
-Key differences from PAID-FD:
-  - Parameter averaging + prototype exchange (NOT logit distillation)
-  - No public dataset needed (prototypes replace public data)
-  - GMM-based multi-modal class representation
-  - Discrepancy-aware aggregation (not equal/size-weighted)
-  - No explicit privacy mechanism (no DP noise)
-
 Communication per round: ~44 MB (parameters) + ~400 KB (prototypes)
-
-Adaptations for fair comparison:
-  - Same ResNet-18, same local training params, same rounds
-  - Same Dirichlet partition settings
-  - Use K=2 GMM components per class (paper default)
 
 Reference:
   Zhang et al., "FedGMKD: An Efficient Prototype Federated Learning Framework

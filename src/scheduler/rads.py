@@ -5,7 +5,7 @@ Implements the two-stage scheduling algorithm for KaaS-Edge:
   Stage 1 (Proposition 1): Water-filling allocation for fixed device set
   Stage 2 (Theorem 1):     Greedy submodular device selection with (1-1/e)/2 guarantee
 
-Notation (matches EDGE paper, NOT TMC):
+Notation (matches EDGE paper):
   v_i   : upload volume (continuous, [0, v_max])
   rho_i : privacy degradation factor ∈ (0, 1]
   b_i   : marginal cost (comm + comp, abstract)
@@ -16,8 +16,6 @@ Notation (matches EDGE paper, NOT TMC):
 
 Quality model (saturation):
   q_i(v_i) = rho_i * v_i / (v_i + theta_i)
-
-This is fundamentally different from TMC's log(1 + s*g(eps)).
 """
 
 import numpy as np

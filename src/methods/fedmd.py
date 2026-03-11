@@ -1,23 +1,14 @@
 """
-FD (No Privacy) — Adapted from FedMD (Li & Wang, NeurIPS 2019)
+FedMD — Adapted from Li & Wang, NeurIPS 2019
 
-Noise-free federated distillation baseline for fair PAID-FD comparison.
-Uses the **same logit-space distillation pipeline** as PAID-FD but WITHOUT:
-  - Stackelberg game / pricing
+Noise-free federated distillation baseline.
+Uses logit-space distillation WITHOUT:
+  - Resource-aware scheduling
   - Local Differential Privacy (no noise on logits)
   - Adaptive participation / quality weighting
 
 All devices participate equally, upload raw clipped logits, simple average.
-This serves as the **performance upper bound** for federated distillation.
-
-Differences from the original FedMD paper:
-  - Homogeneous models (all ResNet-18) instead of heterogeneous architectures
-  - KL-divergence distillation loss (same as PAID-FD) instead of MAE regression
-  - Global server model (not per-device personalized weights)
-  - No transfer-learning pre-training phase on public data
-  - Local training before logit upload (not after alignment/digest)
-  These adaptations ensure the ONLY difference vs. PAID-FD is the
-  privacy mechanism and game-theoretic incentive, enabling clean ablation.
+This serves as a performance upper bound for federated distillation.
 
 Reference:
   Li & Wang, "FedMD: Heterogenous Federated Learning via Model
@@ -41,7 +32,7 @@ from ..models.utils import copy_model
 class FedMDConfig:
     """Configuration for FedMD."""
     # Local training (per round — models persist across rounds)
-    local_epochs: int = 5         # Match PAID-FD for fair comparison
+    local_epochs: int = 5
     local_lr: float = 0.01
     local_momentum: float = 0.9
 
@@ -51,7 +42,7 @@ class FedMDConfig:
     temperature: float = 3.0
 
     # Pre-training on public data
-    pretrain_epochs: int = 10     # Match PAID-FD for fair comparison
+    pretrain_epochs: int = 10
     pretrain_lr: float = 0.1
 
     # Logit clipping (for stability, not privacy)
@@ -63,9 +54,9 @@ class FedMDConfig:
 
 class FedMD(FederatedMethod):
     """
-    FD (No Privacy) — Adapted from FedMD.
+    FedMD — Noise-free Federated Distillation baseline.
 
-    Protocol per round (identical pipeline to PAID-FD, minus noise/game):
+    Protocol per round:
       1. Server broadcasts global model to all devices
       2. Each device trains locally on private data (local_epochs, SGD)
       3. Each device computes clipped logits on public data — NO noise added
@@ -74,7 +65,6 @@ class FedMD(FederatedMethod):
          model using KL-divergence loss
 
     This is the noise-free FD upper bound.
-    In the paper, refer to as "FD (No Privacy)" or "FedMD-adapted".
     """
 
     def __init__(
@@ -228,7 +218,7 @@ class FedMD(FederatedMethod):
         return result
 
     def _pretrain_on_public(self, public_loader):
-        """Pre-train server model on public data (same as PAID-FD)."""
+        """Pre-train server model on public data."""
         print(f"  [FedMD Pre-training] {self.config.pretrain_epochs} epochs on public data ...")
         augment = transforms.Compose([
             transforms.RandomCrop(32, padding=4, padding_mode='reflect'),
@@ -261,7 +251,7 @@ class FedMD(FederatedMethod):
         teacher_probs: torch.Tensor,
         public_images: torch.Tensor
     ):
-        """Distill aggregated knowledge to server model (same as PAID-FD)."""
+        """Distill aggregated knowledge to server model."""
         self.server_model.train()
         optimizer = self.distill_optimizer
 

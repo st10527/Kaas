@@ -1,5 +1,5 @@
 """
-Model utilities for PAID-FD.
+Model utilities for KaaS-Edge.
 """
 
 import torch

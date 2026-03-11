@@ -4,16 +4,11 @@ FedAvg: Federated Averaging (McMahan et al., AISTATS 2017)
 Parameter-averaging FL baseline (non-distillation).
 Uploads full model parameters instead of logits.
 
-Key differences from PAID-FD / FD methods:
+Key characteristics:
   - Communication: full model parameters (~44 MB/round) vs logits (~400 KB)
   - No public data needed (aggregation on parameters, not knowledge)
   - No privacy mechanism
   - Simple weighted averaging of model state_dicts
-
-Adaptations from the original paper for fair comparison:
-  - Uses momentum SGD (standard practice) instead of vanilla SGD
-  - Homogeneous models (all ResNet-18), same as all other methods
-  - Same local_epochs=20, local_lr=0.1 across all methods
 
 Reference:
   McMahan et al., "Communication-Efficient Learning of Deep Networks

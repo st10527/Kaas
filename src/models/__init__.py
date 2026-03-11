@@ -1,5 +1,5 @@
 """
-Neural network models for PAID-FD.
+Neural network models for KaaS-Edge.
 """
 
 from .cnn import SimpleCNN, CNN_CIFAR

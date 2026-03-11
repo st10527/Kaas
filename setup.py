@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Setup script for PAID-FD package.
+Setup script for KaaS-Edge package.
 """
 
 from setuptools import setup, find_packages
@@ -28,17 +28,17 @@ else:
     ]
 
 setup(
-    name="paid-fd",
-    version="0.1.0",
-    author="TMC Research Team",
+    name="kaas-edge",
+    version="1.0.0",
+    author="Anonymous",
     author_email="",
-    description="Privacy-Aware Incentive-Driven Federated Distillation",
+    description="KaaS-Edge: Knowledge-as-a-Service for Edge Intelligence",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/YOUR_USERNAME/paid-fd",
+    url="",
     packages=find_packages(),
     classifiers=[
-        "Development Status :: 3 - Alpha",
+        "Development Status :: 4 - Beta",
         "Intended Audience :: Science/Research",
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3",
@@ -56,11 +56,6 @@ setup(
             "pytest-cov>=4.0.0",
             "black>=23.0.0",
             "flake8>=6.0.0",
-        ],
-    },
-    entry_points={
-        "console_scripts": [
-            "paid-fd=experiments.run_experiment:main",
         ],
     },
 )

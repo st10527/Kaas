@@ -324,7 +324,7 @@ def create_client_loaders(
         return client_indices
     
     # =======================================================
-    # [TMC Fix] Handle nested Subset correctly
+    # Handle nested Subset correctly
     # =======================================================
     # If dataset is a Subset, we need to map client_indices through the Subset's indices
     # client_indices are positions within 'dataset', not the underlying base dataset

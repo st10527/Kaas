@@ -1,5 +1,5 @@
 """
-Local Differential Privacy (LDP) Mechanisms for PAID-FD
+Local Differential Privacy (LDP) Mechanisms for KaaS-Edge
 
 Implements:
 - Laplace mechanism for ε-LDP

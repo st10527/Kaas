@@ -1,5 +1,5 @@
 """
-Privacy mechanisms for PAID-FD.
+Privacy mechanisms for KaaS-Edge.
 """
 
 from .ldp import (

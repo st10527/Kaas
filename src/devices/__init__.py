@@ -1,5 +1,5 @@
 """
-Device simulation modules for PAID-FD.
+Device simulation modules for KaaS-Edge.
 """
 
 from .heterogeneity import (

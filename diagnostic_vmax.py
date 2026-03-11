@@ -4,12 +4,12 @@ KaaS-Edge v2 Diagnostic & Fix
 Run BEFORE experiments to verify config is correct.
 
 Usage:
-    cd paid-fd-main
+    cd Kaas
     python diagnostic_vmax.py
 """
 import subprocess, os, sys, shutil
 
-PROJECT = os.getcwd()  # Run from project root: cd paid-fd-main && python diagnostic_vmax.py
+PROJECT = os.getcwd()  # Run from project root: cd Kaas && python diagnostic_vmax.py
 
 # ── Step 1: Clear all __pycache__ ──
 print("=" * 60)

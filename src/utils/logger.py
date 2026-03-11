@@ -1,5 +1,5 @@
 """
-Logging utilities for PAID-FD experiments.
+Logging utilities for KaaS-Edge experiments.
 """
 
 import logging

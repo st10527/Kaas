@@ -93,7 +93,7 @@ communication_model:
 # =============================================================================
 # Marginal cost for device utility: c_i = c_inf + c_comm
 #
-# These are NORMALIZED costs used in the Stackelberg game.
+# These are NORMALIZED costs used in the scheduling algorithm.
 # They represent the per-unit cost of providing one logit sample.
 #
 # The actual values are derived from energy model but scaled for numerical stability.

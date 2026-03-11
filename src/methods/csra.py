@@ -12,18 +12,6 @@ Key mechanism:
   5. Selected clients: local train → add Laplace DP noise to gradients → upload
   6. Server: weighted aggregation of noisy model parameters
 
-Key differences from PAID-FD:
-  - Reverse auction (multi-round bidding) vs Stackelberg (one-shot pricing)
-  - Parameter aggregation (~44 MB/round) vs logit distillation (~400 KB)
-  - DP noise on MODEL GRADIENTS (high-dim) vs DP noise on LOGITS (low-dim)
-  - Dishonest client detection (CSRA feature, simplified in our baseline)
-
-Adaptations for fair comparison:
-  - Same ResNet-18, same local training params, same number of rounds
-  - Honest clients assumed (skip dishonest detection for clean comparison)
-  - Quality metric includes DP noise scale (CSRA's core contribution)
-  - Use same Dirichlet partition as other methods
-
 Reference:
   Yang et al., "CSRA: Robust Incentive Mechanism Design for Differentially
   Private Federated Learning", IEEE TIFS, Vol. 19, 2024

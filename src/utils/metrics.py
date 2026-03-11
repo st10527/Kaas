@@ -1,5 +1,5 @@
 """
-Metrics calculation utilities for PAID-FD experiments.
+Metrics calculation utilities for KaaS-Edge experiments.
 """
 
 import numpy as np

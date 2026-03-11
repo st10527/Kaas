@@ -1,5 +1,5 @@
 """
-Result Management System for PAID-FD Experiments
+Result Management System for KaaS-Edge Experiments
 
 Features:
 - Unique run IDs to prevent overwriting
@@ -59,7 +59,7 @@ class ResultManager:
         results/
         ├── experiments/
         │   ├── exp1_efficiency/
-        │   │   ├── PAID-FD_cifar100_20250203_143000_a1b2c3d4.json
+        │   │   ├── KaaS-Edge_cifar100_20250203_143000_a1b2c3d4.json
         │   │   └── CSRA_cifar100_20250203_144500_e5f6g7h8.json
         │   ├── exp2_convergence/
         │   └── ...
@@ -119,7 +119,7 @@ class ResultManager:
         
         Args:
             exp_name: Name of the experiment (e.g., "exp2_convergence")
-            method_name: Name of the method (e.g., "PAID-FD")
+            method_name: Name of the method (e.g., "KaaS-Edge")
             config: Configuration dictionary
             results: Results dictionary
             run_id: Optional custom run ID (auto-generated if None)
@@ -293,7 +293,7 @@ class ExperimentTracker:
     Tracks progress and results for a single experiment run.
     
     Usage:
-        tracker = ExperimentTracker("exp2_convergence", "PAID-FD", config)
+        tracker = ExperimentTracker("main_comparison", "KaaS-Edge", config)
         
         for round_idx in range(n_rounds):
             # ... run round ...
@@ -352,7 +352,7 @@ class ExperimentTracker:
             loss: Training/distillation loss
             participation_rate: Fraction of participating devices
             energy_breakdown: Energy by component {training, inference, communication}
-            price: Server's announced price (for Stackelberg methods)
+            price: Server's announced price (for scheduling methods)
             device_decisions: List of device decisions [{device_id, s, eps, participates}]
             extra: Additional metrics to log
         """

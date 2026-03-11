@@ -1,5 +1,5 @@
 """
-Data loading and partitioning modules for PAID-FD.
+Data loading and partitioning modules for KaaS-Edge.
 """
 
 from .datasets import (
