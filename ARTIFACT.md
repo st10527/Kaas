@@ -29,7 +29,7 @@ source venv/bin/activate   # Linux / macOS
 pip install -r requirements.txt
 ```
 
-### 2.2 Reproducing Main Results (Table I & Figure 3)
+### 2.2 Reproducing Main Results (Table I & Figures 2–3)
 
 Run the main comparison experiment across three random seeds:
 
@@ -44,21 +44,21 @@ bash parallel_run.sh main cuda:0
 python merge_seed_results.py
 ```
 
-### 2.3 Reproducing Sensitivity Analysis (Figure 4)
+### 2.3 Reproducing Sensitivity Analysis (Figures 4–5)
 
-**Budget sensitivity (Figure 4a):**
+**Budget sensitivity (Figure 4):**
 
 ```bash
 python scripts/run_edge_experiments.py --exp budget --device cuda:0
 ```
 
-**Device scalability (Figure 4b):**
+**Device scalability:**
 
 ```bash
 python scripts/run_edge_experiments.py --exp scale --device cuda:0
 ```
 
-**Privacy impact (Figure 4c):**
+**Privacy impact (Figure 5):**
 
 ```bash
 python scripts/run_edge_experiments.py --exp privacy --device cuda:0
@@ -182,13 +182,13 @@ Each experiment produces a JSON file in `results/edge/` containing per-round met
 
 The experiments should demonstrate:
 
-1. **Main comparison (Table I):** KaaS-Edge achieves higher accuracy than baseline methods under the same budget constraint, with significantly lower communication cost than full-participation methods.
+1. **Main comparison (Table I, Figure 2):** KaaS-Edge achieves higher accuracy than baseline methods under the same budget constraint, with significantly lower communication cost than full-participation methods.
 
-2. **Budget sensitivity (Figure 4a):** Accuracy increases with budget B following a concave curve (diminishing returns).
+2. **Budget sensitivity (Figure 4):** Accuracy increases with budget B following a concave curve (diminishing returns).
 
-3. **Device scalability (Figure 4b):** Quality improves with more devices due to the submodular greedy selection exploiting device diversity.
+3. **Device scalability:** Quality improves with more devices due to the submodular greedy selection exploiting device diversity.
 
-4. **Privacy impact (Figure 4c):** Higher privacy (lower ρ) degrades accuracy, but KaaS-Edge's quality-weighted aggregation mitigates the impact compared to uniform baselines.
+4. **Privacy impact (Figure 5):** Higher privacy (lower ρ) degrades accuracy, but KaaS-Edge's quality-weighted aggregation mitigates the impact compared to uniform baselines.
 
 ### 5.4 Variance
 

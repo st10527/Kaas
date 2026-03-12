@@ -163,7 +163,7 @@ where ρ_i ∈ (0,1] is the privacy degradation factor and θ_i is the half-satu
 
 Given a fixed device set *S* and residual budget *B_res*, the optimal upload volumes are:
 
-$$v_i^* = \min\!\left\{\left[\sqrt{\frac{\rho_i \cdot \theta_i}{\nu \cdot b_i}} - \theta_i\right]^+,\; v_{\max}\right\}$$
+$$v_i^* = \min\left(\left[\sqrt{\frac{\rho_i \cdot \theta_i}{\nu \cdot b_i}} - \theta_i\right]^+,\; v_{\max}\right)$$
 
 where ν (water level) is found by bisection such that Σ b_i · v_i* = B_res.
 
@@ -185,8 +185,8 @@ $$\text{scale} = \frac{2C}{\varepsilon}, \quad \varepsilon = \frac{\rho}{1 - \rh
 
 | Suite | Flag | Description |
 |-------|------|-------------|
-| Main comparison | `--exp main` | KaaS-Edge vs FedMD, FedAvg, FedCS, Random, FedSKD over 50 rounds |
-| Budget sensitivity | `--exp budget` | Sweep B ∈ {2, 4, 6, 8, 10, 15, 20} |
+| Main comparison | `--exp main` | KaaS-Edge vs FedMD, FedSKD, FedCS-FD, Random over 50 rounds |
+| Budget sensitivity | `--exp budget` | Sweep B ∈ {10, 20, 30, 40, 50, 60, 70, 80} |
 | Device scalability | `--exp scale` | Sweep M ∈ {5, 10, 20, 30, 50} |
 | Privacy impact | `--exp privacy` | No-privacy / mild / mixed / strong ρ distributions |
 
@@ -197,13 +197,10 @@ $$\text{scale} = \frac{2C}{\varepsilon}, \quad \varepsilon = \frac{\rho}{1 - \rh
 | Method | Description | Reference |
 |--------|-------------|-----------|
 | **KaaS-Edge** | RADS water-filling + greedy selection + Laplace LDP | This work |
-| **FedMD** | FD baseline, no privacy | Li & Wang, NeurIPS 2019 |
-| **FedAvg** | Parameter averaging | McMahan et al., AISTATS 2017 |
-| **CSRA** | Reverse auction DP-FL | Yang et al., TIFS 2024 |
-| **FedGMKD** | GMM prototype KD + DAT | Zhang et al., 2024 |
-| **FedCS-FD** | Greedy selection + equal allocation (ablation) | — |
-| **RandomFD** | Random device selection (ablation) | — |
-| **FedSKD** | Selective top-K classes per logit (ablation) | — |
+| **FedMD [Full]** | All devices upload complete logits every round | Li & Wang, NeurIPS 2019 |
+| **FedSKD [Selective]** | Each device uploads top-50% logits | Gad et al., ICC 2024 |
+| **FedCS-FD [Equal]** | Budget split equally across selected devices | — |
+| **Random Selection** | Random 50% device selection per round | — |
 
 ---
 

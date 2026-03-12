@@ -1,0 +1,319 @@
+% Artifact Description — IEEE EDGE 2026
+% This document follows the IEEE conference formatting guidelines.
+% It is used solely for the review process and will NOT appear in proceedings.
+
+\documentclass[conference]{IEEEtran}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{enumitem}
+
+% Code listing style
+\lstset{
+  basicstyle=\ttfamily\small,
+  backgroundcolor=\color{gray!8},
+  frame=single,
+  framerule=0.4pt,
+  rulecolor=\color{gray!40},
+  breaklines=true,
+  columns=fullflexible,
+  keepspaces=true,
+  showstringspaces=false,
+  xleftmargin=4pt,
+  xrightmargin=4pt,
+  aboveskip=6pt,
+  belowskip=6pt,
+}
+
+\begin{document}
+
+\title{Artifact Description:\\KaaS-Edge: Resource-Aware Knowledge Distillation Service for Heterogeneous Wireless Edge Networks}
+
+\author{\IEEEauthorblockN{Anonymous}
+\IEEEauthorblockA{Double-blind review}}
+
+\maketitle
+
+% ============================================================
+\section{Access \& Links}
+% ============================================================
+
+The complete source code, configuration files, and experiment scripts are provided in this artifact package.
+The repository is also available at:
+
+\begin{itemize}
+  \item \textbf{Repository:} \url{[Anonymous GitHub link]}
+\end{itemize}
+
+\noindent All materials are released under the MIT License.
+
+% ============================================================
+\section{User Guide}
+% ============================================================
+
+\subsection{Installation}
+
+\begin{lstlisting}[language=bash]
+git clone <REPO_URL>
+cd KaaS-Edge
+python -m venv venv
+source venv/bin/activate   # Linux / macOS
+pip install -r requirements.txt
+\end{lstlisting}
+
+\subsection{Reproducing Main Results (Table~I \& Figures~2--3)}
+
+Run the main comparison experiment across three random seeds:
+
+\begin{lstlisting}[language=bash]
+python scripts/run_edge_experiments.py \
+    --exp main --device cuda:0
+\end{lstlisting}
+
+Or use parallel execution for faster runs:
+
+\begin{lstlisting}[language=bash]
+bash parallel_run.sh main cuda:0
+python merge_seed_results.py
+\end{lstlisting}
+
+\subsection{Reproducing Sensitivity Analysis (Figures~4--5)}
+
+\textbf{Budget sensitivity (Figure~4):}
+
+\begin{lstlisting}[language=bash]
+python scripts/run_edge_experiments.py \
+    --exp budget --device cuda:0
+\end{lstlisting}
+
+\textbf{Device scalability:}
+
+\begin{lstlisting}[language=bash]
+python scripts/run_edge_experiments.py \
+    --exp scale --device cuda:0
+\end{lstlisting}
+
+\textbf{Privacy impact (Figure~5):}
+
+\begin{lstlisting}[language=bash]
+python scripts/run_edge_experiments.py \
+    --exp privacy --device cuda:0
+\end{lstlisting}
+
+\subsection{Running All Experiments at Once}
+
+\begin{lstlisting}[language=bash]
+python scripts/run_edge_experiments.py \
+    --all --device cuda:0
+\end{lstlisting}
+
+\subsection{Generating Figures}
+
+After experiments complete:
+
+\begin{lstlisting}[language=bash]
+python plot_edge_figures.py
+\end{lstlisting}
+
+Figures are saved to the \texttt{figures/} directory.
+
+\subsection{Quick Verification (CPU-Only)}
+
+For reviewers without GPU access, a quick smoke-test validates basic executability:
+
+\begin{lstlisting}[language=bash]
+python scripts/run_edge_experiments.py \
+    --exp main --quick
+\end{lstlisting}
+
+This runs with reduced sample sizes on CPU and completes in approximately 5--10~minutes.
+
+% ============================================================
+\section{Environment}
+% ============================================================
+
+\subsection{Software Dependencies}
+
+Table~\ref{tab:deps} lists the key software dependencies.
+A complete list is provided in \texttt{requirements.txt}.
+
+\begin{table}[h]
+\centering
+\caption{Key Software Dependencies}
+\label{tab:deps}
+\begin{tabular}{@{}ll@{}}
+\toprule
+Package & Version \\
+\midrule
+Python       & $\geq$ 3.8   \\
+PyTorch      & $\geq$ 2.0.0 \\
+torchvision  & $\geq$ 0.15.0 \\
+numpy        & $\geq$ 1.24.0 \\
+scipy        & $\geq$ 1.10.0 \\
+scikit-learn & $\geq$ 1.3.0 \\
+matplotlib   & $\geq$ 3.7.0 \\
+pyyaml       & $\geq$ 6.0   \\
+tqdm         & $\geq$ 4.65.0 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Hardware Used for Paper Results}
+
+\begin{table}[h]
+\centering
+\caption{Hardware Configuration}
+\label{tab:hw}
+\begin{tabular}{@{}ll@{}}
+\toprule
+Component & Specification \\
+\midrule
+GPU     & NVIDIA RTX 5070 Ti (16\,GB VRAM) \\
+CPU     & Intel i7 equivalent \\
+RAM     & $\geq$ 16\,GB \\
+Storage & $\geq$ 5\,GB free \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Minimum Requirements}
+
+\begin{table}[h]
+\centering
+\caption{Minimum Hardware Requirements}
+\label{tab:minreq}
+\begin{tabular}{@{}ll@{}}
+\toprule
+Task & Minimum Hardware \\
+\midrule
+Quick test (\texttt{--quick}) & CPU only, 8\,GB RAM \\
+Single experiment             & GPU with $\geq$ 4\,GB VRAM \\
+Full reproduction             & GPU with $\geq$ 8\,GB VRAM \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ============================================================
+\section{Data \& Methods}
+% ============================================================
+
+\subsection{Dataset}
+
+\textbf{CIFAR-100} (Krizhevsky, 2009) is automatically downloaded by \texttt{torchvision} on first run.
+It contains 50{,}000 training images and 10{,}000 test images across 100 classes (32$\times$32 pixels).
+The training set is split into private data (40k) and public reference data (10k) using a fixed random seed, ensuring zero data leakage.
+
+\subsection{Data Partitioning}
+
+Non-IID data distribution across devices is created using Dirichlet partitioning with concentration parameter $\alpha = 0.5$ (configurable in \texttt{config/edge\_default.yaml}).
+
+\subsection{Device Simulation}
+
+Heterogeneous edge devices are simulated with log-normal cost distributions.
+Each device profile includes:
+\begin{itemize}[noitemsep]
+  \item \textbf{Cost} ($b_i$): marginal per-sample upload cost
+  \item \textbf{Privacy} ($\rho_i$): privacy degradation factor $\in (0, 1]$
+  \item \textbf{Capacity} ($\theta_i$): half-saturation constant
+\end{itemize}
+Device generation is deterministic given a random seed, ensuring full reproducibility.
+
+% ============================================================
+\section{Assessment: Interpreting Results}
+% ============================================================
+
+\subsection{Output Format}
+
+Each experiment produces a JSON file in \texttt{results/edge/} containing per-round metrics including accuracy history, final accuracy, total cost, and number of rounds.
+
+\subsection{Key Metrics}
+
+\begin{table}[h]
+\centering
+\caption{Key Evaluation Metrics}
+\label{tab:metrics}
+\begin{tabular}{@{}lll@{}}
+\toprule
+Metric & Description & Expected Range \\
+\midrule
+\texttt{final\_accuracy} & Test accuracy after 50 rounds & 44--51\% \\
+\texttt{total\_cost}     & Cumulative resource cost      & $\leq B \times T$ \\
+\texttt{n\_participants} & Devices selected per round     & 5--15 \\
+\texttt{comm\_mb}        & Per-round communication (MB)   & 7--15 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Expected Outcomes}
+
+The experiments should demonstrate:
+
+\begin{enumerate}[noitemsep]
+  \item \textbf{Main comparison (Table~I, Figure~2):} KaaS-Edge achieves accuracy comparable to full-participation baselines while reducing per-round communication by $\sim$9.7$\times$ and cumulative bandwidth by $\sim$17$\times$.
+  \item \textbf{Budget sensitivity (Figure~4):} Accuracy increases with budget $B$ following a concave curve, confirming the submodular structure of the quality function.
+  \item \textbf{Device scalability:} Quality improves with more devices due to the submodular greedy selection exploiting device diversity.
+  \item \textbf{Privacy impact (Figure~5):} Higher privacy (lower $\rho$) degrades accuracy gradually; KaaS-Edge maintains 41.3\% under strong privacy ($\bar{\rho} \approx 0.1$), remaining competitive with baselines at weaker privacy.
+\end{enumerate}
+
+\subsection{Variance}
+
+All experiments use 3 random seeds (42, 123, 456).
+Results are reported as mean $\pm$ standard deviation.
+Minor numerical differences across hardware are expected but should not affect relative rankings between methods.
+
+% ============================================================
+\section{System Requirements}
+% ============================================================
+
+\subsection{Full Reproduction}
+
+\begin{itemize}[noitemsep]
+  \item \textbf{GPU:} NVIDIA GPU with $\geq$ 8\,GB VRAM and CUDA support
+  \item \textbf{Time:} $\sim$2--3 hours for all experiments on a modern GPU
+  \item \textbf{Disk:} $\sim$2\,GB for CIFAR-100 download + results
+\end{itemize}
+
+\subsection{Simplified Verification}
+
+For reviewers with limited resources:
+
+\begin{lstlisting}[language=bash]
+python scripts/run_edge_experiments.py \
+    --exp main --quick
+\end{lstlisting}
+
+This validates that: (i) all dependencies install correctly, (ii) the RADS scheduler produces valid allocations, (iii) the training loop completes without errors, and (iv) results are saved in the expected format.
+
+% ============================================================
+\section{File Inventory}
+% ============================================================
+
+Table~\ref{tab:files} provides a summary of the key files in the repository.
+
+\begin{table}[h]
+\centering
+\caption{Key Repository Files}
+\label{tab:files}
+\begin{tabular}{@{}p{0.42\columnwidth}p{0.50\columnwidth}@{}}
+\toprule
+File / Directory & Description \\
+\midrule
+\texttt{src/scheduler/rads.py}      & Core RADS algorithm (Proposition~1 + Theorem~1) \\
+\texttt{src/methods/kaas\_edge.py}  & KaaS-Edge method implementation \\
+\texttt{src/methods/fed*.py}        & Baseline method implementations \\
+\texttt{src/privacy/ldp.py}         & Local differential privacy mechanisms \\
+\texttt{scripts/run\_edge\_experiments.py} & Main experiment runner \\
+\texttt{config/edge\_default.yaml}  & Default configuration \\
+\texttt{parallel\_run.sh}           & Multi-seed parallel execution \\
+\texttt{merge\_seed\_results.py}    & Result aggregation across seeds \\
+\texttt{plot\_edge\_figures.py}     & Figure generation script \\
+\texttt{requirements.txt}           & Python package dependencies \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\end{document}

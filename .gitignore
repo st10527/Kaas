@@ -136,3 +136,4 @@ nohup*.out
 # Paper PDF (do not push to public repo)
 *.pdf
 !figures/*.pdf
+!artifact_description.pdf
