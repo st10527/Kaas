@@ -184,16 +184,25 @@ def create_timeout_policy(name: str, **kwargs) -> TimeoutPolicy:
     name : str
         One of 'fixed', 'adaptive', 'partial'.
     **kwargs
-        Forwarded to the policy constructor (e.g. D_0, percentile, ...).
+        Forwarded to the policy constructor.  Extra kwargs that do not
+        match the constructor signature are silently ignored, so callers
+        can safely pass a superset of all policy parameters.
 
     Returns
     -------
     TimeoutPolicy
     """
+    import inspect
+
     key = name.lower().strip()
     if key not in _POLICY_REGISTRY:
         raise ValueError(
             f"Unknown timeout policy '{name}'. "
             f"Choose from {list(_POLICY_REGISTRY.keys())}"
         )
-    return _POLICY_REGISTRY[key](**kwargs)
+    cls = _POLICY_REGISTRY[key]
+    # Only pass kwargs that the constructor actually accepts
+    sig = inspect.signature(cls.__init__)
+    valid_params = set(sig.parameters.keys()) - {'self'}
+    filtered = {k: v for k, v in kwargs.items() if k in valid_params}
+    return cls(**filtered)
