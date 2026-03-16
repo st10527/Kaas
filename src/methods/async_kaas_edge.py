@@ -136,6 +136,33 @@ class AsyncKaaSEdge(FederatedMethod):
         self.scheduling_history: List[Dict] = []
 
     # ------------------------------------------------------------------
+    # Helpers
+    # ------------------------------------------------------------------
+
+    def _estimate_warmup_deadline(self, devices: List[Dict]) -> float:
+        """
+        Estimate a generous initial deadline from device rates and v_max.
+
+        During warmup we have no latency history, so the Adaptive policy
+        falls back to D_default.  If D_default is too tight relative to
+        the actual workload (comp_rate + comm_rate) * v*, nothing
+        completes → no history → permanent stall.  This helper computes
+        a workload-proportional deadline to break the cycle.
+
+        D_warmup = p90(rate_sum) * v_max * 0.4 * safety
+        where 0.4 ≈ median fraction of v_max allocated per device,
+        and safety = 2.0 to accommodate LogNormal noise.
+        """
+        rate_sums = [
+            d.get('comp_rate', 0.01) + d.get('comm_rate', 0.01)
+            for d in devices
+        ]
+        p90_rate = float(np.percentile(rate_sums, 90))
+        estimated_v = self.config.v_max * 0.4
+        D_warmup = p90_rate * estimated_v * 2.0
+        return max(D_warmup, 10.0)  # floor of 10 seconds
+
+    # ------------------------------------------------------------------
     # Main round
     # ------------------------------------------------------------------
 
@@ -160,13 +187,32 @@ class AsyncKaaSEdge(FederatedMethod):
             self._pretrained = True
 
         # ── Step 1: Deadline ──
-        deadline = self.timeout_policy.get_deadline(
-            round_idx, self.latency_history,
+        # During warmup the adaptive policy returns D_default, which may
+        # be too tight for the actual workload.  Estimate a reasonable
+        # deadline from device rates to avoid the "0-select death spiral".
+        in_warmup = (
+            round_idx < self.config.warmup_rounds
+            or len(self.latency_history) == 0
         )
-        # Update scheduler's deadline for straggler-aware selection
-        self.scheduler.deadline = deadline
+        if in_warmup:
+            deadline = self._estimate_warmup_deadline(devices)
+            # Also seed D_default so adaptive policy starts from a
+            # sensible value once it kicks in.
+            if hasattr(self.timeout_policy, 'D_default'):
+                self.timeout_policy.D_default = deadline
+        else:
+            deadline = self.timeout_policy.get_deadline(
+                round_idx, self.latency_history,
+            )
 
         # ── Step 2: RADS scheduling ──
+        # During warmup: disable straggler-aware to guarantee selection,
+        # so we collect latency history for the adaptive policy.
+        if in_warmup:
+            self.scheduler.straggler_aware = False
+        else:
+            self.scheduler.straggler_aware = self.config.straggler_aware
+        self.scheduler.deadline = deadline
         sched = self.scheduler.schedule(devices)
         self.scheduling_history.append({
             'round': round_idx,
