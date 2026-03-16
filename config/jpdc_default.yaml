@@ -1,0 +1,77 @@
+# ============================================================
+# Async-RADS / JPDC 2026 — Default Configuration
+# ============================================================
+# Extends the EDGE config with asynchronous parameters.
+
+# ── RADS Scheduler ──
+scheduler:
+  budget: 50.0          # Per-round total cost budget B
+  v_max: 200            # Maximum upload volume per device
+  delta: 1e-6           # Bisection tolerance
+  straggler_aware: true # JPDC: weight greedy gain by pi_i(D)
+
+# ── Device Setup ──
+devices:
+  n_devices: 50
+  cost_range: [0.05, 0.3]
+  theta_range: [20.0, 80.0]
+  activation_cost_range: [0.05, 0.2]
+
+# ── Training ──
+training:
+  n_rounds: 50
+  local_epochs: 2
+  local_lr: 0.01
+  distill_epochs: 3
+  distill_lr: 0.005
+  temperature: 3.0
+  pretrain_epochs: 10
+  pretrain_lr: 0.1
+  clip_bound: 2.0
+
+# ── Data ──
+data:
+  dataset: cifar100             # 'cifar100' or 'emnist_byclass'
+  n_classes: 100                # 62 for EMNIST
+  n_public: 10000
+  dirichlet_alpha: 0.3          # 0.1 for EMNIST (extreme non-IID)
+  batch_size: 64
+
+# ── Model ──
+model:
+  name: cnn                     # CNN_CIFAR (~1.2M params)
+  n_classes: 100
+
+# ── Async Parameters ──
+async:
+  timeout_policy: adaptive      # 'fixed' | 'adaptive' | 'partial'
+  fixed_deadline: 10.0          # D_0 for fixed / warmup
+  adaptive_percentile: 0.7      # target completion rate
+  warmup_rounds: 3
+  sigma_noise: 0.5              # straggler severity (LogNormal σ)
+  mu_noise: 0.0                 # straggler location (LogNormal μ)
+
+# ── Privacy ──
+privacy:
+  rho_range: [0.1, 1.0]
+
+# ── FedBuff-FD Baseline ──
+fedbuff:
+  buffer_size: 10
+  v_fixed: 100
+
+# ── Experiments ──
+experiments:
+  seeds: [42, 123, 456]
+  # Straggler severity sweep
+  sigma_sweep: [0.0, 0.3, 0.5, 1.0, 1.5]
+  # Scalability
+  device_sweep: [20, 50, 100, 200]
+  # Privacy sweep
+  privacy_scenarios:
+    no_privacy: 1.0
+    mild: 0.8
+    moderate: 0.55
+    strong: 0.1
+  # Budget sweep (reused from EDGE)
+  budget_sweep: [2, 4, 6, 8, 10, 15, 20, 30, 50]

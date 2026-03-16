@@ -16,6 +16,14 @@ Notation (matches EDGE paper):
 
 Quality model (saturation):
   q_i(v_i) = rho_i * v_i / (v_i + theta_i)
+
+JPDC extension — Straggler-aware selection (Sec 4.2):
+  When straggler_aware=True, greedy selection maximises the *expected*
+  quality  Q_tilde(S) = sum_i rho_i * q_i(v_i*) * pi_i(D)
+  where pi_i(D) = Pr[tau_i <= D] is the completion probability.
+  Submodularity is preserved because pi_i is a per-device constant
+  given D and v_i*.  Approximation guarantee: (1-1/e)/2 still holds
+  on the expected quality (Theorem 2 in JPDC paper).
 """
 
 import numpy as np
@@ -70,7 +78,10 @@ class RADSScheduler:
         budget: float = 10.0,
         v_max: float = 200.0,
         delta: float = 1e-6,
-        min_devices: int = 1
+        min_devices: int = 1,
+        straggler_aware: bool = False,
+        straggler_model=None,
+        deadline: float = 10.0,
     ):
         """
         Args:
@@ -78,11 +89,18 @@ class RADSScheduler:
             v_max: Maximum upload volume per device
             delta: Bisection tolerance for water-level search
             min_devices: Minimum devices to select (if budget allows)
+            straggler_aware: If True, weight greedy gain by completion
+                probability pi_i(D).  Requires straggler_model & deadline.
+            straggler_model: StragglerModel instance (for computing pi_i).
+            deadline: Current round deadline D^(t) — may be updated each round.
         """
         self.budget = budget
         self.v_max = v_max
         self.delta = delta
         self.min_devices = min_devices
+        self.straggler_aware = straggler_aware
+        self.straggler_model = straggler_model
+        self.deadline = deadline
     
     def schedule(
         self,
@@ -148,6 +166,28 @@ class RADSScheduler:
                 ) if selected_set else 0.0
                 
                 marginal_gain = trial_quality - current_quality
+
+                # ── JPDC: Straggler-aware gain scaling ──
+                # Multiply marginal gain by completion probability pi_i(D).
+                # pi_i is a per-device constant (given D and v_i*), so
+                # submodularity of the objective is preserved.
+                if (self.straggler_aware
+                        and self.straggler_model is not None
+                        and self.deadline > 0):
+                    # Find the candidate's allocation in the trial
+                    cand_alloc = next(
+                        (a for a in trial_allocs
+                         if a['device_id'] == dev_id),
+                        None,
+                    )
+                    if cand_alloc is not None:
+                        pi_i = self.straggler_model.completion_probability(
+                            comp_rate=candidate.get('comp_rate', 0.01),
+                            comm_rate=candidate.get('comm_rate', 0.01),
+                            v_star=cand_alloc['v_star'],
+                            deadline=self.deadline,
+                        )
+                        marginal_gain *= pi_i
                 
                 if marginal_gain > 0:
                     selected_set.append(candidate)

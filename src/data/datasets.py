@@ -306,8 +306,11 @@ def load_dataset(
     elif name.lower() == "cifar100":
         train, test = load_cifar100(root, download, normalize)
         return train, test, 100
+    elif name.lower() in ("emnist", "emnist_byclass"):
+        train, test = load_emnist_byclass(root, download)
+        return train, test, 62
     else:
-        raise ValueError(f"Unknown dataset: {name}. Choose 'cifar10' or 'cifar100'")
+        raise ValueError(f"Unknown dataset: {name}. Choose 'cifar10', 'cifar100', or 'emnist_byclass'")
 
 
 def load_stl10(
@@ -394,6 +397,165 @@ def get_data_loaders(
     }
     
     return loaders
+
+
+# =========================================================================
+# EMNIST-ByClass (JPDC 2026 — naturally non-IID second dataset)
+# =========================================================================
+
+class EMNISTByClassWrapper:
+    """
+    Wrapper for EMNIST ByClass split.
+
+    EMNIST-ByClass:
+    - 62 classes  (0-9, A-Z, a-z)
+    - 814,255 images (train+test)
+    - 28×28 grayscale → resized to ``img_size`` and replicated to 3 channels
+      so it can share the same CNN architecture as CIFAR-100.
+
+    For JPDC experiments we use Dirichlet(α=0.1) partitioning to mimic
+    extreme writer-level heterogeneity.  This is simpler and more
+    reproducible than parsing LEAF JSON files.
+    """
+
+    def __init__(
+        self,
+        root: str = "./data",
+        train: bool = True,
+        download: bool = True,
+        img_size: int = 32,
+    ):
+        if not TORCH_AVAILABLE:
+            raise RuntimeError("PyTorch required for EMNIST loading")
+
+        self.root = root
+        self.train = train
+        self.img_size = img_size
+
+        self.transform = transforms.Compose([
+            transforms.Resize(img_size),
+            transforms.ToTensor(),
+            transforms.Normalize((0.1307,), (0.3081,)),
+            transforms.Lambda(lambda x: x.repeat(3, 1, 1)),  # 1ch → 3ch
+        ])
+
+        self.dataset = torchvision.datasets.EMNIST(
+            root=str(self.root),
+            split='byclass',
+            train=train,
+            download=download,
+            transform=self.transform,
+        )
+        self.targets = np.array(self.dataset.targets)
+
+    @property
+    def n_samples(self) -> int:
+        return len(self.dataset)
+
+    @property
+    def n_classes(self) -> int:
+        return 62
+
+    def __len__(self):
+        return self.n_samples
+
+    def __getitem__(self, idx):
+        return self.dataset[idx]
+
+    def get_info(self) -> DatasetInfo:
+        return DatasetInfo(
+            name="EMNIST-ByClass",
+            n_samples=self.n_samples,
+            n_classes=self.n_classes,
+            image_size=(3, self.img_size, self.img_size),
+            split="train" if self.train else "test",
+        )
+
+    def get_class_indices(self) -> Dict[int, List[int]]:
+        class_indices: Dict[int, List[int]] = {c: [] for c in range(self.n_classes)}
+        for idx, target in enumerate(self.targets):
+            class_indices[int(target)].append(idx)
+        return class_indices
+
+
+def load_emnist_byclass(
+    root: str = "./data",
+    download: bool = True,
+    img_size: int = 32,
+) -> Tuple[EMNISTByClassWrapper, EMNISTByClassWrapper]:
+    """
+    Load EMNIST-ByClass train and test sets.
+
+    Returns (train_dataset, test_dataset).
+    """
+    train = EMNISTByClassWrapper(root, train=True, download=download, img_size=img_size)
+    test = EMNISTByClassWrapper(root, train=False, download=download, img_size=img_size)
+    print(f"Loaded EMNIST-ByClass:")
+    print(f"  Train: {train.n_samples} samples, {train.n_classes} classes")
+    print(f"  Test:  {test.n_samples} samples, {test.n_classes} classes")
+    return train, test
+
+
+def load_emnist_safe_split(
+    root: str = "./data",
+    n_public: int = 10000,
+    seed: int = 42,
+    img_size: int = 32,
+):
+    """
+    Safe split for EMNIST-ByClass (mirrors load_cifar100_safe_split).
+
+    Splits the training set into:
+      - private_set (for local training, with augmentation)
+      - public_set  (for distillation, without augmentation)
+    Keeps the test set untouched.
+    """
+    import torch
+    from torch.utils.data import Subset
+
+    stats = ((0.1307,), (0.3081,))
+
+    transform_train = transforms.Compose([
+        transforms.Resize(img_size),
+        transforms.RandomAffine(degrees=10, translate=(0.1, 0.1)),
+        transforms.ToTensor(),
+        transforms.Normalize(*stats),
+        transforms.Lambda(lambda x: x.repeat(3, 1, 1)),
+    ])
+    transform_test = transforms.Compose([
+        transforms.Resize(img_size),
+        transforms.ToTensor(),
+        transforms.Normalize(*stats),
+        transforms.Lambda(lambda x: x.repeat(3, 1, 1)),
+    ])
+
+    full_train_aug = torchvision.datasets.EMNIST(
+        root=root, split='byclass', train=True, download=True,
+        transform=transform_train,
+    )
+    full_train_clean = torchvision.datasets.EMNIST(
+        root=root, split='byclass', train=True, download=True,
+        transform=transform_test,
+    )
+    test_set = torchvision.datasets.EMNIST(
+        root=root, split='byclass', train=False, download=True,
+        transform=transform_test,
+    )
+
+    np.random.seed(seed)
+    indices = np.random.permutation(len(full_train_aug))
+    public_indices = indices[:n_public]
+    private_indices = indices[n_public:]
+
+    private_set = Subset(full_train_aug, private_indices)
+    public_set = Subset(full_train_clean, public_indices)
+
+    print(f"[EMNIST Safe Split]")
+    print(f"  Public:  {len(public_set)} samples")
+    print(f"  Private: {len(private_set)} samples")
+    print(f"  Test:    {len(test_set)} samples")
+
+    return private_set, public_set, test_set
 
 
 class SyntheticDataset:
