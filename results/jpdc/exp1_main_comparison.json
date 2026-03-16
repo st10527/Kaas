@@ -1,0 +1,1636 @@
+{
+  "Async-RADS_seed42": {
+    "method": "Async-RADS",
+    "history": [
+      {
+        "round": 0,
+        "accuracy": 0.107,
+        "loss": 3.8242383178710937,
+        "participation_rate": 0.0,
+        "n_participants": 0,
+        "energy": {
+          "training": 0.0,
+          "inference": 0.0,
+          "communication": 0.0
+        },
+        "extra": {
+          "n_selected": 0,
+          "total_quality": 0,
+          "total_cost": 0,
+          "water_level": 0.0,
+          "budget": 50.0,
+          "n_valid_samples": 0,
+          "comm_mb": 0.0,
+          "selected_ids": [],
+          "deadline": 10.0,
+          "wall_clock_time": 10.0,
+          "n_complete": 0,
+          "n_partial": 0,
+          "n_timeout": 0
+        },
+        "wall_clock_time": 10.0
+      },
+      {
+        "round": 1,
+        "accuracy": 0.107,
+        "loss": 3.8242383178710937,
+        "participation_rate": 0.0,
+        "n_participants": 0,
+        "energy": {
+          "training": 0.0,
+          "inference": 0.0,
+          "communication": 0.0
+        },
+        "extra": {
+          "n_selected": 0,
+          "total_quality": 0,
+          "total_cost": 0,
+          "water_level": 0.0,
+          "budget": 50.0,
+          "n_valid_samples": 0,
+          "comm_mb": 0.0,
+          "selected_ids": [],
+          "deadline": 10.0,
+          "wall_clock_time": 20.0,
+          "n_complete": 0,
+          "n_partial": 0,
+          "n_timeout": 0
+        },
+        "wall_clock_time": 20.0
+      },
+      {
+        "round": 2,
+        "accuracy": 0.107,
+        "loss": 3.8242383178710937,
+        "participation_rate": 0.0,
+        "n_participants": 0,
+        "energy": {
+          "training": 0.0,
+          "inference": 0.0,
+          "communication": 0.0
+        },
+        "extra": {
+          "n_selected": 0,
+          "total_quality": 0,
+          "total_cost": 0,
+          "water_level": 0.0,
+          "budget": 50.0,
+          "n_valid_samples": 0,
+          "comm_mb": 0.0,
+          "selected_ids": [],
+          "deadline": 10.0,
+          "wall_clock_time": 30.0,
+          "n_complete": 0,
+          "n_partial": 0,
+          "n_timeout": 0
+        },
+        "wall_clock_time": 30.0
+      },
+      {
+        "round": 3,
+        "accuracy": 0.107,
+        "loss": 3.8242383178710937,
+        "participation_rate": 0.0,
+        "n_participants": 0,
+        "energy": {
+          "training": 0.0,
+          "inference": 0.0,
+          "communication": 0.0
+        },
+        "extra": {
+          "n_selected": 0,
+          "total_quality": 0,
+          "total_cost": 0,
+          "water_level": 0.0,
+          "budget": 50.0,
+          "n_valid_samples": 0,
+          "comm_mb": 0.0,
+          "selected_ids": [],
+          "deadline": 10.0,
+          "wall_clock_time": 40.0,
+          "n_complete": 0,
+          "n_partial": 0,
+          "n_timeout": 0
+        },
+        "wall_clock_time": 40.0
+      },
+      {
+        "round": 4,
+        "accuracy": 0.107,
+        "loss": 3.8242383178710937,
+        "participation_rate": 0.0,
+        "n_participants": 0,
+        "energy": {
+          "training": 0.0,
+          "inference": 0.0,
+          "communication": 0.0
+        },
+        "extra": {
+          "n_selected": 0,
+          "total_quality": 0,
+          "total_cost": 0,
+          "water_level": 0.0,
+          "budget": 50.0,
+          "n_valid_samples": 0,
+          "comm_mb": 0.0,
+          "selected_ids": [],
+          "deadline": 10.0,
+          "wall_clock_time": 50.0,
+          "n_complete": 0,
+          "n_partial": 0,
+          "n_timeout": 0
+        },
+        "wall_clock_time": 50.0
+      },
+      {
+        "round": 5,
+        "accuracy": 0.107,
+        "loss": 3.8242383178710937,
+        "participation_rate": 0.0,
+        "n_participants": 0,
+        "energy": {
+          "training": 0.0,
+          "inference": 0.0,
+          "communication": 0.0
+        },
+        "extra": {
+          "n_selected": 0,
+          "total_quality": 0,
+          "total_cost": 0,
+          "water_level": 0.0,
+          "budget": 50.0,
+          "n_valid_samples": 0,
+          "comm_mb": 0.0,
+          "selected_ids": [],
+          "deadline": 10.0,
+          "wall_clock_time": 60.0,
+          "n_complete": 0,
+          "n_partial": 0,
+          "n_timeout": 0
+        },
+        "wall_clock_time": 60.0
+      },
+      {
+        "round": 6,
+        "accuracy": 0.107,
+        "loss": 3.8242383178710937,
+        "participation_rate": 0.0,
+        "n_participants": 0,
+        "energy": {
+          "training": 0.0,
+          "inference": 0.0,
+          "communication": 0.0
+        },
+        "extra": {
+          "n_selected": 0,
+          "total_quality": 0,
+          "total_cost": 0,
+          "water_level": 0.0,
+          "budget": 50.0,
+          "n_valid_samples": 0,
+          "comm_mb": 0.0,
+          "selected_ids": [],
+          "deadline": 10.0,
+          "wall_clock_time": 70.0,
+          "n_complete": 0,
+          "n_partial": 0,
+          "n_timeout": 0
+        },
+        "wall_clock_time": 70.0
+      },
+      {
+        "round": 7,
+        "accuracy": 0.107,
+        "loss": 3.8242383178710937,
+        "participation_rate": 0.0,
+        "n_participants": 0,
+        "energy": {
+          "training": 0.0,
+          "inference": 0.0,
+          "communication": 0.0
+        },
+        "extra": {
+          "n_selected": 0,
+          "total_quality": 0,
+          "total_cost": 0,
+          "water_level": 0.0,
+          "budget": 50.0,
+          "n_valid_samples": 0,
+          "comm_mb": 0.0,
+          "selected_ids": [],
+          "deadline": 10.0,
+          "wall_clock_time": 80.0,
+          "n_complete": 0,
+          "n_partial": 0,
+          "n_timeout": 0
+        },
+        "wall_clock_time": 80.0
+      },
+      {
+        "round": 8,
+        "accuracy": 0.107,
+        "loss": 3.8242383178710937,
+        "participation_rate": 0.0,
+        "n_participants": 0,
+        "energy": {
+          "training": 0.0,
+          "inference": 0.0,
+          "communication": 0.0
+        },
+        "extra": {
+          "n_selected": 0,
+          "total_quality": 0,
+          "total_cost": 0,
+          "water_level": 0.0,
+          "budget": 50.0,
+          "n_valid_samples": 0,
+          "comm_mb": 0.0,
+          "selected_ids": [],
+          "deadline": 10.0,
+          "wall_clock_time": 90.0,
+          "n_complete": 0,
+          "n_partial": 0,
+          "n_timeout": 0
+        },
+        "wall_clock_time": 90.0
+      },
+      {
+        "round": 9,
+        "accuracy": 0.107,
+        "loss": 3.8242383178710937,
+        "participation_rate": 0.0,
+        "n_participants": 0,
+        "energy": {
+          "training": 0.0,
+          "inference": 0.0,
+          "communication": 0.0
+        },
+        "extra": {
+          "n_selected": 0,
+          "total_quality": 0,
+          "total_cost": 0,
+          "water_level": 0.0,
+          "budget": 50.0,
+          "n_valid_samples": 0,
+          "comm_mb": 0.0,
+          "selected_ids": [],
+          "deadline": 10.0,
+          "wall_clock_time": 100.0,
+          "n_complete": 0,
+          "n_partial": 0,
+          "n_timeout": 0
+        },
+        "wall_clock_time": 100.0
+      }
+    ],
+    "final_accuracy": 0.107,
+    "best_accuracy": 0.107,
+    "total_time": 13.809038877487183,
+    "wall_clock_time": 100.0
+  },
+  "Sync-RADS_seed42": {
+    "method": "Sync-RADS",
+    "history": [
+      {
+        "round": 0,
+        "accuracy": 0.0834,
+        "loss": 3.9292623218536376,
+        "participation_rate": 1.0,
+        "n_participants": 10,
+        "energy": {
+          "training": 19.999998816228434,
+          "inference": 14.999999112171325,
+          "communication": 14.999999112171325
+        },
+        "extra": {
+          "n_selected": 10,
+          "total_quality": 4.794850484328888,
+          "total_cost": 49.99999704057108,
+          "water_level": 0.003246863223727825,
+          "budget": 50.0,
+          "n_valid_samples": 4881,
+          "comm_mb": 5.7880401611328125,
+          "selected_ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        }
+      },
+      {
+        "round": 1,
+        "accuracy": 0.1014,
+        "loss": 3.846442113494873,
+        "participation_rate": 1.0,
+        "n_participants": 10,
+        "energy": {
+          "training": 19.999998816228434,
+          "inference": 14.999999112171325,
+          "communication": 14.999999112171325
+        },
+        "extra": {
+          "n_selected": 10,
+          "total_quality": 4.794850484328888,
+          "total_cost": 49.99999704057108,
+          "water_level": 0.003246863223727825,
+          "budget": 50.0,
+          "n_valid_samples": 4874,
+          "comm_mb": 5.7880401611328125,
+          "selected_ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        }
+      },
+      {
+        "round": 2,
+        "accuracy": 0.1053,
+        "loss": 3.811348547363281,
+        "participation_rate": 1.0,
+        "n_participants": 10,
+        "energy": {
+          "training": 19.999998816228434,
+          "inference": 14.999999112171325,
+          "communication": 14.999999112171325
+        },
+        "extra": {
+          "n_selected": 10,
+          "total_quality": 4.794850484328888,
+          "total_cost": 49.99999704057108,
+          "water_level": 0.003246863223727825,
+          "budget": 50.0,
+          "n_valid_samples": 4863,
+          "comm_mb": 5.7880401611328125,
+          "selected_ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        }
+      },
+      {
+        "round": 3,
+        "accuracy": 0.1215,
+        "loss": 3.7357543601989747,
+        "participation_rate": 1.0,
+        "n_participants": 10,
+        "energy": {
+          "training": 19.999998816228434,
+          "inference": 14.999999112171325,
+          "communication": 14.999999112171325
+        },
+        "extra": {
+          "n_selected": 10,
+          "total_quality": 4.794850484328888,
+          "total_cost": 49.99999704057108,
+          "water_level": 0.003246863223727825,
+          "budget": 50.0,
+          "n_valid_samples": 4860,
+          "comm_mb": 5.7880401611328125,
+          "selected_ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        }
+      },
+      {
+        "round": 4,
+        "accuracy": 0.1182,
+        "loss": 3.763856443023682,
+        "participation_rate": 1.0,
+        "n_participants": 10,
+        "energy": {
+          "training": 19.999998816228434,
+          "inference": 14.999999112171325,
+          "communication": 14.999999112171325
+        },
+        "extra": {
+          "n_selected": 10,
+          "total_quality": 4.794850484328888,
+          "total_cost": 49.99999704057108,
+          "water_level": 0.003246863223727825,
+          "budget": 50.0,
+          "n_valid_samples": 4874,
+          "comm_mb": 5.7880401611328125,
+          "selected_ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        }
+      },
+      {
+        "round": 5,
+        "accuracy": 0.1245,
+        "loss": 3.7212910972595217,
+        "participation_rate": 1.0,
+        "n_participants": 10,
+        "energy": {
+          "training": 19.999998816228434,
+          "inference": 14.999999112171325,
+          "communication": 14.999999112171325
+        },
+        "extra": {
+          "n_selected": 10,
+          "total_quality": 4.794850484328888,
+          "total_cost": 49.99999704057108,
+          "water_level": 0.003246863223727825,
+          "budget": 50.0,
+          "n_valid_samples": 4871,
+          "comm_mb": 5.7880401611328125,
+          "selected_ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        }
+      },
+      {
+        "round": 6,
+        "accuracy": 0.1392,
+        "loss": 3.6400639724731447,
+        "participation_rate": 1.0,
+        "n_participants": 10,
+        "energy": {
+          "training": 19.999998816228434,
+          "inference": 14.999999112171325,
+          "communication": 14.999999112171325
+        },
+        "extra": {
+          "n_selected": 10,
+          "total_quality": 4.794850484328888,
+          "total_cost": 49.99999704057108,
+          "water_level": 0.003246863223727825,
+          "budget": 50.0,
+          "n_valid_samples": 4893,
+          "comm_mb": 5.7880401611328125,
+          "selected_ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        }
+      },
+      {
+        "round": 7,
+        "accuracy": 0.1421,
+        "loss": 3.6083638298034666,
+        "participation_rate": 1.0,
+        "n_participants": 10,
+        "energy": {
+          "training": 19.999998816228434,
+          "inference": 14.999999112171325,
+          "communication": 14.999999112171325
+        },
+        "extra": {
+          "n_selected": 10,
+          "total_quality": 4.794850484328888,
+          "total_cost": 49.99999704057108,
+          "water_level": 0.003246863223727825,
+          "budget": 50.0,
+          "n_valid_samples": 4886,
+          "comm_mb": 5.7880401611328125,
+          "selected_ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        }
+      },
+      {
+        "round": 8,
+        "accuracy": 0.1485,
+        "loss": 3.5959285095214844,
+        "participation_rate": 1.0,
+        "n_participants": 10,
+        "energy": {
+          "training": 19.999998816228434,
+          "inference": 14.999999112171325,
+          "communication": 14.999999112171325
+        },
+        "extra": {
+          "n_selected": 10,
+          "total_quality": 4.794850484328888,
+          "total_cost": 49.99999704057108,
+          "water_level": 0.003246863223727825,
+          "budget": 50.0,
+          "n_valid_samples": 4886,
+          "comm_mb": 5.7880401611328125,
+          "selected_ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        }
+      },
+      {
+        "round": 9,
+        "accuracy": 0.1638,
+        "loss": 3.5056074234008787,
+        "participation_rate": 1.0,
+        "n_participants": 10,
+        "energy": {
+          "training": 19.999998816228434,
+          "inference": 14.999999112171325,
+          "communication": 14.999999112171325
+        },
+        "extra": {
+          "n_selected": 10,
+          "total_quality": 4.794850484328888,
+          "total_cost": 49.99999704057108,
+          "water_level": 0.003246863223727825,
+          "budget": 50.0,
+          "n_valid_samples": 4882,
+          "comm_mb": 5.7880401611328125,
+          "selected_ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        }
+      }
+    ],
+    "final_accuracy": 0.1638,
+    "best_accuracy": 0.1638,
+    "total_time": 306.11546325683594,
+    "wall_clock_time": 306.11546325683594
+  },
+  "FedBuff-FD_seed42": {
+    "method": "FedBuff-FD",
+    "history": [
+      {
+        "round": 0,
+        "accuracy": 0.0509,
+        "loss": 4.179286164855957,
+        "participation_rate": 1.0,
+        "n_participants": 10,
+        "energy": {
+          "training": 0,
+          "inference": 0,
+          "communication": 0
+        },
+        "extra": {
+          "method": "FedBuff-FD",
+          "comm_mb": 0.3814697265625,
+          "wall_clock_time": 5.865778596370745,
+          "step_time": 5.865778596370745,
+          "buffer_size": 10
+        },
+        "wall_clock_time": 5.865778596370745
+      },
+      {
+        "round": 1,
+        "accuracy": 0.0574,
+        "loss": 4.15118279876709,
+        "participation_rate": 1.0,
+        "n_participants": 10,
+        "energy": {
+          "training": 0,
+          "inference": 0,
+          "communication": 0
+        },
+        "extra": {
+          "method": "FedBuff-FD",
+          "comm_mb": 0.3814697265625,
+          "wall_clock_time": 10.442920114599938,
+          "step_time": 4.577141518229192,
+          "buffer_size": 10
+        },
+        "wall_clock_time": 10.442920114599938
+      },
+      {
+        "round": 2,
+        "accuracy": 0.0549,
+        "loss": 4.195573533630371,
+        "participation_rate": 1.0,
+        "n_participants": 10,
+        "energy": {
+          "training": 0,
+          "inference": 0,
+          "communication": 0
+        },
+        "extra": {
+          "method": "FedBuff-FD",
+          "comm_mb": 0.3814697265625,
+          "wall_clock_time": 15.82551504951465,
+          "step_time": 5.382594934914712,
+          "buffer_size": 10
+        },
+        "wall_clock_time": 15.82551504951465
+      },
+      {
+        "round": 3,
+        "accuracy": 0.0747,
+        "loss": 4.072173308944702,
+        "participation_rate": 1.0,
+        "n_participants": 10,
+        "energy": {
+          "training": 0,
+          "inference": 0,
+          "communication": 0
+        },
+        "extra": {
+          "method": "FedBuff-FD",
+          "comm_mb": 0.3814697265625,
+          "wall_clock_time": 20.598843969808872,
+          "step_time": 4.773328920294223,
+          "buffer_size": 10
+        },
+        "wall_clock_time": 20.598843969808872
+      },
+      {
+        "round": 4,
+        "accuracy": 0.0742,
+        "loss": 4.049269813156128,
+        "participation_rate": 1.0,
+        "n_participants": 10,
+        "energy": {
+          "training": 0,
+          "inference": 0,
+          "communication": 0
+        },
+        "extra": {
+          "method": "FedBuff-FD",
+          "comm_mb": 0.3814697265625,
+          "wall_clock_time": 25.728361580054443,
+          "step_time": 5.129517610245571,
+          "buffer_size": 10
+        },
+        "wall_clock_time": 25.728361580054443
+      },
+      {
+        "round": 5,
+        "accuracy": 0.07,
+        "loss": 4.076865533447266,
+        "participation_rate": 1.0,
+        "n_participants": 10,
+        "energy": {
+          "training": 0,
+          "inference": 0,
+          "communication": 0
+        },
+        "extra": {
+          "method": "FedBuff-FD",
+          "comm_mb": 0.3814697265625,
+          "wall_clock_time": 30.850566405205313,
+          "step_time": 5.12220482515087,
+          "buffer_size": 10
+        },
+        "wall_clock_time": 30.850566405205313
+      },
+      {
+        "round": 6,
+        "accuracy": 0.069,
+        "loss": 4.128923100280762,
+        "participation_rate": 1.0,
+        "n_participants": 10,
+        "energy": {
+          "training": 0,
+          "inference": 0,
+          "communication": 0
+        },
+        "extra": {
+          "method": "FedBuff-FD",
+          "comm_mb": 0.3814697265625,
+          "wall_clock_time": 35.990829937699985,
+          "step_time": 5.140263532494675,
+          "buffer_size": 10
+        },
+        "wall_clock_time": 35.990829937699985
+      },
+      {
+        "round": 7,
+        "accuracy": 0.0848,
+        "loss": 4.025803890991211,
+        "participation_rate": 1.0,
+        "n_participants": 10,
+        "energy": {
+          "training": 0,
+          "inference": 0,
+          "communication": 0
+        },
+        "extra": {
+          "method": "FedBuff-FD",
+          "comm_mb": 0.3814697265625,
+          "wall_clock_time": 40.979845543673925,
+          "step_time": 4.989015605973938,
+          "buffer_size": 10
+        },
+        "wall_clock_time": 40.979845543673925
+      },
+      {
+        "round": 8,
+        "accuracy": 0.0736,
+        "loss": 4.089346670532227,
+        "participation_rate": 1.0,
+        "n_participants": 10,
+        "energy": {
+          "training": 0,
+          "inference": 0,
+          "communication": 0
+        },
+        "extra": {
+          "method": "FedBuff-FD",
+          "comm_mb": 0.3814697265625,
+          "wall_clock_time": 46.22353125783082,
+          "step_time": 5.243685714156895,
+          "buffer_size": 10
+        },
+        "wall_clock_time": 46.22353125783082
+      },
+      {
+        "round": 9,
+        "accuracy": 0.0807,
+        "loss": 4.039955454254151,
+        "participation_rate": 1.0,
+        "n_participants": 10,
+        "energy": {
+          "training": 0,
+          "inference": 0,
+          "communication": 0
+        },
+        "extra": {
+          "method": "FedBuff-FD",
+          "comm_mb": 0.3814697265625,
+          "wall_clock_time": 51.16815768728034,
+          "step_time": 4.94462642944952,
+          "buffer_size": 10
+        },
+        "wall_clock_time": 51.16815768728034
+      }
+    ],
+    "final_accuracy": 0.0807,
+    "best_accuracy": 0.0848,
+    "total_time": 293.69787526130676,
+    "wall_clock_time": 51.16815768728034
+  },
+  "Random-Async_seed42": {
+    "method": "Random-Async",
+    "history": [
+      {
+        "round": 0,
+        "accuracy": 0.0514,
+        "loss": 4.416363513183594,
+        "participation_rate": 0.5,
+        "n_participants": 5,
+        "energy": {
+          "training": 0,
+          "inference": 0,
+          "communication": 0
+        },
+        "extra": {
+          "method": "RandomAsync",
+          "comm_mb": 0.19073486328125,
+          "wall_clock_time": 10.0,
+          "deadline": 10.0,
+          "n_complete": 5,
+          "n_timeout": 0
+        },
+        "wall_clock_time": 10.0
+      },
+      {
+        "round": 1,
+        "accuracy": 0.048,
+        "loss": 4.319171382904052,
+        "participation_rate": 0.5,
+        "n_participants": 5,
+        "energy": {
+          "training": 0,
+          "inference": 0,
+          "communication": 0
+        },
+        "extra": {
+          "method": "RandomAsync",
+          "comm_mb": 0.19073486328125,
+          "wall_clock_time": 20.0,
+          "deadline": 10.0,
+          "n_complete": 5,
+          "n_timeout": 0
+        },
+        "wall_clock_time": 20.0
+      },
+      {
+        "round": 2,
+        "accuracy": 0.0497,
+        "loss": 4.305745817565918,
+        "participation_rate": 0.5,
+        "n_participants": 5,
+        "energy": {
+          "training": 0,
+          "inference": 0,
+          "communication": 0
+        },
+        "extra": {
+          "method": "RandomAsync",
+          "comm_mb": 0.19073486328125,
+          "wall_clock_time": 30.0,
+          "deadline": 10.0,
+          "n_complete": 5,
+          "n_timeout": 0
+        },
+        "wall_clock_time": 30.0
+      },
+      {
+        "round": 3,
+        "accuracy": 0.0617,
+        "loss": 4.130157208251953,
+        "participation_rate": 0.5,
+        "n_participants": 5,
+        "energy": {
+          "training": 0,
+          "inference": 0,
+          "communication": 0
+        },
+        "extra": {
+          "method": "RandomAsync",
+          "comm_mb": 0.19073486328125,
+          "wall_clock_time": 40.0,
+          "deadline": 10.0,
+          "n_complete": 5,
+          "n_timeout": 0
+        },
+        "wall_clock_time": 40.0
+      },
+      {
+        "round": 4,
+        "accuracy": 0.054,
+        "loss": 4.213587788391114,
+        "participation_rate": 0.5,
+        "n_participants": 5,
+        "energy": {
+          "training": 0,
+          "inference": 0,
+          "communication": 0
+        },
+        "extra": {
+          "method": "RandomAsync",
+          "comm_mb": 0.19073486328125,
+          "wall_clock_time": 50.0,
+          "deadline": 10.0,
+          "n_complete": 5,
+          "n_timeout": 0
+        },
+        "wall_clock_time": 50.0
+      },
+      {
+        "round": 5,
+        "accuracy": 0.0536,
+        "loss": 4.302786333465576,
+        "participation_rate": 0.5,
+        "n_participants": 5,
+        "energy": {
+          "training": 0,
+          "inference": 0,
+          "communication": 0
+        },
+        "extra": {
+          "method": "RandomAsync",
+          "comm_mb": 0.19073486328125,
+          "wall_clock_time": 60.0,
+          "deadline": 10.0,
+          "n_complete": 5,
+          "n_timeout": 0
+        },
+        "wall_clock_time": 60.0
+      },
+      {
+        "round": 6,
+        "accuracy": 0.0424,
+        "loss": 4.299468336486816,
+        "participation_rate": 0.5,
+        "n_participants": 5,
+        "energy": {
+          "training": 0,
+          "inference": 0,
+          "communication": 0
+        },
+        "extra": {
+          "method": "RandomAsync",
+          "comm_mb": 0.19073486328125,
+          "wall_clock_time": 70.0,
+          "deadline": 10.0,
+          "n_complete": 5,
+          "n_timeout": 0
+        },
+        "wall_clock_time": 70.0
+      },
+      {
+        "round": 7,
+        "accuracy": 0.0579,
+        "loss": 4.159911071777343,
+        "participation_rate": 0.5,
+        "n_participants": 5,
+        "energy": {
+          "training": 0,
+          "inference": 0,
+          "communication": 0
+        },
+        "extra": {
+          "method": "RandomAsync",
+          "comm_mb": 0.19073486328125,
+          "wall_clock_time": 80.0,
+          "deadline": 10.0,
+          "n_complete": 5,
+          "n_timeout": 0
+        },
+        "wall_clock_time": 80.0
+      },
+      {
+        "round": 8,
+        "accuracy": 0.0671,
+        "loss": 4.0677551139831545,
+        "participation_rate": 0.5,
+        "n_participants": 5,
+        "energy": {
+          "training": 0,
+          "inference": 0,
+          "communication": 0
+        },
+        "extra": {
+          "method": "RandomAsync",
+          "comm_mb": 0.19073486328125,
+          "wall_clock_time": 90.0,
+          "deadline": 10.0,
+          "n_complete": 5,
+          "n_timeout": 0
+        },
+        "wall_clock_time": 90.0
+      },
+      {
+        "round": 9,
+        "accuracy": 0.0659,
+        "loss": 4.081192090988159,
+        "participation_rate": 0.5,
+        "n_participants": 5,
+        "energy": {
+          "training": 0,
+          "inference": 0,
+          "communication": 0
+        },
+        "extra": {
+          "method": "RandomAsync",
+          "comm_mb": 0.19073486328125,
+          "wall_clock_time": 100.0,
+          "deadline": 10.0,
+          "n_complete": 5,
+          "n_timeout": 0
+        },
+        "wall_clock_time": 100.0
+      }
+    ],
+    "final_accuracy": 0.0659,
+    "best_accuracy": 0.0671,
+    "total_time": 155.09003734588623,
+    "wall_clock_time": 100.0
+  },
+  "Full-Async_seed42": {
+    "method": "Full-Async",
+    "history": [
+      {
+        "round": 0,
+        "accuracy": 0.0531,
+        "loss": 4.448484490966797,
+        "participation_rate": 1.0,
+        "n_participants": 10,
+        "energy": {
+          "training": 2.4588646094852162,
+          "inference": 1.8441484571139113,
+          "communication": 1.8441484571139113
+        },
+        "extra": {
+          "n_selected": 10,
+          "total_quality": 3.274801467357558,
+          "total_cost": 6.147161523713039,
+          "water_level": 1e-12,
+          "budget": 1000000.0,
+          "n_valid_samples": 925,
+          "comm_mb": 0.3814697265625,
+          "selected_ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "deadline": 10.0,
+          "wall_clock_time": 10.0,
+          "n_complete": 10,
+          "n_partial": 0,
+          "n_timeout": 0
+        },
+        "wall_clock_time": 10.0
+      },
+      {
+        "round": 1,
+        "accuracy": 0.0616,
+        "loss": 4.097118367004395,
+        "participation_rate": 1.0,
+        "n_participants": 10,
+        "energy": {
+          "training": 2.4588646094852162,
+          "inference": 1.8441484571139113,
+          "communication": 1.8441484571139113
+        },
+        "extra": {
+          "n_selected": 10,
+          "total_quality": 3.274801467357558,
+          "total_cost": 6.147161523713039,
+          "water_level": 1e-12,
+          "budget": 1000000.0,
+          "n_valid_samples": 921,
+          "comm_mb": 0.3814697265625,
+          "selected_ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "deadline": 10.0,
+          "wall_clock_time": 20.0,
+          "n_complete": 10,
+          "n_partial": 0,
+          "n_timeout": 0
+        },
+        "wall_clock_time": 20.0
+      },
+      {
+        "round": 2,
+        "accuracy": 0.0717,
+        "loss": 4.046103756713867,
+        "participation_rate": 1.0,
+        "n_participants": 10,
+        "energy": {
+          "training": 2.4588646094852162,
+          "inference": 1.8441484571139113,
+          "communication": 1.8441484571139113
+        },
+        "extra": {
+          "n_selected": 10,
+          "total_quality": 3.274801467357558,
+          "total_cost": 6.147161523713039,
+          "water_level": 1e-12,
+          "budget": 1000000.0,
+          "n_valid_samples": 918,
+          "comm_mb": 0.3814697265625,
+          "selected_ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "deadline": 10.0,
+          "wall_clock_time": 30.0,
+          "n_complete": 10,
+          "n_partial": 0,
+          "n_timeout": 0
+        },
+        "wall_clock_time": 30.0
+      },
+      {
+        "round": 3,
+        "accuracy": 0.0735,
+        "loss": 4.072679212188721,
+        "participation_rate": 0.6,
+        "n_participants": 6,
+        "energy": {
+          "training": 1.48793761025781,
+          "inference": 1.1159532076933572,
+          "communication": 1.1159532076933572
+        },
+        "extra": {
+          "n_selected": 10,
+          "total_quality": 3.274801467357558,
+          "total_cost": 6.147161523713039,
+          "water_level": 1e-12,
+          "budget": 1000000.0,
+          "n_valid_samples": 577,
+          "comm_mb": 0.2288818359375,
+          "selected_ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "deadline": 4.329855520130883,
+          "wall_clock_time": 34.329855520130884,
+          "n_complete": 6,
+          "n_partial": 4,
+          "n_timeout": 0
+        },
+        "wall_clock_time": 34.329855520130884
+      },
+      {
+        "round": 4,
+        "accuracy": 0.0461,
+        "loss": 4.368147433471679,
+        "participation_rate": 0.6,
+        "n_participants": 6,
+        "energy": {
+          "training": 1.4773077800884746,
+          "inference": 1.1079808350663558,
+          "communication": 1.1079808350663558
+        },
+        "extra": {
+          "n_selected": 10,
+          "total_quality": 3.274801467357558,
+          "total_cost": 6.147161523713039,
+          "water_level": 1e-12,
+          "budget": 1000000.0,
+          "n_valid_samples": 570,
+          "comm_mb": 0.2288818359375,
+          "selected_ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "deadline": 4.3481240677170145,
+          "wall_clock_time": 38.6779795878479,
+          "n_complete": 6,
+          "n_partial": 4,
+          "n_timeout": 0
+        },
+        "wall_clock_time": 38.6779795878479
+      },
+      {
+        "round": 5,
+        "accuracy": 0.0813,
+        "loss": 4.076899629211426,
+        "participation_rate": 0.7,
+        "n_participants": 7,
+        "energy": {
+          "training": 1.9168444261706439,
+          "inference": 1.4376333196279827,
+          "communication": 1.4376333196279827
+        },
+        "extra": {
+          "n_selected": 10,
+          "total_quality": 3.274801467357558,
+          "total_cost": 6.147161523713039,
+          "water_level": 1e-12,
+          "budget": 1000000.0,
+          "n_valid_samples": 666,
+          "comm_mb": 0.26702880859375,
+          "selected_ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "deadline": 4.407112286386748,
+          "wall_clock_time": 43.08509187423465,
+          "n_complete": 7,
+          "n_partial": 3,
+          "n_timeout": 0
+        },
+        "wall_clock_time": 43.08509187423465
+      },
+      {
+        "round": 6,
+        "accuracy": 0.0703,
+        "loss": 4.0892975067138675,
+        "participation_rate": 0.6,
+        "n_participants": 6,
+        "energy": {
+          "training": 1.5089666990950485,
+          "inference": 1.131725024321286,
+          "communication": 1.131725024321286
+        },
+        "extra": {
+          "n_selected": 10,
+          "total_quality": 3.274801467357558,
+          "total_cost": 6.147161523713039,
+          "water_level": 1e-12,
+          "budget": 1000000.0,
+          "n_valid_samples": 566,
+          "comm_mb": 0.2288818359375,
+          "selected_ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "deadline": 4.3952747009472155,
+          "wall_clock_time": 47.48036657518186,
+          "n_complete": 6,
+          "n_partial": 4,
+          "n_timeout": 0
+        },
+        "wall_clock_time": 47.48036657518186
+      },
+      {
+        "round": 7,
+        "accuracy": 0.0713,
+        "loss": 4.062879441833496,
+        "participation_rate": 0.7,
+        "n_participants": 7,
+        "energy": {
+          "training": 1.6945837234356704,
+          "inference": 1.2709377925767527,
+          "communication": 1.2709377925767527
+        },
+        "extra": {
+          "n_selected": 10,
+          "total_quality": 3.274801467357558,
+          "total_cost": 6.147161523713039,
+          "water_level": 1e-12,
+          "budget": 1000000.0,
+          "n_valid_samples": 655,
+          "comm_mb": 0.26702880859375,
+          "selected_ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "deadline": 4.471404614608775,
+          "wall_clock_time": 51.951771189790634,
+          "n_complete": 7,
+          "n_partial": 3,
+          "n_timeout": 0
+        },
+        "wall_clock_time": 51.951771189790634
+      },
+      {
+        "round": 8,
+        "accuracy": 0.0734,
+        "loss": 4.027546682739258,
+        "participation_rate": 0.7,
+        "n_participants": 7,
+        "energy": {
+          "training": 1.711063246804056,
+          "inference": 1.2832974351030417,
+          "communication": 1.2832974351030417
+        },
+        "extra": {
+          "n_selected": 10,
+          "total_quality": 3.274801467357558,
+          "total_cost": 6.147161523713039,
+          "water_level": 1e-12,
+          "budget": 1000000.0,
+          "n_valid_samples": 663,
+          "comm_mb": 0.26702880859375,
+          "selected_ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "deadline": 4.4227160036684605,
+          "wall_clock_time": 56.374487193459096,
+          "n_complete": 7,
+          "n_partial": 3,
+          "n_timeout": 0
+        },
+        "wall_clock_time": 56.374487193459096
+      },
+      {
+        "round": 9,
+        "accuracy": 0.0823,
+        "loss": 3.99138039855957,
+        "participation_rate": 0.7,
+        "n_participants": 7,
+        "energy": {
+          "training": 1.711063246804056,
+          "inference": 1.2832974351030417,
+          "communication": 1.2832974351030417
+        },
+        "extra": {
+          "n_selected": 10,
+          "total_quality": 3.274801467357558,
+          "total_cost": 6.147161523713039,
+          "water_level": 1e-12,
+          "budget": 1000000.0,
+          "n_valid_samples": 654,
+          "comm_mb": 0.26702880859375,
+          "selected_ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "deadline": 4.386448217215696,
+          "wall_clock_time": 60.76093541067479,
+          "n_complete": 7,
+          "n_partial": 3,
+          "n_timeout": 0
+        },
+        "wall_clock_time": 60.76093541067479
+      }
+    ],
+    "final_accuracy": 0.0823,
+    "best_accuracy": 0.0823,
+    "total_time": 225.36257696151733,
+    "wall_clock_time": 60.76093541067479
+  },
+  "Sync-Full_seed42": {
+    "method": "Sync-Full",
+    "history": [
+      {
+        "round": 0,
+        "accuracy": 0.0765,
+        "loss": 4.079315110778809,
+        "participation_rate": 1.0,
+        "n_participants": 10,
+        "energy": {
+          "training": 68.95679248610418,
+          "inference": 51.71759436457813,
+          "communication": 51.71759436457813
+        },
+        "extra": {
+          "total_cost": 172.39198121526044,
+          "method": "FullParticipation",
+          "comm_mb": 19.073486328125
+        }
+      },
+      {
+        "round": 1,
+        "accuracy": 0.0864,
+        "loss": 4.039505990600586,
+        "participation_rate": 1.0,
+        "n_participants": 10,
+        "energy": {
+          "training": 68.95679248610418,
+          "inference": 51.71759436457813,
+          "communication": 51.71759436457813
+        },
+        "extra": {
+          "total_cost": 172.39198121526044,
+          "method": "FullParticipation",
+          "comm_mb": 19.073486328125
+        }
+      },
+      {
+        "round": 2,
+        "accuracy": 0.0924,
+        "loss": 3.9872045776367186,
+        "participation_rate": 1.0,
+        "n_participants": 10,
+        "energy": {
+          "training": 68.95679248610418,
+          "inference": 51.71759436457813,
+          "communication": 51.71759436457813
+        },
+        "extra": {
+          "total_cost": 172.39198121526044,
+          "method": "FullParticipation",
+          "comm_mb": 19.073486328125
+        }
+      },
+      {
+        "round": 3,
+        "accuracy": 0.0968,
+        "loss": 3.9919595703125,
+        "participation_rate": 1.0,
+        "n_participants": 10,
+        "energy": {
+          "training": 68.95679248610418,
+          "inference": 51.71759436457813,
+          "communication": 51.71759436457813
+        },
+        "extra": {
+          "total_cost": 172.39198121526044,
+          "method": "FullParticipation",
+          "comm_mb": 19.073486328125
+        }
+      },
+      {
+        "round": 4,
+        "accuracy": 0.0945,
+        "loss": 3.9998267227172852,
+        "participation_rate": 1.0,
+        "n_participants": 10,
+        "energy": {
+          "training": 68.95679248610418,
+          "inference": 51.71759436457813,
+          "communication": 51.71759436457813
+        },
+        "extra": {
+          "total_cost": 172.39198121526044,
+          "method": "FullParticipation",
+          "comm_mb": 19.073486328125
+        }
+      },
+      {
+        "round": 5,
+        "accuracy": 0.0911,
+        "loss": 4.022947068786621,
+        "participation_rate": 1.0,
+        "n_participants": 10,
+        "energy": {
+          "training": 68.95679248610418,
+          "inference": 51.71759436457813,
+          "communication": 51.71759436457813
+        },
+        "extra": {
+          "total_cost": 172.39198121526044,
+          "method": "FullParticipation",
+          "comm_mb": 19.073486328125
+        }
+      },
+      {
+        "round": 6,
+        "accuracy": 0.1093,
+        "loss": 3.901026346588135,
+        "participation_rate": 1.0,
+        "n_participants": 10,
+        "energy": {
+          "training": 68.95679248610418,
+          "inference": 51.71759436457813,
+          "communication": 51.71759436457813
+        },
+        "extra": {
+          "total_cost": 172.39198121526044,
+          "method": "FullParticipation",
+          "comm_mb": 19.073486328125
+        }
+      },
+      {
+        "round": 7,
+        "accuracy": 0.1089,
+        "loss": 3.902211336517334,
+        "participation_rate": 1.0,
+        "n_participants": 10,
+        "energy": {
+          "training": 68.95679248610418,
+          "inference": 51.71759436457813,
+          "communication": 51.71759436457813
+        },
+        "extra": {
+          "total_cost": 172.39198121526044,
+          "method": "FullParticipation",
+          "comm_mb": 19.073486328125
+        }
+      },
+      {
+        "round": 8,
+        "accuracy": 0.1166,
+        "loss": 3.832939237976074,
+        "participation_rate": 1.0,
+        "n_participants": 10,
+        "energy": {
+          "training": 68.95679248610418,
+          "inference": 51.71759436457813,
+          "communication": 51.71759436457813
+        },
+        "extra": {
+          "total_cost": 172.39198121526044,
+          "method": "FullParticipation",
+          "comm_mb": 19.073486328125
+        }
+      },
+      {
+        "round": 9,
+        "accuracy": 0.12,
+        "loss": 3.8277868171691893,
+        "participation_rate": 1.0,
+        "n_participants": 10,
+        "energy": {
+          "training": 68.95679248610418,
+          "inference": 51.71759436457813,
+          "communication": 51.71759436457813
+        },
+        "extra": {
+          "total_cost": 172.39198121526044,
+          "method": "FullParticipation",
+          "comm_mb": 19.073486328125
+        }
+      }
+    ],
+    "final_accuracy": 0.12,
+    "best_accuracy": 0.12,
+    "total_time": 316.89962792396545,
+    "wall_clock_time": 316.89962792396545
+  }
+}
