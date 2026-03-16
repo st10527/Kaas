@@ -101,6 +101,8 @@ class RADSScheduler:
         self.straggler_aware = straggler_aware
         self.straggler_model = straggler_model
         self.deadline = deadline
+        # Per-device rate cache: populated from device dicts during schedule()
+        self._device_rates: Dict[int, Tuple[float, float]] = {}
     
     def schedule(
         self,
@@ -128,6 +130,20 @@ class RADSScheduler:
         
         # Sort by efficiency (descending) for greedy phase
         sorted_devices = sorted(devices, key=lambda d: d['eta_i'], reverse=True)
+
+        # ── Deadline-aware v_max per device (JPDC Sec 4.2) ──
+        # When straggler_aware=True, cap each device's v* at the maximum
+        # volume it can complete within the deadline.  This prevents the
+        # greedy trial from allocating v*=v_max → tau_det >> D → pi=0.
+        #   v_max_feasible_i = D / (comp_rate_i + comm_rate_i) * margin
+        # The margin (0.5) leaves room for LogNormal noise so that
+        # pi_i ≈ 0.5+ rather than ≈ 0 at the boundary.
+        per_device_v_max: Dict[int, float] = {}
+        if self.straggler_aware and self.deadline > 0:
+            for d in devices:
+                rate_sum = d.get('comp_rate', 0.01) + d.get('comm_rate', 0.01)
+                v_feasible = self.deadline / rate_sum * 0.5  # noise margin
+                per_device_v_max[d['device_id']] = min(self.v_max, max(v_feasible, 1.0))
         
         # ── Stage 2: Greedy device selection ──
         # Iteratively add the device with highest marginal gain
@@ -152,8 +168,10 @@ class RADSScheduler:
             if residual_budget <= 0:
                 continue
             
-            # Water-filling for trial set
-            trial_allocs = self._water_filling(trial_set, residual_budget)
+            # Water-filling for trial set (with per-device v_max caps)
+            trial_allocs = self._water_filling(
+                trial_set, residual_budget, per_device_v_max,
+            )
             
             # Compute marginal quality gain
             if trial_allocs is not None:
@@ -161,7 +179,8 @@ class RADSScheduler:
                 current_quality = sum(
                     a['quality'] for a in self._water_filling(
                         selected_set,
-                        self.budget - sum(d.get('a_i', 0.0) for d in selected_set)
+                        self.budget - sum(d.get('a_i', 0.0) for d in selected_set),
+                        per_device_v_max,
                     )
                 ) if selected_set else 0.0
                 
@@ -197,7 +216,9 @@ class RADSScheduler:
         # ── Final allocation for selected set ──
         if selected_set:
             residual_budget = self.budget - sum(d.get('a_i', 0.0) for d in selected_set)
-            final_allocs = self._water_filling(selected_set, residual_budget)
+            final_allocs = self._water_filling(
+                selected_set, residual_budget, per_device_v_max,
+            )
         else:
             final_allocs = []
         
@@ -251,22 +272,27 @@ class RADSScheduler:
     def _water_filling(
         self,
         device_set: List[Dict],
-        residual_budget: float
+        residual_budget: float,
+        per_device_v_max: Optional[Dict[int, float]] = None,
     ) -> Optional[List[Dict]]:
         """
         Stage 1: Water-filling allocation (Proposition 1).
         
         For fixed device set S with residual budget B_res:
-          v_i* = min{ [sqrt(rho_i * theta_i / (nu * b_i)) - theta_i]^+, v_max }
+          v_i* = min{ [sqrt(rho_i * theta_i / (nu * b_i)) - theta_i]^+, v_max_i }
         
         where nu > 0 is the unique water level satisfying:
           sum_i b_i * v_i*(nu) = B_res
+        
+        When straggler_aware=True, v_max_i is the per-device cap
+        computed from the deadline.  Otherwise v_max_i = self.v_max.
         
         Solved via bisection on nu.
         
         Args:
             device_set: List of device dicts (must have rho_i, b_i, theta_i)
             residual_budget: B - sum(a_i) for selected devices
+            per_device_v_max: Optional per-device v_max cap (from deadline).
             
         Returns:
             List of allocation dicts, or None if infeasible
@@ -283,11 +309,17 @@ class RADSScheduler:
                 rho = d['rho_i']
                 b = d['b_i']
                 theta = d['theta_i']
+                dev_id = d['device_id']
+                
+                # Per-device v_max: deadline-aware cap if available
+                v_cap = self.v_max
+                if per_device_v_max and dev_id in per_device_v_max:
+                    v_cap = per_device_v_max[dev_id]
                 
                 # KKT: v_i* = sqrt(rho * theta / (nu * b)) - theta
                 inner = rho * theta / (nu * b)
                 v_star = max(np.sqrt(inner) - theta, 0.0)
-                v_star = min(v_star, self.v_max)
+                v_star = min(v_star, v_cap)
                 
                 # Quality: q_i = rho * v / (v + theta)
                 quality = rho * v_star / (v_star + theta) if v_star > 0 else 0.0
