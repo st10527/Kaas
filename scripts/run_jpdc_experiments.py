@@ -236,7 +236,7 @@ def run_main_comparison(args):
         methods = {
             'DASH': lambda: DASH(
                 create_model(), config=copy.deepcopy(async_cfg), device=args.device),
-            'KaaS-Edge': lambda: KaaSEdge(
+            'Sync-Greedy': lambda: KaaSEdge(
                 create_model(), config=sync_cfg, device=args.device),
             'FedBuff-FD': lambda: FedBuffFD(
                 create_model(), config=copy.deepcopy(fedbuff_cfg), device=args.device),
@@ -313,7 +313,7 @@ def run_straggler_sweep(args):
                                  public_loader, test_loader, n_rounds,
                                  f"DASH(σ={sigma}, seed={seed})")
 
-            # KaaS-Edge (Sync) (σ doesn't affect sync, but we run it at σ=0 only to save time)
+            # Sync-Greedy (σ doesn't affect sync, but we run it at σ=0 only to save time)
             if sigma == 0.0 or not args.quick:
                 sync_cfg = KaaSEdgeConfig(
                     budget=budget, v_max=n_public,
@@ -324,7 +324,7 @@ def run_straggler_sweep(args):
                 m_sync = KaaSEdge(create_model(), config=sync_cfg, device=args.device)
                 r_sync = run_method(m_sync, devices, client_loaders,
                                     public_loader, test_loader, n_rounds,
-                                    f"KaaS-Edge(σ={sigma}, seed={seed})")
+                                    f"Sync-Greedy(σ={sigma}, seed={seed})")
             else:
                 r_sync = None
 
@@ -343,7 +343,7 @@ def run_straggler_sweep(args):
 
             sigma_results[f"seed{seed}"] = {
                 'DASH': r_async,
-                'KaaS-Edge': r_sync,
+                'Sync-Greedy': r_sync,
                 'FedBuff-FD': r_fb,
             }
 
@@ -487,7 +487,7 @@ def run_scalability(args):
                                  public_loader, test_loader, n_rounds,
                                  f"DASH(M={M}, seed={seed})")
 
-            # KaaS-Edge (Sync)
+            # Sync-Greedy (synchronous water-filling + greedy, no straggler awareness)
             sync_cfg = KaaSEdgeConfig(
                 budget=budget, v_max=n_public,
                 local_epochs=2, distill_epochs=3, distill_lr=0.001,
@@ -497,7 +497,7 @@ def run_scalability(args):
             m_sync = KaaSEdge(create_model(), config=sync_cfg, device=args.device)
             r_sync = run_method(m_sync, devices, client_loaders,
                                 public_loader, test_loader, n_rounds,
-                                f"KaaS-Edge(M={M}, seed={seed})")
+                                f"Sync-Greedy(M={M}, seed={seed})")
 
             # FedBuff-FD
             fb_cfg = FedBuffFDConfig(
@@ -514,7 +514,7 @@ def run_scalability(args):
 
             seed_results.append({
                 'DASH': r_async,
-                'KaaS-Edge': r_sync,
+                'Sync-Greedy': r_sync,
                 'FedBuff-FD': r_fb,
             })
 
@@ -584,7 +584,7 @@ def run_emnist_validation(args):
                                  public_loader, test_loader, n_rounds,
                                  f"DASH(EMNIST, M={M}, seed={seed})")
 
-            # KaaS-Edge (Sync)
+            # Sync-Greedy (synchronous water-filling + greedy, no straggler awareness)
             sync_cfg = KaaSEdgeConfig(
                 budget=budget, v_max=n_public,
                 local_epochs=2, distill_epochs=3, distill_lr=0.001,
@@ -597,7 +597,7 @@ def run_emnist_validation(args):
             )
             r_sync = run_method(m_sync, devices, client_loaders,
                                 public_loader, test_loader, n_rounds,
-                                f"KaaS-Edge(EMNIST, M={M}, seed={seed})")
+                                f"Sync-Greedy(EMNIST, M={M}, seed={seed})")
 
             # FedBuff-FD
             fb_cfg = FedBuffFDConfig(
@@ -616,7 +616,7 @@ def run_emnist_validation(args):
 
             seed_results.append({
                 'DASH': r_async,
-                'KaaS-Edge': r_sync,
+                'Sync-Greedy': r_sync,
                 'FedBuff-FD': r_fb,
             })
 
