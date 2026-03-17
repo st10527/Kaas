@@ -23,6 +23,12 @@ import os
 import sys
 import time
 import copy
+import warnings
+
+# Suppress NumPy 2.4 deprecation warning from torchvision's CIFAR pickle loader
+warnings.filterwarnings("ignore", message=".*dtype.*align.*", category=DeprecationWarning)
+warnings.filterwarnings("ignore", message=".*dtype.*align.*", category=FutureWarning)
+warnings.filterwarnings("ignore", category=DeprecationWarning, module="torchvision")
 from pathlib import Path
 from datetime import datetime
 from typing import Dict, List, Any
