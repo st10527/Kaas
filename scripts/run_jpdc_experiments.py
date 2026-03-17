@@ -116,8 +116,39 @@ def generate_async_devices(n_devices, seed=42):
 # Run helper  (adds wall-clock tracking to output)
 # ============================================================================
 
+def _simulate_sync_wallclock(devices, selected_ids, v_stars, sigma_noise=0.5):
+    """
+    Simulate synchronous wall-clock for one round.
+
+    In a synchronous protocol, the round time equals the latency of the
+    slowest selected device: T_round = max_{i in S} tau_i.
+
+    This uses the same StragglerModel as the async methods so that the
+    comparison is fair — the only difference is that async methods cut
+    off at deadline D while sync waits for everyone.
+    """
+    from src.async_module.straggler_model import StragglerModel
+    sm = StragglerModel(sigma_noise=sigma_noise)
+    sim_devs = []
+    for did, v in zip(selected_ids, v_stars):
+        dev = next((d for d in devices if d['device_id'] == did), None)
+        if dev is None:
+            continue
+        sim_devs.append({
+            'device_id': did,
+            'v_star': int(v),
+            'comp_rate': dev.get('comp_rate', 0.01),
+            'comm_rate': dev.get('comm_rate', 0.01),
+        })
+    if not sim_devs:
+        return 0.0
+    # Simulate with a very large deadline so nothing times out
+    latencies = sm.simulate_round(sim_devs, deadline=1e6)
+    return max(lat.tau_total for lat in latencies)
+
+
 def run_method(method, devices, client_loaders, public_loader, test_loader,
-               n_rounds=50, method_name=""):
+               n_rounds=50, method_name="", sigma_noise=0.5):
     print(f"\n{'='*60}")
     print(f"  Running: {method_name} ({n_rounds} rounds)")
     print(f"{'='*60}")
@@ -140,6 +171,29 @@ def run_method(method, devices, client_loaders, public_loader, test_loader,
         wc = result.extra.get('wall_clock_time', None)
         if wc is not None:
             entry['wall_clock_time'] = wc
+        else:
+            # Sync method: simulate wall-clock = max(tau_i) over selected devices.
+            # This models the blocking nature of synchronous aggregation.
+            sel_ids = result.extra.get('selected_ids', None)
+            if sel_ids is None:
+                # Full-participation: all device ids
+                sel_ids = [d['device_id'] for d in devices[:result.n_participants]]
+
+            # Estimate v_star per device for latency simulation.
+            # KaaSEdge stores comm_mb; from that we can back out v_i.
+            # Fallback: use total comm / n_participants as proxy.
+            comm_mb = result.extra.get('comm_mb', 0)
+            n_part = max(result.n_participants, 1)
+            avg_v = max(comm_mb * 1024 * 1024 / (100 * 4) / n_part, 100) if comm_mb > 0 else 5000
+            v_stars = [avg_v] * len(sel_ids)
+
+            sync_round_time = _simulate_sync_wallclock(
+                devices, sel_ids, v_stars, sigma_noise=sigma_noise,
+            )
+            if not hasattr(method, '_sync_wall_clock'):
+                method._sync_wall_clock = 0.0
+            method._sync_wall_clock += sync_round_time
+            entry['wall_clock_time'] = method._sync_wall_clock
         history.append(entry)
 
         if (t + 1) % 10 == 0 or t == 0:
@@ -324,7 +378,8 @@ def run_straggler_sweep(args):
                 m_sync = KaaSEdge(create_model(), config=sync_cfg, device=args.device)
                 r_sync = run_method(m_sync, devices, client_loaders,
                                     public_loader, test_loader, n_rounds,
-                                    f"Sync-Greedy(σ={sigma}, seed={seed})")
+                                    f"Sync-Greedy(σ={sigma}, seed={seed})",
+                                    sigma_noise=sigma)
             else:
                 r_sync = None
 
