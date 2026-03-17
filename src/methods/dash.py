@@ -56,6 +56,9 @@ class DASHConfig(KaaSEdgeConfig):
     adaptive_percentile: float = 0.85  # p for adaptive / partial
     warmup_rounds: int = 3
 
+    # ── Deadline floor ──
+    min_deadline_ratio: float = 0.3    # D_min = ratio * D_warmup (prevents spiral)
+
     # ── DASH-Select: straggler-aware scheduling ──
     straggler_aware: bool = True       # rho_tilde_i = pi_i(D) * rho_i
 
@@ -130,6 +133,9 @@ class DASH(FederatedMethod):
             self.server_model.parameters(), lr=self.config.distill_lr,
         )
 
+        # ── Deadline floor (prevents adaptive spiral) ──
+        self._D_min: Optional[float] = None  # set on first run_round
+
         # ── Tracking ──
         self._pretrained = False
         self.wall_clock_time: float = 0.0
@@ -169,7 +175,10 @@ class DASH(FederatedMethod):
         residual = max(self.config.budget - total_a, 1.0)
         median_b = float(np.median([d.get('b_i', 0.001) for d in devices]))
         estimated_v = residual / (M * median_b)  # budget-feasible v per device
-        estimated_v = min(estimated_v, self.config.v_max)
+        # Use scheduler.v_max if it differs from config (e.g. FullAsyncFD
+        # sets scheduler.v_max = v_fixed before calling super().run_round).
+        effective_v_max = getattr(self.scheduler, 'v_max', self.config.v_max)
+        estimated_v = min(estimated_v, effective_v_max)
 
         p85_rate = float(np.percentile(rate_sums, 85))
         D_warmup = p85_rate * estimated_v * 1.5  # safety=1.5
@@ -213,10 +222,16 @@ class DASH(FederatedMethod):
             # sensible value once it kicks in.
             if hasattr(self.timeout_policy, 'D_default'):
                 self.timeout_policy.D_default = deadline
+            # Compute D_min floor (once, from warmup estimate)
+            if self._D_min is None and self.config.min_deadline_ratio > 0:
+                self._D_min = deadline * self.config.min_deadline_ratio
         else:
             deadline = self.timeout_policy.get_deadline(
                 round_idx, self.latency_history,
             )
+            # Enforce D_min floor to prevent deadline spiral
+            if self._D_min is not None and deadline < self._D_min:
+                deadline = self._D_min
 
         # ── Step 2: DASH-Select scheduling ──
         # During warmup: disable straggler-aware to guarantee selection,

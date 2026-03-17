@@ -66,6 +66,19 @@
 
 ---
 
+## 修正 6：三個模擬 bug（sync-seed / FullAsync warmup / deadline spiral）
+
+| 項目 | 內容 |
+|------|------|
+| **日期** | 2026-03-17 |
+| **Commit** | *見下方* |
+| **原因** | Exp 1 (50d×50r) 跑出 DASH 44.3%/896s vs Sync-Greedy 45.2%/2697s。三個問題：(1) Sync wall-clock 每輪恆定 53.9s（`_simulate_sync_wallclock` 每次用 seed=42 建 StragglerModel）；(2) Full-Async warmup D=1306s（`_estimate_warmup_deadline` 用 config.v_max=10000 而非 scheduler.v_max=100）；(3) DASH deadline 從 54.6→9.1s 持續下降（adaptive deadline feedback loop：tighter D → smaller v → shorter tau → even tighter D）。 |
+| **代碼修改** | (1) `_simulate_sync_wallclock` 加 `round_idx` 參數，seed=42+round_idx。(2) `_estimate_warmup_deadline` 用 `self.scheduler.v_max` 取代 `self.config.v_max`。(3) `DASHConfig` 新增 `min_deadline_ratio=0.3`，D_min = 0.3 × D_warmup ≈ 16.4s；adaptive deadline 低於 D_min 時 clamp。 |
+| **預期效果** | (1) Sync wall-clock 有合理隨機波動。(2) Full-Async warmup 從 1306→13s，3 輪暖機 3917→39s。(3) DASH deadline 穩定在 ~16s 而非持續下降到 9s，每輪 comm_mb 維持 ~7MB。 |
+| **論文待改** | Algorithm 1: 加 D_min floor 描述。Sec 4.2: 提到 $D^{(t)} = \max(D_{\min}, \text{EMA}_{0.3}(p_{85}(\tau^{(t-1)})))$。Table II: 加 `min_deadline_ratio = 0.3` 參數。 |
+
+---
+
 ## 待確認事項（實驗跑完後檢查）
 
 - [ ] **Accuracy 趨勢**：DASH ≥ Sync-Greedy >> FedBuff-FD >> Random-Async

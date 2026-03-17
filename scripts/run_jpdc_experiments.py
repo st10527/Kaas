@@ -116,7 +116,8 @@ def generate_async_devices(n_devices, seed=42):
 # Run helper  (adds wall-clock tracking to output)
 # ============================================================================
 
-def _simulate_sync_wallclock(devices, selected_ids, v_stars, sigma_noise=0.5):
+def _simulate_sync_wallclock(devices, selected_ids, v_stars,
+                             sigma_noise=0.5, round_idx=0):
     """
     Simulate synchronous wall-clock for one round.
 
@@ -128,7 +129,7 @@ def _simulate_sync_wallclock(devices, selected_ids, v_stars, sigma_noise=0.5):
     off at deadline D while sync waits for everyone.
     """
     from src.async_module.straggler_model import StragglerModel
-    sm = StragglerModel(sigma_noise=sigma_noise)
+    sm = StragglerModel(sigma_noise=sigma_noise, seed=42 + round_idx)
     sim_devs = []
     for did, v in zip(selected_ids, v_stars):
         dev = next((d for d in devices if d['device_id'] == did), None)
@@ -188,7 +189,8 @@ def run_method(method, devices, client_loaders, public_loader, test_loader,
             v_stars = [avg_v] * len(sel_ids)
 
             sync_round_time = _simulate_sync_wallclock(
-                devices, sel_ids, v_stars, sigma_noise=sigma_noise,
+                devices, sel_ids, v_stars,
+                sigma_noise=sigma_noise, round_idx=t,
             )
             if not hasattr(method, '_sync_wall_clock'):
                 method._sync_wall_clock = 0.0
