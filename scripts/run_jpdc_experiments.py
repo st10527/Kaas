@@ -279,7 +279,7 @@ def run_main_comparison(args):
             local_epochs=2, distill_epochs=3, distill_lr=0.001,
             pretrain_epochs=10, n_ref_samples=n_public,
             sigma_noise=sigma, timeout_policy='adaptive',
-            adaptive_percentile=0.7, straggler_aware=True,
+            adaptive_percentile=0.85, straggler_aware=True,
         )
         fedbuff_cfg = FedBuffFDConfig(
             local_epochs=2, distill_epochs=3, distill_lr=0.001,

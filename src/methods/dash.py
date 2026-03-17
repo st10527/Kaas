@@ -53,7 +53,7 @@ class DASHConfig(KaaSEdgeConfig):
     # ── Timeout policy ──
     timeout_policy: str = 'adaptive'   # 'fixed' | 'adaptive' | 'partial'
     fixed_deadline: float = 10.0       # D_0 for fixed / warmup
-    adaptive_percentile: float = 0.7   # p for adaptive / partial
+    adaptive_percentile: float = 0.85  # p for adaptive / partial
     warmup_rounds: int = 3
 
     # ── DASH-Select: straggler-aware scheduling ──
@@ -143,7 +143,7 @@ class DASH(FederatedMethod):
 
     def _estimate_warmup_deadline(self, devices: List[Dict]) -> float:
         """
-        Estimate a generous initial deadline from device rates and v_max.
+        Estimate a reasonable initial deadline from device rates and budget.
 
         During warmup we have no latency history, so the Adaptive policy
         falls back to D_default.  If D_default is too tight relative to
@@ -151,17 +151,28 @@ class DASH(FederatedMethod):
         completes → no history → permanent stall.  This helper computes
         a workload-proportional deadline to break the cycle.
 
-        D_warmup = p90(rate_sum) * v_max * 0.4 * safety
-        where 0.4 ≈ median fraction of v_max allocated per device,
-        and safety = 2.0 to accommodate LogNormal noise.
+        We estimate v_per_device from the budget constraint (not v_max),
+        then compute:
+            D_warmup = p85(rate_sum) * v_est * safety
+        where safety = 1.5 accommodates LogNormal noise.
         """
+        M = len(devices)
+        if M == 0:
+            return 10.0
+
         rate_sums = [
             d.get('comp_rate', 0.01) + d.get('comm_rate', 0.01)
             for d in devices
         ]
-        p90_rate = float(np.percentile(rate_sums, 90))
-        estimated_v = self.config.v_max * 0.4
-        D_warmup = p90_rate * estimated_v * 2.0
+        # Use budget to estimate per-device v, not v_max
+        total_a = sum(d.get('a_i', 0.0) for d in devices)
+        residual = max(self.config.budget - total_a, 1.0)
+        median_b = float(np.median([d.get('b_i', 0.001) for d in devices]))
+        estimated_v = residual / (M * median_b)  # budget-feasible v per device
+        estimated_v = min(estimated_v, self.config.v_max)
+
+        p85_rate = float(np.percentile(rate_sums, 85))
+        D_warmup = p85_rate * estimated_v * 1.5  # safety=1.5
         return max(D_warmup, 10.0)  # floor of 10 seconds
 
     # ------------------------------------------------------------------

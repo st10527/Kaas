@@ -140,7 +140,7 @@ class RADSScheduler:
         if self.straggler_aware and self.deadline > 0:
             for d in devices:
                 rate_sum = d.get('comp_rate', 0.01) + d.get('comm_rate', 0.01)
-                v_feasible = self.deadline / rate_sum * 0.5  # noise margin
+                v_feasible = self.deadline / rate_sum * 0.8  # noise margin (relaxed)
                 per_device_v_max[d['device_id']] = min(self.v_max, max(v_feasible, 1.0))
 
         # ── JPDC Eq.(15): Straggler-aware ρ̃_i substitution ──

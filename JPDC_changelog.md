@@ -53,6 +53,19 @@
 
 ---
 
+## 修正 5：DASH warmup deadline 過大 + adaptive deadline 過緊 + v_feasible 過度壓縮
+
+| 項目 | 內容 |
+|------|------|
+| **日期** | 2026-03-17 |
+| **Commit** | *見下方* |
+| **原因** | Exp 1 (50 dev × 50 rnd) 結果顯示 DASH 35.2% 嚴重輸給 Sync-Greedy 44.3%。根因三個：(1) warmup deadline 用 `v_max*0.4*2.0=746s`，3 輪暖機燒掉 90% wall-clock (2239/2492s)；(2) adaptive percentile=0.7 使 deadline 從 746 跳崖到 18.8s；(3) RADS v_feasible margin=0.5 把中慢設備壓到 v=79–286，遠低於預算允許的 418。 |
+| **代碼修改** | (A) `src/methods/dash.py` `_estimate_warmup_deadline()`: 改用 budget-based v 估計（而非 v_max*0.4），safety 2.0→1.5，p90→p85。D_warmup: 746→55s。(B) `DASHConfig.adaptive_percentile`: 0.7→0.85。D_adaptive: 18.8→36.9s。(C) `src/scheduler/rads.py`: v_feasible margin 0.5→0.8。v_feasible 從 286 升至 899（不再是 binding constraint）。 |
+| **數值驗證** | 修正後：quality ratio DASH/Sync = 1.00x（修正前 0.57x），DASH WC ≈ 1900s vs Sync 2518s（1.33x speedup），warmup 3 輪 164s（修正前 2239s）。 |
+| **論文待改** | Sec 4.2 或 Algorithm 1 的 D^(0) 描述若提到 warmup 公式需對應更新。Table II (parameter settings) 的 percentile 值從 0.7 改為 0.85。 |
+
+---
+
 ## 待確認事項（實驗跑完後檢查）
 
 - [ ] **Accuracy 趨勢**：DASH ≥ Sync-Greedy >> FedBuff-FD >> Random-Async
