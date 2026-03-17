@@ -1,14 +1,14 @@
 # ============================================================
-# Async-RADS / JPDC 2026 — Default Configuration
+# DASH / JPDC 2026 — Default Configuration
 # ============================================================
 # Extends the EDGE config with asynchronous parameters.
 
-# ── RADS Scheduler ──
+# ── DASH Scheduler ──
 scheduler:
   budget: 50.0          # Per-round total cost budget B
   v_max: 200            # Maximum upload volume per device
   delta: 1e-6           # Bisection tolerance
-  straggler_aware: true # JPDC: weight greedy gain by pi_i(D)
+  straggler_aware: true # DASH-Select: rho_tilde_i = pi_i(D) * rho_i
 
 # ── Device Setup ──
 devices:

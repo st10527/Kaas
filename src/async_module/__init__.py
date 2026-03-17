@@ -1,5 +1,5 @@
 """
-Async-RADS: Asynchronous extensions for KaaS-Edge.
+DASH asynchronous extensions: straggler model and timeout policies.
 
 Modules:
     straggler_model: Device latency simulation with LogNormal noise

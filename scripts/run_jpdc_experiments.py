@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Async-RADS Experiment Runner — JPDC 2026
+DASH Experiment Runner — JPDC 2026
 =========================================
 
 Six experiments (see JPDC_simulation_spec_v2.md):
@@ -176,8 +176,8 @@ def run_main_comparison(args):
         KaaSEdge, KaaSEdgeConfig,
         FullParticipationFD, generate_edge_devices,
     )
-    from src.methods.async_kaas_edge import (
-        AsyncKaaSEdge, AsyncKaaSEdgeConfig,
+    from src.methods.dash import (
+        DASH, DASHConfig,
         FullAsyncFD, RandomAsyncFD,
     )
     from src.methods.fedbuff_fd import FedBuffFD, FedBuffFDConfig
@@ -214,7 +214,7 @@ def run_main_comparison(args):
             local_epochs=2, distill_epochs=3, distill_lr=0.001,
             pretrain_epochs=10, n_ref_samples=n_public,
         )
-        async_cfg = AsyncKaaSEdgeConfig(
+        async_cfg = DASHConfig(
             budget=budget, v_max=n_public,
             local_epochs=2, distill_epochs=3, distill_lr=0.001,
             pretrain_epochs=10, n_ref_samples=n_public,
@@ -228,9 +228,9 @@ def run_main_comparison(args):
         )
 
         methods = {
-            'Async-RADS': lambda: AsyncKaaSEdge(
+            'DASH': lambda: DASH(
                 create_model(), config=copy.deepcopy(async_cfg), device=args.device),
-            'Sync-RADS': lambda: KaaSEdge(
+            'KaaS-Edge': lambda: KaaSEdge(
                 create_model(), config=sync_cfg, device=args.device),
             'FedBuff-FD': lambda: FedBuffFD(
                 create_model(), config=copy.deepcopy(fedbuff_cfg), device=args.device),
@@ -261,7 +261,7 @@ def run_main_comparison(args):
 
 def run_straggler_sweep(args):
     from src.methods.kaas_edge import KaaSEdge, KaaSEdgeConfig
-    from src.methods.async_kaas_edge import AsyncKaaSEdge, AsyncKaaSEdgeConfig
+    from src.methods.dash import DASH, DASHConfig
     from src.methods.fedbuff_fd import FedBuffFD, FedBuffFDConfig
     from torch.utils.data import DataLoader
 
@@ -293,21 +293,21 @@ def run_straggler_sweep(args):
 
             n_public = len(public_set)
 
-            # Async-RADS
-            async_cfg = AsyncKaaSEdgeConfig(
+            # DASH
+            async_cfg = DASHConfig(
                 budget=budget, v_max=n_public,
                 local_epochs=2, distill_epochs=3, distill_lr=0.001,
                 pretrain_epochs=10, sigma_noise=sigma,
                 timeout_policy='adaptive', straggler_aware=True,
             )
             torch.manual_seed(seed); np.random.seed(seed)
-            m_async = AsyncKaaSEdge(create_model(), config=copy.deepcopy(async_cfg),
+            m_async = DASH(create_model(), config=copy.deepcopy(async_cfg),
                                     device=args.device)
             r_async = run_method(m_async, devices, client_loaders,
                                  public_loader, test_loader, n_rounds,
-                                 f"Async-RADS(σ={sigma}, seed={seed})")
+                                 f"DASH(σ={sigma}, seed={seed})")
 
-            # Sync-RADS (σ doesn't affect sync, but we run it at σ=0 only to save time)
+            # KaaS-Edge (Sync) (σ doesn't affect sync, but we run it at σ=0 only to save time)
             if sigma == 0.0 or not args.quick:
                 sync_cfg = KaaSEdgeConfig(
                     budget=budget, v_max=n_public,
@@ -318,7 +318,7 @@ def run_straggler_sweep(args):
                 m_sync = KaaSEdge(create_model(), config=sync_cfg, device=args.device)
                 r_sync = run_method(m_sync, devices, client_loaders,
                                     public_loader, test_loader, n_rounds,
-                                    f"Sync-RADS(σ={sigma}, seed={seed})")
+                                    f"KaaS-Edge(σ={sigma}, seed={seed})")
             else:
                 r_sync = None
 
@@ -336,8 +336,8 @@ def run_straggler_sweep(args):
                               f"FedBuff-FD(σ={sigma}, seed={seed})")
 
             sigma_results[f"seed{seed}"] = {
-                'Async-RADS': r_async,
-                'Sync-RADS': r_sync,
+                'DASH': r_async,
+                'KaaS-Edge': r_sync,
                 'FedBuff-FD': r_fb,
             }
 
@@ -352,7 +352,7 @@ def run_straggler_sweep(args):
 # ============================================================================
 
 def run_policy_comparison(args):
-    from src.methods.async_kaas_edge import AsyncKaaSEdge, AsyncKaaSEdgeConfig
+    from src.methods.dash import DASH, DASHConfig
     from torch.utils.data import DataLoader
 
     print("\n" + "=" * 70)
@@ -399,7 +399,7 @@ def run_policy_comparison(args):
                                      num_workers=2, pin_memory=True)
             devices = generate_async_devices(n_devices, seed=seed)
 
-            cfg = AsyncKaaSEdgeConfig(
+            cfg = DASHConfig(
                 budget=budget, v_max=len(public_set),
                 local_epochs=2, distill_epochs=3, distill_lr=0.001,
                 pretrain_epochs=10, sigma_noise=sigma,
@@ -412,7 +412,7 @@ def run_policy_comparison(args):
             if 'percentile' in policy_kwargs:
                 cfg.adaptive_percentile = policy_kwargs['percentile']
 
-            method = AsyncKaaSEdge(create_model(), config=cfg, device=args.device)
+            method = DASH(create_model(), config=cfg, device=args.device)
             result = run_method(method, devices, client_loaders,
                                 public_loader, test_loader, n_rounds,
                                 f"{label} (seed={seed})")
@@ -435,7 +435,7 @@ def run_policy_comparison(args):
 
 def run_scalability(args):
     from src.methods.kaas_edge import KaaSEdge, KaaSEdgeConfig
-    from src.methods.async_kaas_edge import AsyncKaaSEdge, AsyncKaaSEdgeConfig
+    from src.methods.dash import DASH, DASHConfig
     from src.methods.fedbuff_fd import FedBuffFD, FedBuffFDConfig
     from torch.utils.data import DataLoader
 
@@ -467,21 +467,21 @@ def run_scalability(args):
             devices = generate_async_devices(M, seed=seed)
             n_public = len(public_set)
 
-            # Async-RADS
-            async_cfg = AsyncKaaSEdgeConfig(
+            # DASH
+            async_cfg = DASHConfig(
                 budget=budget, v_max=n_public,
                 local_epochs=2, distill_epochs=3, distill_lr=0.001,
                 pretrain_epochs=10, sigma_noise=sigma,
                 timeout_policy='adaptive', straggler_aware=True,
             )
             torch.manual_seed(seed); np.random.seed(seed)
-            m_async = AsyncKaaSEdge(create_model(), config=copy.deepcopy(async_cfg),
+            m_async = DASH(create_model(), config=copy.deepcopy(async_cfg),
                                     device=args.device)
             r_async = run_method(m_async, devices, client_loaders,
                                  public_loader, test_loader, n_rounds,
-                                 f"Async-RADS(M={M}, seed={seed})")
+                                 f"DASH(M={M}, seed={seed})")
 
-            # Sync-RADS
+            # KaaS-Edge (Sync)
             sync_cfg = KaaSEdgeConfig(
                 budget=budget, v_max=n_public,
                 local_epochs=2, distill_epochs=3, distill_lr=0.001,
@@ -491,7 +491,7 @@ def run_scalability(args):
             m_sync = KaaSEdge(create_model(), config=sync_cfg, device=args.device)
             r_sync = run_method(m_sync, devices, client_loaders,
                                 public_loader, test_loader, n_rounds,
-                                f"Sync-RADS(M={M}, seed={seed})")
+                                f"KaaS-Edge(M={M}, seed={seed})")
 
             # FedBuff-FD
             fb_cfg = FedBuffFDConfig(
@@ -507,8 +507,8 @@ def run_scalability(args):
                               f"FedBuff-FD(M={M}, seed={seed})")
 
             seed_results.append({
-                'Async-RADS': r_async,
-                'Sync-RADS': r_sync,
+                'DASH': r_async,
+                'KaaS-Edge': r_sync,
                 'FedBuff-FD': r_fb,
             })
 
@@ -527,7 +527,7 @@ def run_scalability(args):
 
 def run_emnist_validation(args):
     from src.methods.kaas_edge import KaaSEdge, KaaSEdgeConfig
-    from src.methods.async_kaas_edge import AsyncKaaSEdge, AsyncKaaSEdgeConfig
+    from src.methods.dash import DASH, DASHConfig
     from src.methods.fedbuff_fd import FedBuffFD, FedBuffFDConfig
     from torch.utils.data import DataLoader
 
@@ -562,23 +562,23 @@ def run_emnist_validation(args):
             devices = generate_async_devices(M, seed=seed)
             n_public = len(public_set)
 
-            # Async-RADS
-            async_cfg = AsyncKaaSEdgeConfig(
+            # DASH
+            async_cfg = DASHConfig(
                 budget=budget, v_max=n_public,
                 local_epochs=2, distill_epochs=3, distill_lr=0.001,
                 pretrain_epochs=10, sigma_noise=sigma,
                 timeout_policy='adaptive', straggler_aware=True,
             )
             torch.manual_seed(seed); np.random.seed(seed)
-            m_async = AsyncKaaSEdge(
+            m_async = DASH(
                 create_model(n_classes), config=copy.deepcopy(async_cfg),
                 n_classes=n_classes, device=args.device,
             )
             r_async = run_method(m_async, devices, client_loaders,
                                  public_loader, test_loader, n_rounds,
-                                 f"Async-RADS(EMNIST, M={M}, seed={seed})")
+                                 f"DASH(EMNIST, M={M}, seed={seed})")
 
-            # Sync-RADS
+            # KaaS-Edge (Sync)
             sync_cfg = KaaSEdgeConfig(
                 budget=budget, v_max=n_public,
                 local_epochs=2, distill_epochs=3, distill_lr=0.001,
@@ -591,7 +591,7 @@ def run_emnist_validation(args):
             )
             r_sync = run_method(m_sync, devices, client_loaders,
                                 public_loader, test_loader, n_rounds,
-                                f"Sync-RADS(EMNIST, M={M}, seed={seed})")
+                                f"KaaS-Edge(EMNIST, M={M}, seed={seed})")
 
             # FedBuff-FD
             fb_cfg = FedBuffFDConfig(
@@ -609,8 +609,8 @@ def run_emnist_validation(args):
                               f"FedBuff-FD(EMNIST, M={M}, seed={seed})")
 
             seed_results.append({
-                'Async-RADS': r_async,
-                'Sync-RADS': r_sync,
+                'DASH': r_async,
+                'KaaS-Edge': r_sync,
                 'FedBuff-FD': r_fb,
             })
 
@@ -628,7 +628,7 @@ def run_emnist_validation(args):
 # ============================================================================
 
 def run_privacy_async(args):
-    from src.methods.async_kaas_edge import AsyncKaaSEdge, AsyncKaaSEdgeConfig
+    from src.methods.dash import DASH, DASHConfig
     from torch.utils.data import DataLoader
 
     print("\n" + "=" * 70)
@@ -675,17 +675,17 @@ def run_privacy_async(args):
                 ))
                 dev['eta_i'] = dev['rho_i'] / (dev['b_i'] * dev['theta_i'])
 
-            cfg = AsyncKaaSEdgeConfig(
+            cfg = DASHConfig(
                 budget=budget, v_max=len(public_set),
                 local_epochs=2, distill_epochs=3, distill_lr=0.001,
                 pretrain_epochs=10, sigma_noise=sigma,
                 timeout_policy='adaptive', straggler_aware=True,
             )
-            method = AsyncKaaSEdge(create_model(), config=copy.deepcopy(cfg),
+            method = DASH(create_model(), config=copy.deepcopy(cfg),
                                    device=args.device)
             result = run_method(method, devices, client_loaders,
                                 public_loader, test_loader, n_rounds,
-                                f"Async-RADS({scenario}, seed={seed})")
+                                f"DASH({scenario}, seed={seed})")
             result['avg_rho'] = float(np.mean([d['rho_i'] for d in devices]))
             seed_results.append(result)
 
@@ -715,7 +715,7 @@ EXPERIMENTS = {
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Async-RADS Experiments — JPDC 2026")
+    parser = argparse.ArgumentParser(description="DASH Experiments — JPDC 2026")
     parser.add_argument('--exp', type=str, default=None,
                         choices=list(EXPERIMENTS.keys()))
     parser.add_argument('--all', action='store_true')
@@ -732,7 +732,7 @@ def main():
     args._seeds = [args.seed] if args.seed is not None else None
 
     print(f"\n{'#' * 70}")
-    print(f"  Async-RADS Experiments — JPDC 2026")
+    print(f"  DASH Experiments — JPDC 2026")
     print(f"  Device: {args.device}")
     print(f"  Quick:  {args.quick}")
     print(f"  Time:   {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")

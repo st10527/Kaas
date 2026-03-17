@@ -1,1 +1,1 @@
-from .rads import RADSScheduler, SchedulingResult, DeviceAllocation
+from .rads import RADSScheduler, DASHScheduler, SchedulingResult, DeviceAllocation

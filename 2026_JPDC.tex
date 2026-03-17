@@ -1,0 +1,854 @@
+%%
+%% JPDC 2026 submission draft — v2
+%% Sections 3-4 complete; other sections placeholder
+%%
+\documentclass[a4paper,fleqn]{cas-dc}
+\usepackage[authoryear,longnamesfirst]{natbib}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithm,algorithmic}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{subcaption}
+\usepackage{xcolor}
+\usepackage{url}
+
+% Theorem environments (separate counters so Thm starts at 1)
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+\newdefinition{definition}{Definition}
+\newproof{pf}{Proof}
+
+% Notation shortcuts
+\newcommand{\ES}{\mathrm{ES}}
+\newcommand{\Dref}{\mathcal{D}_{\mathrm{ref}}}
+\newcommand{\Dpriv}{\mathcal{D}_i^{\mathrm{priv}}}
+\newcommand{\Mset}{\mathcal{M}}
+\newcommand{\Sset}{\mathcal{S}}
+\newcommand{\Srecv}{\mathcal{S}^{\mathrm{recv}}}
+\newcommand{\vmax}{v_{\max}}
+\newcommand{\Bres}{B_{\mathrm{res}}}
+
+\begin{document}
+	\let\WriteBookmarks\relax
+	\def\floatpagepagefraction{1}
+	\def\textpagefraction{.001}
+	
+	% ── Metadata ──────────────────────────────────────────────
+	\shorttitle{DASH for Asynchronous Edge Intelligence}
+	\shortauthors{[Authors]}
+	
+	\title[mode=title]{Straggler-Tolerant Knowledge Distillation
+		Scheduling for Asynchronous Edge Intelligence Systems}
+	
+	\author[1]{[First Author]}
+	\cormark[1]
+	\ead{[email]}
+	\affiliation[1]{organization={Department of Computer Science
+			and Information Engineering, Tamkang University},
+		city={New Taipei City},
+		postcode={251301},
+		country={Taiwan}}
+	\cortext[1]{Corresponding author}
+	
+	% ── Abstract ──────────────────────────────────────────────
+	\begin{abstract}
+		Federated distillation (FD) enables collaborative edge learning by
+		exchanging soft predictions rather than model parameters, offering
+		communication efficiency and architectural flexibility.  However,
+		deploying FD over heterogeneous wireless edge networks faces a
+		critical yet overlooked challenge: device stragglers whose
+		unpredictable latencies dominate synchronous round times and degrade
+		system throughput.  Existing asynchronous federated learning methods
+		target parameter-level aggregation and cannot be directly applied to
+		logit-based distillation, where partial uploads and quality-aware
+		scheduling introduce unique design constraints.  This paper presents
+		DASH (Deadline-Aware Straggler-Handling), an asynchronous
+		distillation scheduling framework with straggler tolerance.  We
+		design a three-outcome straggler model (complete, partial, timeout)
+		driven by log-normal latency distributions, and integrate device
+		completion probabilities into a submodular greedy selection
+		algorithm.  We prove that the resulting expected quality retains a
+		$(1-\bar{p})\tfrac{1}{2}(1-1/e)$ approximation ratio relative to the
+		deterministic optimum, where $\bar{p}$ is the worst-case straggler
+		probability.  Three timeout policies (fixed, adaptive, and
+		partial-accept) provide system-level trade-offs between round latency
+		and knowledge utilization.  Experiments on CIFAR-100 and EMNIST with
+		up to 200 devices demonstrate that DASH achieves comparable accuracy
+		to synchronous scheduling while reducing wall-clock convergence time
+		by $2$--$3\times$ under 30\% straggler conditions, with graceful
+		degradation as straggler severity increases.
+	\end{abstract}
+	
+	% ── Highlights ────────────────────────────────────────────
+	\begin{highlights}
+		\item Asynchronous federated distillation protocol with a
+		three-outcome straggler model for edge networks
+		\item Straggler-aware submodular device selection with provable
+		expected quality bound
+		\item Three timeout policies (fixed, adaptive, partial-accept) with
+		system-level trade-off analysis
+		\item Large-scale experiments on two datasets with up to 200 devices
+		and wall-clock time evaluation
+	\end{highlights}
+	
+	% ── Keywords ──────────────────────────────────────────────
+	\begin{keywords}
+		Federated distillation \sep Asynchronous scheduling \sep
+		Edge intelligence \sep Straggler tolerance \sep
+		Submodular optimization
+	\end{keywords}
+	
+	\maketitle
+	
+	% ══════════════════════════════════════════════════════════
+	\section{Introduction}\label{sec:intro}
+	% ══════════════════════════════════════════════════════════
+	
+	% [PLACEHOLDER — to be written after experiments]
+	
+	% ══════════════════════════════════════════════════════════
+	\section{Related Work}\label{sec:related}
+	% ══════════════════════════════════════════════════════════
+	
+	% [PLACEHOLDER — 2.1 Federated Distillation, 2.2 Async FL,
+	%  2.3 Client Selection and Straggler Mitigation]
+	
+	% ══════════════════════════════════════════════════════════
+	\section{System Architecture}\label{sec:system}
+	% ══════════════════════════════════════════════════════════
+	
+	We consider an edge intelligence platform in which a single edge
+	server~(ES) coordinates federated distillation across a pool
+	$\Mset = \{1, \dots, M\}$ of heterogeneous IoT devices connected
+	through unreliable wireless links.  Rather than exchanging model
+	parameters, the ES operates a knowledge distillation service pipeline:
+	in each round, a selected subset of devices compute soft predictions
+	(logits) on a shared reference dataset and upload them to the ES,
+	which distills the collected knowledge into a global model.  The
+	central challenge addressed in this paper is that device latencies are
+	heterogeneous and stochastic, so that synchronous protocols---which
+	wait for all selected devices---suffer from worst-case round times
+	that grow with the pool size~$M$.
+	
+	% ── 3.1 System Overview ──────────────────────────────────
+	\subsection{System overview}\label{sec:overview}
+	
+	\begin{figure}[t]
+		\centering
+		% TODO: replace with actual figure file
+		\fbox{\parbox{0.92\linewidth}{\centering\vspace{3.5cm}%
+				\textit{Fig.~1: System architecture diagram}\\[2pt]
+				\small ES modules (DASH Scheduler $\to$ Async Controller
+				$\to$ Aggregation Engine) connected to $M$ devices
+				via unreliable channels.  Three device outcomes shown:
+				on-time~(\checkmark), partial~($\triangle$),
+				timeout~($\times$).
+				\vspace{0.5cm}}}
+		\caption{DASH system architecture.  The ES comprises three
+			modules: the DASH Scheduler (volume allocation and
+			straggler-aware device selection), the Async Controller
+			(deadline enforcement and logit collection), and the
+			Aggregation Engine (quality-weighted distillation).  Each
+			device may finish on time, partially upload, or timeout.}
+		\label{fig:system}
+	\end{figure}
+	
+	The DASH architecture comprises three server-side modules and a
+	device-side execution pipeline, as illustrated in
+	Fig.~\ref{fig:system}.
+	
+	On the server side, the DASH Scheduler determines at the beginning of
+	each round which devices to engage and how many logit vectors to
+	request from each, subject to a per-round resource budget~$B$.  The
+	Async Controller sets a per-round deadline~$D^{(t)}$, dispatches
+	upload quotas to selected devices, and collects responses as they
+	arrive; unlike synchronous protocols that block until all devices
+	respond, the Async Controller closes the collection window at
+	$D^{(t)}$ regardless of how many devices have reported.  The
+	Aggregation Engine receives the collected logits, computes
+	quality-weighted averages on the reference dataset~$\Dref$, and
+	updates the global model through knowledge distillation.
+	
+	On the device side, upon receiving the global model
+	$\mathbf{w}^{(t-1)}$ and its upload quota~$v_i^*$, each selected
+	device~$i$ fine-tunes its local model on its private
+	dataset~$\Dpriv$, computes logits on~$\Dref$ and applies local
+	perturbation, and uploads up to~$v_i^*$ perturbed logit vectors to
+	the ES\@.  The total time for this pipeline depends on the device's
+	computational capability, channel conditions, and random disturbances,
+	all of which vary across devices and rounds.
+	
+	Each service round proceeds through four phases.  In the
+	\emph{scheduling} phase~(P1), the DASH Scheduler computes the
+	selected set~$\Sset^{(t)}$ and allocations~$\{v_i^*\}$,
+	incorporating straggler probabilities
+	(Section~\ref{sec:sa_select}).  In the \emph{dispatch} phase~(P2),
+	the ES broadcasts $(\mathbf{w}^{(t-1)}, v_i^*)$ to each
+	$i \in \Sset^{(t)}$.  In the \emph{collection} phase~(P3), devices
+	execute the local pipeline and upload logits while the Async
+	Controller enforces deadline~$D^{(t)}$; devices that have not
+	finished are either partially collected or timed out
+	(Section~\ref{sec:straggler}).  Finally, in the \emph{aggregation}
+	phase~(P4), the Aggregation Engine computes quality-weighted logit
+	averages over the received contributions and distills them into
+	$\mathbf{w}^{(t)}$ (Section~\ref{sec:aggregation}).
+	
+	% ── 3.2 Device Cost and Quality Model ────────────────────
+	\subsection{Device cost and quality model}\label{sec:cost_quality}
+	
+	Each device~$i$ is characterized by a profile
+	$(\rho_i, \theta_i, b_i, a_i)$.  The marginal resource cost for
+	uploading one logit vector at round~$t$ is
+	\begin{equation}\label{eq:cost}
+		b_i^{(t)} \triangleq \omega_i^{(t)} + \mu_i,
+	\end{equation}
+	where $\omega_i^{(t)} > 0$ is the per-vector communication cost
+	(determined by channel conditions and allocated resource blocks under
+	OFDMA) and $\mu_i > 0$ is the per-vector computation cost.  The
+	activation cost $a_i > 0$ captures the fixed overhead of local model
+	training; the total cost for uploading~$v_i$ vectors is thus
+	$C_i(v_i) = a_i \cdot \mathbf{1}_{\{v_i > 0\}} + b_i \, v_i$.
+	
+	The effective quality of device~$i$'s contribution is modeled by a
+	saturation function:
+	\begin{equation}\label{eq:quality}
+		q_i(v_i) = \rho_i \cdot \frac{v_i}{v_i + \theta_i},
+	\end{equation}
+	where $\theta_i > 0$ is the half-saturation constant (the volume at
+	which device~$i$ attains quality $\rho_i / 2$) and
+	$\rho_i \in (0, 1]$ is the privacy degradation factor quantifying
+	the fraction of useful information retained after local perturbation
+	($\rho_i = 1$: no perturbation; $\rho_i \to 0$: strong privacy).
+	This Michaelis--Menten form captures diminishing returns
+	($\partial q_i / \partial v_i > 0$,
+	$\partial^2 q_i / \partial v_i^2 < 0$), bounded capacity
+	($q_i \to \rho_i$), and privacy attenuation (the ceiling scales
+	with~$\rho_i$).
+	
+	Under a per-round budget $B > 0$, the ES jointly selects a device
+	subset $\Sset \subseteq \Mset$ and determines upload volumes
+	$\{v_i\}_{i \in \Sset}$ to maximize aggregate quality:
+	\begin{subequations}\label{eq:det_problem}
+		\begin{align}
+			\max_{\Sset,\,\{v_i\}} \;\;
+			& \sum_{i \in \Sset} \rho_i \,\frac{v_i}{v_i + \theta_i}
+			\label{eq:det_obj} \\
+			\text{s.t.} \;\;
+			& \sum_{i \in \Sset}(a_i + b_i \, v_i) \leq B,
+			\label{eq:det_budget} \\
+			& v_i \in [0, \vmax],\; \forall\, i \in \Sset,
+			\;\; \Sset \subseteq \Mset.
+			\label{eq:det_bound}
+		\end{align}
+	\end{subequations}
+	Problem~\eqref{eq:det_problem} is a mixed-integer program that is
+	NP-hard in general, but admits efficient approximation through the
+	structural properties exploited in Section~\ref{sec:scheduling}.
+	
+	% ── 3.3 Straggler Latency Model ─────────────────────────
+	\subsection{Straggler latency model}\label{sec:straggler}
+	
+	In a synchronous protocol, the ES waits for all selected devices to
+	finish before aggregation; the round time is therefore dominated by
+	the slowest device.  As~$M$ grows, the probability of at least one
+	extreme straggler increases rapidly, making synchronous operation
+	increasingly impractical.
+	
+	We model the round-trip latency of device~$i$ as the sum of three
+	components:
+	\begin{equation}\label{eq:latency}
+		\tau_i = \tau_i^{\mathrm{comp}} + \tau_i^{\mathrm{comm}}
+		+ \tau_i^{\mathrm{noise}},
+	\end{equation}
+	where
+	$\tau_i^{\mathrm{comp}} = c_i \cdot |\Dpriv| \cdot E$ is the local
+	computation time, with~$c_i$ the per-sample processing rate and~$E$
+	the number of local training epochs (deterministic,
+	device-dependent);
+	$\tau_i^{\mathrm{comm}} = v_i^* \cdot s / r_i$ is the uplink
+	transmission time, with~$s$ the payload size per logit vector
+	and~$r_i$ the instantaneous channel rate (deterministic given the
+	allocation~$v_i^*$); and
+	$\tau_i^{\mathrm{noise}} \sim \mathrm{LogNormal}(\mu_n, \sigma_n)$
+	captures random disturbances from queueing, OS scheduling, and
+	transient interference (stochastic, i.i.d.\ across devices and
+	rounds).  The log-normal model for~$\tau_i^{\mathrm{noise}}$ is
+	well-established in the networking literature for representing
+	heavy-tailed latency variations; the parameter~$\sigma_n$ controls
+	the severity of straggler behavior.
+	
+	At each round~$t$, the ES sets a deadline~$D^{(t)}$
+	(Section~\ref{sec:timeout}).  Each selected device~$i$ falls into
+	exactly one of three outcome categories:
+	
+	\begin{definition}[Device Outcome]\label{def:outcome}
+		Given deadline~$D^{(t)}$ and device latency~$\tau_i$, device~$i$'s
+		outcome is classified as follows.
+		\begin{enumerate}
+			\item[(C)] Complete ($\tau_i \leq D^{(t)}$): the ES receives all
+			$v_i^*$ logit vectors, i.e., $v_i^{\mathrm{recv}} = v_i^*$.
+			\item[(P)] Partial
+			($\tau_i^{\mathrm{comp}} \leq D^{(t)} < \tau_i$): the device has
+			finished computation but its upload is interrupted; the ES receives
+			\begin{equation}\label{eq:partial}
+				v_i^{\mathrm{recv}} = \Bigl\lfloor v_i^*
+				\cdot \frac{D^{(t)} - \tau_i^{\mathrm{comp}}}
+				{\tau_i^{\mathrm{comm}}} \Bigr\rfloor
+			\end{equation}
+			logit vectors.
+			\item[(T)] Timeout ($D^{(t)} < \tau_i^{\mathrm{comp}}$): the device
+			has not completed local computation; no logits are received
+			($v_i^{\mathrm{recv}} = 0$).
+		\end{enumerate}
+	\end{definition}
+	
+	The completion probability of device~$i$ under deadline~$D$ is
+	\begin{equation}\label{eq:pi}
+		\pi_i(D) \triangleq \Pr[\tau_i \leq D]
+		= F_{\mathrm{LN}}\!\bigl(D - \tau_i^{\mathrm{comp}}
+		- \tau_i^{\mathrm{comm}};\; \mu_n, \sigma_n\bigr),
+	\end{equation}
+	where~$F_{\mathrm{LN}}$ is the log-normal CDF evaluated at the
+	residual slack $D - \tau_i^{\mathrm{comp}} - \tau_i^{\mathrm{comm}}$
+	(set to zero if the slack is non-positive).  This quantity plays a
+	central role in straggler-aware scheduling
+	(Section~\ref{sec:sa_select}).
+	
+	\begin{definition}[Straggler Rate]\label{def:straggler_rate}
+		The per-round straggler rate is the fraction of selected devices that
+		fail to deliver complete logits by the deadline:
+		\begin{equation}\label{eq:straggler_rate}
+			p^{(t)} = \frac{|\{i \in \Sset^{(t)} :
+				\tau_i > D^{(t)}\}|}{|\Sset^{(t)}|}.
+		\end{equation}
+	\end{definition}
+	
+	% ── 3.4 Asynchronous Protocol ────────────────────────────
+	\subsection{Asynchronous protocol}\label{sec:async_protocol}
+	
+	Algorithm~\ref{alg:async_kaas} formalizes the per-round operation of
+	the DASH framework.  Compared to a synchronous counterpart, the
+	protocol introduces three modifications: (i)~a deadline~$D^{(t)}$ is
+	computed before dispatch (line~2), (ii)~device completion
+	probabilities $\pi_i(D^{(t)})$ are incorporated into the scheduling
+	decision (line~3), and (iii)~after the deadline expires, only complete
+	and (optionally) partial contributions are aggregated
+	(lines~8--12).  All logits are computed using the current-round
+	global model~$\mathbf{w}^{(t-1)}$, so there is no model
+	staleness---a deliberate design choice that keeps the aggregation
+	semantics clean and avoids the need for staleness correction weights.
+	
+	\begin{algorithm}[t]
+		\caption{DASH: Asynchronous FD Scheduling Protocol}
+		\label{alg:async_kaas}
+		\begin{algorithmic}[1]
+			\REQUIRE Device pool $\Mset$, budget $B$, rounds $T$,
+			reference dataset $\Dref$, timeout policy $\mathcal{P}$
+			\ENSURE Global model $\mathbf{w}^{(T)}$
+			\STATE Initialize $\mathbf{w}^{(0)}$;\;
+			$\mathcal{H} \gets \emptyset$
+			\COMMENT{latency history}
+			\FOR{$t = 1$ \TO $T$}
+			\STATE $D^{(t)} \!\gets\!
+			\mathcal{P}.\mathrm{Deadline}(t, \mathcal{H})$
+			\STATE $(\Sset^{(t)}\!, \{v_i^*\}) \!\gets\!
+			\mathrm{DASH\text{-}Select}(\Mset, B, D^{(t)})$
+			\STATE Dispatch $(\mathbf{w}^{(t-1)}, v_i^*)$
+			to each $i \in \Sset^{(t)}$
+			\STATE Wait until wall-clock time reaches $D^{(t)}$
+			\STATE // Collect responses
+			\STATE $\Srecv \gets \emptyset$
+			\FOR{each $i \in \Sset^{(t)}$}
+			\IF{outcome$(i)$ = Complete}
+			\STATE $\Srecv \!\gets\! \Srecv \cup \{(i, v_i^*)\}$
+			\ELSIF{outcome$(i)$ = Partial
+				\AND $\mathcal{P}$ accepts partial}
+			\STATE $\Srecv \!\gets\! \Srecv
+			\cup \{(i, v_i^{\mathrm{recv}})\}$
+			\ENDIF
+			\ENDFOR
+			\STATE // Aggregate and distill
+			\IF{$\Srecv \neq \emptyset$}
+			\STATE Compute $\bar{\mathbf{z}}^{(t)}$
+			via Eq.~\eqref{eq:agg_weight}
+			\STATE Update $\mathbf{w}^{(t)}$
+			via Eq.~\eqref{eq:kl}
+			\ELSE
+			\STATE $\mathbf{w}^{(t)} \!\gets\! \mathbf{w}^{(t-1)}$
+			\COMMENT{skip round}
+			\ENDIF
+			\STATE $\mathcal{H} \!\gets\! \mathcal{H}
+			\cup \{\tau_i : i \in \Sset^{(t)}\}$
+			\ENDFOR
+			\RETURN $\mathbf{w}^{(T)}$
+		\end{algorithmic}
+	\end{algorithm}
+	
+	
+	% ══════════════════════════════════════════════════════════
+	\section{Scheduling and Aggregation}\label{sec:scheduling}
+	% ══════════════════════════════════════════════════════════
+	
+	This section presents the algorithmic components invoked by
+	Algorithm~\ref{alg:async_kaas}.  Section~\ref{sec:waterfill} derives
+	the optimal volume allocation for a given device set.
+	Section~\ref{sec:sa_select} introduces straggler-aware device
+	selection, the core theoretical contribution of this paper.
+	Section~\ref{sec:timeout} describes three timeout policies, and
+	Section~\ref{sec:aggregation} details the quality-weighted
+	aggregation.
+	
+	% ── 4.1 Volume Allocation via Water-Filling ──────────────
+	\subsection{Volume allocation via water-filling}\label{sec:waterfill}
+	
+	For a fixed device subset~$\Sset$ with residual budget
+	$\Bres = B - \sum_{i \in \Sset} a_i$, the volume allocation
+	sub-problem seeks to maximize aggregate quality:
+	\begin{equation}\label{eq:subproblem}
+		\max_{\{v_i\}} \;
+		\sum_{i \in \Sset} \rho_i \,\frac{v_i}{v_i + \theta_i}
+		\;\;\text{s.t.}\;\;
+		\sum_{i \in \Sset} b_i v_i \leq \Bres,\;
+		v_i \in [0, \vmax].
+	\end{equation}
+	
+	\begin{proposition}[Water-Filling Allocation]\label{prop:wf}
+		The optimal solution to~\eqref{eq:subproblem} is
+		\begin{equation}\label{eq:wf_sol}
+			v_i^* = \min\!\Biggl\{
+			\Biggl[\sqrt{\frac{\rho_i\,\theta_i}{\nu^*\, b_i}}
+			- \theta_i \Biggr]^{\!+}\!,\; \vmax
+			\Biggr\}, \;\; \forall\, i \in \Sset,
+		\end{equation}
+		where $[x]^+ = \max(x, 0)$ and $\nu^* > 0$ is the unique water
+		level satisfying $\sum_{i \in \Sset} b_i v_i^* = \Bres$.
+	\end{proposition}
+	
+	\begin{pf}
+		The objective is strictly concave in each~$v_i$
+		($\partial^2 q_i / \partial v_i^2 < 0$) and the constraint set is
+		convex.  Slater's condition holds whenever $\Bres > 0$.  Writing the
+		Lagrangian and setting $\partial \mathcal{L} / \partial v_i = 0$
+		yields $\rho_i \theta_i / (v_i + \theta_i)^2 = \nu b_i$, which
+		gives~\eqref{eq:wf_sol}.  Uniqueness of~$\nu^*$ follows from the
+		intermediate value theorem, since
+		$\sum_i b_i v_i^*(\nu)$ is continuous and strictly decreasing
+		in~$\nu$.  The water level is computed via bisection in
+		$O(|\Sset|\log(1/\delta))$ time for tolerance~$\delta$.
+		\qed\end{pf}
+	
+	The efficiency index
+	$\eta_i \triangleq \rho_i / (b_i \theta_i)$ captures the marginal
+	quality gain per unit cost at zero allocation.
+	From~\eqref{eq:wf_sol}, device~$i$ receives a positive allocation if
+	and only if $\eta_i > \nu^*$; devices below this threshold are
+	effectively excluded by the water-filling mechanism.
+	
+	% ── 4.2 Straggler-Aware Device Selection ─────────────────
+	\subsection{Straggler-aware device selection}\label{sec:sa_select}
+	
+	In a synchronous setting, the ES selects devices to maximize the
+	deterministic set quality
+	$Q(\Sset) = \max_{\{v_i\}} \sum_{i \in \Sset} q_i(v_i)$ subject to
+	budget constraint~\eqref{eq:det_budget}, solved by
+	Proposition~\ref{prop:wf}.  In the asynchronous setting, however,
+	each device~$i$ only delivers its complete contribution with
+	probability~$\pi_i(D)$ (Eq.~\ref{eq:pi}).  The ES should therefore
+	maximize the expected aggregate quality after straggler realization.
+	
+	Let $X_i \sim \mathrm{Bernoulli}(\pi_i(D))$ denote the indicator
+	that device~$i$ completes on time.  The realized quality is the
+	random variable
+	$Q^{\mathrm{real}}(\Sset) = \sum_{i \in \Sset} X_i \cdot
+	q_i(v_i^*)$.  By linearity of expectation:
+	\begin{equation}\label{eq:expected_quality}
+		\mathbb{E}\bigl[Q^{\mathrm{real}}(\Sset)\bigr]
+		= \sum_{i \in \Sset} \pi_i(D) \cdot q_i(v_i^*)
+		\triangleq \tilde{Q}(\Sset).
+	\end{equation}
+	We call $\tilde{Q}(\Sset)$ the expected quality function, which
+	replaces~$Q(\Sset)$ as the optimization objective in the asynchronous
+	setting.  Formally, $\tilde{Q}$ is obtained by solving the modified
+	allocation problem:
+	\begin{subequations}\label{eq:async_problem}
+		\begin{align}
+			\tilde{Q}(\Sset)
+			&\triangleq \max_{\{v_i\}}
+			\sum_{i \in \Sset}
+			\underbrace{\pi_i(D) \cdot \rho_i}_{\tilde{\rho}_i}
+			\,\frac{v_i}{v_i + \theta_i}
+			\label{eq:async_obj} \\
+			&\;\;\text{s.t.}\;\;
+			\textstyle\sum_{i \in \Sset}(a_i + b_i v_i) \leq B,\;
+			v_i \in [0, \vmax].
+			\label{eq:async_budget}
+		\end{align}
+	\end{subequations}
+	This is structurally identical to~\eqref{eq:det_problem} with the
+	effective fidelity $\tilde{\rho}_i = \pi_i(D) \cdot \rho_i$
+	replacing~$\rho_i$.  Consequently, Proposition~\ref{prop:wf} applies
+	directly with~$\tilde{\rho}_i$ in place of~$\rho_i$, and the
+	straggler-aware efficiency index becomes
+	$\tilde{\eta}_i = \tilde{\rho}_i / (b_i \theta_i)
+	= \pi_i(D) \cdot \eta_i$.
+	The preservation of structural properties follows immediately.
+	
+	\begin{proposition}[Submodularity under Straggler Awareness]
+		\label{prop:sub_async}
+		$\tilde{Q}: 2^{\Mset} \to \mathbb{R}_{\geq 0}$ is monotone
+		non-decreasing and submodular.
+	\end{proposition}
+	
+	\begin{pf}
+		For any fixed deadline~$D$, the completion
+		probability~$\pi_i(D)$ is a non-negative constant associated with
+		each device~$i$.  Problem~\eqref{eq:async_problem} is therefore an
+		instance of~\eqref{eq:det_problem} with modified fidelity parameters
+		$\tilde{\rho}_i = \pi_i(D) \cdot \rho_i \in (0, \rho_i]$.
+		Monotonicity and submodularity of the parametric family
+		$Q_{\rho}(\Sset) = \max_{\{v_i\}} \sum_{i \in \Sset}
+		\rho_i' v_i / (v_i + \theta_i)$ subject to a knapsack constraint
+		hold for any $\rho_i' > 0$: adding a device to a smaller set leaves
+		more residual budget, and the concavity of each~$q_i$ implies weakly
+		larger marginal gain \citep{boyd_convex}.
+		\qed\end{pf}
+	
+	\begin{theorem}[Approximation Guarantee for $\tilde{Q}$]
+		\label{thm:approx_async}
+		The greedy algorithm (Algorithm~\ref{alg:dash_select}) returns
+		$\Sset^{\mathrm{g}}$ satisfying
+		\begin{equation}\label{eq:greedy_bound}
+			\tilde{Q}(\Sset^{\mathrm{g}})
+			\geq \tfrac{1}{2}(1 - 1/e) \cdot \tilde{Q}^*,
+		\end{equation}
+		where
+		$\tilde{Q}^* = \max_{\Sset \subseteq \Mset} \tilde{Q}(\Sset)$
+		is the optimal expected quality.
+	\end{theorem}
+	
+	\begin{pf}
+		$\tilde{Q}$ is monotone submodular
+		(Proposition~\ref{prop:sub_async}) and the budget
+		constraint~\eqref{eq:async_budget} is a knapsack constraint.  The
+		result follows from the $\tfrac{1}{2}(1 - 1/e)$ approximation ratio
+		for greedy maximization of monotone submodular functions under a
+		knapsack constraint \citep{khuller_knapsack}.
+		\qed\end{pf}
+	
+	We now relate the expected quality~$\tilde{Q}^*$ to the
+	deterministic optimum $Q^* = \max_{\Sset} Q(\Sset)$, which represents
+	the quality achievable if all devices always complete on time.
+	
+	\begin{theorem}[Expected Quality Bound under Straggler Rate]
+		\label{thm:straggler_bound}
+		Let $\pi_{\min} = \min_{i \in \Mset} \pi_i(D)$ and define the
+		worst-case straggler probability $\bar{p} = 1 - \pi_{\min}$.
+		Then the greedy solution satisfies
+		\begin{equation}\label{eq:straggler_bound}
+			\tilde{Q}(\Sset^{\mathrm{g}})
+			\geq (1 - \bar{p}) \cdot
+			\tfrac{1}{2}(1 - 1/e) \cdot Q^*.
+		\end{equation}
+	\end{theorem}
+	
+	\begin{pf}
+		Let~$\Sset^*$ denote the optimal device set for the deterministic
+		problem, with water-filling allocation $\{v_i^{\circ}\}$ achieving
+		$Q^* = \sum_{i \in \Sset^*} q_i(v_i^{\circ})$.
+		
+		The allocation $\{v_i^{\circ}\}$ is feasible for
+		problem~\eqref{eq:async_problem} with $\Sset = \Sset^*$ (same budget
+		constraint).  Therefore:
+		\begin{align}
+			\tilde{Q}(\Sset^*)
+			&\geq \sum_{i \in \Sset^*}
+			\pi_i(D) \cdot \rho_i
+			\frac{v_i^{\circ}}{v_i^{\circ} + \theta_i}
+			\notag \\
+			&\geq \pi_{\min}
+			\sum_{i \in \Sset^*}
+			\rho_i \frac{v_i^{\circ}}{v_i^{\circ} + \theta_i}
+			= \pi_{\min} \cdot Q^*.
+			\label{eq:step1}
+		\end{align}
+		The first inequality uses the feasibility of~$\{v_i^{\circ}\}$ (the
+		$\tilde{Q}$-optimal water-filling can only yield a higher value); the
+		second applies $\pi_i(D) \geq \pi_{\min}$ for all~$i$.
+		Since $\tilde{Q}^* \geq \tilde{Q}(\Sset^*)$, we have
+		$\tilde{Q}^* \geq \pi_{\min} \cdot Q^*$.
+		Combining with Theorem~\ref{thm:approx_async}:
+		\begin{align}
+			\tilde{Q}(\Sset^{\mathrm{g}})
+			&\geq \tfrac{1}{2}(1 - 1/e) \cdot \tilde{Q}^*
+			\notag \\
+			&\geq (1 - \bar{p}) \cdot
+			\tfrac{1}{2}(1 - 1/e) \cdot Q^*.
+			\label{eq:step2}
+		\end{align}
+		\qed\end{pf}
+	
+	The bound~\eqref{eq:straggler_bound} quantifies the price of
+	asynchrony: the greedy expected quality degrades by at most a factor
+	of $(1 - \bar{p})$ relative to the deterministic optimum.  This is a
+	worst-case bound based on~$\pi_{\min}$; in practice, the
+	straggler-aware selection preferentially includes reliable devices
+	(high~$\pi_i$), so the effective average completion probability
+	across~$\Sset^{\mathrm{g}}$ is substantially higher
+	than~$\pi_{\min}$.  The modified efficiency index
+	$\tilde{\eta}_i = \pi_i \cdot \rho_i / (b_i \theta_i)$ naturally
+	balances reliability against knowledge quality: a device with
+	excellent data quality ($\rho_i$ high, $\theta_i$ low) but poor
+	connectivity ($\pi_i$ low) is down-ranked relative to a moderately
+	informative but reliable peer.
+	
+	Algorithm~\ref{alg:dash_select} differs from a standard
+	deterministic greedy scheduler in exactly one line: the marginal gain
+	computation multiplies by~$\pi_i(D)$.  All other steps---ranking,
+	water-filling, greedy loop---remain identical.
+	
+	\begin{algorithm}[t]
+		\caption{DASH-Select: Straggler-Aware Scheduling}
+		\label{alg:dash_select}
+		\begin{algorithmic}[1]
+			\REQUIRE Device pool $\Mset$, budget $B$, deadline $D$,
+			profiles $\{(\rho_i, \theta_i, a_i, b_i)\}$,
+			straggler model $(\mu_n, \sigma_n)$, tolerance $\delta$
+			\ENSURE Selected set $\Sset$, allocations $\{v_i^*\}$
+			\STATE // Compute straggler-aware efficiency
+			\FOR{each $i \in \Mset$}
+			\STATE $\pi_i \gets \Pr[\tau_i \leq D]$
+			via Eq.~\eqref{eq:pi}
+			\STATE $\tilde{\eta}_i \gets
+			\pi_i \cdot \rho_i / (b_i \theta_i)$
+			\ENDFOR
+			\STATE Sort devices by $\tilde{\eta}_i$ (decreasing)
+			\STATE // Greedy selection on $\tilde{Q}$
+			\STATE $\Sset \gets \emptyset$
+			\FOR{each device $i$ in sorted order}
+			\IF{$a_i + \sum_{j \in \Sset} a_j > B$}
+			\STATE \textbf{continue}
+			\ENDIF
+			\STATE $\Sset' \gets \Sset \cup \{i\}$
+			\STATE $\{v_j\} \!\gets\!
+			\mathrm{WaterFill}(\Sset',
+			B {-} \textstyle\sum_{j \in \Sset'}\! a_j,
+			\{\tilde{\rho}_j\}, \delta)$
+			\IF{$\tilde{Q}(\Sset') > \tilde{Q}(\Sset)$}
+			\STATE $\Sset \gets \Sset'$
+			\ENDIF
+			\ENDFOR
+			\STATE // Final allocation
+			\STATE $\{v_i^*\}_{i \in \Sset} \!\gets\!
+			\mathrm{WaterFill}(\Sset,
+			B {-} \textstyle\sum_{i \in \Sset}\! a_i,
+			\{\tilde{\rho}_i\}, \delta)$
+			\RETURN $\Sset,\; \{v_i^*\}$
+		\end{algorithmic}
+	\end{algorithm}
+	
+	% ── 4.3 Timeout Policy Design ────────────────────────────
+	\subsection{Timeout policy design}\label{sec:timeout}
+	
+	The deadline~$D^{(t)}$ controls the trade-off between round latency
+	(shorter deadline leads to faster rounds) and knowledge utilization
+	(longer deadline allows more devices to complete, yielding higher
+	per-round quality).  We consider three policies with increasing
+	adaptiveness.
+	
+	The simplest strategy, which we call the fixed-deadline policy, sets
+	$D^{(t)} = D_0$ for all rounds~$t$, where $D_0$ is a system-level
+	constant chosen by the operator.  This provides predictable per-round
+	wall-clock time and is straightforward to implement, but cannot adapt
+	to changing network conditions.  Setting $D_0$ too low wastes
+	scheduled resources through excessive timeouts, while setting it too
+	high approaches synchronous behavior.
+	
+	The adaptive-deadline policy adjusts the deadline based on observed
+	latency statistics from the previous round.  Let
+	$\{\tau_i^{(t-1)}\}$ denote the latencies observed in round~$t{-}1$.
+	The adaptive policy sets:
+	\begin{equation}\label{eq:adaptive}
+		D^{(t)} = \alpha_{\mathrm{ema}} \,
+		\mathrm{Pctl}_p\!\bigl(\{\tau_i^{(t-1)}\}\bigr)
+		+ (1 {-} \alpha_{\mathrm{ema}}) \, D^{(t-1)},
+	\end{equation}
+	where $\mathrm{Pctl}_p$ is the $p$-th percentile of the empirical
+	latency distribution and $\alpha_{\mathrm{ema}} \in (0,1)$ is an
+	exponential moving average smoothing coefficient that prevents
+	oscillation.  During a warmup phase of~$W$ rounds, the policy falls
+	back to $D^{(t)} = D_0$.  The percentile parameter~$p$ directly
+	controls the target completion rate: $p = 0.7$ targets approximately
+	70\% on-time completion.
+	
+	The partial-accept policy uses the same adaptive deadline mechanism,
+	but additionally accepts partial logit uploads from devices in the
+	Partial outcome category (Definition~\ref{def:outcome}).  Partial
+	contributions enter the aggregation with reduced quality weight since
+	$q_i(v_i^{\mathrm{recv}}) < q_i(v_i^*)$ whenever
+	$v_i^{\mathrm{recv}} < v_i^*$.  This policy maximizes knowledge
+	utilization by retaining computation that the device has already
+	performed, at the cost of slightly noisier aggregation from
+	incomplete logit sets.
+	
+	% ── 4.4 Quality-Weighted Aggregation ─────────────────────
+	\subsection{Quality-weighted aggregation}\label{sec:aggregation}
+	
+	After the deadline expires, the ES aggregates logits from the
+	set of responding devices~$\Srecv$, which includes all devices with
+	Complete outcomes and, under the partial-accept policy, those with
+	Partial outcomes as well.  Each device $i \in \Srecv$ has delivered
+	$v_i^{\mathrm{recv}}$ logit vectors (equal to~$v_i^*$ for complete
+	devices, or given by~\eqref{eq:partial} for partial devices).  The
+	aggregation weight for device~$i$ is
+	\begin{equation}\label{eq:agg_weight}
+		w_i = \frac{\rho_i \cdot q_i(v_i^{\mathrm{recv}})}
+		{\displaystyle\sum_{j \in \Srecv}
+			\rho_j \cdot q_j(v_j^{\mathrm{recv}})},
+	\end{equation}
+	where $q_i(v_i^{\mathrm{recv}}) =
+	\rho_i \, v_i^{\mathrm{recv}} / (v_i^{\mathrm{recv}} + \theta_i)$.
+	Devices with higher privacy fidelity and more complete uploads
+	receive proportionally larger weight, while partial contributions are
+	naturally down-weighted through the saturation function.  The
+	aggregated logit vector
+	$\bar{\mathbf{z}}^{(t)} = \sum_{i \in \Srecv}
+	w_i \tilde{\mathbf{z}}_i$
+	is then used to update the global model via KL-divergence
+	minimization:
+	\begin{equation}\label{eq:kl}
+		\mathbf{w}^{(t)} \!=\! \mathbf{w}^{(t-1)}
+		\!-\! \alpha \nabla_{\mathbf{w}}
+		\mathrm{KL}\!\bigl(
+		\sigma(\bar{\mathbf{z}}^{(t)} / \tau)
+		\,\|\,
+		\sigma(\mathbf{w}^{(t-1)}\!(\Dref) / \tau)
+		\bigr),
+	\end{equation}
+	where $\sigma$ is the softmax function, $\tau$ is the distillation
+	temperature, and~$\alpha$ is the learning rate.
+	
+	In the synchronous protocol, $v_i^{\mathrm{recv}} = v_i^*$ for all
+	selected devices and $\Srecv = \Sset^{(t)}$, so the aggregation
+	weight reduces to $w_i \propto \rho_i \cdot q_i(v_i^*)$, recovering
+	the deterministic quality weighting.  In the asynchronous setting,
+	partial devices contribute with $v_i^{\mathrm{recv}} < v_i^*$,
+	resulting in lower~$q_i$ and hence lower weight---a graceful
+	degradation mechanism that requires no additional tuning parameters.
+	
+	
+	% ══════════════════════════════════════════════════════════
+	\section{Performance Evaluation}\label{sec:eval}
+	% ══════════════════════════════════════════════════════════
+	
+	% [PLACEHOLDER — 5.1 Setup, 5.2 Main Comparison,
+	%  5.3 Straggler Sweep, 5.4 Timeout Policy,
+	%  5.5 Scalability, 5.6 EMNIST, 5.7 Privacy]
+	%
+	% Figures to include:
+	%  Fig 2: accuracy vs round (6 methods)
+	%  Fig 3: accuracy vs wall-clock time (6 methods) — key figure
+	%  Fig 4: accuracy vs straggler ratio
+	%  Fig 5: wall-clock vs straggler ratio
+	%  Fig 6: Pareto front (policy comparison)
+	%  Fig 7: accuracy vs M at fixed wall-clock budget
+	%  Fig 8: round time vs M
+	%  Fig 9: EMNIST accuracy vs wall-clock
+	%  Fig 10: privacy sweep under async
+	%
+	% Tables:
+	%  Table 1: performance summary (6 methods x 3 metrics)
+	
+	
+	% ══════════════════════════════════════════════════════════
+	\section{Discussion}\label{sec:discuss}
+	% ══════════════════════════════════════════════════════════
+	
+	% [PLACEHOLDER — 6.1 Sync vs Async guidelines,
+	%  6.2 Deadline Tuning, 6.3 Limitations and Future Work]
+	
+	
+	% ══════════════════════════════════════════════════════════
+	\section{Conclusion}\label{sec:conclude}
+	% ══════════════════════════════════════════════════════════
+	
+	% [PLACEHOLDER]
+	
+	
+	% ── CRediT ────────────────────────────────────────────────
+	\printcredits
+	
+	% ── Acknowledgment ────────────────────────────────────────
+	% AI-Generated Content Disclosure:
+	% The Claude AI system (Anthropic) was used to assist with LaTeX
+	% formatting and grammatical refinement during manuscript preparation.
+	% All technical content, theoretical derivations, experimental design,
+	% and scientific conclusions were produced by the authors.
+	
+	% ── Bibliography ──────────────────────────────────────────
+	\bibliographystyle{cas-model2-names}
+	
+	%% Inline bibliography for standalone compilation.
+	%% Replace with \bibliography{refs} once .bib file is ready.
+	\begin{thebibliography}{99}
+		
+		\bibitem[{Boyd and Vandenberghe(2004)}]{boyd_convex}
+		Boyd, S., Vandenberghe, L., 2004.
+		Convex Optimization.
+		Cambridge University Press.
+		
+		\bibitem[{Khuller et~al.(1999)}]{khuller_knapsack}
+		Khuller, S., Moss, A., Naor, J.S., 1999.
+		The budgeted maximum coverage problem.
+		Information Processing Letters 70~(1), 39--45.
+		
+		\bibitem[{McMahan et~al.(2017)}]{mcmahan_fl}
+		McMahan, B., Moore, E., Ramage, D., Hampson, S., y~Arcas, B.A.,
+		2017.
+		Communication-efficient learning of deep networks from decentralized
+		data.
+		In: Proc.\ AISTATS. pp.\ 1273--1282.
+		
+		\bibitem[{Li and Wang(2019)}]{li_fedmd}
+		Li, D., Wang, J., 2019.
+		{FedMD}: Heterogeneous federated learning via model distillation.
+		arXiv preprint arXiv:1910.03581.
+		
+		\bibitem[{Hinton et~al.(2015)}]{hinton_kd}
+		Hinton, G., Vinyals, O., Dean, J., 2015.
+		Distilling the knowledge in a neural network.
+		arXiv preprint arXiv:1503.02531.
+		
+		\bibitem[{Xie et~al.(2019)}]{xie_fedasync}
+		Xie, C., Koyejo, S., Gupta, I., 2019.
+		Asynchronous federated optimization.
+		arXiv preprint arXiv:1903.03934.
+		
+		\bibitem[{Nguyen et~al.(2022)}]{nguyen_fedbuff}
+		Nguyen, J., Malik, K., Zhan, H., Yousefpour, A., Rabbat, M.,
+		Malek, M., Huba, D., 2022.
+		Federated learning with buffered asynchronous aggregation.
+		In: Proc.\ AISTATS. pp.\ 3581--3607.
+		
+		\bibitem[{Kairouz et~al.(2021)}]{kairouz_fl}
+		Kairouz, P., McMahan, H.B., Avent, B., et~al., 2021.
+		Advances and open problems in federated learning.
+		Foundations and Trends in Machine Learning 14~(1--2), 1--210.
+		
+		\bibitem[{Gad et~al.(2024)}]{gad_fedskd}
+		Gad, G., Fadlullah, Z.M., Fouda, M.M., Ibrahem, M.I., Kato, N.,
+		2024.
+		Federated learning with selective knowledge distillation over
+		bandwidth-constrained wireless networks.
+		In: Proc.\ IEEE ICC. pp.\ 3476--3481.
+		
+		\bibitem[{Balakrishnan et~al.(2022)}]{balakrishnan_diverse}
+		Balakrishnan, R., Li, T., Zhou, T., Himayat, N., Smith, V.,
+		Bilmes, J., 2022.
+		Diverse client selection for federated learning via submodular
+		maximization.
+		In: Proc.\ ICLR.
+		
+	\end{thebibliography}
+	
+\end{document}

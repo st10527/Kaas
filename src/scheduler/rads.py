@@ -17,13 +17,18 @@ Notation (matches EDGE paper):
 Quality model (saturation):
   q_i(v_i) = rho_i * v_i / (v_i + theta_i)
 
-JPDC extension — Straggler-aware selection (Sec 4.2):
-  When straggler_aware=True, greedy selection maximises the *expected*
-  quality  Q_tilde(S) = sum_i rho_i * q_i(v_i*) * pi_i(D)
-  where pi_i(D) = Pr[tau_i <= D] is the completion probability.
-  Submodularity is preserved because pi_i is a per-device constant
-  given D and v_i*.  Approximation guarantee: (1-1/e)/2 still holds
-  on the expected quality (Theorem 2 in JPDC paper).
+JPDC extension — Straggler-aware scheduling (Sec 4.2, Algorithm 2):
+  When straggler_aware=True, we substitute rho_tilde_i = pi_i(D) * rho_i
+  for rho_i EVERYWHERE (efficiency index, water-filling, quality).
+  This single substitution converts the deterministic scheduling into
+  the expected-quality problem:
+    Q_tilde(S) = sum_i rho_tilde_i * v_i / (v_i + theta_i)
+               = sum_i pi_i(D) * q_i(v_i)
+  Water-filling KKT uses rho_tilde_i, so devices with low completion
+  probability naturally receive smaller allocations.
+  Submodularity of Q_tilde preserved (Proposition 2).
+  Approximation guarantee: (1/2)(1-1/e) * Q_tilde* (Theorem 1), and
+  Q_tilde(S^g) >= (1 - p_bar) * (1/2)(1-1/e) * Q* (Theorem 2).
 """
 
 import numpy as np
@@ -124,13 +129,6 @@ class RADSScheduler:
         """
         M = len(devices)
         
-        # Compute efficiency index for each device
-        for d in devices:
-            d['eta_i'] = d['rho_i'] / (d['b_i'] * d['theta_i'])
-        
-        # Sort by efficiency (descending) for greedy phase
-        sorted_devices = sorted(devices, key=lambda d: d['eta_i'], reverse=True)
-
         # ── Deadline-aware v_max per device (JPDC Sec 4.2) ──
         # When straggler_aware=True, cap each device's v* at the maximum
         # volume it can complete within the deadline.  This prevents the
@@ -144,6 +142,38 @@ class RADSScheduler:
                 rate_sum = d.get('comp_rate', 0.01) + d.get('comm_rate', 0.01)
                 v_feasible = self.deadline / rate_sum * 0.5  # noise margin
                 per_device_v_max[d['device_id']] = min(self.v_max, max(v_feasible, 1.0))
+
+        # ── JPDC Eq.(15): Straggler-aware ρ̃_i substitution ──
+        # When straggler_aware=True, replace ρ_i with ρ̃_i = π_i(D)·ρ_i
+        # everywhere (efficiency index, water-filling, quality).  This
+        # single substitution converts the deterministic scheduling into
+        # the expected-quality problem Q̃(S) = Σ π_i·q_i(v_i*).
+        # π_i is computed upfront using v_cap as the nominal volume
+        # (conservative: v_cap ≥ actual v_i* → computed π_i ≤ actual π_i).
+        # Algorithm 2 (DASH-Select) treats π_i as a per-device constant.
+        if (self.straggler_aware
+                and self.straggler_model is not None
+                and self.deadline > 0):
+            for d in devices:
+                dev_id = d['device_id']
+                v_cap = per_device_v_max.get(dev_id, self.v_max)
+                pi_i = self.straggler_model.completion_probability(
+                    comp_rate=d.get('comp_rate', 0.01),
+                    comm_rate=d.get('comm_rate', 0.01),
+                    v_star=v_cap,
+                    deadline=self.deadline,
+                )
+                d['rho_tilde_i'] = pi_i * d['rho_i']
+        else:
+            for d in devices:
+                d['rho_tilde_i'] = d['rho_i']
+
+        # Compute straggler-aware efficiency index η̃_i = ρ̃_i / (b_i·θ_i)
+        for d in devices:
+            d['eta_i'] = d['rho_tilde_i'] / (d['b_i'] * d['theta_i'])
+        
+        # Sort by efficiency (descending) for greedy phase
+        sorted_devices = sorted(devices, key=lambda d: d['eta_i'], reverse=True)
         
         # ── Stage 2: Greedy device selection ──
         # Iteratively add the device with highest marginal gain
@@ -186,27 +216,10 @@ class RADSScheduler:
                 
                 marginal_gain = trial_quality - current_quality
 
-                # ── JPDC: Straggler-aware gain scaling ──
-                # Multiply marginal gain by completion probability pi_i(D).
-                # pi_i is a per-device constant (given D and v_i*), so
-                # submodularity of the objective is preserved.
-                if (self.straggler_aware
-                        and self.straggler_model is not None
-                        and self.deadline > 0):
-                    # Find the candidate's allocation in the trial
-                    cand_alloc = next(
-                        (a for a in trial_allocs
-                         if a['device_id'] == dev_id),
-                        None,
-                    )
-                    if cand_alloc is not None:
-                        pi_i = self.straggler_model.completion_probability(
-                            comp_rate=candidate.get('comp_rate', 0.01),
-                            comm_rate=candidate.get('comm_rate', 0.01),
-                            v_star=cand_alloc['v_star'],
-                            deadline=self.deadline,
-                        )
-                        marginal_gain *= pi_i
+                # NOTE: With the ρ̃_i substitution (JPDC Eq. 15), the
+                # marginal gain is already computed on Q̃ (expected quality).
+                # No post-hoc π_i multiplication needed — it's baked into
+                # ρ̃_i used by water-filling and quality computation.
                 
                 if marginal_gain > 0:
                     selected_set.append(candidate)
@@ -284,8 +297,10 @@ class RADSScheduler:
         where nu > 0 is the unique water level satisfying:
           sum_i b_i * v_i*(nu) = B_res
         
-        When straggler_aware=True, v_max_i is the per-device cap
-        computed from the deadline.  Otherwise v_max_i = self.v_max.
+        When straggler_aware=True, rho_i is replaced by
+        rho_tilde_i = pi_i(D) * rho_i (set in schedule() before calling
+        this method).  The KKT formula is identical; only the effective
+        fidelity changes.
         
         Solved via bisection on nu.
         
@@ -306,7 +321,7 @@ class RADSScheduler:
             total_var_cost = 0.0
             
             for d in device_set:
-                rho = d['rho_i']
+                rho = d.get('rho_tilde_i', d['rho_i'])  # ρ̃_i if straggler-aware
                 b = d['b_i']
                 theta = d['theta_i']
                 dev_id = d['device_id']
@@ -376,3 +391,7 @@ class RADSScheduler:
         if v <= 0:
             return 0.0
         return rho * v / (v + theta)
+
+
+# Alias: the JPDC paper calls this DASH-Select / DASH Scheduler.
+DASHScheduler = RADSScheduler
