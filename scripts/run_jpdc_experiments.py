@@ -493,6 +493,92 @@ def run_policy_comparison(args):
 
 
 # ============================================================================
+# Experiment 3b: Policy Comparison WITHOUT D_min floor (ablation)
+# ============================================================================
+
+def run_policy_nofloor(args):
+    """Same configs as Exp 3 but min_deadline_ratio=0 (no D_min floor).
+    This shows the raw behavior of each policy without safety net.
+    Paired comparison with Exp 3 (which has D_min) proves D_min's value.
+    """
+    from src.methods.dash import DASH, DASHConfig
+    from torch.utils.data import DataLoader
+
+    print("\n" + "=" * 70)
+    print("  JPDC EXP 3b: Policy Comparison WITHOUT D_min Floor")
+    print("=" * 70)
+
+    n_rounds = 10 if args.quick else 50
+    n_devices = 10 if args.quick else 50
+    budget = 50.0
+    sigma = 1.0  # same harsh conditions as Exp 3
+    seeds = args._seeds or ([42] if args.quick else [42, 123, 456])
+
+    # Same 6 policies as Exp 3 (no partial — partial needs D_min to be meaningful)
+    policies = [
+        ('fixed', {'D_0': 5.0}),
+        ('fixed', {'D_0': 10.0}),
+        ('fixed', {'D_0': 20.0}),
+        ('adaptive', {'percentile': 0.5}),
+        ('adaptive', {'percentile': 0.7}),
+        ('adaptive', {'percentile': 0.9}),
+    ]
+    if args.quick:
+        policies = [
+            ('fixed', {'D_0': 10.0}),
+            ('adaptive', {'percentile': 0.7}),
+        ]
+
+    results = {}
+
+    for policy_name, policy_kwargs in policies:
+        label = f"{policy_name}({list(policy_kwargs.values())[0]})"
+        seed_results = []
+
+        for seed in seeds:
+            torch.manual_seed(seed)
+            np.random.seed(seed)
+
+            private_set, public_set, test_set = load_cifar_data(quick=args.quick)
+            client_loaders, _ = partition_data(private_set, n_devices, alpha=0.3, seed=seed)
+            public_loader = DataLoader(public_set, batch_size=64, shuffle=False,
+                                       num_workers=2, pin_memory=True)
+            test_loader = DataLoader(test_set, batch_size=128, shuffle=False,
+                                     num_workers=2, pin_memory=True)
+            devices = generate_async_devices(n_devices, seed=seed)
+
+            cfg = DASHConfig(
+                budget=budget, v_max=len(public_set),
+                local_epochs=2, distill_epochs=3, distill_lr=0.001,
+                pretrain_epochs=10, sigma_noise=sigma,
+                timeout_policy=policy_name,
+                straggler_aware=True,
+                min_deadline_ratio=0.0,   # ← KEY: no D_min floor
+            )
+            # Apply policy-specific kwargs
+            if 'D_0' in policy_kwargs:
+                cfg.fixed_deadline = policy_kwargs['D_0']
+            if 'percentile' in policy_kwargs:
+                cfg.adaptive_percentile = policy_kwargs['percentile']
+
+            method = DASH(create_model(), config=cfg, device=args.device)
+            result = run_method(method, devices, client_loaders,
+                                public_loader, test_loader, n_rounds,
+                                f"{label}-nofloor (seed={seed})")
+            seed_results.append(result)
+
+        results[label] = {
+            'seeds': {f"seed{s}": r for s, r in zip(seeds, seed_results)},
+            'final_accuracy': float(np.mean([r['final_accuracy'] for r in seed_results])),
+            'final_accuracy_std': float(np.std([r['final_accuracy'] for r in seed_results])),
+            'wall_clock_time': float(np.mean([r['wall_clock_time'] for r in seed_results])),
+        }
+
+    save_json(results, str(RESULTS_DIR / "exp3b_policy_nofloor.json"))
+    return results
+
+
+# ============================================================================
 # Experiment 4: Scalability
 # ============================================================================
 
@@ -771,6 +857,7 @@ EXPERIMENTS = {
     'main':     run_main_comparison,
     'straggler': run_straggler_sweep,
     'policy':   run_policy_comparison,
+    'policy_nofloor': run_policy_nofloor,
     'scale':    run_scalability,
     'emnist':   run_emnist_validation,
     'privacy':  run_privacy_async,
@@ -780,7 +867,7 @@ EXPERIMENTS = {
 def main():
     parser = argparse.ArgumentParser(description="DASH Experiments — JPDC 2026")
     parser.add_argument('--exp', type=str, default=None,
-                        choices=list(EXPERIMENTS.keys()))
+                        choices=list(EXPERIMENTS.keys()) + [None])
     parser.add_argument('--all', action='store_true')
     parser.add_argument('--quick', action='store_true',
                         help='Reduced scale for fast validation')
