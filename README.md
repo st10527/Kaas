@@ -1,53 +1,53 @@
-# KaaS-Edge: Knowledge-as-a-Service for Edge Intelligence
+# KaaS: Knowledge-as-a-Service for Edge Intelligence
 
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![PyTorch 2.0+](https://img.shields.io/badge/pytorch-2.0+-ee4c2c.svg)](https://pytorch.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A simulation framework for **Knowledge-as-a-Service at the Edge (KaaS-Edge)**, implementing a resource-aware distillation scheduling algorithm for federated knowledge distillation under heterogeneous edge environments.
+A simulation framework for **resource-aware federated knowledge distillation** on heterogeneous edge devices. This codebase supports two papers:
+
+| Paper | Method | Venue | Key Feature |
+|-------|--------|-------|-------------|
+| **DASH** | Deadline-Aware Straggler-Tolerant Scheduling | JPDC 2026 | Asynchronous FD with straggler handling |
+| **KaaS-Edge** | Resource-Aware Distillation Scheduling | IEEE EDGE 2026 | Synchronous FD with quality-aware scheduling |
 
 ---
 
 ## 📁 Project Structure
 
 ```
-KaaS-Edge/
-├── config/
-│   ├── edge_default.yaml       # Default hyper-parameters
-│   └── devices/
-│       └── heterogeneity.yaml  # 3-D device heterogeneity profiles
+KaaS/
 ├── src/
-│   ├── data/
-│   │   ├── datasets.py         # CIFAR-100 dataset loading & safe-split
-│   │   └── partition.py        # Dirichlet / IID partitioning
-│   ├── devices/
-│   │   ├── heterogeneity.py    # 3-D device profile generator
-│   │   └── energy.py           # Energy consumption model
-│   ├── privacy/
-│   │   └── ldp.py              # Laplace / Gaussian LDP mechanisms
+│   ├── data/                    # Dataset loading & Dirichlet partitioning
+│   ├── devices/                 # 3-tier device profiles & energy model
+│   ├── privacy/                 # Laplace/Gaussian LDP mechanisms
 │   ├── scheduler/
-│   │   └── rads.py             # RADS: water-filling + greedy selection
+│   │   └── rads.py              # RADS: water-filling + greedy selection
+│   ├── async_module/
+│   │   ├── straggler_model.py   # LogNormal straggler latency simulation
+│   │   └── timeout_policy.py    # Fixed / Adaptive / Partial-Accept policies
 │   ├── models/
-│   │   ├── resnet.py           # ResNet-18/34
-│   │   ├── cnn.py              # Lightweight CNN (~1.2 M params)
-│   │   └── utils.py            # get_model() factory
-│   ├── methods/
-│   │   ├── base.py             # FederatedMethod base class
-│   │   ├── kaas_edge.py        # KaaS-Edge (proposed method)
-│   │   ├── fedmd.py            # FedMD baseline
-│   │   ├── fedavg.py           # FedAvg baseline
-│   │   ├── csra.py             # CSRA baseline
-│   │   └── fedgmkd.py          # FedGMKD baseline
-│   └── utils/                  # Logging, seeding, results helpers
+│   │   ├── cnn.py               # CNN (4.7M params)
+│   │   └── resnet.py            # ResNet-18/34
+│   └── methods/
+│       ├── dash.py              # DASH — async straggler-aware FD (JPDC)
+│       ├── kaas_edge.py         # KaaS-Edge — sync FD (EDGE)
+│       ├── fedbuff_fd.py        # FedBuff-FD baseline
+│       ├── fedmd.py             # FedMD baseline
+│       └── ...
 ├── scripts/
-│   └── run_edge_experiments.py # Experiment runner (4 suites)
-├── parallel_run.sh             # Parallel execution across seeds
-├── merge_seed_results.py       # Merge per-seed JSON results
-├── plot_edge_figures.py        # Generate paper figures
-├── diagnostic_vmax.py          # Pre-experiment config verification
+│   ├── run_jpdc_experiments.py  # JPDC: 6 experiment suites
+│   ├── run_edge_experiments.py  # EDGE: 4 experiment suites
+│   ├── analyze_exp*.py          # Result analysis & summary generation
+│   └── edge/                    # EDGE-specific utilities
+├── config/
+│   ├── jpdc_default.yaml        # JPDC default parameters
+│   └── edge_default.yaml        # EDGE default parameters
 ├── results/
-│   └── edge/                   # JSON experiment outputs
-└── figures/                    # Generated tables & figures
+│   ├── jpdc/                    # JPDC experiment JSON outputs
+│   └── edge/                    # EDGE experiment JSON outputs
+├── tests/                       # Unit tests for async modules
+└── figures/                     # Generated tables & figures (EDGE)
 ```
 
 ---
@@ -58,149 +58,103 @@ KaaS-Edge/
 
 ```bash
 git clone <REPO_URL>
-cd KaaS-Edge
-
-# Create a virtual environment (recommended)
-python -m venv venv
-source venv/bin/activate       # Linux / macOS
-
-# Install dependencies
+cd KaaS
+python -m venv venv && source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 2. Run Experiments
+### 2. Run JPDC Experiments (DASH)
 
 ```bash
-# Single experiment — main method comparison (3 seeds × 50 rounds)
-python scripts/run_edge_experiments.py --exp main
+# Exp 1: Main comparison (6 methods × 3 seeds)
+python scripts/run_jpdc_experiments.py --exp main --device cuda:0
 
-# Quick smoke-test (fewer samples, CPU-friendly)
-python scripts/run_edge_experiments.py --exp main --quick
+# Exp 2: Straggler severity sweep (σ = 0, 0.3, 0.5, 1.0, 1.5)
+python scripts/run_jpdc_experiments.py --exp straggler --device cuda:0
 
-# Budget sensitivity analysis
-python scripts/run_edge_experiments.py --exp budget
+# Exp 3: Timeout policy comparison
+python scripts/run_jpdc_experiments.py --exp policy --device cuda:0
 
-# Device scalability (vary number of devices)
-python scripts/run_edge_experiments.py --exp scale
+# Exp 4: Scalability (M = 20, 50, 100, 200)
+python scripts/run_jpdc_experiments.py --exp scale --device cuda:0
 
-# Privacy impact (vary ρ distribution)
-python scripts/run_edge_experiments.py --exp privacy
+# Exp 5: Cross-dataset validation (EMNIST-ByClass)
+python scripts/run_jpdc_experiments.py --exp emnist --device cuda:0
 
-# Run all four experiment suites
-python scripts/run_edge_experiments.py --all
+# Exp 6: Privacy robustness under async
+python scripts/run_jpdc_experiments.py --exp privacy --device cuda:0
+```
 
-# Specify GPU
+### 3. Analyze Results
+
+```bash
+python scripts/analyze_exp1_3seed.py    # Exp 1 analysis
+python scripts/analyze_exp2.py          # Exp 2 analysis
+python scripts/analyze_exp3_paired.py   # Exp 3 analysis (with/without D_min)
+python scripts/analyze_exp4.py          # Exp 4 scalability analysis
+```
+
+Results are saved to `results/jpdc/` as JSON files.
+
+### 4. Run EDGE Experiments (KaaS-Edge)
+
+```bash
+python scripts/run_edge_experiments.py --exp main --device cuda:0
 python scripts/run_edge_experiments.py --all --device cuda:0
 ```
 
-**Parallel execution across seeds** (recommended for GPU with ≥ 8 GB VRAM):
+---
 
-```bash
-# Runs seeds 42 & 123 in parallel (Wave 1), then seed 456 alone (Wave 2)
-bash parallel_run.sh main cuda:0
+## ⚙️ DASH Parameters
 
-# Run all experiments
-bash parallel_run.sh all cuda:0
-```
-
-### 3. Process Results & Generate Figures
-
-```bash
-# Merge per-seed results
-python merge_seed_results.py
-
-# Generate paper figures
-python plot_edge_figures.py
-```
-
-Results are saved to `results/edge/` as JSON files.
+| Parameter | Symbol | Default | Description |
+|-----------|--------|---------|-------------|
+| Adaptive percentile | $p$ | 0.85 | Deadline set at p-th percentile of recent latencies |
+| EMA smoothing | $\alpha$ | 0.3 | Exponential moving average for deadline adaptation |
+| Warmup rounds | $W$ | 3 | Fixed deadline rounds before switching to adaptive |
+| Min deadline ratio | $D_{\min}/D^{(0)}$ | 0.3 | Floor to prevent deadline spiral |
+| v_feasible margin | — | 0.8 | Feasibility margin for volume allocation |
+| Warmup safety | — | 1.5 | Safety multiplier for warmup deadline estimation |
+| Budget | $B$ | 50.0 (M=50) | Per-round total communication volume budget |
+| Straggler noise | $\sigma$ | 0.5 | LogNormal noise scale for latency simulation |
+| Dirichlet | $\alpha_{Dir}$ | 0.3 | Non-IID data partition concentration |
 
 ---
 
-## ⚙️ Configuration
+## 🔬 Methods
 
-Key parameters in `config/edge_default.yaml`:
+### JPDC — 6 Compared Methods
 
-```yaml
-scheduler:
-  budget: 8.0       # Per-round total cost budget B
-  v_max: 200        # Maximum upload volume per device
-  delta: 1e-6       # Bisection tolerance for water-filling
+| Method | Type | Selection | Deadline |
+|--------|------|-----------|----------|
+| **DASH (ours)** | Async FD | Straggler-aware greedy ($\pi_i$-weighted) | Adaptive + $D_{\min}$ floor |
+| Sync-Greedy | Sync FD | Greedy ($\pi_i=1$) | Wait for all |
+| FedBuff-FD | Async FD | First-come buffer K=10 | None |
+| Random-Async | Async FD | Random 50% | Fixed D=10s |
+| Full-Async | Async FD | All devices | Adaptive |
+| Sync-Full | Sync FD | All devices | Wait for all |
 
-devices:
-  n_devices: 20
-  cost_range: [0.05, 0.3]
-  theta_range: [20.0, 80.0]   # Half-saturation constants
+### Core Algorithm: RADS Two-Stage Scheduling
 
-training:
-  n_rounds: 50
-  local_epochs: 2
-  distill_epochs: 3
-  pretrain_epochs: 10
-  clip_bound: 2.0   # Laplace LDP clipping bound
+**Stage 1 — Water-filling:** Given device set $S$ and budget $B$, solve for optimal volumes:
+$$v_i^* = \min\left(\left[\sqrt{\frac{\tilde{\rho}_i \cdot \theta_i}{\nu \cdot b_i}} - \theta_i\right]^+, v_{\max}\right)$$
 
-data:
-  dataset: cifar100
-  n_public: 10000   # Reference dataset size |D_ref|
-  dirichlet_alpha: 0.5
-```
+where $\tilde{\rho}_i = \pi_i(D) \cdot \rho_i$ integrates straggler completion probability.
+
+**Stage 2 — Greedy selection:** Add devices by marginal quality gain, approximation ratio $(1-1/e)/2$.
 
 ---
 
-## 🔬 Algorithm Overview
+## 📊 JPDC Experiment Overview
 
-### Quality Model
-
-Each device *i* uploads *v_i* reference-data logit vectors. Quality follows a saturation function:
-
-$$q_i(v_i) = \rho_i \cdot \frac{v_i}{v_i + \theta_i}$$
-
-where ρ_i ∈ (0,1] is the privacy degradation factor and θ_i is the half-saturation constant.
-
-### RADS: Two-Stage Scheduling
-
-**Stage 1 — Water-filling allocation (Proposition 1):**
-
-Given a fixed device set *S* and residual budget *B_res*, the optimal upload volumes are:
-
-$$v_i^* = \min\left(\left[\sqrt{\frac{\rho_i \cdot \theta_i}{\nu \cdot b_i}} - \theta_i\right]^+,\; v_{\max}\right)$$
-
-where ν (water level) is found by bisection such that Σ b_i · v_i* = B_res.
-
-**Stage 2 — Greedy device selection (Theorem 1):**
-
-Iteratively add the device with the highest marginal quality gain subject to the budget constraint. Devices are pre-sorted by efficiency index η_i = ρ_i / (b_i · θ_i).
-
-**Approximation guarantee:** Q(S^G) ≥ (1 − 1/e)/2 · Q(S*) ≈ 0.316 · OPT
-
-### Privacy
-
-Local Differential Privacy is applied to uploaded logits using Laplace noise:
-
-$$\text{scale} = \frac{2C}{\varepsilon}, \quad \varepsilon = \frac{\rho}{1 - \rho}$$
-
----
-
-## 📊 Experiment Suites
-
-| Suite | Flag | Description |
-|-------|------|-------------|
-| Main comparison | `--exp main` | KaaS-Edge vs FedMD, FedSKD, FedCS-FD, Random over 50 rounds |
-| Budget sensitivity | `--exp budget` | Sweep B ∈ {10, 20, 30, 40, 50, 60, 70, 80} |
-| Device scalability | `--exp scale` | Sweep M ∈ {5, 10, 20, 30, 50} |
-| Privacy impact | `--exp privacy` | No-privacy / mild / mixed / strong ρ distributions |
-
----
-
-## 🔧 Compared Methods
-
-| Method | Description | Reference |
-|--------|-------------|-----------|
-| **KaaS-Edge** | RADS water-filling + greedy selection + Laplace LDP | This work |
-| **FedMD [Full]** | All devices upload complete logits every round | Li & Wang, NeurIPS 2019 |
-| **FedSKD [Selective]** | Each device uploads top-50% logits | Gad et al., ICC 2024 |
-| **FedCS-FD [Equal]** | Budget split equally across selected devices | — |
-| **Random Selection** | Random 50% device selection per round | — |
+| # | Experiment | Variables | Key Finding |
+|---|-----------|-----------|-------------|
+| 1 | Main Comparison | 6 methods, M=50 | DASH 44.47%/979s vs Sync 43.66%/3,079s (3.14× speedup) |
+| 2 | Straggler Sweep | σ ∈ {0–1.5} | DASH accuracy drops only 1.2pp; speedup 3.15→3.20× |
+| 3 | Policy Comparison | 13 configs ± D_min | adaptive(0.7)+D_min Pareto optimal; D_min saves +7.58pp |
+| 4 | Scalability | M ∈ {20–200} | Speedup increases 2.79→3.49× with M |
+| 5 | EMNIST | Cross-dataset | Validates conclusions on naturally non-IID data |
+| 6 | Privacy | ρ sweep | Privacy degradation pattern consistent under async |
 
 ---
 
@@ -208,11 +162,8 @@ $$\text{scale} = \frac{2C}{\varepsilon}, \quad \varepsilon = \frac{\rho}{1 - \rh
 
 | Task | Minimum | Recommended |
 |------|---------|-------------|
-| Quick smoke-test (`--quick`) | CPU only | CPU only |
 | Single experiment (50 rounds) | GPU with 4 GB VRAM | RTX 3090 |
-| Full experiments (3 seeds) | GPU with 8 GB VRAM | RTX 5070 Ti / A100 |
-
-**Memory**: ~1 GB VRAM per concurrent CIFAR-100 experiment with the lightweight CNN.
+| Full JPDC experiments (6 suites × 3 seeds) | GPU with 8 GB VRAM | RTX 5070 Ti / A100 |
 
 ---
 

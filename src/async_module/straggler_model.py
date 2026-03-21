@@ -1,5 +1,5 @@
 """
-Straggler Latency Model for Async-RADS (JPDC 2026).
+Straggler Latency Model for DASH (JPDC 2026).
 
 Each device i has a per-round latency:
     tau_i = tau_comp_i + tau_comm_i + tau_noise_i

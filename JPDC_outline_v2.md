@@ -1,4 +1,4 @@
-# JPDC Paper Outline — Async-KaaS v2
+# JPDC Paper Outline — DASH (Async-KaaS) v2
 ## Target: Journal of Parallel and Distributed Computing (Regular Paper)
 ## Format: Elsevier single-column, ~18-20 pages excl. references
 ## Conference base: IEEE EDGE 2026 (KaaS-Edge, 6 pages)
@@ -8,8 +8,8 @@
 
 ## Working Title
 
-**Async-RADS: Straggler-Tolerant Knowledge Distillation Scheduling
-for Asynchronous Edge Intelligence**
+**DASH: Deadline-Aware Straggler-Tolerant Scheduling for
+Asynchronous Federated Distillation on Heterogeneous Edge Devices**
 
 ---
 
@@ -39,10 +39,10 @@ async protocol design、straggler handling、timeout policy 成為新主角。
   - FD 傳的是 logits（soft labels），aggregation 語義不同
   - Partial logit upload 是 FD 獨有的問題：device 算完但只傳一半
 
-- **P5-6**: KaaS 系統 + Async-RADS 的設計理念
+- **P5-6**: KaaS 系統 + DASH 的設計理念
   - 不等最慢的，但也不浪費已收到的 partial knowledge
   - 排程階段就考慮 straggler probability（straggler-aware selection）
-  - Timeout policy + staleness-weighted aggregation
+  - Adaptive timeout policy + quality-weighted aggregation
   - 系統層面容錯，不需要重新解最佳化
 
 - **Contributions**（5 items）：
@@ -123,7 +123,7 @@ async protocol design、straggler handling、timeout policy 成為新主角。
   - **Definition 1 (Straggler Rate)**：$p^{(t)} = |\{i \in S^{(t)} : \tau_i > D^{(t)}\}| / |S^{(t)}|$
 
 - **3.4 Async Protocol** (0.5 page) ← 全新
-  - **Algorithm 1**: Async-KaaS Protocol（pseudo-code）
+  - **Algorithm 1**: DASH Async Protocol（pseudo-code）
   - 和同步版的 line-by-line 差異標示
 
 ---
@@ -186,8 +186,8 @@ async protocol design、straggler handling、timeout policy 成為新主角。
   - **Baselines** (6 methods):
     | Method | Description |
     |---|---|
-    | **Async-RADS (ours)** | Straggler-aware RADS + adaptive timeout |
-    | Sync-RADS | EDGE 版同步 RADS（等所有人）|
+    | **DASH (ours)** | Straggler-aware RADS + adaptive timeout + D_min floor |
+    | Sync-Greedy | 同步 RADS（π_i=1, 等所有人），DASH 的 ablation baseline |
     | FedBuff-FD | Buffered async adapted to FD：buffer K responses → one aggregation |
     | Random-Async | Random selection + fixed timeout |
     | Full-Async | All devices + adaptive timeout（no budget constraint）|
@@ -198,26 +198,30 @@ async protocol design、straggler handling、timeout policy 成為新主角。
 - **5.2 Main Comparison: Sync vs Async** (1.5 pages) — 對應 Experiment 1
   - **Fig. 2**: Accuracy vs Communication Round (CIFAR-100, M=50, σ=0.5)
     - 6 curves, one per method
-    - Sync-RADS per-round accuracy 最高（因為每輪收齊）
-    - Async-RADS 每輪 accuracy 略低但 rounds 更快
+    - DASH 和 Sync-Greedy per-round accuracy 幾乎重疊（兩者都用 quality-aware 機制）
+    - Full-Async 有明顯 gap (~8pp lower)；FedBuff-FD 幾乎不學 (~17%)
   - **Fig. 3**: Accuracy vs Wall-Clock Time ← 這是 async 的殺手圖
     - 同樣 6 curves 但 x 軸是累積 wall-clock time
-    - Async-RADS 在 wall-clock 意義下收斂速度快 2-3x
-    - Sync-RADS 的每個 round 在 x 軸上間距大（等 straggler）
-  - **Table I**: Final accuracy, total wall-clock time, communication cost
-    - 6 methods × 3 metrics
+    - DASH 在 ~500s 達到 40%，Sync-Greedy 要 ~1,100s（3.14× speedup）
+    - Sync-Greedy 的每個 round 在 x 軸上間距大（每輪等 ~54-68s）
+  - **Table I**: Final accuracy, best accuracy, total wall-clock time, speedup
+    - 6 methods × 4 metrics，DASH 44.47%/979s vs Sync-Greedy 43.66%/3,079s
 
 - **5.3 Straggler Severity Sweep** (1 page) — 對應 Experiment 2
   - **Fig. 4**: Final accuracy vs straggler ratio σ ∈ {0, 0.3, 0.5, 1.0, 1.5}
-    - Async-RADS 退化最慢（straggler-aware selection 的效果）
+    - DASH accuracy 只掉 1.2pp (44.68→43.47%)，對 straggler 非常 robust
+    - Sync-Greedy accuracy 也穩定（因為等所有人）但 WC 膨脹
   - **Fig. 5**: Total wall-clock time vs straggler ratio
-    - Sync-RADS 的 wall-clock 隨 σ 劇增，Async 幾乎 flat
+    - Sync-Greedy WC 隨 σ 膨脹 15.6%；DASH 只膨脹 13.4%
+    - Speedup 從 3.15× (σ=0) → 3.20× (σ=1.5) — straggler 越嚴重，async 優勢越大
 
 - **5.4 Timeout Policy Comparison** (0.75 page) — 對應 Experiment 3
-  - **Fig. 6**: Accuracy vs wall-clock Pareto front
-    - 每個 policy 畫一條 curve（不同 D_0 或 percentile 值）
-    - Partial-Accept 在 Pareto front 的左上方（最佳 trade-off）
-  - Insight: Adaptive(p=0.7) + partial-accept 是 sweet spot
+  - **Fig. 6 左**: Accuracy vs wall-clock scatter (13 configs: 7 with D_min + 6 without)
+    - adaptive(0.7)+D_min = Pareto 最優 (45.05%/871s)
+    - fixed(5.0) 無 D_min → 崩潰到 35.96%（+D_min 救回 +7.58pp）
+    - Partial-accept 反而掉精度 (-0.50pp)：不完整 logits 引入 noise
+  - **Fig. 6 右**: Deadline evolution — 展示 spiral 現象 (adaptive 0.5 無 D_min 降到 5.6s)
+  - Insight: **adaptive(p=0.7) + D_min floor 是 sweet spot**；D_min 是不可省略的安全機制
 
 - **5.5 Scalability** (0.75 page) — 對應 Experiment 4
   - **Fig. 7**: Final Accuracy vs M (budget=2.5M, 50 rounds)
@@ -230,8 +234,9 @@ async protocol design、straggler handling、timeout policy 成為新主角。
     - Speedup: 2.79× (M=20) → 3.49× (M=200) — 單調遞增
 
 - **5.6 Cross-Dataset Validation (EMNIST)** (0.5 page) — 對應 Experiment 5
-  - **Fig. 9**: EMNIST accuracy vs wall-clock, M=200
-    - 驗證結論在 naturally non-IID data 上也成立
+  - **Fig. 9**: EMNIST accuracy vs wall-clock, M ∈ {50, 200}
+    - 62 classes, naturally non-IID (writer-based partition)
+    - 驗證結論在不同 dataset 上也成立（初步 seed42: DASH 81.49% > Sync-Greedy 77.47%）
 
 - **5.7 Privacy Robustness under Async** (0.5 page) — 對應 Experiment 6
   - **Fig. 10**: Privacy ρ sweep under async conditions
@@ -244,17 +249,18 @@ async protocol design、straggler handling、timeout policy 成為新主角。
 > **vs. 原版差異**：原版只列了 4 個 bullet points 共 1 頁。擴充為結構化的 discussion。
 
 - **6.1 When to Use Sync vs Async**
-  - 決策 guideline：if expected straggler rate > 15% and M > 30 → use Async-RADS
-  - 如果 devices 很 homogeneous（e.g., same hardware）→ Sync 更簡單也夠好
+  - 決策 guideline：if expected straggler rate > 15% and M > 30 → use DASH
+  - 如果 devices 很 homogeneous（e.g., same hardware）→ Sync-Greedy 更簡單也夠好
 
 - **6.2 Practical Deadline Tuning**
-  - Adaptive policy 的 warmup 期選擇
-  - Percentile p 的 sensitivity：p ∈ [0.6, 0.8] 都 robust
+  - Adaptive policy 的 warmup 期選擇（W=3 rounds, safety=1.5）
+  - Percentile p 的 sensitivity：p ∈ [0.7, 0.9] 都 robust（DASH 預設 p=0.85）
+  - **D_min floor 的必要性**：Exp 3 證明無 D_min 的 fixed(5.0) 崩潰到 35.96% → 有 D_min 救回 +7.58pp
 
 - **6.3 Relationship to Conference Version**
   - 明確聲明和 EDGE 版的差異
-  - EDGE = synchronous scheduling theory
-  - JPDC = asynchronous system design with straggler tolerance
+  - EDGE = KaaS-Edge, synchronous scheduling theory
+  - JPDC = DASH, asynchronous system design with straggler tolerance
 
 - **6.4 Limitations and Future Work**
   - 目前 straggler model 是 simulated（not real-world testbed）
@@ -299,11 +305,17 @@ async protocol design、straggler handling、timeout policy 成為新主角。
 
 This manuscript extends our conference paper published at IEEE EDGE 2026 [ref]. The major extensions include:
 
-1. **Asynchronous protocol design** with a three-outcome straggler latency model (complete / partial / timeout) and three timeout policies (Sec 3.3-3.4).
+1. **Asynchronous protocol design (DASH)** with a three-outcome straggler latency model (complete / partial / timeout), three timeout policies, and a $D_{\min}$ floor mechanism that prevents deadline spiral (Sec 3.3-3.4).
 
-2. **Straggler-aware device selection** that integrates completion probability into the submodular greedy selection, with a new expected quality bound (Theorem 2) showing $(1-\bar{p})(1-1/e)/2$ approximation ratio under average straggler rate $\bar{p}$ (Sec 4.2).
+2. **Straggler-aware device selection** that integrates completion probability $\pi_i(D)$ into the submodular greedy selection via $\tilde{\rho}_i = \pi_i \cdot \rho_i$, with a new expected quality bound (Theorem 2) showing $(1-\bar{p})(1-1/e)/2$ approximation ratio under average straggler rate $\bar{p}$ (Sec 4.2).
 
-3. **Comprehensive new experiments**: a second naturally non-IID dataset (EMNIST-ByClass), scale-up to M=200 devices, straggler severity sweep (0-50%), wall-clock time analysis, and timeout policy comparison (Sec 5.2-5.6).
+3. **Comprehensive new experiments** (6 experiment groups, 3 seeds each):
+   - Main comparison of 6 methods showing 3.14× speedup with no accuracy loss (Sec 5.2)
+   - Straggler severity sweep σ ∈ {0–1.5} demonstrating robustness (Sec 5.3)
+   - Timeout policy comparison with/without $D_{\min}$, identifying adaptive(0.7)+$D_{\min}$ as Pareto optimal (Sec 5.4)
+   - Scalability to M=200 devices with speedup increasing from 2.79× to 3.49× (Sec 5.5)
+   - Cross-dataset validation on EMNIST-ByClass (Sec 5.6)
+   - Privacy robustness under async conditions (Sec 5.7)
 
 4. **System-oriented restructuring**: the paper is reorganized from a distributed system design perspective, positioning the scheduling theory as a component within the overall async architecture.
 

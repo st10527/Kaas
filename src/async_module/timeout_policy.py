@@ -1,5 +1,5 @@
 """
-Timeout Policies for Async-RADS (JPDC 2026).
+Timeout Policies for DASH (JPDC 2026).
 
 Three policies that determine the per-round deadline D^(t):
 
