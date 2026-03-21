@@ -178,7 +178,7 @@ async protocol design、straggler handling、timeout policy 成為新主角。
 
 - **5.1 Experimental Setup** (1 page)
   - **Datasets**:
-    - CIFAR-100 (100 classes, 32×32, Dirichlet α=0.5)
+    - CIFAR-100 (100 classes, 32×32, Dirichlet α=0.3)
     - EMNIST-ByClass (62 classes, 28×28→32×32, natural writer-based non-IID)
     > **vs. 原版差異**：原版用 FEMNIST（LEAF benchmark），但 LEAF 的原始格式很麻煩（JSON per user, 需另外下載處理）。改用 torchvision 內建的 EMNIST-ByClass，按 writer ID 分 partition，同樣是 naturally non-IID，但一行 `torchvision.datasets.EMNIST(split='byclass')` 就能載入，reviewability 和 reproducibility 都更好。
   - **Scale**: M ∈ {20, 50, 100, 200}
@@ -220,12 +220,14 @@ async protocol design、straggler handling、timeout policy 成為新主角。
   - Insight: Adaptive(p=0.7) + partial-accept 是 sweet spot
 
 - **5.5 Scalability** (0.75 page) — 對應 Experiment 4
-  - **Fig. 7**: Accuracy vs M at fixed wall-clock budget (e.g., 500 seconds)
-    - Sync 在 M≥100 時 accuracy 下降（round time 太長，跑不完夠多 rounds）
-    - Async 在 M=200 時仍 scaling up
-  - **Fig. 8**: Average round time vs M
-    - Sync: round time ∝ max(τ_i) → 隨 M 增加
-    - Async: round time = D^(t) → 幾乎不受 M 影響
+  - **Fig. 7**: Final Accuracy vs M (budget=2.5M, 50 rounds)
+    - DASH 和 Sync-Greedy 都隨 M 增加但在 M=100 飽和 (~47.5%)
+    - FedBuff-FD 完全不隨 M 變化 (~17%) — buffer K 固定
+    - DASH 始終略高於 Sync-Greedy (+0.13 ~ +1.08pp)
+  - **Fig. 8**: Total Wall-Clock Time vs M (+ Speedup curve)
+    - Sync: WC 從 6,952s (M=20) → 10,079s (M=200)，成長 1.45×
+    - DASH: WC 幾乎 flat，2,494s → 2,889s，僅 1.16×
+    - Speedup: 2.79× (M=20) → 3.49× (M=200) — 單調遞增
 
 - **5.6 Cross-Dataset Validation (EMNIST)** (0.5 page) — 對應 Experiment 5
   - **Fig. 9**: EMNIST accuracy vs wall-clock, M=200

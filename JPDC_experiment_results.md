@@ -3,7 +3,7 @@
 > **用途**：將此文件連同 `JPDC_outline_v2.md` 和 `JPDC_changelog.md` 一起提供給 Claude web，
 > 用於撰寫/修改論文正文。本文件包含所有已完成實驗的數值結果、趨勢觀察、以及論文寫作建議。
 >
-> **最後更新**：2026-03-20（Exp 1 + Exp 2 + Exp 3a/3b 完成，Exp 4-6 進行中）
+> **最後更新**：2026-03-22（Exp 1-4 + Exp 3a/3b 完成，Exp 5-6 進行中）
 
 ---
 
@@ -15,7 +15,7 @@
 | 2 | Straggler Severity Sweep (5σ) | Fig 4, 5 | ✅ 3 seeds 完成 | `exp2_straggler_sweep.json` |
 | 3a | Policy Comparison WITH D_min (7 cfg) | Fig 6 | ✅ 3 seeds 完成 | `exp3_policy_comparison.json` |
 | 3b | Policy Comparison WITHOUT D_min (6 cfg) | Fig 6 | ✅ 3 seeds 完成 | `exp3b_policy_nofloor.json` |
-| 4 | Scalability (M=20,50,100,200) | Fig 7, 8 | 🔄 進行中 | `exp4_scalability.json` |
+| 4 | Scalability (M=20,50,100,200) | Fig 7, 8 | ✅ 3 seeds 完成 | `exp4_scalability.json` |
 | 5 | Cross-Dataset EMNIST (M=50,200) | Fig 9 | 🔄 進行中 | `exp5_emnist.json` |
 | 6 | Privacy under Async (4 ρ levels) | Fig 10 | 🔄 進行中 | `exp6_privacy_async.json` |
 
@@ -341,12 +341,151 @@
 
 ---
 
-## 七、待補實驗結果（Exp 4-6 完成後更新此區）
+## 七、Experiment 4-6（Exp 4 完成，Exp 5-6 進行中）
 
-### Exp 4: Scalability
-> 預期：DASH 在 M=200 的 WC 優勢比 M=20 更大；Sync WC ∝ max(τ_i) 隨 M 增加
+### Exp 4: Scalability (M = 20, 50, 100, 200)
+> **目的**：驗證 DASH 的 speedup 隨 device 數 M 增大而增加。
+> **對應論文**：Sec 5.5, Fig 7 (acc vs M), Fig 8 (WC vs M)
+> **變數**：M ∈ {20, 50, 100, 200}，budget = 2.5×M（per-round communication volume 隨 M 線性增加）
+> **⚠️ Budget 注意**：M=20 → B=50 (同 Exp 1), M=50 → B=125, M=100 → B=250, M=200 → B=500。
+> 論文 Sec 5.5 需聲明：「To isolate the effect of device count M, we scale the per-round budget as $B = 2.5M$, keeping the average per-device allocation constant.」
 
-*(待填)*
+### Accuracy & Wall-Clock by M (mean ± std, 3 seeds)
+
+**M=20 (budget=50)**
+
+| Method | Accuracy (%) | Best (%) | WC (s) |
+|--------|-------------|----------|--------|
+| **DASH** | **45.34 ± 0.19** | 45.56 | **2,494 ± 459** |
+| Sync-Greedy | 44.26 ± 0.24 | 45.65 | 6,952 ± 1,201 |
+| FedBuff-FD | 17.10 ± 2.24 | 18.82 | 216 ± 43 |
+
+**M=50 (budget=125)**
+
+| Method | Accuracy (%) | Best (%) | WC (s) |
+|--------|-------------|----------|--------|
+| **DASH** | **47.11 ± 0.72** | 48.76 | **2,867 ± 226** |
+| Sync-Greedy | 46.03 ± 0.85 | 47.29 | 8,007 ± 447 |
+| FedBuff-FD | 17.29 ± 1.36 | 19.20 | 120 ± 6 |
+
+**M=100 (budget=250)**
+
+| Method | Accuracy (%) | Best (%) | WC (s) |
+|--------|-------------|----------|--------|
+| **DASH** | **47.51 ± 0.41** | 48.48 | **3,144 ± 369** |
+| Sync-Greedy | 46.84 ± 0.38 | 48.27 | 10,093 ± 2,093 |
+| FedBuff-FD | 16.68 ± 0.73 | 17.60 | 104 ± 1 |
+
+**M=200 (budget=500)**
+
+| Method | Accuracy (%) | Best (%) | WC (s) |
+|--------|-------------|----------|--------|
+| **DASH** | **47.28 ± 0.63** | 48.37 | **2,889 ± 31** |
+| Sync-Greedy | 47.15 ± 0.83 | 48.51 | 10,079 ± 1,587 |
+| FedBuff-FD | 16.85 ± 2.07 | 19.86 | 93 ± 1 |
+
+### DASH vs Sync-Greedy: Speedup & Accuracy Gap by M
+
+| M | DASH Acc | Sync Acc | Gap (pp) | DASH WC | Sync WC | Speedup |
+|---|----------|----------|----------|---------|---------|---------|
+| 20 | 45.34% | 44.26% | +1.07 | 2,494s | 6,952s | **2.79×** |
+| 50 | 47.11% | 46.03% | +1.08 | 2,867s | 8,007s | **2.79×** |
+| 100 | 47.51% | 46.84% | +0.67 | 3,144s | 10,093s | **3.21×** |
+| 200 | 47.28% | 47.15% | +0.13 | 2,889s | 10,079s | **3.49×** |
+
+### Accuracy Scaling Trend
+
+| M | DASH | Sync-Greedy | FedBuff-FD | Budget |
+|---|------|-------------|------------|--------|
+| 20 | 45.34% | 44.26% | 17.10% | 50 |
+| 50 | 47.11% | 46.03% | 17.29% | 125 |
+| 100 | 47.51% | 46.84% | 16.68% | 250 |
+| 200 | 47.28% | 47.15% | 16.85% | 500 |
+
+- DASH: M=20→200 **+1.94pp** (45.34 → 47.28%)
+- Sync: M=20→200 **+2.89pp** (44.26 → 47.15%)
+- FedBuff: 幾乎不變 (-0.25pp) — 無法利用更多 device
+
+### Wall-Clock Scaling (Sync explodes, DASH flat)
+
+| M | DASH WC | Sync WC | FedBuff WC | Speedup |
+|---|---------|---------|------------|---------|
+| 20 | 2,494s | 6,952s | 216s | 2.79× |
+| 50 | 2,867s | 8,007s | 120s | 2.79× |
+| 100 | 3,144s | 10,093s | 104s | 3.21× |
+| 200 | 2,889s | 10,079s | 93s | 3.49× |
+
+- **Sync WC**: M=20→200 成長 **1.45×** (6,952 → 10,079s)
+- **DASH WC**: M=20→200 成長僅 **1.16×** (2,494 → 2,889s)
+- Speedup 從 **2.79× 升至 3.49×** — async 優勢隨 M 增大
+
+### Per-seed Breakdown (DASH)
+
+| M | seed42 | seed123 | seed456 | s42 WC | s123 WC | s456 WC |
+|---|--------|---------|---------|--------|---------|---------|
+| 20 | 45.56% | 45.36% | 45.09% | 2,212s | 3,142s | 2,130s |
+| 50 | 48.06% | 46.97% | 46.31% | 3,152s | 2,850s | 2,598s |
+| 100 | 47.39% | 47.07% | 48.06% | 3,504s | 3,291s | 2,638s |
+| 200 | 48.13% | 46.61% | 47.10% | 2,916s | 2,846s | 2,905s |
+
+### Per-seed Breakdown (Sync-Greedy)
+
+| M | seed42 | seed123 | seed456 | s42 WC | s123 WC | s456 WC |
+|---|--------|---------|---------|--------|---------|---------|
+| 20 | 44.35% | 44.50% | 43.94% | 5,254s | 7,769s | 7,832s |
+| 50 | 47.23% | 45.39% | 45.48% | 7,691s | 7,692s | 8,639s |
+| 100 | 47.37% | 46.56% | 46.58% | 12,936s | 7,960s | 9,383s |
+| 200 | 47.64% | 45.98% | 47.84% | 11,899s | 8,031s | 10,308s |
+
+### DASH Convergence by Round (mean of 3 seeds)
+
+| M | R0 | R5 | R10 | R15 | R20 | R25 | R30 | R35 | R40 | R45 | R49 |
+|---|-----|------|------|------|------|------|------|------|------|------|------|
+| 20 | 16.97 | 27.78 | 33.51 | 38.22 | 41.34 | 42.52 | 43.56 | 44.08 | 44.49 | 44.26 | 45.34 |
+| 50 | 20.35 | 32.14 | 39.42 | 43.99 | 44.81 | 45.67 | 45.88 | 46.74 | 46.32 | 46.68 | 47.11 |
+| 100 | 21.03 | 34.83 | 41.75 | 44.91 | 46.30 | 46.72 | 46.71 | 47.57 | 47.33 | 47.39 | 47.51 |
+| 200 | 21.86 | 35.22 | 42.43 | 45.29 | 46.21 | 46.72 | 46.84 | 47.06 | 47.15 | 47.12 | 47.28 |
+
+### Cross-Reference: Exp 1 (budget=50) vs Exp 4 M=50 (budget=125)
+
+| Setting | DASH Acc | DASH WC | Sync Acc | Sync WC |
+|---------|----------|---------|----------|---------|
+| Exp 1: M=50, B=50 | 44.47% | 979s | 43.66% | 3,079s |
+| Exp 4: M=50, B=125 | 47.11% | 2,867s | 46.03% | 8,007s |
+| **Δ** | **+2.64pp** | **+1,888s** | **+2.37pp** | **+4,928s** |
+
+> Budget 2.5× 提升 → DASH 精度 +2.64pp 但 WC ×2.93。
+> 原因：更大 budget → 每輪更多 comm volume → 每 device 傳更多 logits → 精度更高但 round time 更長。
+> 論文只需提一句：「Exp 4 uses $B=2.5M$ to control the per-device budget, while Exp 1 uses $B=50$.」
+
+### 觀察與論文寫作建議 (Exp 4)
+
+1. **Speedup 隨 M 單調增加 (2.79× → 3.49×)**
+   - Sync WC = max(τ_i) per round → M 越大，max 越大
+   - DASH WC = deadline D → 幾乎不受 M 影響
+   - 論文：「DASH's speedup over Sync-Greedy increases from 2.79× at M=20 to 3.49× at M=200, as synchronous round time grows with $\max_{i \in S} \tau_i$ while DASH's deadline-based round time remains nearly constant.」
+
+2. **DASH WC 幾乎 flat across M (1.16× growth)**
+   - M=20: 2,494s → M=200: 2,889s，增長率僅 16%
+   - Sync: 6,952s → 10,079s，增長率 45%
+   - 論文：「DASH wall-clock time grows by only 16% as M scales 10×, compared to 45% growth for Sync-Greedy — demonstrating that async scheduling effectively decouples system latency from device count.」
+
+3. **Accuracy 在 M=100 已接近飽和**
+   - M=100: 47.51% vs M=200: 47.28% (反而微降 0.23pp)
+   - 原因：更多 device 的邊際知識增益遞減，且 non-IID 分割更碎
+   - 論文：「Accuracy saturates around M=100 for both DASH (47.51%) and Sync-Greedy (46.84%), suggesting diminishing returns from additional devices under fixed round count.」
+
+4. **DASH vs Sync gap 隨 M 縮小 (+1.07pp → +0.13pp)**
+   - M 越大，兩者精度越接近（因為 budget=2.5M 讓兩者都能覆蓋足夠 device）
+   - 重點不在精度差，而在 WC 差距持續擴大
+
+5. **FedBuff-FD 完全無法利用更多 device**
+   - 17.10% (M=20) ≈ 16.85% (M=200)，因為 buffer K=10 固定
+   - 論文：「FedBuff-FD's accuracy is invariant to M since its fixed buffer size K=10 ignores additional devices, highlighting the importance of active device selection.」
+
+6. **M=200 的 Sync-Greedy WC 波動大 (std=1,587s)**
+   - 因為 200 device 中等最慢的 → 極值分佈 tail 更長
+   - 而 DASH M=200 WC std 僅 31s — 因為 deadline clamp
 
 ### Exp 5: Cross-Dataset (EMNIST)
 > 預期：趨勢與 CIFAR-100 一致，驗證 generalizability
@@ -390,6 +529,25 @@
 - adaptive(0.7)+D_min 是 Pareto 最優 (45.05%, 871s)
 - 右圖：deadline evolution，展示 spiral 現象 (adaptive 0.5 降到 5.6s)
 - 關鍵訊息：D_min 是不可省略的安全機制，最大救回 +7.58pp
+
+### Fig 7 描述重點 (accuracy vs M) — Sec 5.5
+- DASH 和 Sync-Greedy 精度都隨 M 增加（more diverse knowledge），但在 M=100 飽和
+- M=100: DASH 47.51%, M=200: 47.28% — 邊際知識增益遞減
+- FedBuff-FD 完全不隨 M 變化（17.10% → 16.85%），buffer K=10 固定
+- DASH 始終略高於 Sync-Greedy (+0.13 ~ +1.08pp)
+
+### Fig 8 描述重點 (wall-clock vs M) — Sec 5.5 殺手圖之二
+- Sync WC 隨 M 膨脹 1.45× (6,952 → 10,079s)：max(τ_i) 的 tail 隨 M 增大
+- DASH WC 幾乎 flat (2,494 → 2,889s, 僅 1.16×)：deadline 與 M 無關
+- **Speedup 從 2.79× (M=20) 增至 3.49× (M=200)**
+- 論文可強調：「The speedup curve is monotonically increasing, confirming that DASH's async protocol scales better than synchronous alternatives.」
+- M=200 DASH WC std 僅 31s vs Sync std 1,587s — async 的穩定性優勢
+
+### 關於 Exp 4 budget=2.5×M 的說明（reviewer 可能問）
+- Exp 1 用 B=50 (M=50)，Exp 4 用 B=2.5M → M=50 時 B=125 → 精度更高但 WC 更長
+- 目的是控制 per-device budget 為常數 (2.5)，隔離 M 的 scaling 效應
+- 論文 Sec 5.5 需一句：「We scale $B = 2.5M$ to keep per-device budget constant, isolating the effect of device count.」
+- 與 Exp 1 的交叉比對：DASH acc 44.47% (B=50) vs 47.11% (B=125) → budget 影響精度但不影響 speedup 趨勢
 
 ### 關於 44.47% 是否足夠（reviewer 可能質疑）
 - CIFAR-100 + non-IID (α=0.3) + FD (logits only) + 50 clients + 50 rounds + LDP noise
