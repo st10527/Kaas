@@ -86,5 +86,7 @@
 - [x] **Straggler sweep**：σ 越大，DASH 相對 Sync-Greedy 的 wall-clock 優勢越明顯 ✅ Exp 2 確認 (3.15× → 3.20×)
 - [x] **Timeout policy**：Adaptive(0.7)+D_min = Pareto 最優 ✅ Exp 3 確認 (45.05%/871s)
 - [x] **Scalability**：DASH 在 M=200 時的 wall-clock 優勢比 M=20 更大 ✅ Exp 4 確認 (2.79× → 3.49×)
-- [ ] **Privacy**：ρ 越低 accuracy 越低，但 DASH 的 straggler 處理不受 privacy 影響 → 待 Exp 6
-- [ ] **EMNIST**：趨勢與 CIFAR-100 一致 → 待 Exp 5（初步 seed42: DASH 81.49% > Sync 77.47%）
+- [x] **Privacy**：ρ 越低 accuracy 越低，但 DASH 的 straggler 處理不受 privacy 影響 ✅ Exp 6 確認 (49.06%→39.60%, WC 恆定 ~916s)
+- [x] **EMNIST**：趨勢與 CIFAR-100 一致 ✅ Exp 5 確認 (DASH best 84.49%/84.65%, speedup 1.74×/2.17×)
+
+> 🎉 **全部 7 項待確認事項均已驗證通過。** 2026-03-24

@@ -3,7 +3,7 @@
 > **用途**：將此文件連同 `JPDC_outline_v2.md` 和 `JPDC_changelog.md` 一起提供給 Claude web，
 > 用於撰寫/修改論文正文。本文件包含所有已完成實驗的數值結果、趨勢觀察、以及論文寫作建議。
 >
-> **最後更新**：2026-03-24（Exp 1-5 + Exp 3a/3b 完成，Exp 6 進行中）
+> **最後更新**：2026-03-24（Exp 1-6 + Exp 3a/3b 全部完成）
 
 ---
 
@@ -17,7 +17,7 @@
 | 3b | Policy Comparison WITHOUT D_min (6 cfg) | Fig 6 | ✅ 3 seeds 完成 | `exp3b_policy_nofloor.json` |
 | 4 | Scalability (M=20,50,100,200) | Fig 7, 8 | ✅ 3 seeds 完成 | `exp4_scalability.json` |
 | 5 | Cross-Dataset EMNIST (M=50,200) | Fig 9 | ✅ 3 seeds 完成 | `exp5_emnist.json` |
-| 6 | Privacy under Async (4 ρ levels) | Fig 10 | 🔄 進行中 | `exp6_privacy_async.json` |
+| 6 | Privacy under Async (4 ρ̃ levels) | Fig 10 | ✅ 3 seeds 完成 | `exp6_privacy_async.json` |
 
 ---
 
@@ -341,7 +341,7 @@
 
 ---
 
-## 七、Experiment 4-6（Exp 4-5 完成，Exp 6 進行中）
+## 七、Experiment 4-6（全部完成）
 
 ### Exp 4: Scalability (M = 20, 50, 100, 200)
 > **目的**：驗證 DASH 的 speedup 隨 device 數 M 增大而增加。
@@ -587,9 +587,89 @@
 6. **論文句型建議**: "On EMNIST-ByClass (62 classes, 687K samples), DASH achieves 84.5–84.7% best accuracy matching Sync-Greedy while maintaining 1.7–2.2× wall-clock speedup, confirming that the scheduling advantage generalizes across datasets and scales."
 
 ### Exp 6: Privacy under Async
-> 預期：ρ 越低 accuracy 越低，但 DASH 的 straggler 處理不受 privacy 影響
+> **設定**：CIFAR-100, M=50, budget=50, σ=0.5, 50 rounds, DASH only
+> 4 privacy levels: no_privacy (ρ̃=1.0), mild (0.8), moderate (0.55), strong (0.1)
+> 每個 device 的 ρ_i ~ N(ρ_mean, 0.05), clipped to [0.01, 1.0]
 
-*(待填)*
+#### Accuracy Summary
+
+| Privacy | avg ρ̃ | Final Acc (%) | Best Acc (%) | WC (s) |
+|---------|--------|--------------|-------------|--------|
+| None | 0.9788 | 48.25 ± 0.33 | **49.06 ± 0.68** | 926 ± 93 |
+| Mild | 0.7986 | 46.54 ± 1.46 | 46.74 ± 1.18 | 922 ± 90 |
+| Moderate | 0.5486 | 42.96 ± 1.03 | 43.12 ± 1.10 | 919 ± 88 |
+| Strong | 0.0993 | 39.58 ± 0.82 | 39.60 ± 0.84 | 898 ± 66 |
+
+#### Accuracy Drop vs No-Privacy Baseline
+
+| Privacy | avg ρ̃ | Best Acc | Δ Best (pp) | WC ratio |
+|---------|--------|---------|-------------|----------|
+| None | 0.98 | 49.06% | — | 1.00× |
+| Mild | 0.80 | 46.74% | −2.32 | 1.00× |
+| Moderate | 0.55 | 43.12% | −5.94 | 0.99× |
+| Strong | 0.10 | 39.60% | −9.46 | 0.97× |
+
+> 從 no_privacy 到 strong_privacy，best accuracy 下降 9.46pp，呈**線性**遞減。
+> Wall-clock 完全不受影響 (898–926s, CV < 10%)。
+
+#### Per-Seed Breakdown
+
+| Privacy | seed42 Final | seed123 Final | seed456 Final | seed42 WC | seed123 WC | seed456 WC |
+|---------|-------------|--------------|--------------|----------|-----------|-----------|
+| None | 48.52% | 47.79% | 48.44% | 1,038s | 928s | 811s |
+| Mild | 47.51% | 44.47% | 47.63% | 1,032s | 923s | 812s |
+| Moderate | 44.15% | 41.63% | 43.10% | 1,028s | 915s | 813s |
+| Strong | 40.38% | 38.45% | 39.91% | 981s | 893s | 819s |
+
+#### Convergence Curves (mean of 3 seeds)
+
+| Privacy | R1 | R10 | R20 | R30 | R40 | R50 |
+|---------|------|------|------|------|------|------|
+| None | 20.79% | 42.23% | 47.16% | 47.68% | 48.34% | 48.25% |
+| Mild | 19.88% | 36.59% | 43.66% | 44.85% | 45.71% | 46.54% |
+| Moderate | 15.06% | 29.17% | 37.08% | 39.95% | 42.14% | 42.96% |
+| Strong | 11.90% | 21.62% | 28.78% | 33.50% | 37.76% | 39.58% |
+
+> Strong privacy 收斂明顯較慢 (R10 只有 21.62% vs no_privacy 42.23%)，但到 R50 仍在穩定上升。
+> 若給更多 rounds，gap 可能會縮小。
+
+#### Cross-Reference: Exp 1 vs Exp 6 (重要觀察)
+
+| 實驗 | avg ρ̃ | ρ 分佈 | DASH Best | DASH Final |
+|------|--------|--------|-----------|-----------|
+| Exp 1 (Main) | ≈ 0.51 | 異質 (0.03–1.0, pool 分佈) | 45.14% | 44.47% |
+| Exp 6 no_privacy | 0.98 | 均質 N(1.0, 0.05) | 49.06% | 48.25% |
+| Exp 6 moderate | 0.55 | 均質 N(0.55, 0.05) | 43.12% | 42.96% |
+
+> **Exp 1 的 avg ρ̃ ≈ 0.51 (驗證)**: `generate_edge_devices()` 使用 pool [1.0×15%, 0.8×20%, 0.5×30%, 0.2×20%, 0.05×15%]。
+> **Exp 1 (45.14%) > Exp 6 moderate (43.12%)**，即使 avg ρ̃ 相近 (0.51 vs 0.55)：
+> 因為 Exp 1 是**異質 ρ** — 部分 device 有 ρ=1.0，貢獻 clean logits → 拉高整體精度。
+> 這暗示：**異質 privacy 比均質 privacy 更好** — 少數 clean device 的貢獻對 distillation 至關重要。
+>
+> **論文 Sec 5.7 需提及此觀察**：
+> "In the main comparison (Exp 1), devices have heterogeneous privacy levels (avg ρ̃ ≈ 0.51),
+> which yields 45.1% accuracy — higher than uniform ρ̃ = 0.55 (43.1%). This suggests that
+> even a few devices with low noise contribute disproportionately to distillation quality."
+
+#### Wall-Clock Stability
+
+| Privacy | WC mean | WC std | CV |
+|---------|---------|--------|-----|
+| None | 926s | 93s | 10.0% |
+| Mild | 922s | 90s | 9.7% |
+| Moderate | 919s | 88s | 9.5% |
+| Strong | 898s | 66s | 7.3% |
+
+> WC 的 CV 變異 < 10%，且 privacy 之間差異 < 3% — **scheduling 完全不受 LDP 影響**。
+
+#### Observations for 論文 (Sec 5.7 / Fig 10)
+
+1. **Graceful degradation**: ρ̃ 從 0.98 降至 0.10 → best accuracy 從 49.06% 降至 39.60% (−9.46pp)，近似線性
+2. **WC orthogonal to privacy**: 898–926s 幾乎恆定 → DASH 的 scheduling 與 LDP noise 完全解耦
+3. **Heterogeneous ρ > uniform ρ**: Exp 1 (異質 ρ̃≈0.51) outperforms Exp 6 moderate (均質 ρ̃=0.55) by +2pp
+4. **Strong privacy still useful**: 39.60% 仍遠高於 random (10%) 和 FedBuff-FD (17.53%)
+5. **Convergence slows but doesn't stall**: strong_privacy 在 R50 仍在上升 → more rounds could help
+6. **論文句型建議**: "Under increasing LDP noise (ρ̃: 0.98→0.10), DASH accuracy degrades gracefully from 49.1% to 39.6% (−9.5pp), while wall-clock time remains stable at ~916s. The scheduling mechanism is orthogonal to the privacy mechanism, allowing practitioners to independently tune the privacy-accuracy trade-off."
 
 ---
 
@@ -647,6 +727,17 @@
 - 關鍵訊息：EMNIST speedup 較 CIFAR-100 低 (1.7–2.2× vs 2.8–3.5×)，因 687K 樣本使 computation >> communication
 - 但趨勢一致：M 增大 → speedup 增大 (兩個 dataset 都是 ~25% growth)
 - 論文句：「The speedup is lower on EMNIST due to the larger dataset (687K vs 50K samples), which increases computation relative to communication; nevertheless, the monotonic speedup-scaling trend is preserved.」
+
+### Fig 10 描述重點 (privacy sweep) — Sec 5.7
+- 左圖：accuracy vs ρ̃ (bar chart 或 line, 4 levels)
+  - 近似線性下降：49.06% → 46.74% → 43.12% → 39.60%
+  - Error bars 小 (std < 1.2pp)
+- 右圖：wall-clock vs ρ̃ (應為近水平線 ~920s)
+  - WC 範圍 898–926s，差異 < 3%
+  - 關鍵：scheduling 與 privacy 完全解耦
+- 額外觀察：Exp 1 (異質 ρ̃≈0.51) vs Exp 6 moderate (均質 ρ̃=0.55) → 異質 privacy 更好 (+2pp)
+  - 少數 clean device (ρ=1.0) 對 distillation quality 貢獻不成比例
+- 論文句：「Wall-clock time remains constant across all privacy levels (CV < 10%), confirming that DASH's deadline-adaptive scheduling is orthogonal to the LDP mechanism.」
 
 ### 關於 Exp 4 budget=2.5×M 的說明（reviewer 可能問）
 - Exp 1 用 B=50 (M=50)，Exp 4 用 B=2.5M → M=50 時 B=125 → 精度更高但 WC 更長
