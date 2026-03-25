@@ -107,7 +107,8 @@ def fig2():
 
     ax.set_xlabel('Communication Round')
     ax.set_ylabel('Test Accuracy (%)')
-    ax.set_xlim(1, 50)
+    ax.set_xlim(0, 51)
+    ax.set_ylim(None, 55)  # extra headroom for legend
     # Upper-left is empty (all curves < 25 % at round 1-15)
     ax.legend(loc='upper left', ncol=2,
               framealpha=0.95, edgecolor='gray')
@@ -146,8 +147,8 @@ def fig3():
     ax.set_xlabel('Wall-Clock Time (s)')
     ax.set_ylabel('Test Accuracy (%)')
     ax.set_xlim(0, 3500)
-    # Lower-right empty (WC 2000-3500 & acc < 25 % — nothing there)
-    ax.legend(loc='lower right', ncol=2,
+    # Right-center: far right WC region is empty (Sync-Full off-scale)
+    ax.legend(loc='center right', ncol=1,
               framealpha=0.95, edgecolor='gray')
     ax.grid(True, alpha=0.3)
     ax.set_title('(b) Accuracy vs. Wall-Clock Time')
@@ -193,7 +194,7 @@ def fig4_5():
     ax2.set_xlabel(r'Straggler Severity $\sigma$')
     ax2.set_ylabel('Wall-Clock Time (s)')
     ax2.set_title(r'(b) Wall-Clock vs. $\sigma$')
-    ax2.legend(framealpha=0.95, edgecolor='gray', loc='center left')
+    ax2.legend(framealpha=0.95, edgecolor='gray', loc='right')
     ax2.grid(True, alpha=0.3)
 
     fig.tight_layout()
@@ -235,12 +236,7 @@ def fig6():
                      arrowprops=dict(arrowstyle='->', color=pcols[i],
                                      alpha=0.4, lw=1))
 
-    # Policy legend (lower-left, ncol=2 to stay compact)
-    leg1 = ax1.legend(fontsize=7, loc='lower left', ncol=2,
-                      framealpha=0.95, edgecolor='gray',
-                      title='Policy', title_fontsize=7)
-    ax1.add_artist(leg1)
-    # Marker-type legend (upper-right)
+    # Marker-type legend (upper-left — small, out of the way)
     mk_handles = [
         Line2D([0], [0], marker='o', color='gray', markerfacecolor='white',
                markeredgecolor='gray', markersize=7, linestyle='None',
@@ -248,8 +244,13 @@ def fig6():
         Line2D([0], [0], marker='x', color='gray', markersize=7,
                linestyle='None', label=r'−$D_{min}$'),
     ]
-    ax1.legend(handles=mk_handles, fontsize=7, loc='upper right',
-               framealpha=0.95, edgecolor='gray')
+    leg_mk = ax1.legend(handles=mk_handles, fontsize=7, loc='upper left',
+                        framealpha=0.95, edgecolor='gray')
+    ax1.add_artist(leg_mk)
+    # Policy legend (lower-right, ncol=2 to stay compact)
+    ax1.legend(fontsize=7, loc='lower right', ncol=2,
+               framealpha=0.95, edgecolor='gray',
+               title='Policy', title_fontsize=7)
 
     ax1.set_xlabel('Wall-Clock Time (s)')
     ax1.set_ylabel('Final Accuracy (%)')
@@ -384,7 +385,8 @@ def fig9():
     ax1.set_xticks(x + width)
     ax1.set_xticklabels([f'M={M}' for M in ms])
     ax1.set_ylim(60, 90)
-    ax1.legend(framealpha=0.95, edgecolor='gray', loc='upper right')
+    ax1.legend(framealpha=0.95, edgecolor='gray', loc='upper center',
+              ncol=3, fontsize=8)
     ax1.grid(True, alpha=0.3, axis='y')
 
     ax2.set_xlabel('Number of Devices (M)')
@@ -392,7 +394,10 @@ def fig9():
     ax2.set_title('(b) EMNIST Wall-Clock')
     ax2.set_xticks(x + width)
     ax2.set_xticklabels([f'M={M}' for M in ms])
-    ax2.legend(framealpha=0.95, edgecolor='gray', loc='upper right')
+    ax2_ymax = ax2.get_ylim()[1]
+    ax2.set_ylim(None, ax2_ymax * 1.2)  # extra headroom for legend
+    ax2.legend(framealpha=0.95, edgecolor='gray', loc='upper center',
+              ncol=3, fontsize=8)
     ax2.grid(True, alpha=0.3, axis='y')
 
     # Speedup annotations
@@ -471,9 +476,9 @@ def fig10():
     ax2.set_xlabel('Communication Round')
     ax2.set_ylabel('Test Accuracy (%)')
     ax2.set_title('(b) Convergence under Different Privacy')
-    # Upper-left clear (all curves < 20 % at round 1-10)
+    # Lower-right: curves flatten at top, space at bottom-right
     ax2.legend(fontsize=8, framealpha=0.95, edgecolor='gray',
-               loc='upper left')
+               loc='lower right')
     ax2.grid(True, alpha=0.3)
     ax2.set_xlim(1, 50)
 
