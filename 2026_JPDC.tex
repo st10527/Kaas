@@ -36,14 +36,14 @@
 	
 	% ── Metadata ──────────────────────────────────────────────
 	\shorttitle{DASH for Asynchronous Edge Intelligence}
-	\shortauthors{[Authors]}
+	\shortauthors{S.-Z. Huang}
 	
 	\title[mode=title]{Straggler-Tolerant Knowledge Distillation
 		Scheduling for Asynchronous Edge Intelligence Systems}
 	
-	\author[1]{[First Author]}
+	\author[1]{Sheng-Zhi Huang}[orcid=0000-0003-3735-0613]
 	\cormark[1]
-	\ead{[email]}
+	\ead{167320@o365.tku.edu.tw}
 	\affiliation[1]{organization={Department of Computer Science
 			and Information Engineering, Tamkang University},
 		city={New Taipei City},
@@ -56,11 +56,11 @@
 		Federated distillation (FD) enables collaborative edge learning by
 		exchanging soft predictions rather than model parameters, offering
 		communication efficiency and architectural flexibility.  However,
-		deploying FD over heterogeneous wireless edge networks faces a
-		critical yet overlooked challenge: device stragglers whose
-		unpredictable latencies dominate synchronous round times and degrade
-		system throughput.  Existing asynchronous federated learning methods
-		target parameter-level aggregation and cannot be directly applied to
+		deploying FD over heterogeneous edge networks faces a critical yet
+		overlooked challenge: device stragglers whose unpredictable
+		latencies dominate synchronous round times and degrade system
+		throughput.  Existing asynchronous federated learning methods target
+		parameter-level aggregation and cannot be directly applied to
 		logit-based distillation, where partial uploads and quality-aware
 		scheduling introduce unique design constraints.  This paper presents
 		DASH (Deadline-Aware Straggler-Handling), an asynchronous
@@ -69,15 +69,17 @@
 		driven by log-normal latency distributions, and integrate device
 		completion probabilities into a submodular greedy selection
 		algorithm.  We prove that the resulting expected quality retains a
-		$(1-\bar{p})\tfrac{1}{2}(1-1/e)$ approximation ratio relative to the
-		deterministic optimum, where $\bar{p}$ is the worst-case straggler
-		probability.  Three timeout policies (fixed, adaptive, and
-		partial-accept) provide system-level trade-offs between round latency
-		and knowledge utilization.  Experiments on CIFAR-100 and EMNIST with
-		up to 200 devices demonstrate that DASH achieves comparable accuracy
-		to synchronous scheduling while reducing wall-clock convergence time
-		by $2$--$3\times$ under 30\% straggler conditions, with graceful
-		degradation as straggler severity increases.
+		constant-factor approximation ratio relative to the deterministic
+		optimum, with degradation bounded linearly by the worst-case
+		straggler probability.  Three timeout policies (fixed, adaptive,
+		and partial-accept) provide system-level trade-offs between round
+		latency and knowledge utilization, with a deadline floor mechanism
+		that prevents adaptive deadline collapse.  Experiments on CIFAR-100
+		and EMNIST-ByClass (Extended MNIST) with up to 200 devices
+		demonstrate that DASH achieves accuracy comparable to synchronous
+		scheduling while reducing wall-clock convergence time by
+		$2$--$3.5\times$, with the speedup increasing monotonically as the
+		device pool scales.
 	\end{abstract}
 	
 	% ── Highlights ────────────────────────────────────────────
@@ -86,8 +88,8 @@
 		three-outcome straggler model for edge networks
 		\item Straggler-aware submodular device selection with provable
 		expected quality bound
-		\item Three timeout policies (fixed, adaptive, partial-accept) with
-		system-level trade-off analysis
+		\item Three timeout policies with deadline floor mechanism that
+		prevents adaptive deadline spiral
 		\item Large-scale experiments on two datasets with up to 200 devices
 		and wall-clock time evaluation
 	\end{highlights}
@@ -105,14 +107,336 @@
 	\section{Introduction}\label{sec:intro}
 	% ══════════════════════════════════════════════════════════
 	
-	% [PLACEHOLDER — to be written after experiments]
+	The proliferation of IoT devices at the network edge has created
+	enormous volumes of data that are too costly or too sensitive to
+	transmit to a centralized cloud~\citep{shi_edge_computing}.
+	Federated learning~(FL) addresses this challenge by training models
+	collaboratively across distributed devices while keeping raw data
+	local~\citep{mcmahan_fedavg_2017, kairouz_fl_advances_2021}.  As
+	the scale of edge deployments grows---projections suggest tens of
+	billions of connected devices within the next few
+	years~\citep{lim_fl_mobile_edge_2020}---the heterogeneity of
+	participating devices has become a defining obstacle.  Devices differ
+	not only in data distributions and model
+	capacities~\citep{qin_kdfl_survey_2025}, but more fundamentally in
+	their \emph{latency profiles}: CPU frequency, network bandwidth,
+	background load, and transient interference all contribute to
+	round-trip times that can vary by orders of magnitude across devices
+	and across rounds.
 	
-	% ══════════════════════════════════════════════════════════
+	In a synchronous FL protocol, the server waits for every selected
+	device to report before advancing to the next round.  The round time
+	is therefore determined by the slowest participant---the
+	\emph{straggler}.  As the device pool grows, the probability that at
+	least one device experiences extreme delay increases rapidly, and the
+	synchronous round time can inflate by a factor of three to five
+	compared to the median device
+	latency~\citep{nguyen_fedbuff_2022}.  This straggler bottleneck is
+	particularly acute in edge environments, where network
+	variability and resource contention introduce heavy-tailed latency
+	distributions that are difficult to predict or
+	control~\citep{mora_kdfl_guide_2024}.
+	
+	Federated distillation~(FD) has emerged as a communication-efficient
+	alternative to parameter-based FL by exchanging soft predictions
+	(logits) rather than model
+	weights~\citep{li_fedmd_2019, lin_feddf_2020}.  Because logits are
+	compact and model-architecture-agnostic, FD naturally supports
+	heterogeneous device populations and reduces per-round communication
+	by orders of magnitude~\citep{hinton_kd_2015}.  Recent advances have
+	improved the quality, robustness, and security of the distilled
+	knowledge through selective transmission~\citep{gad_fedskd_2024},
+	adversarial-guided boundary
+	attention~\citep{wu_feddfa_2024}, uncertainty-driven feature
+	distillation~\citep{shao_fedufd_2025}, and secure logit
+	aggregation~\citep{chen_svafd_2025}.  However, virtually all existing
+	FD methods assume synchronous operation: they take device
+	participation as given and do not address what happens when a device
+	fails to deliver its logits within the round.
+	
+	A natural response to the straggler problem is asynchronous
+	aggregation.  In parameter-based FL, methods such as
+	FedAsync~\citep{xie_async_fedopt_2019} and
+	FedBuff~\citep{nguyen_fedbuff_2022} allow the server to incorporate
+	device updates as they arrive, tolerating staleness at the cost of
+	potential model drift.  More recently, knowledge distillation has been
+	integrated into asynchronous FL to mitigate the effects of stale
+	updates: FedEcho~\citep{wang_fedecho_2025} uses uncertainty-aware
+	distillation to down-weight unreliable predictions from delayed
+	clients, and FedTd~\citep{xu_fedtd_2025} transfers straggler
+	knowledge through a two-stage fusion scheme.  These methods
+	demonstrate the value of combining distillation with asynchronous
+	operation, but they are designed for parameter-level aggregation and
+	do not exploit the structural properties unique to logit-based
+	communication.  In particular, FD admits a richer set of straggler
+	outcomes than parameter FL: a device may complete local training but
+	only partially upload its logit vectors before a deadline expires,
+	yielding a \emph{partial contribution} whose value is proportional to
+	the number of vectors received.  This partial-upload possibility has
+	no counterpart in parameter-based FL, where a partially transmitted
+	weight vector is not directly usable.
+	
+	On the scheduling side, principled device selection has been studied
+	extensively for parameter-based
+	FL~\citep{nishio_fedcs_2019, lai_oort_2021, balakrishnan_divfl_2022},
+	with submodular optimization providing provable approximation
+	guarantees~\citep{zhang_submod_tosn_2024}.  However, these methods
+	optimize for gradient diversity or convergence speed rather than for
+	the saturation quality model that characterizes logit-based
+	distillation, and none of them incorporate device \emph{completion
+		probability} into the selection objective.  The gap is clear:
+	\emph{no existing framework jointly addresses asynchronous scheduling,
+		straggler tolerance, and quality-aware resource allocation for
+		federated distillation.}
+	
+	This paper presents DASH (Deadline-Aware Straggler-Handling), an
+	asynchronous scheduling framework designed specifically for federated
+	distillation over heterogeneous edge networks.  Rather than waiting
+	for all selected devices, DASH sets a per-round deadline and collects
+	whatever logits arrive---complete or partial---before the deadline
+	expires.  The scheduling decision itself is straggler-aware: device
+	completion probabilities, derived from a log-normal latency model,
+	are integrated into a submodular greedy selection algorithm that
+	jointly optimizes for knowledge quality, communication cost, and
+	reliability.  Three timeout policies---fixed, adaptive, and
+	partial-accept---provide system-level knobs for trading off round
+	latency against knowledge utilization.  A deadline floor mechanism
+	prevents the adaptive policy from collapsing into a self-reinforcing
+	spiral.  The framework is agnostic to the underlying distillation
+	algorithm: it wraps any FD aggregation mechanism with a deployment
+	layer that handles device selection, volume allocation, and straggler
+	management.
+	
+	The main contributions of this paper are as follows.
+	\begin{enumerate}
+		\item We design an asynchronous federated distillation protocol with
+		a three-outcome straggler model (complete, partial, timeout) driven
+		by log-normal latency distributions.  Unlike the binary
+		delivered-or-not model of parameter-based FL, the partial outcome
+		exploits the independence of individual logit vectors to retain useful
+		knowledge from interrupted uploads (Section~\ref{sec:system}).
+		
+		\item We introduce straggler-aware device selection by embedding
+		completion probabilities into the submodular quality function via the
+		effective fidelity $\tilde{\rho}_i = \pi_i(D) \cdot \rho_i$.  We
+		prove that the modified quality function preserves submodularity
+		(Proposition~\ref{prop:sub_async}), and derive an expected quality
+		bound of
+		$(1-\bar{p})\tfrac{1}{2}(1-1/e) \cdot Q^*$, where $\bar{p}$ is the
+		worst-case straggler probability and $Q^*$ is the deterministic
+		optimum (Theorem~\ref{thm:straggler_bound},
+		Section~\ref{sec:sa_select}).
+		
+		\item We propose three timeout policies---fixed, adaptive, and
+		partial-accept---with a $D_{\min}$ floor mechanism that prevents
+		deadline spiral under the adaptive policy
+		(Section~\ref{sec:timeout}).
+		
+		\item We conduct comprehensive experiments on CIFAR-100 and
+		EMNIST-ByClass with up to 200 devices, demonstrating that DASH
+		achieves accuracy comparable to synchronous scheduling while reducing
+		wall-clock convergence time by $2$--$3.5\times$.  The speedup
+		increases monotonically with pool size, reaching $3.49\times$ at
+		$M = 200$, and DASH maintains stable accuracy across a wide range of
+		straggler severities and privacy levels
+		(Section~\ref{sec:eval}).
+	\end{enumerate}
+	
+	The remainder of this paper is organized as follows.
+	Section~\ref{sec:related} reviews related work on federated
+	distillation, asynchronous FL, and device selection.
+	Section~\ref{sec:system} presents the system architecture and
+	straggler model.  Section~\ref{sec:scheduling} derives the scheduling
+	and aggregation algorithms.  Section~\ref{sec:eval} reports
+	experimental results, Section~\ref{sec:discuss} discusses practical
+	guidelines and limitations, and Section~\ref{sec:conclude} concludes
+	the paper.
+	
 	\section{Related Work}\label{sec:related}
-	% ══════════════════════════════════════════════════════════
 	
-	% [PLACEHOLDER — 2.1 Federated Distillation, 2.2 Async FL,
-	%  2.3 Client Selection and Straggler Mitigation]
+	This section reviews three lines of research that converge in our work:
+	federated distillation algorithms (Section~\ref{sec:rw_fd}),
+	asynchronous federated learning and straggler tolerance (Section~\ref{sec:rw_async}),
+	and device selection and resource scheduling (Section~\ref{sec:rw_selection}).
+	
+	% --------------------------------------------------
+	% 2.1  Federated Distillation Algorithms
+	% --------------------------------------------------
+	\subsection{Federated distillation algorithms}\label{sec:rw_fd}
+	
+	Federated distillation (FD) replaces the exchange of model parameters
+	with the exchange of soft predictions (logits) computed on a shared
+	public dataset, enabling communication-efficient and
+	architecture-heterogeneous collaborative learning.
+	FedMD~\citep{li_fedmd_2019} introduced this paradigm by having
+	heterogeneous local models align their outputs on public data through
+	knowledge distillation. FedDF~\citep{lin_feddf_2020} extended the idea
+	to ensemble distillation, where the server fuses logits from all
+	participants into a single global model without requiring shared
+	model architectures. FedGKT~\citep{he_fedgkt_2020} pushed this
+	further toward edge deployment by training small networks on devices
+	and transferring knowledge to a larger server model, explicitly
+	targeting computation-constrained scenarios.
+	
+	Subsequent work has focused on improving the quality and robustness
+	of the distilled knowledge. \citet{gad_fedskd_2024}
+	proposed selective knowledge distillation over bandwidth-constrained
+	wireless networks, transmitting only a filtered subset of logits to
+	reduce communication cost while preserving accuracy.
+	Fed-DFA~\citep{wu_feddfa_2024} addressed the capacity gap between
+	heterogeneous models by leveraging adversarial examples to guide
+	distillation toward samples near decision boundaries, where logit
+	distributions carry the most informative knowledge.
+	FedUFD~\citep{shao_fedufd_2025} introduced uncertainty-driven feature
+	distillation for personalized edge computing, exploiting prediction
+	uncertainty to improve the global-to-local knowledge transfer.
+	SVAFD~\citep{chen_svafd_2025} designed the first secure aggregation
+	protocol specifically for FD, incorporating quality-aware logit
+	filtering to defend against poisoning attacks while remaining
+	resilient to stragglers and colluding clients.
+	Selective-FD~\citep{shao_selective_fd_2023} proposed a selective
+	knowledge-sharing mechanism that identifies and filters ambiguous
+	logits before aggregation, improving both accuracy and data protection
+	by avoiding the transfer of low-confidence predictions.
+	FedVKD~\citep{he_fedvkd_2026} introduced an adaptive virtual
+	data-based knowledge distillation framework that generates synthetic
+	reference samples on the server side, eliminating the dependency on a
+	pre-existing public dataset while maintaining competitive distillation
+	quality across heterogeneous device architectures.
+	
+	These methods collectively advance what knowledge to distill and how
+	to distill it, yet they uniformly treat device participation as
+	given: every selected device is assumed to complete its logit
+	computation and upload within the round. None of the above works
+	addresses the scheduling question of \emph{whom to select} and
+	\emph{how much to allocate} under resource constraints, nor do they
+	model the possibility that a device may only partially deliver its
+	logits due to latency variations. DASH complements this body of work
+	by operating at the deployment layer: it takes any FD aggregation
+	mechanism as a black box and wraps it with a deadline-aware scheduling
+	framework that determines device participation, upload volumes, and
+	straggler handling.
+	
+	% --------------------------------------------------
+	% 2.2  Asynchronous FL and Straggler Tolerance
+	% --------------------------------------------------
+	\subsection{Asynchronous federated learning and straggler tolerance}\label{sec:rw_async}
+	
+	In synchronous federated learning, the server waits for all selected
+	devices before aggregation, making each round as slow as the slowest
+	participant. This straggler bottleneck has motivated a rich line of
+	asynchronous methods. \citet{xie_async_fedopt_2019}
+	proposed asynchronous federated optimization that allows the server to
+	incorporate device updates as they arrive, tolerating arbitrary delays
+	at the cost of potential model staleness.
+	FedBuff~\citep{nguyen_fedbuff_2022} introduced buffered asynchronous
+	aggregation, accumulating a configurable number of updates before
+	triggering a global step, which balances staleness against throughput.
+	
+	Recent work has begun to integrate knowledge distillation into
+	asynchronous FL as a means of mitigating the harmful effects of stale
+	updates. FedEcho~\citep{wang_fedecho_2025} performs server-side
+	distillation using ensemble logits from both fresh and stale client
+	models, employing uncertainty estimation to down-weight unreliable
+	predictions from severely delayed clients.
+	FedTd~\citep{xu_fedtd_2025} proposed a two-stage model fusion scheme
+	that transfers knowledge from straggler models to the global model
+	via distillation without delaying the training pipeline, achieving
+	up to $3.3\times$ speedup under high data heterogeneity. These
+	methods demonstrate that distillation can serve as a soft mechanism
+	for incorporating delayed information without directly merging
+	outdated parameters. In the split federated learning
+	setting, MU-SplitFed~\citep{li_mu_splitfed_2025} decouples server and
+	client training progress through unbalanced local updates, achieving
+	linear speedup with respect to the server iteration count
+	independently of straggler delays. MFL-AKD~\citep{tang_mfl_akd_2024}
+	targets multimodal FL and proposes a fast knowledge transfer mechanism
+	that pre-distills a pretrained vision-language model to local models,
+	reducing the convergence gap caused by stragglers in cross-modal
+	settings. \citet{wang_faga2_2025} proposed a
+	semi-asynchronous framework that jointly considers update staleness
+	and data quality in client selection, aggregating optimized local
+	updates with delay-aware importance weighting. In the communication
+	layer, joint compression and deadline optimization has been studied
+	for parameter-based FL~\citep{chen_joint_deadline_2023}, where the
+	server sets a per-round deadline and devices adaptively compress their
+	gradient uploads to meet the time constraint.
+	
+	A common thread across these works is that they operate on
+	\emph{parameter-level} updates: the stale or delayed object is a model
+	weight vector or gradient, and the correction mechanism (staleness
+	weighting, distillation regularization, buffered aggregation) is
+	designed accordingly. In logit-based FD, however, the exchanged object
+	is fundamentally different---a set of soft prediction vectors on a
+	reference dataset---and admits a richer set of outcomes than the
+	binary delivered-or-not dichotomy of parameter FL. Specifically, a
+	device may complete local training but only partially upload its logit
+	vectors before the deadline expires, yielding a partial contribution
+	that retains value proportional to the uploaded fraction. DASH
+	exploits this FD-specific structure through a three-outcome straggler
+	model (complete, partial, timeout) and integrates device completion
+	probabilities directly into the scheduling objective, a design that
+	has no counterpart in the parameter-based asynchronous literature.
+	
+	% --------------------------------------------------
+	% 2.3  Device Selection and Resource Scheduling
+	% --------------------------------------------------
+	\subsection{Device selection and resource scheduling}\label{sec:rw_selection}
+	
+	Deciding which devices to include in each training round is a
+	fundamental problem in federated learning. \citet{nishio_fedcs_2019} proposed FedCS, which estimates
+	each device's resource availability and selects a subset that can
+	complete training within a wall-clock deadline, trading off
+	participation breadth for round efficiency.
+	Oort~\citep{lai_oort_2021} refined this idea by jointly considering
+	data utility and system speed, prioritizing devices that contribute
+	the most statistical value per unit of training time.
+	\citet{cho_biased_2022} showed that biased client selection
+	based on local loss values can provably accelerate convergence over
+	uniform random sampling.
+	
+	Submodular optimization has emerged as a principled framework for
+	client selection with provable guarantees.
+	DivFL~\citep{balakrishnan_divfl_2022} formulated diverse client
+	selection as facility location maximization in gradient space,
+	achieving a constant-factor approximation ratio under cardinality
+	constraints. \citet{zhang_submod_tosn_2024} extended
+	submodular selection to jointly account for system and statistical
+	heterogeneity under knapsack constraints, demonstrating improved
+	time-to-accuracy in heterogeneous edge environments.
+	More recent work has adapted selection strategies to emerging
+	deployment scenarios: \citet{alblewi_fedscs_2025}
+	applied energy-aware selection to orbital edge computing, where
+	satellite devices are chosen based on predicted battery and CPU
+	availability, and \citet{talukder_fedsrc_2025}
+	empowered devices with self-regulation capabilities, allowing them to
+	autonomously assess their data quality and abstain from rounds where
+	their contribution would be detrimental. On the scheduling side,
+	\citet{khan_voi_scheduling_2024} combined Age of Update with
+	Data Shapley metrics to design a scheduling policy that captures both
+	the freshness and value of device updates under unreliable network conditions.
+	
+	These selection and scheduling methods provide elegant theoretical
+	frameworks, but they are uniformly designed for parameter-based FL.
+	Their objective functions---gradient diversity, local loss, or update
+	staleness---do not capture the saturation quality model that
+	characterizes logit-based distillation, where each device's
+	contribution exhibits diminishing returns governed by a
+	Michaelis--Menten function and is attenuated by its privacy posture.
+	Moreover, none of the existing selection methods incorporate device
+	\emph{completion probability} into the optimization objective; they
+	assume that a selected device either participates fully or is excluded
+	entirely. DASH bridges this gap by defining a straggler-aware
+	efficiency index $\tilde{\eta}_i = \pi_i(D) \cdot \rho_i / (b_i
+	\theta_i)$ that jointly captures reliability, knowledge quality, and
+	cost. This index preserves the submodularity of the aggregate quality
+	function (Proposition~2), enabling a greedy selection algorithm with a
+	provable $(1-\bar{p})\frac{1}{2}(1-1/e)$ approximation ratio relative
+	to the deterministic optimum (Theorem~2).
+	
+	
+	%═════════════════════════════════════════
+	
 	
 	% ══════════════════════════════════════════════════════════
 	\section{System Architecture}\label{sec:system}
@@ -121,7 +445,7 @@
 	We consider an edge intelligence platform in which a single edge
 	server~(ES) coordinates federated distillation across a pool
 	$\Mset = \{1, \dots, M\}$ of heterogeneous IoT devices connected
-	through unreliable wireless links.  Rather than exchanging model
+	through unreliable network links.  Rather than exchanging model
 	parameters, the ES operates a knowledge distillation service pipeline:
 	in each round, a selected subset of devices compute soft predictions
 	(logits) on a shared reference dataset and upload them to the ES,
@@ -134,29 +458,17 @@
 	% ── 3.1 System Overview ──────────────────────────────────
 	\subsection{System overview}\label{sec:overview}
 	
-	\begin{figure}[t]
-		\centering
-		% TODO: replace with actual figure file
-		\fbox{\parbox{0.92\linewidth}{\centering\vspace{3.5cm}%
-				\textit{Fig.~1: System architecture diagram}\\[2pt]
-				\small ES modules (DASH Scheduler $\to$ Async Controller
-				$\to$ Aggregation Engine) connected to $M$ devices
-				via unreliable channels.  Three device outcomes shown:
-				on-time~(\checkmark), partial~($\triangle$),
-				timeout~($\times$).
-				\vspace{0.5cm}}}
-		\caption{DASH system architecture.  The ES comprises three
-			modules: the DASH Scheduler (volume allocation and
-			straggler-aware device selection), the Async Controller
-			(deadline enforcement and logit collection), and the
-			Aggregation Engine (quality-weighted distillation).  Each
-			device may finish on time, partially upload, or timeout.}
-		\label{fig:system}
-	\end{figure}
-	
 	The DASH architecture comprises three server-side modules and a
 	device-side execution pipeline, as illustrated in
 	Fig.~\ref{fig:system}.
+	
+	\begin{figure}[t]
+		\centering
+		\includegraphics[width=\linewidth]{figs/Pipeline_Flow.png}
+		\caption{DASH system architecture with three server-side modules
+			and three possible device outcomes (complete, partial, timeout).}
+		\label{fig:system}
+	\end{figure}
 	
 	On the server side, the DASH Scheduler determines at the beginning of
 	each round which devices to engage and how many logit vectors to
@@ -176,7 +488,7 @@
 	dataset~$\Dpriv$, computes logits on~$\Dref$ and applies local
 	perturbation, and uploads up to~$v_i^*$ perturbed logit vectors to
 	the ES\@.  The total time for this pipeline depends on the device's
-	computational capability, channel conditions, and random disturbances,
+	computational capability, network conditions, and random disturbances,
 	all of which vary across devices and rounds.
 	
 	Each service round proceeds through four phases.  In the
@@ -184,7 +496,7 @@
 	selected set~$\Sset^{(t)}$ and allocations~$\{v_i^*\}$,
 	incorporating straggler probabilities
 	(Section~\ref{sec:sa_select}).  In the \emph{dispatch} phase~(P2),
-	the ES broadcasts $(\mathbf{w}^{(t-1)}, v_i^*)$ to each
+	the ES dispatches $(\mathbf{w}^{(t-1)}, v_i^*)$ to each
 	$i \in \Sset^{(t)}$.  In the \emph{collection} phase~(P3), devices
 	execute the local pipeline and upload logits while the Async
 	Controller enforces deadline~$D^{(t)}$; devices that have not
@@ -204,8 +516,8 @@
 		b_i^{(t)} \triangleq \omega_i^{(t)} + \mu_i,
 	\end{equation}
 	where $\omega_i^{(t)} > 0$ is the per-vector communication cost
-	(determined by channel conditions and allocated resource blocks under
-	OFDMA) and $\mu_i > 0$ is the per-vector computation cost.  The
+	(determined by the device's network bandwidth and link quality)
+	and $\mu_i > 0$ is the per-vector computation cost.  The
 	activation cost $a_i > 0$ captures the fixed overhead of local model
 	training; the total cost for uploading~$v_i$ vectors is thus
 	$C_i(v_i) = a_i \cdot \mathbf{1}_{\{v_i > 0\}} + b_i \, v_i$.
@@ -266,9 +578,9 @@
 	computation time, with~$c_i$ the per-sample processing rate and~$E$
 	the number of local training epochs (deterministic,
 	device-dependent);
-	$\tau_i^{\mathrm{comm}} = v_i^* \cdot s / r_i$ is the uplink
+	$\tau_i^{\mathrm{comm}} = v_i^* \cdot s / r_i$ is the upload
 	transmission time, with~$s$ the payload size per logit vector
-	and~$r_i$ the instantaneous channel rate (deterministic given the
+	and~$r_i$ the instantaneous link rate (deterministic given the
 	allocation~$v_i^*$); and
 	$\tau_i^{\mathrm{noise}} \sim \mathrm{LogNormal}(\mu_n, \sigma_n)$
 	captures random disturbances from queueing, OS scheduling, and
@@ -303,6 +615,16 @@
 		\end{enumerate}
 	\end{definition}
 	
+	This three-outcome model is specific to federated distillation: in
+	parameter-based FL, a device either delivers its full model update or
+	contributes nothing, since a partially transmitted weight vector is
+	not directly usable.  In FD, however, each logit vector is an
+	independent soft prediction on one reference sample, so a partial
+	upload retains value proportional to the number of vectors received.
+	The quality function~\eqref{eq:quality} naturally accommodates this
+	by evaluating $q_i(v_i^{\mathrm{recv}})$ instead of $q_i(v_i^*)$
+	when partial contributions are accepted.
+	
 	The completion probability of device~$i$ under deadline~$D$ is
 	\begin{equation}\label{eq:pi}
 		\pi_i(D) \triangleq \Pr[\tau_i \leq D]
@@ -330,11 +652,12 @@
 	Algorithm~\ref{alg:async_kaas} formalizes the per-round operation of
 	the DASH framework.  Compared to a synchronous counterpart, the
 	protocol introduces three modifications: (i)~a deadline~$D^{(t)}$ is
-	computed before dispatch (line~2), (ii)~device completion
+	computed before dispatch and clamped to a minimum
+	value~$D_{\min}$ (line~3), (ii)~device completion
 	probabilities $\pi_i(D^{(t)})$ are incorporated into the scheduling
-	decision (line~3), and (iii)~after the deadline expires, only complete
+	decision (line~4), and (iii)~after the deadline expires, only complete
 	and (optionally) partial contributions are aggregated
-	(lines~8--12).  All logits are computed using the current-round
+	(lines~9--13).  All logits are computed using the current-round
 	global model~$\mathbf{w}^{(t-1)}$, so there is no model
 	staleness---a deliberate design choice that keeps the aggregation
 	semantics clean and avoids the need for staleness correction weights.
@@ -344,14 +667,16 @@
 		\label{alg:async_kaas}
 		\begin{algorithmic}[1]
 			\REQUIRE Device pool $\Mset$, budget $B$, rounds $T$,
-			reference dataset $\Dref$, timeout policy $\mathcal{P}$
+			reference dataset $\Dref$, timeout policy $\mathcal{P}$,
+			deadline floor $D_{\min}$
 			\ENSURE Global model $\mathbf{w}^{(T)}$
 			\STATE Initialize $\mathbf{w}^{(0)}$;\;
 			$\mathcal{H} \gets \emptyset$
 			\COMMENT{latency history}
 			\FOR{$t = 1$ \TO $T$}
 			\STATE $D^{(t)} \!\gets\!
-			\mathcal{P}.\mathrm{Deadline}(t, \mathcal{H})$
+			\max\bigl(D_{\min},\;
+			\mathcal{P}.\mathrm{Deadline}(t, \mathcal{H})\bigr)$
 			\STATE $(\Sset^{(t)}\!, \{v_i^*\}) \!\gets\!
 			\mathrm{DASH\text{-}Select}(\Mset, B, D^{(t)})$
 			\STATE Dispatch $(\mathbf{w}^{(t-1)}, v_i^*)$
@@ -554,25 +879,25 @@
 	
 	\begin{pf}
 		Let~$\Sset^*$ denote the optimal device set for the deterministic
-		problem, with water-filling allocation $\{v_i^{\circ}\}$ achieving
-		$Q^* = \sum_{i \in \Sset^*} q_i(v_i^{\circ})$.
+		problem, with water-filling allocation $\{v_i^{\star}\}$ achieving
+		$Q^* = \sum_{i \in \Sset^*} q_i(v_i^{\star})$.
 		
-		The allocation $\{v_i^{\circ}\}$ is feasible for
+		The allocation $\{v_i^{\star}\}$ is feasible for
 		problem~\eqref{eq:async_problem} with $\Sset = \Sset^*$ (same budget
 		constraint).  Therefore:
 		\begin{align}
 			\tilde{Q}(\Sset^*)
 			&\geq \sum_{i \in \Sset^*}
 			\pi_i(D) \cdot \rho_i
-			\frac{v_i^{\circ}}{v_i^{\circ} + \theta_i}
+			\frac{v_i^{\star}}{v_i^{\star} + \theta_i}
 			\notag \\
 			&\geq \pi_{\min}
 			\sum_{i \in \Sset^*}
-			\rho_i \frac{v_i^{\circ}}{v_i^{\circ} + \theta_i}
+			\rho_i \frac{v_i^{\star}}{v_i^{\star} + \theta_i}
 			= \pi_{\min} \cdot Q^*.
 			\label{eq:step1}
 		\end{align}
-		The first inequality uses the feasibility of~$\{v_i^{\circ}\}$ (the
+		The first inequality uses the feasibility of~$\{v_i^{\star}\}$ (the
 		$\tilde{Q}$-optimal water-filling can only yield a higher value); the
 		second applies $\pi_i(D) \geq \pi_{\min}$ for all~$i$.
 		Since $\tilde{Q}^* \geq \tilde{Q}(\Sset^*)$, we have
@@ -656,36 +981,49 @@
 	per-round quality).  We consider three policies with increasing
 	adaptiveness.
 	
-	The simplest strategy, which we call the fixed-deadline policy, sets
-	$D^{(t)} = D_0$ for all rounds~$t$, where $D_0$ is a system-level
-	constant chosen by the operator.  This provides predictable per-round
-	wall-clock time and is straightforward to implement, but cannot adapt
-	to changing network conditions.  Setting $D_0$ too low wastes
-	scheduled resources through excessive timeouts, while setting it too
-	high approaches synchronous behavior.
+	The simplest strategy, which we call the \emph{fixed-deadline} policy,
+	sets $D^{(t)} = D_0$ for all rounds~$t$, where $D_0$ is a
+	system-level constant chosen by the operator.  This provides
+	predictable per-round wall-clock time and is straightforward to
+	implement, but cannot adapt to changing network conditions.  Setting
+	$D_0$ too low wastes scheduled resources through excessive timeouts,
+	while setting it too high approaches synchronous behavior.
 	
-	The adaptive-deadline policy adjusts the deadline based on observed
-	latency statistics from the previous round.  Let
+	The \emph{adaptive-deadline} policy adjusts the deadline based on
+	observed latency statistics from the previous round.  Let
 	$\{\tau_i^{(t-1)}\}$ denote the latencies observed in round~$t{-}1$.
 	The adaptive policy sets:
 	\begin{equation}\label{eq:adaptive}
-		D^{(t)} = \alpha_{\mathrm{ema}} \,
+		D^{(t)} = \max\!\Bigl(D_{\min},\;\;
+		\alpha_{\mathrm{ema}} \,
 		\mathrm{Pctl}_p\!\bigl(\{\tau_i^{(t-1)}\}\bigr)
-		+ (1 {-} \alpha_{\mathrm{ema}}) \, D^{(t-1)},
+		+ (1 {-} \alpha_{\mathrm{ema}}) \, D^{(t-1)}\Bigr),
 	\end{equation}
 	where $\mathrm{Pctl}_p$ is the $p$-th percentile of the empirical
-	latency distribution and $\alpha_{\mathrm{ema}} \in (0,1)$ is an
+	latency distribution, $\alpha_{\mathrm{ema}} \in (0,1)$ is an
 	exponential moving average smoothing coefficient that prevents
-	oscillation.  During a warmup phase of~$W$ rounds, the policy falls
-	back to $D^{(t)} = D_0$.  The percentile parameter~$p$ directly
-	controls the target completion rate: $p = 0.7$ targets approximately
-	70\% on-time completion.
+	oscillation, and $D_{\min} = \beta \cdot D_{\mathrm{warmup}}$ is a
+	hard lower bound that prevents the deadline from collapsing.  During a
+	warmup phase of~$W$ rounds, the policy falls back to a warmup
+	deadline~$D_{\mathrm{warmup}}$ estimated from device profiles.  The
+	percentile parameter~$p$ directly controls the target completion rate.
 	
-	The partial-accept policy uses the same adaptive deadline mechanism,
-	but additionally accepts partial logit uploads from devices in the
-	Partial outcome category (Definition~\ref{def:outcome}).  Partial
-	contributions enter the aggregation with reduced quality weight since
-	$q_i(v_i^{\mathrm{recv}}) < q_i(v_i^*)$ whenever
+	The $D_{\min}$ floor is a critical safeguard against a
+	\emph{deadline spiral}: without it, a tight deadline reduces the
+	volume of logits each device can upload, which shortens observed
+	latencies, which in turn drives the adaptive deadline even lower in
+	subsequent rounds.  This positive feedback loop can cause the deadline
+	to converge to a value so small that no device contributes meaningful
+	knowledge.  The floor~$D_{\min}$ breaks this loop by guaranteeing a
+	minimum collection window regardless of the latency history.  The
+	effectiveness of this mechanism is validated empirically in
+	Section~\ref{sec:eval}.
+	
+	The \emph{partial-accept} policy uses the same adaptive deadline
+	mechanism, but additionally accepts partial logit uploads from devices
+	in the Partial outcome category (Definition~\ref{def:outcome}).
+	Partial contributions enter the aggregation with reduced quality
+	weight since $q_i(v_i^{\mathrm{recv}}) < q_i(v_i^*)$ whenever
 	$v_i^{\mathrm{recv}} < v_i^*$.  This policy maximizes knowledge
 	utilization by retaining computation that the device has already
 	performed, at the cost of slightly noisier aggregation from
@@ -741,38 +1079,533 @@
 	\section{Performance Evaluation}\label{sec:eval}
 	% ══════════════════════════════════════════════════════════
 	
-	% [PLACEHOLDER — 5.1 Setup, 5.2 Main Comparison,
-	%  5.3 Straggler Sweep, 5.4 Timeout Policy,
-	%  5.5 Scalability, 5.6 EMNIST, 5.7 Privacy]
-	%
-	% Figures to include:
-	%  Fig 2: accuracy vs round (6 methods)
-	%  Fig 3: accuracy vs wall-clock time (6 methods) — key figure
-	%  Fig 4: accuracy vs straggler ratio
-	%  Fig 5: wall-clock vs straggler ratio
-	%  Fig 6: Pareto front (policy comparison)
-	%  Fig 7: accuracy vs M at fixed wall-clock budget
-	%  Fig 8: round time vs M
-	%  Fig 9: EMNIST accuracy vs wall-clock
-	%  Fig 10: privacy sweep under async
-	%
-	% Tables:
-	%  Table 1: performance summary (6 methods x 3 metrics)
+	This section evaluates DASH through six groups of experiments.
+	Section~\ref{sec:setup} describes the datasets, model architecture,
+	baselines, and parameter settings.
+	Section~\ref{sec:main_compare} presents the main comparison between
+	synchronous and asynchronous methods on CIFAR-100.
+	Section~\ref{sec:straggler_sweep} sweeps the straggler severity
+	parameter to assess robustness.
+	Section~\ref{sec:policy_exp} compares timeout policies and
+	demonstrates the necessity of the $D_{\min}$ floor.
+	Section~\ref{sec:scalability} scales the device pool from 20 to 200.
+	Section~\ref{sec:emnist} validates the conclusions on EMNIST-ByClass,
+	and Section~\ref{sec:privacy_exp} examines the interaction between
+	privacy and asynchronous scheduling.
+	
+	% ── 5.1 Experimental Setup ───────────────────────────────
+	\subsection{Experimental setup}\label{sec:setup}
+	
+	We evaluate DASH on two image classification benchmarks with
+	non-IID data partitions.  CIFAR-100 contains 60,000 color images
+	across 100 classes; we distribute the training set among devices
+	using a Dirichlet allocation with concentration $\alpha = 0.3$ to
+	create label-skewed local datasets.  EMNIST-ByClass contains
+	approximately 697,000 handwritten character images across 62 classes
+	(digits, uppercase and lowercase letters); we partition the data by
+	writer identity, which produces a naturally non-IID distribution
+	without synthetic manipulation.  In both cases, a public reference
+	dataset~$\Dref$ of 5,000 samples is held out at the server for logit
+	computation and distillation.
+	
+	Each device runs a lightweight CNN with three convolutional layers
+	followed by batch normalization and two fully connected layers.
+	Local training uses SGD with learning rate 0.01 for $E = 5$ local
+	epochs per round.  Distillation uses temperature $\tau = 3.0$,
+	KL-divergence weight $\alpha_{\mathrm{KD}} = 0.5$, and a maximum
+	upload volume of $\vmax = 100$ logit vectors per device.  The
+	straggler latency noise follows
+	$\tau_i^{\mathrm{noise}} \sim \mathrm{LogNormal}(0, \sigma_n)$,
+	where the severity parameter $\sigma_n$ is varied across
+	experiments.  Devices have heterogeneous privacy levels drawn from a
+	pool with $\rho_i \in \{1.0, 0.8, 0.5, 0.2, 0.05\}$ at proportions
+	15\%, 20\%, 30\%, 20\%, and 15\%, respectively, yielding an average
+	$\bar{\rho} \approx 0.51$.  The default configuration uses $M = 50$
+	devices, budget $B = 50$, $T = 50$ rounds, and $\sigma_n = 0.5$.
+	
+	For the adaptive deadline policy, the warmup
+	deadline~$D_{\mathrm{warmup}}$ is estimated from device profiles
+	using the budget-constrained expected latency with a safety factor.
+	The EMA coefficient is $\alpha_{\mathrm{ema}} = 0.3$, the percentile
+	is $p = 0.85$, the warmup phase lasts $W = 3$ rounds, and the
+	deadline floor is $D_{\min} = 0.3 \cdot D_{\mathrm{warmup}}$.  All
+	results are averaged over three independent runs with seeds 42, 123,
+	and 456, and reported as mean $\pm$ standard deviation.  Experiments
+	are conducted on an NVIDIA RTX 5070 Ti GPU with 16\,GB VRAM.
+	
+	We compare DASH against five baselines that span the synchronous--asynchronous
+	spectrum.  Sync-Greedy is the synchronous variant of DASH that sets
+	$\pi_i = 1$ for all devices (equivalently,
+	$\tilde{\rho}_i = \rho_i$) and waits for all selected devices to
+	finish; it serves as a natural ablation baseline that isolates the
+	effect of asynchronous scheduling.  Sync-Full selects all $M$
+	devices synchronously with no budget constraint, representing the
+	worst-case synchronous protocol.  FedBuff-FD adapts the buffered
+	asynchronous aggregation of \citet{nguyen_fedbuff_2022} to the FD
+	setting, triggering one aggregation step after collecting responses
+	from a fixed buffer of devices.  Random-Async selects devices
+	uniformly at random and enforces a fixed deadline.  Full-Async
+	selects all devices with adaptive timeout but without the
+	budget-constrained scheduling of DASH.  For synchronous baselines,
+	the per-round wall-clock time is set to
+	$\max_{i \in \Sset^{(t)}} \tau_i$, reflecting the blocking nature
+	of synchronous aggregation.
+	
+	% ── 5.2 Main Comparison ─────────────────────────────────
+	\subsection{Main comparison}\label{sec:main_compare}
+	
+	We first examine the core question of whether asynchronous scheduling
+	can match synchronous per-round learning quality while reducing
+	wall-clock convergence time.  Fig.~\ref{fig:acc_round} plots test
+	accuracy against communication round for all six methods under the
+	default setting ($M = 50$, $\sigma_n = 0.5$).  DASH and Sync-Greedy
+	follow nearly identical trajectories throughout training, both
+	reaching approximately 44\% after 50 rounds, which confirms that
+	incorporating completion probabilities into the scheduling objective
+	does not degrade per-round distillation quality.  Sync-Full converges
+	at the same rate as these two methods, verifying that the
+	budget-constrained selection retains sufficient knowledge diversity.
+	Full-Async trails by roughly 9 percentage points, indicating that
+	selecting all devices without budget-aware allocation dilutes the
+	aggregated logit quality.  Random-Async and FedBuff-FD remain below
+	24\% and 18\%, respectively, demonstrating that neither random
+	selection nor buffered aggregation transfers effectively to the
+	logit-based distillation setting.
+	
+	\begin{figure*}[t]
+		\centering
+		\begin{subfigure}[t]{0.48\textwidth}
+			\centering
+			\includegraphics[width=\linewidth]{figs/fig2_acc_vs_round.pdf}
+			\caption{Accuracy vs.\ communication round.}
+			\label{fig:acc_round}
+		\end{subfigure}\hfill
+		\begin{subfigure}[t]{0.48\textwidth}
+			\centering
+			\includegraphics[width=\linewidth]{figs/fig3_acc_vs_wallclock.pdf}
+			\caption{Accuracy vs.\ wall-clock time.}
+			\label{fig:acc_wc}
+		\end{subfigure}
+		\caption{Main comparison on CIFAR-100
+			($M\!=\!50$, $\sigma_n\!=\!0.5$, 50 rounds).}
+		\label{fig:main_compare}
+	\end{figure*}
+	
+	The same data, re-plotted against cumulative wall-clock time in
+	Fig.~\ref{fig:acc_wc}, reveals the practical advantage of
+	asynchronous operation.  Because Sync-Greedy waits for the slowest
+	selected device each round, its curve is stretched along the time
+	axis: reaching 40\% accuracy requires approximately 1,200\,s,
+	whereas DASH achieves the same level in under 500\,s.  Over the full
+	50 rounds, DASH completes in 979\,s compared to 3,079\,s for
+	Sync-Greedy, yielding a $3.14\times$ wall-clock speedup with no
+	accuracy penalty.  Table~\ref{tab:main} summarizes the results for
+	all methods.  Sync-Full incurs extreme wall-clock cost
+	(73,422\,s) due to waiting for all $M$ devices each round, confirming
+	that full-participation synchronous protocols are impractical even
+	at moderate scale.
+	
+	\input{table1_main}
+	
+	FedBuff-FD and Random-Async achieve low wall-clock times, but their
+	accuracy is far too low to be competitive.  FedBuff-FD's failure
+	stems from its buffer mechanism: it aggregates whichever responses
+	arrive first, ignoring device quality and effectively discarding the
+	scheduling information that DASH exploits.  Full-Async achieves
+	moderate accuracy (35.57\%) at low wall-clock cost (505\,s), but
+	without budget-constrained allocation its per-round quality is
+	substantially lower than DASH, resulting in a worse accuracy--time
+	trade-off overall.  These results establish that quality-aware
+	scheduling and asynchronous deadline enforcement are both necessary
+	for effective FD deployment: removing either one leads to significant
+	degradation.
+	
+	% ── 5.3 Straggler Severity Sweep ─────────────────────────
+	\subsection{Straggler severity sweep}\label{sec:straggler_sweep}
+	
+	To assess robustness, we vary the straggler severity parameter
+	$\sigma_n \in \{0.0, 0.3, 0.5, 1.0, 1.5\}$ while keeping all other
+	settings at default.  Fig.~\ref{fig:straggler_acc} shows that DASH
+	maintains stable accuracy across the entire range, declining by only
+	1.2 percentage points from $\sigma_n = 0$ (44.68\%) to
+	$\sigma_n = 1.5$ (43.47\%).  Sync-Greedy exhibits similarly stable
+	accuracy because it waits for all devices regardless of latency, but
+	this stability comes at increasing wall-clock cost.
+	
+	Fig.~\ref{fig:straggler_wc} reveals the key distinction.
+	Sync-Greedy's total wall-clock time grows from 3,073\,s at
+	$\sigma_n = 0$ to 3,551\,s at $\sigma_n = 1.5$, a 15.6\% increase
+	driven by the tail latencies of the slowest devices.  DASH absorbs
+	the increased straggler severity with only a 13.4\% wall-clock
+	increase (977\,s to 1,108\,s), and the relative speedup
+	over Sync-Greedy grows monotonically from $3.15\times$ to
+	$3.20\times$.  This widening gap confirms the theoretical intuition
+	behind Theorem~\ref{thm:straggler_bound}: as straggler severity
+	increases, the completion probability~$\pi_i(D)$ decreases for
+	unreliable devices, and the straggler-aware efficiency index
+	$\tilde{\eta}_i$ automatically down-ranks them in favor of more
+	reliable peers.  FedBuff-FD's accuracy remains flat near 17\%
+	regardless of $\sigma_n$, further confirming that its buffered
+	aggregation mechanism does not benefit from reduced straggler noise.
+	
+	\begin{figure*}[t]
+		\centering
+		\begin{subfigure}[t]{0.48\textwidth}
+			\centering
+			\includegraphics[width=\linewidth]{figs/fig4_straggler_acc.pdf}
+			\caption{Final accuracy vs.\ straggler severity.}
+			\label{fig:straggler_acc}
+		\end{subfigure}\hfill
+		\begin{subfigure}[t]{0.48\textwidth}
+			\centering
+			\includegraphics[width=\linewidth]{figs/fig5_straggler_wc.pdf}
+			\caption{Wall-clock time vs.\ straggler severity.}
+			\label{fig:straggler_wc}
+		\end{subfigure}
+		\caption{Effect of straggler severity $\sigma_n$
+			(CIFAR-100, $M\!=\!50$).}
+		\label{fig:straggler}
+	\end{figure*}
+	
+	% ── 5.4 Timeout Policy Comparison ────────────────────────
+	\subsection{Timeout policy comparison}\label{sec:policy_exp}
+	
+	We compare six timeout configurations---three fixed-deadline settings
+	($D_0 \in \{5, 10, 20\}$\,s) and three adaptive-deadline settings
+	($p \in \{0.5, 0.7, 0.9\}$)---each tested with and without the
+	$D_{\min}$ floor, yielding twelve configurations in total.
+	Fig.~\ref{fig:policy_scatter} plots the final accuracy against wall-clock
+	time for each configuration, where circles denote configurations with
+	$D_{\min}$ and crosses denote those without.
+	
+	Several observations emerge.  First, the $D_{\min}$ floor
+	consistently improves accuracy across all configurations, with the
+	largest gain appearing for the most aggressive settings: fixed
+	$D_0 = 5$\,s without $D_{\min}$ collapses to 35.96\%, while adding
+	$D_{\min}$ recovers 7.58 percentage points.  Second, the
+	adaptive policy with $p = 0.7$ and $D_{\min}$ achieves the best
+	accuracy--time trade-off (45.05\% at 871\,s), dominating all other
+	configurations on the Pareto frontier.  Third, high-percentile
+	adaptive settings ($p = 0.9$) approach synchronous wall-clock times
+	without meaningful accuracy gains, confirming that overly generous
+	deadlines waste time waiting for marginal contributions.
+	
+	Fig.~\ref{fig:policy_deadline} visualises the deadline evolution across
+	rounds for the three adaptive settings.  Without $D_{\min}$, the
+	$p = 0.5$ configuration exhibits the deadline spiral described in
+	Section~\ref{sec:timeout}: the deadline drops rapidly from the
+	warmup value and continues to decrease throughout training, falling
+	below 10\,s by round~20.  The $D_{\min}$ floor halts this descent at
+	approximately 16\,s, preserving a sufficient collection window for
+	meaningful logit uploads.  The $p = 0.9$ setting converges to a
+	higher deadline regardless of~$D_{\min}$, since the 90th percentile
+	of observed latencies is already large.
+	
+	\begin{figure*}[t]
+		\centering
+		\begin{subfigure}[t]{0.48\textwidth}
+			\centering
+			\includegraphics[width=\linewidth]{figs/fig6a_policy_scatter.pdf}
+			\caption{Accuracy vs.\ wall-clock for twelve configurations.}
+			\label{fig:policy_scatter}
+		\end{subfigure}\hfill
+		\begin{subfigure}[t]{0.48\textwidth}
+			\centering
+			\includegraphics[width=\linewidth]{figs/fig6b_deadline_evolution.pdf}
+			\caption{Deadline evolution across rounds.}
+			\label{fig:policy_deadline}
+		\end{subfigure}
+		\caption{Timeout policy analysis
+			(CIFAR-100, $M\!=\!50$, $\sigma_n\!=\!0.5$).}
+		\label{fig:policy}
+	\end{figure*}
+	
+	% ── 5.5 Scalability ──────────────────────────────────────
+	\subsection{Scalability}\label{sec:scalability}
+	
+	We scale the device pool from $M = 20$ to $M = 200$ with a
+	proportional budget $B = 2.5M$ and 50 rounds per experiment.
+	Fig.~\ref{fig:scale_acc} shows that both DASH and Sync-Greedy
+	benefit from larger pools, with accuracy increasing from
+	approximately 45\% at $M = 20$ to 47--48\% at $M = 100$ before
+	saturating.  DASH consistently outperforms Sync-Greedy by 0.1 to
+	1.1 percentage points across all pool sizes.  FedBuff-FD remains
+	near 17\% regardless of~$M$, since its fixed buffer size does not
+	exploit the growing device diversity.
+	
+	The wall-clock results in Fig.~\ref{fig:scale_wc} exhibit a
+	striking divergence.  Sync-Greedy's total time grows from 6,952\,s
+	at $M = 20$ to over 10,000\,s at $M = 100$ and $M = 200$, because
+	the probability of encountering at least one extreme straggler
+	increases with pool size.  DASH's wall-clock time remains nearly
+	flat across all scales (2,494\,s to 2,889\,s), since the adaptive
+	deadline and straggler-aware selection together absorb the growing
+	tail-latency risk.  The resulting speedup increases monotonically
+	from $2.79\times$ at $M = 20$ to $3.49\times$ at $M = 200$,
+	confirming that DASH's advantage grows with system scale---precisely
+	the regime where synchronous protocols become most impractical.
+	
+	\begin{figure*}[t]
+		\centering
+		\begin{subfigure}[t]{0.48\textwidth}
+			\centering
+			\includegraphics[width=\linewidth]{figs/fig7_scalability_acc.pdf}
+			\caption{Final accuracy vs.\ pool size~$M$.}
+			\label{fig:scale_acc}
+		\end{subfigure}\hfill
+		\begin{subfigure}[t]{0.48\textwidth}
+			\centering
+			\includegraphics[width=\linewidth]{figs/fig8_scalability_wc.pdf}
+			\caption{Wall-clock time vs.\ pool size~$M$.}
+			\label{fig:scale_wc}
+		\end{subfigure}
+		\caption{Scalability with device pool size
+			(CIFAR-100, $B\!=\!2.5M$, 50 rounds).}
+		\label{fig:scale}
+	\end{figure*}
+	
+	% ── 5.6 Cross-Dataset Validation ─────────────────────────
+	\subsection{Cross-dataset validation}\label{sec:emnist}
+	
+	To verify that the conclusions above generalize beyond CIFAR-100, we
+	repeat the main comparison on EMNIST-ByClass with $M \in \{50, 200\}$
+	and $B = 2.5M$.  Fig.~\ref{fig:emnist} reports the best accuracy
+	and wall-clock time for each method.  On this 62-class task with
+	naturally non-IID partitions, DASH achieves best accuracy of 84.49\%
+	($M = 50$) and 84.65\% ($M = 200$), comparable to Sync-Greedy's
+	84.21\% and 84.61\%.  The wall-clock speedup is $1.74\times$ at
+	$M = 50$ and $2.17\times$ at $M = 200$, consistent with the
+	increasing trend observed on CIFAR-100.  The smaller absolute
+	speedup compared to CIFAR-100 reflects the lighter computational
+	cost per round on EMNIST (28$\times$28 images with 62 classes versus
+	32$\times$32 images with 100 classes), which compresses the latency
+	distribution and reduces the relative impact of straggler devices.
+	FedBuff-FD achieves moderate accuracy on EMNIST (best 75.47\% at
+	$M = 50$) but still trails DASH by approximately 9 percentage
+	points, confirming that its aggregation mechanism underperforms
+	quality-aware scheduling even on tasks where distillation is
+	relatively easier.
+	
+	\begin{figure*}[t]
+		\centering
+		\begin{subfigure}[t]{0.48\textwidth}
+			\centering
+			\includegraphics[width=\linewidth]{figs/fig9a_emnist_acc.pdf}
+			\caption{Best accuracy for $M \in \{50, 200\}$.}
+			\label{fig:emnist_acc}
+		\end{subfigure}\hfill
+		\begin{subfigure}[t]{0.48\textwidth}
+			\centering
+			\includegraphics[width=\linewidth]{figs/fig9b_emnist_wc.pdf}
+			\caption{Wall-clock time for $M \in \{50, 200\}$.}
+			\label{fig:emnist_wc}
+		\end{subfigure}
+		\caption{Cross-dataset validation on EMNIST-ByClass.}
+		\label{fig:emnist}
+	\end{figure*}
+	
+	% ── 5.7 Privacy Robustness ───────────────────────────────
+	\subsection{Privacy robustness under asynchronous operation}\label{sec:privacy_exp}
+	
+	The privacy degradation factor~$\rho_i$ controls the noise level
+	applied to uploaded logits, with lower values providing stronger
+	privacy at the cost of reduced knowledge fidelity.  To isolate the
+	interaction between privacy and asynchronous scheduling, we run DASH
+	under four uniform privacy settings: $\tilde{\rho} \approx 0.98$
+	(no privacy), $0.80$ (mild), $0.55$ (moderate), and $0.10$ (strong).
+	
+	Fig.~\ref{fig:privacy_acc} shows that best accuracy decreases
+	monotonically from 49.06\% to 39.60\% as privacy strengthens, which
+	is expected since heavier noise degrades the information content of
+	the distilled logits.  The dashed line overlaying the same panel
+	reports wall-clock time, which remains essentially constant near
+	916\,s across all privacy levels.  This decoupling is a desirable
+	property: the scheduling and deadline mechanisms operate on latency
+	and budget parameters that are independent of the noise level, so
+	strengthening privacy does not interfere with the system's ability
+	to handle stragglers.
+	
+	Fig.~\ref{fig:privacy_conv} plots the per-round convergence curves
+	for the four settings.  All configurations follow smooth trajectories
+	with no instability, and the gap between privacy levels remains
+	roughly constant throughout training, indicating that the
+	quality-weighted aggregation~\eqref{eq:agg_weight} naturally adapts
+	to noisier inputs without requiring privacy-specific tuning.
+	
+	In the main experiment (Table~\ref{tab:main}), devices have
+	heterogeneous privacy levels with an average
+	$\bar{\rho} \approx 0.51$.  DASH achieves 44.47\% under this
+	heterogeneous setting, which is slightly higher than the 42.96\%
+	observed under uniform $\tilde{\rho} \approx 0.55$ in the privacy
+	sweep.  This difference arises because heterogeneous privacy allows
+	a few low-noise devices ($\rho_i = 1.0$) to contribute high-fidelity
+	logits that disproportionately benefit the distillation quality,
+	an effect that is averaged out under uniform privacy.
+	
+	\begin{figure*}[t]
+		\centering
+		\begin{subfigure}[t]{0.48\textwidth}
+			\centering
+			\includegraphics[width=\linewidth]{figs/fig10a_privacy_acc.pdf}
+			\caption{Best accuracy and wall-clock time vs.\ $\tilde{\rho}$.}
+			\label{fig:privacy_acc}
+		\end{subfigure}\hfill
+		\begin{subfigure}[t]{0.48\textwidth}
+			\centering
+			\includegraphics[width=\linewidth]{figs/fig10b_privacy_conv.pdf}
+			\caption{Convergence under four privacy settings.}
+			\label{fig:privacy_conv}
+		\end{subfigure}
+		\caption{Privacy robustness
+			(CIFAR-100, $M\!=\!50$, DASH only).}
+		\label{fig:privacy}
+	\end{figure*}
 	
 	
 	% ══════════════════════════════════════════════════════════
 	\section{Discussion}\label{sec:discuss}
 	% ══════════════════════════════════════════════════════════
 	
-	% [PLACEHOLDER — 6.1 Sync vs Async guidelines,
-	%  6.2 Deadline Tuning, 6.3 Limitations and Future Work]
+	This section discusses practical guidelines derived from the
+	experimental results, the relationship to the conference version of
+	this work, and limitations that suggest directions for future
+	research.
+	
+	% ── 6.1 When to Use Sync vs Async ────────────────────────
+	\subsection{Synchronous versus asynchronous operation}\label{sec:sync_vs_async}
+	
+	The experiments reveal that DASH and Sync-Greedy achieve nearly
+	identical per-round accuracy (Section~\ref{sec:main_compare}),
+	meaning that the straggler-aware scheduling does not sacrifice
+	distillation quality.  The advantage of DASH is purely in wall-clock
+	efficiency, and the magnitude of this advantage depends on two
+	factors: the straggler severity~$\sigma_n$ and the pool size~$M$.
+	When $\sigma_n$ is close to zero and $M$ is small, the latency
+	distribution is narrow and the synchronous round time is already
+	short; in this regime the overhead of maintaining deadline estimates
+	and latency histories may not be justified.  As $\sigma_n$ or $M$
+	increases, however, the synchronous round time grows rapidly due to
+	tail latencies, while DASH's wall-clock time remains nearly flat
+	(Sections~\ref{sec:straggler_sweep} and~\ref{sec:scalability}).  As
+	a practical guideline, DASH is recommended whenever the device pool
+	is heterogeneous in computational capability or network quality, or
+	when the pool size exceeds a few dozen devices.  For homogeneous
+	deployments with stable network conditions, Sync-Greedy offers a
+	simpler alternative with comparable accuracy.
+	
+	% ── 6.2 Practical Deadline Tuning ────────────────────────
+	\subsection{Practical deadline tuning}\label{sec:deadline_tuning}
+	
+	The timeout policy comparison (Section~\ref{sec:policy_exp})
+	provides three actionable insights for system operators.  First, the
+	adaptive policy consistently outperforms fixed deadlines across a
+	wide range of percentile settings, since it tracks the evolving
+	latency distribution without manual re-tuning.  Second, the
+	$D_{\min}$ floor is not merely a safety net but a structural
+	necessity: without it, the adaptive policy is susceptible to a
+	deadline spiral that can collapse per-round quality by over 7
+	percentage points in the most aggressive configurations.  Third, the
+	percentile parameter~$p$ offers a smooth knob for trading off
+	accuracy against round latency, with values in the range
+	$[0.7,\, 0.9]$ producing robust results across all tested settings.
+	The warmup phase of~$W$ rounds is short (three rounds in our
+	experiments) and primarily serves to bootstrap the latency history
+	before adaptive estimation begins; its length is not a sensitive
+	parameter.
+	
+	% ── 6.3 Relationship to Conference Version ───────────────
+	\subsection{Relationship to conference version}\label{sec:relationship}
+	
+	This paper extends our conference work\footnote{Under review at IEEE International Conference on Edge Computing and Communications (EDGE), 2026.} on resource-aware distillation
+	scheduling for synchronous edge networks.  The conference version
+	formulates device scheduling as budgeted submodular maximization
+	under a deterministic quality model, derives the water-filling
+	allocation and greedy selection algorithm, and evaluates on CIFAR-100
+	with a single synchronous protocol.  The present paper makes the
+	following extensions: (i)~an asynchronous protocol with a
+	three-outcome straggler model (complete, partial, timeout) driven by
+	log-normal latency distributions; (ii)~straggler-aware device
+	selection that integrates completion probabilities into the
+	submodular objective, with a new expected quality bound
+	(Theorem~\ref{thm:straggler_bound}); (iii)~three timeout policies
+	with the $D_{\min}$ floor mechanism; and (iv)~comprehensive
+	experiments across six experiment groups covering straggler severity,
+	policy ablation, scalability to 200 devices, cross-dataset validation
+	on EMNIST, and privacy robustness.  Approximately 65\% of the content
+	is new.
+	
+	% ── 6.4 Limitations and Future Work ──────────────────────
+	\subsection{Limitations and future work}\label{sec:limitations}
+	
+	Several limitations of the current work suggest promising directions
+	for future research.  First, the straggler latency model is
+	evaluated through simulation rather than on a physical testbed with
+	real network conditions and heterogeneous edge devices.  While the
+	log-normal noise model is well-established in the networking
+	literature, deploying DASH on a real-world platform would reveal
+	practical considerations such as bursty interference patterns,
+	device mobility, and OS-level scheduling jitter that are not captured
+	by i.i.d.\ noise assumptions.
+	
+	Second, DASH adopts a round-level asynchronous design in which all
+	logits are computed from the current global model, resulting in zero
+	staleness.  This is a deliberate simplification that keeps the
+	aggregation semantics clean.  A more aggressive pipeline-level
+	asynchronous design, where devices may compute logits based on
+	different versions of the global model, could further reduce idle
+	time but would require staleness correction mechanisms tailored to
+	logit-based distillation.  Designing such mechanisms with provable
+	convergence guarantees is a non-trivial extension that we leave to
+	future work.
+	
+	Third, the current framework assumes that all devices share the
+	same model architecture.  Extending DASH to heterogeneous model
+	architectures, where different devices run models of varying depth
+	or width, would broaden its applicability to realistic edge
+	deployments.  The quality function and aggregation weights would
+	need to account for architecture-dependent logit distributions, an
+	aspect that connects to the broader literature on heterogeneous
+	federated distillation.
+	
+	Finally, while Theorem~\ref{thm:straggler_bound} provides a
+	per-round expected quality bound, a formal convergence rate analysis
+	that accounts for the stochastic variation in per-round quality
+	across the full training trajectory remains an open problem.  Such
+	an analysis would provide stronger end-to-end guarantees on the
+	final model accuracy as a function of the straggler rate, budget,
+	and number of rounds.
 	
 	
 	% ══════════════════════════════════════════════════════════
 	\section{Conclusion}\label{sec:conclude}
 	% ══════════════════════════════════════════════════════════
 	
-	% [PLACEHOLDER]
+	This paper presented DASH, a deadline-aware scheduling framework
+	for asynchronous federated distillation over heterogeneous edge
+	networks.  DASH introduces a three-outcome straggler model
+	(complete, partial, timeout) driven by log-normal latency
+	distributions and integrates device completion probabilities into a
+	submodular greedy selection algorithm.  The resulting straggler-aware
+	efficiency index preserves submodularity, enabling a greedy
+	scheduler with a provable
+	$(1-\bar{p})\tfrac{1}{2}(1-1/e)$ expected quality guarantee relative
+	to the deterministic optimum.  Three timeout policies---fixed,
+	adaptive, and partial-accept---offer system-level trade-offs between
+	round latency and knowledge utilization, with the adaptive policy
+	augmented by a $D_{\min}$ floor to prevent deadline spiral.
+	
+	Experiments on CIFAR-100 and EMNIST-ByClass (Extended MNIST) with up to 200 devices
+	demonstrate that DASH achieves accuracy comparable to synchronous
+	scheduling while reducing wall-clock convergence time by
+	$2$--$3.5\times$, with the speedup increasing monotonically as the
+	device pool scales.  The framework maintains stable accuracy across
+	a wide range of straggler severities and privacy levels, confirming
+	that the scheduling and aggregation mechanisms are robust to both
+	latency and noise variations.  These results establish that
+	quality-aware asynchronous scheduling is both feasible and effective
+	for federated distillation at the network edge, opening a path
+	toward practical deployment of logit-based collaborative learning
+	in large-scale heterogeneous IoT environments.
 	
 	
 	% ── CRediT ────────────────────────────────────────────────
@@ -788,67 +1621,6 @@
 	% ── Bibliography ──────────────────────────────────────────
 	\bibliographystyle{cas-model2-names}
 	
-	%% Inline bibliography for standalone compilation.
-	%% Replace with \bibliography{refs} once .bib file is ready.
-	\begin{thebibliography}{99}
-		
-		\bibitem[{Boyd and Vandenberghe(2004)}]{boyd_convex}
-		Boyd, S., Vandenberghe, L., 2004.
-		Convex Optimization.
-		Cambridge University Press.
-		
-		\bibitem[{Khuller et~al.(1999)}]{khuller_knapsack}
-		Khuller, S., Moss, A., Naor, J.S., 1999.
-		The budgeted maximum coverage problem.
-		Information Processing Letters 70~(1), 39--45.
-		
-		\bibitem[{McMahan et~al.(2017)}]{mcmahan_fl}
-		McMahan, B., Moore, E., Ramage, D., Hampson, S., y~Arcas, B.A.,
-		2017.
-		Communication-efficient learning of deep networks from decentralized
-		data.
-		In: Proc.\ AISTATS. pp.\ 1273--1282.
-		
-		\bibitem[{Li and Wang(2019)}]{li_fedmd}
-		Li, D., Wang, J., 2019.
-		{FedMD}: Heterogeneous federated learning via model distillation.
-		arXiv preprint arXiv:1910.03581.
-		
-		\bibitem[{Hinton et~al.(2015)}]{hinton_kd}
-		Hinton, G., Vinyals, O., Dean, J., 2015.
-		Distilling the knowledge in a neural network.
-		arXiv preprint arXiv:1503.02531.
-		
-		\bibitem[{Xie et~al.(2019)}]{xie_fedasync}
-		Xie, C., Koyejo, S., Gupta, I., 2019.
-		Asynchronous federated optimization.
-		arXiv preprint arXiv:1903.03934.
-		
-		\bibitem[{Nguyen et~al.(2022)}]{nguyen_fedbuff}
-		Nguyen, J., Malik, K., Zhan, H., Yousefpour, A., Rabbat, M.,
-		Malek, M., Huba, D., 2022.
-		Federated learning with buffered asynchronous aggregation.
-		In: Proc.\ AISTATS. pp.\ 3581--3607.
-		
-		\bibitem[{Kairouz et~al.(2021)}]{kairouz_fl}
-		Kairouz, P., McMahan, H.B., Avent, B., et~al., 2021.
-		Advances and open problems in federated learning.
-		Foundations and Trends in Machine Learning 14~(1--2), 1--210.
-		
-		\bibitem[{Gad et~al.(2024)}]{gad_fedskd}
-		Gad, G., Fadlullah, Z.M., Fouda, M.M., Ibrahem, M.I., Kato, N.,
-		2024.
-		Federated learning with selective knowledge distillation over
-		bandwidth-constrained wireless networks.
-		In: Proc.\ IEEE ICC. pp.\ 3476--3481.
-		
-		\bibitem[{Balakrishnan et~al.(2022)}]{balakrishnan_diverse}
-		Balakrishnan, R., Li, T., Zhou, T., Himayat, N., Smith, V.,
-		Bilmes, J., 2022.
-		Diverse client selection for federated learning via submodular
-		maximization.
-		In: Proc.\ ICLR.
-		
-	\end{thebibliography}
+	\bibliography{2026_JPDC}
 	
 \end{document}
