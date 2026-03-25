@@ -113,7 +113,7 @@ def fig2():
     ax.legend(loc='upper left', ncol=2,
               framealpha=0.95, edgecolor='gray')
     ax.grid(True, alpha=0.3)
-    ax.set_title('(a) Accuracy vs. Round')
+    # No in-image title — paper uses \subfigure caption
     fig.savefig(FIGDIR / "fig2_acc_vs_round.pdf")
     plt.close(fig)
     print("  ✅ Fig 2: acc_vs_round")
@@ -151,7 +151,7 @@ def fig3():
     ax.legend(loc='center right', ncol=1,
               framealpha=0.95, edgecolor='gray')
     ax.grid(True, alpha=0.3)
-    ax.set_title('(b) Accuracy vs. Wall-Clock Time')
+    # No in-image title — paper uses \subfigure caption
     fig.savefig(FIGDIR / "fig3_acc_vs_wallclock.pdf")
     plt.close(fig)
     print("  ✅ Fig 3: acc_vs_wallclock")
@@ -185,7 +185,7 @@ def fig4_5():
     # Mid-right gap (σ ≈ 1.2, acc ≈ 30 %) is clear
     ax1.set_xlabel(r'Straggler Severity $\sigma$')
     ax1.set_ylabel('Final Accuracy (%)')
-    ax1.set_title(r'(a) Accuracy vs. $\sigma$')
+    ax1.set_title('(a) Final Accuracy')
     ax1.legend(framealpha=0.95, edgecolor='gray', loc='right')
     ax1.grid(True, alpha=0.3)
 
@@ -193,7 +193,7 @@ def fig4_5():
     # Centre gap between DASH & Sync is clear
     ax2.set_xlabel(r'Straggler Severity $\sigma$')
     ax2.set_ylabel('Wall-Clock Time (s)')
-    ax2.set_title(r'(b) Wall-Clock vs. $\sigma$')
+    ax2.set_title('(b) Wall-Clock Time')
     ax2.legend(framealpha=0.95, edgecolor='gray', loc='right')
     ax2.grid(True, alpha=0.3)
 
