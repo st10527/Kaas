@@ -95,7 +95,7 @@ def fig2():
     methods = ["DASH", "Sync-Greedy", "FedBuff-FD",
                "Random-Async", "Full-Async", "Sync-Full"]
 
-    fig, ax = plt.subplots(figsize=(6, 4))
+    fig, ax = plt.subplots(figsize=(5, 4))
     rounds = np.arange(1, 51)
 
     for m in methods:
@@ -115,6 +115,7 @@ def fig2():
     ax.legend(loc='upper left', ncol=2,
               framealpha=0.95, edgecolor='gray')
     ax.grid(True, alpha=0.3)
+    fig.tight_layout()
     fig.savefig(FIGDIR / "fig2_acc_vs_round.pdf")
     plt.close(fig)
     print("  ✅ Fig 2: acc_vs_round")
@@ -128,7 +129,7 @@ def fig3():
     methods = ["DASH", "Sync-Greedy", "FedBuff-FD",
                "Random-Async", "Full-Async", "Sync-Full"]
 
-    fig, ax = plt.subplots(figsize=(6, 4))
+    fig, ax = plt.subplots(figsize=(5, 4))
 
     for m in methods:
         wc_per_round, acc_per_round = [], []
@@ -151,6 +152,7 @@ def fig3():
     ax.legend(loc='center right', ncol=1,
               framealpha=0.95, edgecolor='gray')
     ax.grid(True, alpha=0.3)
+    fig.tight_layout()
     fig.savefig(FIGDIR / "fig3_acc_vs_wallclock.pdf")
     plt.close(fig)
     print("  ✅ Fig 3: acc_vs_wallclock")
@@ -225,7 +227,7 @@ def fig6a():
     policies = ["fixed(5.0)", "fixed(10.0)", "fixed(20.0)",
                 "adaptive(0.5)", "adaptive(0.7)", "adaptive(0.9)"]
 
-    fig, ax = plt.subplots(figsize=(5, 4.5))
+    fig, ax = plt.subplots(figsize=(5, 4))
 
     pcols = plt.cm.tab10(np.linspace(0, 1, len(policies)))
     pnames = [p.replace("(", " ").replace(")", "") for p in policies]
