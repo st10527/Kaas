@@ -88,7 +88,7 @@ def run_one(variant_name, flag_overrides, args, seed):
         distill_epochs=3, distill_lr=0.001,
         pretrain_epochs=5 if args.quick else 10,
         n_ref_samples=len(public_set), straggler_aware=True,
-        timeout_policy="adaptive", fixed_deadline=5.0, sigma_n=0.3,
+        timeout_policy="adaptive", fixed_deadline=5.0, sigma_noise=0.3,
         ablation_use_straggler_selection=True,
         ablation_use_water_filling=True,
         ablation_use_adaptive_timeout=True,
