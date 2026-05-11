@@ -18,6 +18,7 @@ training, logit computation, and LDP noise are identical to the
 synchronous version --- only the scheduling objective changes.
 """
 
+import time
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -37,7 +38,7 @@ from .kaas_edge import (
     _local_train,
     _compute_logits,
 )
-from ..scheduler.rads import RADSScheduler
+from ..scheduler.rads import RADSScheduler, SchedulingResult, DeviceAllocation
 from ..async_module.straggler_model import StragglerModel, DeviceLatency
 from ..async_module.timeout_policy import TimeoutPolicy, create_timeout_policy
 from ..models.utils import copy_model
@@ -61,6 +62,13 @@ class DASHConfig(KaaSEdgeConfig):
 
     # ── DASH-Select: straggler-aware scheduling ──
     straggler_aware: bool = True       # rho_tilde_i = pi_i(D) * rho_i
+
+    # ── Ablation flags (for R2-4 ablation study) ──
+    # Set these to False to disable individual components:
+    ablation_use_straggler_selection: bool = True   # False → random selection
+    ablation_use_water_filling: bool = True         # False → uniform allocation
+    ablation_use_adaptive_timeout: bool = True      # False → fixed deadline (no EMA)
+    ablation_use_quality_weights: bool = True       # False → simple average (w_i=1)
 
 
 # =========================================================================
@@ -185,6 +193,73 @@ class DASH(FederatedMethod):
         return max(D_warmup, 10.0)  # floor of 10 seconds
 
     # ------------------------------------------------------------------
+    # Ablation helper: random selection + uniform allocation
+    # ------------------------------------------------------------------
+
+    def _random_schedule(self, devices: List[Dict], deadline: float) -> SchedulingResult:
+        """Return a SchedulingResult with randomly selected devices (budget-feasible)
+        and uniform allocation — used when ablation_use_straggler_selection=False."""
+        import random as _random
+        budget = self.scheduler.budget
+        v_max = self.scheduler.v_max
+
+        shuffled = list(devices)
+        _random.shuffle(shuffled)
+
+        selected, cost = [], 0.0
+        for d in shuffled:
+            a_i = d.get('a_i', 0.0)
+            # minimum cost if we add this device at v=0 is just a_i;
+            # require at least some variational room
+            if a_i >= budget - cost:
+                continue
+            selected.append(d)
+            cost += a_i
+
+        # Uniform allocation on selected set
+        K = len(selected)
+        allocations = []
+        total_quality = total_cost = 0.0
+        selected_ids = []
+        for d in selected:
+            b = d['b_i']
+            theta = d['theta_i']
+            rho = d['rho_i']
+            residual = budget - sum(dd.get('a_i', 0.0) for dd in selected)
+            v_i = min(residual / max(K * b, 1e-9), v_max) if K > 0 else 0.0
+            q = rho * v_i / (v_i + theta) if v_i > 0 else 0.0
+            tc = d.get('a_i', 0.0) + b * v_i
+            allocations.append(DeviceAllocation(
+                device_id=d['device_id'], selected=True,
+                v_star=v_i, quality=q, cost=tc,
+                rho_i=rho, b_i=b, theta_i=theta, eta_i=d['eta_i'],
+            ))
+            total_quality += q
+            total_cost += tc
+            selected_ids.append(d['device_id'])
+
+        # non-selected devices
+        selected_set = set(selected_ids)
+        for d in devices:
+            if d['device_id'] not in selected_set:
+                allocations.append(DeviceAllocation(
+                    device_id=d['device_id'], selected=False,
+                    v_star=0.0, quality=0.0, cost=0.0,
+                    rho_i=d['rho_i'], b_i=d['b_i'],
+                    theta_i=d['theta_i'], eta_i=d['eta_i'],
+                ))
+
+        return SchedulingResult(
+            allocations=allocations,
+            selected_ids=sorted(selected_ids),
+            total_quality=total_quality,
+            total_cost=total_cost,
+            budget=budget,
+            water_level=0.0,
+            n_selected=K,
+        )
+
+    # ------------------------------------------------------------------
     # Main round
     # ------------------------------------------------------------------
 
@@ -198,6 +273,7 @@ class DASH(FederatedMethod):
     ) -> RoundResult:
         self.current_round = round_idx
         rng = np.random.RandomState(round_idx * 1000 + 7)
+        _t_round_start = time.perf_counter()  # Q3: real GPU time tracking
 
         # Pre-train once
         if not self._pretrained:
@@ -226,22 +302,30 @@ class DASH(FederatedMethod):
             if self._D_min is None and self.config.min_deadline_ratio > 0:
                 self._D_min = deadline * self.config.min_deadline_ratio
         else:
-            deadline = self.timeout_policy.get_deadline(
-                round_idx, self.latency_history,
-            )
-            # Enforce D_min floor to prevent deadline spiral
-            if self._D_min is not None and deadline < self._D_min:
-                deadline = self._D_min
+            if not self.config.ablation_use_adaptive_timeout:
+                # Ablation: fixed deadline, no EMA adaptation
+                deadline = self.config.fixed_deadline
+            else:
+                deadline = self.timeout_policy.get_deadline(
+                    round_idx, self.latency_history,
+                )
+                # Enforce D_min floor to prevent deadline spiral
+                if self._D_min is not None and deadline < self._D_min:
+                    deadline = self._D_min
 
         # ── Step 2: DASH-Select scheduling ──
-        # During warmup: disable straggler-aware to guarantee selection,
-        # so we collect latency history for the adaptive policy.
-        if in_warmup:
-            self.scheduler.straggler_aware = False
-        else:
-            self.scheduler.straggler_aware = self.config.straggler_aware
+        # Ablation: uniform allocation overrides water-filling inside RADS
+        self.scheduler.ablation_uniform_alloc = not self.config.ablation_use_water_filling
         self.scheduler.deadline = deadline
-        sched = self.scheduler.schedule(devices)
+
+        if not in_warmup and not self.config.ablation_use_straggler_selection:
+            # Ablation baseline: random device selection + uniform allocation
+            sched = self._random_schedule(devices, deadline)
+        else:
+            # During warmup: disable straggler-aware to guarantee selection,
+            # so we collect latency history for the adaptive policy.
+            self.scheduler.straggler_aware = False if in_warmup else self.config.straggler_aware
+            sched = self.scheduler.schedule(devices)
         self.scheduling_history.append({
             'round': round_idx,
             'n_selected': sched.n_selected,
@@ -327,9 +411,12 @@ class DASH(FederatedMethod):
 
             # Quality weight — Eq.(26): w_i = rho_i * q_i(v_recv)
             # where q_i(v) = rho_i * v / (v + theta_i)
-            theta_i = alloc.theta_i if alloc else 50.0
-            q_recv = rho_i * v_i / (v_i + theta_i) if v_i > 0 else 0.0
-            w_i = rho_i * q_recv  # extra rho_i: trust higher-fidelity logits
+            if self.config.ablation_use_quality_weights:
+                theta_i = alloc.theta_i if alloc else 50.0
+                q_recv = rho_i * v_i / (v_i + theta_i) if v_i > 0 else 0.0
+                w_i = rho_i * q_recv
+            else:
+                w_i = 1.0  # Ablation: simple average
             uploads.append((idx, logits, w_i))
 
             # Bookkeeping
@@ -363,6 +450,7 @@ class DASH(FederatedMethod):
                 )
 
         # ── Step 8: Update tracking ──
+        _t_round_real = time.perf_counter() - _t_round_start  # Q3: real elapsed
         self.wall_clock_time += deadline
         self.latency_history.append(
             [lat.tau_total for lat in latencies]
@@ -381,6 +469,7 @@ class DASH(FederatedMethod):
             'n_timeout': n_timeout,
             'n_contributing': len(participants),
             'wall_clock_time': self.wall_clock_time,
+            'real_time_s': _t_round_real,  # Q3: actual GPU wall time
         })
 
         # ── Evaluate ──
@@ -412,6 +501,7 @@ class DASH(FederatedMethod):
                 'n_complete': n_complete,
                 'n_partial': n_partial,
                 'n_timeout': n_timeout,
+                'real_time_s': _t_round_real,  # Q3: actual GPU compute time
             },
         )
         self.round_history.append(result)

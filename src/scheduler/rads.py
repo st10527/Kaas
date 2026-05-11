@@ -106,6 +106,7 @@ class RADSScheduler:
         self.straggler_aware = straggler_aware
         self.straggler_model = straggler_model
         self.deadline = deadline
+        self.ablation_uniform_alloc = False  # Q2: set True for -Allocation ablation
         # Per-device rate cache: populated from device dicts during schedule()
         self._device_rates: Dict[int, Tuple[float, float]] = {}
     
@@ -229,9 +230,12 @@ class RADSScheduler:
         # ── Final allocation for selected set ──
         if selected_set:
             residual_budget = self.budget - sum(d.get('a_i', 0.0) for d in selected_set)
-            final_allocs = self._water_filling(
-                selected_set, residual_budget, per_device_v_max,
-            )
+            if self.ablation_uniform_alloc:
+                final_allocs = self._uniform_allocation(selected_set, residual_budget)
+            else:
+                final_allocs = self._water_filling(
+                    selected_set, residual_budget, per_device_v_max,
+                )
         else:
             final_allocs = []
         
@@ -282,6 +286,33 @@ class RADSScheduler:
             n_selected=len(selected_ids)
         )
     
+    def _uniform_allocation(
+        self,
+        device_set: List[Dict],
+        residual_budget: float,
+    ) -> List[Dict]:
+        """
+        Ablation baseline: divide residual budget equally (by cost coefficient b_i).
+        Each device gets v_i = residual_budget / (K * b_i) capped at v_max.
+        """
+        K = len(device_set)
+        if K == 0 or residual_budget <= 0:
+            return []
+        allocs = []
+        for d in device_set:
+            b = d['b_i']
+            theta = d['theta_i']
+            rho = d.get('rho_tilde_i', d['rho_i'])
+            v_i = min(residual_budget / (K * b), self.v_max)
+            quality = rho * v_i / (v_i + theta) if v_i > 0 else 0.0
+            allocs.append({
+                'device_id': d['device_id'],
+                'v_star': v_i,
+                'quality': quality,
+                'nu': 0.0,
+            })
+        return allocs
+
     def _water_filling(
         self,
         device_set: List[Dict],
