@@ -25,7 +25,8 @@ def get_model(
     """
     from .cnn import SimpleCNN, CNN_CIFAR
     from .resnet import ResNet18, ResNet34
-    
+    from .textcnn import TextCNN
+
     models = {
         'resnet18': ResNet18,
         'resnet34': ResNet34,
@@ -33,6 +34,8 @@ def get_model(
         'cnn_cifar': CNN_CIFAR,
         'simple_cnn': SimpleCNN,
         'simplecnn': SimpleCNN,
+        'textcnn': TextCNN,
+        'text_cnn': TextCNN,
     }
     
     name_lower = name.lower()
