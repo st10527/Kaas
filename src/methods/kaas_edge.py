@@ -60,7 +60,7 @@ def compute_comm_mb(n_vectors, n_classes=100):
 
 def _do_pretrain(model, loader, epochs, lr, device):
     print(f"  [Pre-train] {epochs} epochs ...")
-    aug = transforms.Compose([
+    img_aug = transforms.Compose([
         transforms.RandomCrop(32, padding=4, padding_mode='reflect'),
         transforms.RandomHorizontalFlip()
     ])
@@ -70,7 +70,11 @@ def _do_pretrain(model, loader, epochs, lr, device):
     for _ in range(epochs):
         model.train()
         for d, t in loader:
-            d = aug(d).to(device); t = t.to(device)
+            # Apply image augmentation only for float tensors (images);
+            # LongTensor inputs (text token ids) are passed through as-is.
+            if d.dtype == torch.float32 or d.dtype == torch.float16:
+                d = img_aug(d)
+            d = d.to(device); t = t.to(device)
             opt.zero_grad(); crit(model(d), t).backward(); opt.step()
         sched.step()
     print(f"  [Pre-train] Done.")
@@ -89,7 +93,8 @@ def _do_distill(model, optimizer, teacher_probs, ref_imgs, ref_lbls,
         perm = torch.randperm(n)
         for s in range(0, n, 256):
             e = min(s + 256, n); idx = perm[s:e]
-            d = aug(ref_imgs[idx]).to(device)
+            ri = ref_imgs[idx]
+            d = (aug(ri) if (ri.dtype == torch.float32 or ri.dtype == torch.float16) else ri).to(device)
             tp = teacher_probs[idx].to(device)
             sl = model(d)
             loss_kl = F.kl_div(

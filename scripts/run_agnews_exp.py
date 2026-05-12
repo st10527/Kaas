@@ -117,7 +117,7 @@ def run_one(method_name, args, seed):
         config = FedAvgConfig(
             local_epochs=2,
             local_lr=0.01,
-            fraction=0.1,
+            participation_rate=0.1,
         )
         method = FedAvg(create_model(), config=config, device=args.device)
 
