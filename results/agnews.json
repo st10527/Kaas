@@ -1,0 +1,182 @@
+{
+  "DASH": {
+    "seeds": [
+      {
+        "method": "DASH",
+        "seed": 0,
+        "history": [
+          {
+            "round": 0,
+            "accuracy": 0.5981578947368421,
+            "loss": 2.9961631845173082,
+            "participation_rate": 0.9,
+            "n_participants": 9,
+            "energy": {
+              "training": 18.38163599349406,
+              "inference": 13.786226995120547,
+              "communication": 13.786226995120547
+            },
+            "real_time_s": 5.620743880048394,
+            "wall_clock": 39.12536836416627
+          },
+          {
+            "round": 1,
+            "accuracy": 0.5563157894736842,
+            "loss": 2.6448027415024606,
+            "participation_rate": 0.9,
+            "n_participants": 9,
+            "energy": {
+              "training": 18.38163599349406,
+              "inference": 13.786226995120547,
+              "communication": 13.786226995120547
+            },
+            "real_time_s": 4.606529257027432,
+            "wall_clock": 78.25073672833254
+          },
+          {
+            "round": 2,
+            "accuracy": 0.536578947368421,
+            "loss": 2.349386409458361,
+            "participation_rate": 0.9,
+            "n_participants": 9,
+            "energy": {
+              "training": 18.38163599349406,
+              "inference": 13.786226995120547,
+              "communication": 13.786226995120547
+            },
+            "real_time_s": 4.935326352948323,
+            "wall_clock": 117.37610509249882
+          }
+        ],
+        "final_accuracy": 0.536578947368421,
+        "best_accuracy": 0.5981578947368421,
+        "total_time": 15.385309934616089
+      }
+    ],
+    "aggregate": {
+      "mean_final_accuracy": 0.536578947368421,
+      "std_final_accuracy": 0.0,
+      "mean_best_accuracy": 0.5981578947368421
+    }
+  },
+  "FedAvg": {
+    "seeds": [
+      {
+        "method": "FedAvg",
+        "seed": 0,
+        "history": [
+          {
+            "round": 0,
+            "accuracy": 0.4214473684210526,
+            "loss": 5.25403063523142,
+            "participation_rate": 0.1,
+            "n_participants": 1,
+            "energy": {
+              "training": 0.7918999999999999,
+              "inference": 0.0,
+              "communication": 73.25133950756333
+            },
+            "real_time_s": 0.0,
+            "wall_clock": 0.0
+          },
+          {
+            "round": 1,
+            "accuracy": 0.5036842105263157,
+            "loss": 1.8738116018395674,
+            "participation_rate": 0.1,
+            "n_participants": 1,
+            "energy": {
+              "training": 0.6465,
+              "inference": 0.0,
+              "communication": 59.801731268644645
+            },
+            "real_time_s": 0.0,
+            "wall_clock": 0.0
+          },
+          {
+            "round": 2,
+            "accuracy": 0.3411842105263158,
+            "loss": 2.7301608893745826,
+            "participation_rate": 0.1,
+            "n_participants": 1,
+            "energy": {
+              "training": 1.5906999999999998,
+              "inference": 0.0,
+              "communication": 147.14093415163657
+            },
+            "real_time_s": 0.0,
+            "wall_clock": 0.0
+          }
+        ],
+        "final_accuracy": 0.3411842105263158,
+        "best_accuracy": 0.5036842105263157,
+        "total_time": 1.5712308883666992
+      }
+    ],
+    "aggregate": {
+      "mean_final_accuracy": 0.3411842105263158,
+      "std_final_accuracy": 0.0,
+      "mean_best_accuracy": 0.5036842105263157
+    }
+  },
+  "RandomSelection": {
+    "seeds": [
+      {
+        "method": "RandomSelection",
+        "seed": 0,
+        "history": [
+          {
+            "round": 0,
+            "accuracy": 0.47789473684210526,
+            "loss": 5.465991422753585,
+            "participation_rate": 0.1,
+            "n_participants": 1,
+            "energy": {
+              "training": 1.6183618443643006,
+              "inference": 1.2137713832732253,
+              "communication": 1.2137713832732253
+            },
+            "real_time_s": 0.0,
+            "wall_clock": 0.0
+          },
+          {
+            "round": 1,
+            "accuracy": 0.6085526315789473,
+            "loss": 2.131941164418271,
+            "participation_rate": 0.1,
+            "n_participants": 1,
+            "energy": {
+              "training": 6.854808408607322,
+              "inference": 5.141106306455491,
+              "communication": 5.141106306455491
+            },
+            "real_time_s": 0.0,
+            "wall_clock": 0.0
+          },
+          {
+            "round": 2,
+            "accuracy": 0.5563157894736842,
+            "loss": 2.3000884332154925,
+            "participation_rate": 0.1,
+            "n_participants": 1,
+            "energy": {
+              "training": 2.3612118687577723,
+              "inference": 1.7709089015683293,
+              "communication": 1.7709089015683293
+            },
+            "real_time_s": 0.0,
+            "wall_clock": 0.0
+          }
+        ],
+        "final_accuracy": 0.5563157894736842,
+        "best_accuracy": 0.6085526315789473,
+        "total_time": 2.261329412460327
+      }
+    ],
+    "aggregate": {
+      "mean_final_accuracy": 0.5563157894736842,
+      "std_final_accuracy": 0.0,
+      "mean_best_accuracy": 0.6085526315789473
+    }
+  }
+}
