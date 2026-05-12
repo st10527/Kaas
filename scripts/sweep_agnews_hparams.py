@@ -168,10 +168,16 @@ def run_dash(hparams: dict, args, seed: int,
 # Grid definition
 # ─────────────────────────────────────────────────────────────────
 
+# Full grid: focused on region confirmed by quick sweep.
+# Quick sweep showed α=0.00 (pure CE) dominates; all α>0 configs degrade.
+# → Sweep α boundary [0.0, 0.05, 0.10] to confirm, skip larger values.
+# → Fine lr sweep around best region [5e-3, 1e-2, 2e-2].
+# → T only matters when α>0; keep [1.0, 2.0] for completeness.
+# Total: 5 lr × 3 alpha × 2 T = 30 configs × 3 seeds × 50 rounds
 FULL_GRID = {
-    "local_lr":      [1e-4, 5e-4, 1e-3, 5e-3, 1e-2],
-    "distill_alpha": [0.0,  0.1,  0.2,  0.5,  0.8],
-    "temperature":   [1.0,  2.0,  3.0,  4.0],
+    "local_lr":      [1e-3, 3e-3, 5e-3, 1e-2, 2e-2],
+    "distill_alpha": [0.0,  0.05, 0.10],
+    "temperature":   [1.0,  2.0],
 }
 
 QUICK_GRID = {
@@ -196,10 +202,10 @@ def parse_args():
         description="Hyperparameter sweep: DASH on AG News")
     p.add_argument("--quick",      action="store_true",
                    help="3×3×3 grid, 1 seed, 10 rounds (sanity check)")
-    p.add_argument("--rounds",     type=int, default=30,
-                   help="Training rounds per config (default 30)")
-    p.add_argument("--seeds",      type=int, default=2,
-                   help="Seeds per config (default 2)")
+    p.add_argument("--rounds",     type=int, default=50,
+                   help="Training rounds per config (default 50)")
+    p.add_argument("--seeds",      type=int, default=3,
+                   help="Seeds per config (default 3)")
     p.add_argument("--n_clients",  type=int, default=100)
     p.add_argument("--device",     type=str,
                    default="cuda" if torch.cuda.is_available() else "cpu")

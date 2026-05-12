@@ -103,11 +103,11 @@ def run_one(method_name, args, seed):
             budget=50.0,
             v_max=len(public_set),
             local_epochs=2,
-            local_lr=0.001,        # TextCNN converges fast; 0.01 causes too much client drift
+            local_lr=0.01,         # sweep confirmed: 1e-2 best for TextCNN
             distill_epochs=3,
             distill_lr=0.001,
-            distill_alpha=0.2,     # 20% KL + 80% CE; 4-class soft-labels carry less info
-            temperature=2.0,       # slightly sharper than 3.0 default for 4-class
+            distill_alpha=0.0,     # sweep confirmed: pure CE (α=0) best for 4-class AG News
+            temperature=1.0,       # T irrelevant when α=0, set 1.0 for consistency
             pretrain_epochs=5 if args.quick else 10,
             n_ref_samples=len(public_set),
             straggler_aware=True,
@@ -132,11 +132,11 @@ def run_one(method_name, args, seed):
             budget=50.0,
             v_max=len(public_set),
             local_epochs=2,
-            local_lr=0.001,        # reduce client drift for TextCNN
+            local_lr=0.01,         # sweep confirmed: 1e-2 best
             distill_epochs=3,
             distill_lr=0.001,
-            distill_alpha=0.2,     # 20% KL + 80% CE
-            temperature=2.0,
+            distill_alpha=0.0,     # sweep confirmed: pure CE best for 4-class
+            temperature=1.0,
             pretrain_epochs=5 if args.quick else 10,
             n_ref_samples=len(public_set),
         )
