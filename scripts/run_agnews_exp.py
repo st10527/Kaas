@@ -103,11 +103,12 @@ def run_one(method_name, args, seed):
             budget=50.0,
             v_max=len(public_set),
             local_epochs=2,
-            local_lr=0.01,         # sweep confirmed: 1e-2 best for TextCNN
+            local_lr=3e-3,         # full sweep (30 configs×3 seeds×50 rounds): best stable config
+                                   # lr=1e-2 was rank-1 in quick sweep but UNSTABLE (1/3 seeds collapse)
             distill_epochs=3,
             distill_lr=0.001,
-            distill_alpha=0.0,     # sweep confirmed: pure CE (α=0) best for 4-class AG News
-            temperature=1.0,       # T irrelevant when α=0, set 1.0 for consistency
+            distill_alpha=0.0,     # confirmed: pure CE (α=0) best; any KL degrades 4-class performance
+            temperature=2.0,       # T=2.0 slightly edges T=1.0 (irrelevant when α=0, but kept for consistency)
             pretrain_epochs=5 if args.quick else 10,
             n_ref_samples=len(public_set),
             straggler_aware=True,
@@ -132,11 +133,11 @@ def run_one(method_name, args, seed):
             budget=50.0,
             v_max=len(public_set),
             local_epochs=2,
-            local_lr=0.01,         # sweep confirmed: 1e-2 best
+            local_lr=3e-3,         # same as DASH: lr=1e-2 is unstable (1/3 seeds collapse)
             distill_epochs=3,
             distill_lr=0.001,
-            distill_alpha=0.0,     # sweep confirmed: pure CE best for 4-class
-            temperature=1.0,
+            distill_alpha=0.0,     # pure CE best
+            temperature=2.0,
             pretrain_epochs=5 if args.quick else 10,
             n_ref_samples=len(public_set),
         )
