@@ -1,0 +1,1967 @@
+{
+  "summary": [
+    {
+      "local_lr": 0.01,
+      "distill_alpha": 0.0,
+      "temperature": 1.0,
+      "mean_final_accuracy": 0.8101315789473684,
+      "std_final_accuracy": 0.0,
+      "mean_best_accuracy": 0.8101315789473684,
+      "n_seeds": 1
+    },
+    {
+      "local_lr": 0.001,
+      "distill_alpha": 0.0,
+      "temperature": 2.0,
+      "mean_final_accuracy": 0.809078947368421,
+      "std_final_accuracy": 0.0,
+      "mean_best_accuracy": 0.809078947368421,
+      "n_seeds": 1
+    },
+    {
+      "local_lr": 0.01,
+      "distill_alpha": 0.0,
+      "temperature": 3.0,
+      "mean_final_accuracy": 0.8069736842105263,
+      "std_final_accuracy": 0.0,
+      "mean_best_accuracy": 0.8069736842105263,
+      "n_seeds": 1
+    },
+    {
+      "local_lr": 0.0001,
+      "distill_alpha": 0.0,
+      "temperature": 1.0,
+      "mean_final_accuracy": 0.8023684210526316,
+      "std_final_accuracy": 0.0,
+      "mean_best_accuracy": 0.8027631578947368,
+      "n_seeds": 1
+    },
+    {
+      "local_lr": 0.001,
+      "distill_alpha": 0.0,
+      "temperature": 1.0,
+      "mean_final_accuracy": 0.7988157894736843,
+      "std_final_accuracy": 0.0,
+      "mean_best_accuracy": 0.7988157894736843,
+      "n_seeds": 1
+    },
+    {
+      "local_lr": 0.0001,
+      "distill_alpha": 0.0,
+      "temperature": 3.0,
+      "mean_final_accuracy": 0.7981578947368421,
+      "std_final_accuracy": 0.0,
+      "mean_best_accuracy": 0.7985526315789474,
+      "n_seeds": 1
+    },
+    {
+      "local_lr": 0.001,
+      "distill_alpha": 0.0,
+      "temperature": 3.0,
+      "mean_final_accuracy": 0.7928947368421052,
+      "std_final_accuracy": 0.0,
+      "mean_best_accuracy": 0.7930263157894737,
+      "n_seeds": 1
+    },
+    {
+      "local_lr": 0.0001,
+      "distill_alpha": 0.0,
+      "temperature": 2.0,
+      "mean_final_accuracy": 0.79,
+      "std_final_accuracy": 0.0,
+      "mean_best_accuracy": 0.79,
+      "n_seeds": 1
+    },
+    {
+      "local_lr": 0.001,
+      "distill_alpha": 0.2,
+      "temperature": 1.0,
+      "mean_final_accuracy": 0.7473684210526316,
+      "std_final_accuracy": 0.0,
+      "mean_best_accuracy": 0.7886842105263158,
+      "n_seeds": 1
+    },
+    {
+      "local_lr": 0.01,
+      "distill_alpha": 0.5,
+      "temperature": 1.0,
+      "mean_final_accuracy": 0.7305263157894737,
+      "std_final_accuracy": 0.0,
+      "mean_best_accuracy": 0.7801315789473684,
+      "n_seeds": 1
+    },
+    {
+      "local_lr": 0.01,
+      "distill_alpha": 0.2,
+      "temperature": 1.0,
+      "mean_final_accuracy": 0.724078947368421,
+      "std_final_accuracy": 0.0,
+      "mean_best_accuracy": 0.7888157894736842,
+      "n_seeds": 1
+    },
+    {
+      "local_lr": 0.001,
+      "distill_alpha": 0.2,
+      "temperature": 2.0,
+      "mean_final_accuracy": 0.7005263157894737,
+      "std_final_accuracy": 0.0,
+      "mean_best_accuracy": 0.7888157894736842,
+      "n_seeds": 1
+    },
+    {
+      "local_lr": 0.0001,
+      "distill_alpha": 0.2,
+      "temperature": 2.0,
+      "mean_final_accuracy": 0.7,
+      "std_final_accuracy": 0.0,
+      "mean_best_accuracy": 0.7838157894736842,
+      "n_seeds": 1
+    },
+    {
+      "local_lr": 0.001,
+      "distill_alpha": 0.5,
+      "temperature": 1.0,
+      "mean_final_accuracy": 0.6848684210526316,
+      "std_final_accuracy": 0.0,
+      "mean_best_accuracy": 0.7888157894736842,
+      "n_seeds": 1
+    },
+    {
+      "local_lr": 0.01,
+      "distill_alpha": 0.2,
+      "temperature": 2.0,
+      "mean_final_accuracy": 0.6843421052631579,
+      "std_final_accuracy": 0.0,
+      "mean_best_accuracy": 0.7785526315789474,
+      "n_seeds": 1
+    },
+    {
+      "local_lr": 0.0001,
+      "distill_alpha": 0.5,
+      "temperature": 1.0,
+      "mean_final_accuracy": 0.6731578947368421,
+      "std_final_accuracy": 0.0,
+      "mean_best_accuracy": 0.7943421052631578,
+      "n_seeds": 1
+    },
+    {
+      "local_lr": 0.001,
+      "distill_alpha": 0.5,
+      "temperature": 3.0,
+      "mean_final_accuracy": 0.6643421052631578,
+      "std_final_accuracy": 0.0,
+      "mean_best_accuracy": 0.7881578947368421,
+      "n_seeds": 1
+    },
+    {
+      "local_lr": 0.001,
+      "distill_alpha": 0.2,
+      "temperature": 3.0,
+      "mean_final_accuracy": 0.6453947368421052,
+      "std_final_accuracy": 0.0,
+      "mean_best_accuracy": 0.7678947368421053,
+      "n_seeds": 1
+    },
+    {
+      "local_lr": 0.001,
+      "distill_alpha": 0.5,
+      "temperature": 2.0,
+      "mean_final_accuracy": 0.6380263157894737,
+      "std_final_accuracy": 0.0,
+      "mean_best_accuracy": 0.7896052631578947,
+      "n_seeds": 1
+    },
+    {
+      "local_lr": 0.01,
+      "distill_alpha": 0.5,
+      "temperature": 3.0,
+      "mean_final_accuracy": 0.6192105263157894,
+      "std_final_accuracy": 0.0,
+      "mean_best_accuracy": 0.7832894736842105,
+      "n_seeds": 1
+    },
+    {
+      "local_lr": 0.01,
+      "distill_alpha": 0.5,
+      "temperature": 2.0,
+      "mean_final_accuracy": 0.5994736842105263,
+      "std_final_accuracy": 0.0,
+      "mean_best_accuracy": 0.7823684210526316,
+      "n_seeds": 1
+    },
+    {
+      "local_lr": 0.0001,
+      "distill_alpha": 0.5,
+      "temperature": 3.0,
+      "mean_final_accuracy": 0.5868421052631579,
+      "std_final_accuracy": 0.0,
+      "mean_best_accuracy": 0.7932894736842105,
+      "n_seeds": 1
+    },
+    {
+      "local_lr": 0.0001,
+      "distill_alpha": 0.2,
+      "temperature": 1.0,
+      "mean_final_accuracy": 0.25,
+      "std_final_accuracy": 0.0,
+      "mean_best_accuracy": 0.25,
+      "n_seeds": 1
+    },
+    {
+      "local_lr": 0.0001,
+      "distill_alpha": 0.2,
+      "temperature": 3.0,
+      "mean_final_accuracy": 0.25,
+      "std_final_accuracy": 0.0,
+      "mean_best_accuracy": 0.25,
+      "n_seeds": 1
+    },
+    {
+      "local_lr": 0.0001,
+      "distill_alpha": 0.5,
+      "temperature": 2.0,
+      "mean_final_accuracy": 0.25,
+      "std_final_accuracy": 0.0,
+      "mean_best_accuracy": 0.25,
+      "n_seeds": 1
+    },
+    {
+      "local_lr": 0.01,
+      "distill_alpha": 0.0,
+      "temperature": 2.0,
+      "mean_final_accuracy": 0.25,
+      "std_final_accuracy": 0.0,
+      "mean_best_accuracy": 0.25,
+      "n_seeds": 1
+    },
+    {
+      "local_lr": 0.01,
+      "distill_alpha": 0.2,
+      "temperature": 3.0,
+      "mean_final_accuracy": 0.25,
+      "std_final_accuracy": 0.0,
+      "mean_best_accuracy": 0.25,
+      "n_seeds": 1
+    }
+  ],
+  "top1_hparams": {
+    "local_lr": 0.01,
+    "distill_alpha": 0.0,
+    "temperature": 1.0,
+    "mean_final_accuracy": 0.8101315789473684,
+    "std_final_accuracy": 0.0,
+    "mean_best_accuracy": 0.8101315789473684,
+    "n_seeds": 1
+  },
+  "sweep_args": {
+    "quick": true,
+    "rounds": 10,
+    "seeds": 1,
+    "n_clients": 100,
+    "device": "cuda",
+    "output": "results/agnews_sweep.json"
+  },
+  "all_runs": [
+    {
+      "hparams": {
+        "local_lr": 0.0001,
+        "distill_alpha": 0.0,
+        "temperature": 1.0
+      },
+      "seed": 0,
+      "final_accuracy": 0.8023684210526316,
+      "best_accuracy": 0.8027631578947368,
+      "history": [
+        {
+          "round": 0,
+          "accuracy": 0.8007894736842105,
+          "loss": 476.45532281172905
+        },
+        {
+          "round": 1,
+          "accuracy": 0.8017105263157894,
+          "loss": 476.7213743832237
+        },
+        {
+          "round": 2,
+          "accuracy": 0.8015789473684211,
+          "loss": 476.9395023064864
+        },
+        {
+          "round": 3,
+          "accuracy": 0.8018421052631579,
+          "loss": 478.4870321173417
+        },
+        {
+          "round": 4,
+          "accuracy": 0.8025,
+          "loss": 479.55112462093956
+        },
+        {
+          "round": 5,
+          "accuracy": 0.8018421052631579,
+          "loss": 481.6565419086657
+        },
+        {
+          "round": 6,
+          "accuracy": 0.8026315789473685,
+          "loss": 482.3814350971423
+        },
+        {
+          "round": 7,
+          "accuracy": 0.8027631578947368,
+          "loss": 483.2711595073499
+        },
+        {
+          "round": 8,
+          "accuracy": 0.8027631578947368,
+          "loss": 483.6385346743935
+        },
+        {
+          "round": 9,
+          "accuracy": 0.8023684210526316,
+          "loss": 484.68867200349507
+        }
+      ],
+      "elapsed_s": 46.366018772125244
+    },
+    {
+      "hparams": {
+        "local_lr": 0.0001,
+        "distill_alpha": 0.0,
+        "temperature": 2.0
+      },
+      "seed": 0,
+      "final_accuracy": 0.79,
+      "best_accuracy": 0.79,
+      "history": [
+        {
+          "round": 0,
+          "accuracy": 0.786578947368421,
+          "loss": 346.157732865183
+        },
+        {
+          "round": 1,
+          "accuracy": 0.7881578947368421,
+          "loss": 346.7365362870066
+        },
+        {
+          "round": 2,
+          "accuracy": 0.7881578947368421,
+          "loss": 347.0111141485917
+        },
+        {
+          "round": 3,
+          "accuracy": 0.7881578947368421,
+          "loss": 348.0916127415707
+        },
+        {
+          "round": 4,
+          "accuracy": 0.7882894736842105,
+          "loss": 348.5791313091077
+        },
+        {
+          "round": 5,
+          "accuracy": 0.7898684210526316,
+          "loss": 349.0910182591488
+        },
+        {
+          "round": 6,
+          "accuracy": 0.7898684210526316,
+          "loss": 349.862867656507
+        },
+        {
+          "round": 7,
+          "accuracy": 0.7896052631578947,
+          "loss": 350.55018590023644
+        },
+        {
+          "round": 8,
+          "accuracy": 0.79,
+          "loss": 351.12476318359376
+        },
+        {
+          "round": 9,
+          "accuracy": 0.79,
+          "loss": 351.7702822715358
+        }
+      ],
+      "elapsed_s": 45.11679744720459
+    },
+    {
+      "hparams": {
+        "local_lr": 0.0001,
+        "distill_alpha": 0.0,
+        "temperature": 3.0
+      },
+      "seed": 0,
+      "final_accuracy": 0.7981578947368421,
+      "best_accuracy": 0.7985526315789474,
+      "history": [
+        {
+          "round": 0,
+          "accuracy": 0.7936842105263158,
+          "loss": 4895.173166632401
+        },
+        {
+          "round": 1,
+          "accuracy": 0.7943421052631578,
+          "loss": 4884.228386101974
+        },
+        {
+          "round": 2,
+          "accuracy": 0.7953947368421053,
+          "loss": 4887.991824115954
+        },
+        {
+          "round": 3,
+          "accuracy": 0.796578947368421,
+          "loss": 4882.479910053454
+        },
+        {
+          "round": 4,
+          "accuracy": 0.7972368421052631,
+          "loss": 4879.573264288651
+        },
+        {
+          "round": 5,
+          "accuracy": 0.7977631578947368,
+          "loss": 4879.116907894737
+        },
+        {
+          "round": 6,
+          "accuracy": 0.7981578947368421,
+          "loss": 4877.256220189145
+        },
+        {
+          "round": 7,
+          "accuracy": 0.7985526315789474,
+          "loss": 4879.45736379523
+        },
+        {
+          "round": 8,
+          "accuracy": 0.7985526315789474,
+          "loss": 4886.077341694079
+        },
+        {
+          "round": 9,
+          "accuracy": 0.7981578947368421,
+          "loss": 4891.818728412829
+        }
+      ],
+      "elapsed_s": 45.26122808456421
+    },
+    {
+      "hparams": {
+        "local_lr": 0.0001,
+        "distill_alpha": 0.2,
+        "temperature": 1.0
+      },
+      "seed": 0,
+      "final_accuracy": 0.25,
+      "best_accuracy": 0.25,
+      "history": [
+        {
+          "round": 0,
+          "accuracy": 0.25,
+          "loss": NaN
+        },
+        {
+          "round": 1,
+          "accuracy": 0.25,
+          "loss": NaN
+        },
+        {
+          "round": 2,
+          "accuracy": 0.25,
+          "loss": NaN
+        },
+        {
+          "round": 3,
+          "accuracy": 0.25,
+          "loss": NaN
+        },
+        {
+          "round": 4,
+          "accuracy": 0.25,
+          "loss": NaN
+        },
+        {
+          "round": 5,
+          "accuracy": 0.25,
+          "loss": NaN
+        },
+        {
+          "round": 6,
+          "accuracy": 0.25,
+          "loss": NaN
+        },
+        {
+          "round": 7,
+          "accuracy": 0.25,
+          "loss": NaN
+        },
+        {
+          "round": 8,
+          "accuracy": 0.25,
+          "loss": NaN
+        },
+        {
+          "round": 9,
+          "accuracy": 0.25,
+          "loss": NaN
+        }
+      ],
+      "elapsed_s": 45.5071816444397
+    },
+    {
+      "hparams": {
+        "local_lr": 0.0001,
+        "distill_alpha": 0.2,
+        "temperature": 2.0
+      },
+      "seed": 0,
+      "final_accuracy": 0.7,
+      "best_accuracy": 0.7838157894736842,
+      "history": [
+        {
+          "round": 0,
+          "accuracy": 0.7838157894736842,
+          "loss": 869.5747472502056
+        },
+        {
+          "round": 1,
+          "accuracy": 0.7767105263157895,
+          "loss": 791.6283724172491
+        },
+        {
+          "round": 2,
+          "accuracy": 0.7648684210526315,
+          "loss": 727.2372172466078
+        },
+        {
+          "round": 3,
+          "accuracy": 0.7536842105263157,
+          "loss": 673.9744162469161
+        },
+        {
+          "round": 4,
+          "accuracy": 0.7423684210526316,
+          "loss": 632.7730024157072
+        },
+        {
+          "round": 5,
+          "accuracy": 0.7305263157894737,
+          "loss": 598.5215391781455
+        },
+        {
+          "round": 6,
+          "accuracy": 0.7236842105263158,
+          "loss": 565.5396105314555
+        },
+        {
+          "round": 7,
+          "accuracy": 0.7148684210526316,
+          "loss": 538.0487198036595
+        },
+        {
+          "round": 8,
+          "accuracy": 0.7085526315789473,
+          "loss": 513.4201153885691
+        },
+        {
+          "round": 9,
+          "accuracy": 0.7,
+          "loss": 494.36174734015214
+        }
+      ],
+      "elapsed_s": 45.266499519348145
+    },
+    {
+      "hparams": {
+        "local_lr": 0.0001,
+        "distill_alpha": 0.2,
+        "temperature": 3.0
+      },
+      "seed": 0,
+      "final_accuracy": 0.25,
+      "best_accuracy": 0.25,
+      "history": [
+        {
+          "round": 0,
+          "accuracy": 0.25,
+          "loss": NaN
+        },
+        {
+          "round": 1,
+          "accuracy": 0.25,
+          "loss": NaN
+        },
+        {
+          "round": 2,
+          "accuracy": 0.25,
+          "loss": NaN
+        },
+        {
+          "round": 3,
+          "accuracy": 0.25,
+          "loss": NaN
+        },
+        {
+          "round": 4,
+          "accuracy": 0.25,
+          "loss": NaN
+        },
+        {
+          "round": 5,
+          "accuracy": 0.25,
+          "loss": NaN
+        },
+        {
+          "round": 6,
+          "accuracy": 0.25,
+          "loss": NaN
+        },
+        {
+          "round": 7,
+          "accuracy": 0.25,
+          "loss": NaN
+        },
+        {
+          "round": 8,
+          "accuracy": 0.25,
+          "loss": NaN
+        },
+        {
+          "round": 9,
+          "accuracy": 0.25,
+          "loss": NaN
+        }
+      ],
+      "elapsed_s": 45.63946199417114
+    },
+    {
+      "hparams": {
+        "local_lr": 0.0001,
+        "distill_alpha": 0.5,
+        "temperature": 1.0
+      },
+      "seed": 0,
+      "final_accuracy": 0.6731578947368421,
+      "best_accuracy": 0.7943421052631578,
+      "history": [
+        {
+          "round": 0,
+          "accuracy": 0.7943421052631578,
+          "loss": 319.6880855520148
+        },
+        {
+          "round": 1,
+          "accuracy": 0.7806578947368421,
+          "loss": 295.32918004086144
+        },
+        {
+          "round": 2,
+          "accuracy": 0.7640789473684211,
+          "loss": 278.1931759161698
+        },
+        {
+          "round": 3,
+          "accuracy": 0.7456578947368421,
+          "loss": 266.20925977204973
+        },
+        {
+          "round": 4,
+          "accuracy": 0.7305263157894737,
+          "loss": 252.4529133043791
+        },
+        {
+          "round": 5,
+          "accuracy": 0.7193421052631579,
+          "loss": 240.4610629111842
+        },
+        {
+          "round": 6,
+          "accuracy": 0.7035526315789473,
+          "loss": 230.22502039859168
+        },
+        {
+          "round": 7,
+          "accuracy": 0.6934210526315789,
+          "loss": 219.22598109195107
+        },
+        {
+          "round": 8,
+          "accuracy": 0.6817105263157894,
+          "loss": 210.55322962710733
+        },
+        {
+          "round": 9,
+          "accuracy": 0.6731578947368421,
+          "loss": 200.874096197831
+        }
+      ],
+      "elapsed_s": 45.327537536621094
+    },
+    {
+      "hparams": {
+        "local_lr": 0.0001,
+        "distill_alpha": 0.5,
+        "temperature": 2.0
+      },
+      "seed": 0,
+      "final_accuracy": 0.25,
+      "best_accuracy": 0.25,
+      "history": [
+        {
+          "round": 0,
+          "accuracy": 0.25,
+          "loss": NaN
+        },
+        {
+          "round": 1,
+          "accuracy": 0.25,
+          "loss": NaN
+        },
+        {
+          "round": 2,
+          "accuracy": 0.25,
+          "loss": NaN
+        },
+        {
+          "round": 3,
+          "accuracy": 0.25,
+          "loss": NaN
+        },
+        {
+          "round": 4,
+          "accuracy": 0.25,
+          "loss": NaN
+        },
+        {
+          "round": 5,
+          "accuracy": 0.25,
+          "loss": NaN
+        },
+        {
+          "round": 6,
+          "accuracy": 0.25,
+          "loss": NaN
+        },
+        {
+          "round": 7,
+          "accuracy": 0.25,
+          "loss": NaN
+        },
+        {
+          "round": 8,
+          "accuracy": 0.25,
+          "loss": NaN
+        },
+        {
+          "round": 9,
+          "accuracy": 0.25,
+          "loss": NaN
+        }
+      ],
+      "elapsed_s": 45.57368087768555
+    },
+    {
+      "hparams": {
+        "local_lr": 0.0001,
+        "distill_alpha": 0.5,
+        "temperature": 3.0
+      },
+      "seed": 0,
+      "final_accuracy": 0.5868421052631579,
+      "best_accuracy": 0.7932894736842105,
+      "history": [
+        {
+          "round": 0,
+          "accuracy": 0.7932894736842105,
+          "loss": 706.3867194567229
+        },
+        {
+          "round": 1,
+          "accuracy": 0.7790789473684211,
+          "loss": 620.065547710218
+        },
+        {
+          "round": 2,
+          "accuracy": 0.7681578947368422,
+          "loss": 549.0842868523848
+        },
+        {
+          "round": 3,
+          "accuracy": 0.7510526315789474,
+          "loss": 492.57703253495066
+        },
+        {
+          "round": 4,
+          "accuracy": 0.7305263157894737,
+          "loss": 453.9724611944901
+        },
+        {
+          "round": 5,
+          "accuracy": 0.7005263157894737,
+          "loss": 435.3859017141242
+        },
+        {
+          "round": 6,
+          "accuracy": 0.6669736842105263,
+          "loss": 435.4839435135691
+        },
+        {
+          "round": 7,
+          "accuracy": 0.6323684210526316,
+          "loss": 437.1367319849918
+        },
+        {
+          "round": 8,
+          "accuracy": 0.6046052631578948,
+          "loss": 434.12315500359784
+        },
+        {
+          "round": 9,
+          "accuracy": 0.5868421052631579,
+          "loss": 421.6295370965255
+        }
+      ],
+      "elapsed_s": 43.98511815071106
+    },
+    {
+      "hparams": {
+        "local_lr": 0.001,
+        "distill_alpha": 0.0,
+        "temperature": 1.0
+      },
+      "seed": 0,
+      "final_accuracy": 0.7988157894736843,
+      "best_accuracy": 0.7988157894736843,
+      "history": [
+        {
+          "round": 0,
+          "accuracy": 0.7940789473684211,
+          "loss": 612.5416532175165
+        },
+        {
+          "round": 1,
+          "accuracy": 0.795,
+          "loss": 611.2832528525904
+        },
+        {
+          "round": 2,
+          "accuracy": 0.795,
+          "loss": 610.5159856856496
+        },
+        {
+          "round": 3,
+          "accuracy": 0.7972368421052631,
+          "loss": 611.5054364977385
+        },
+        {
+          "round": 4,
+          "accuracy": 0.7969736842105263,
+          "loss": 612.6232015830592
+        },
+        {
+          "round": 5,
+          "accuracy": 0.7976315789473685,
+          "loss": 611.9866358706826
+        },
+        {
+          "round": 6,
+          "accuracy": 0.7980263157894737,
+          "loss": 611.9577649568257
+        },
+        {
+          "round": 7,
+          "accuracy": 0.7988157894736843,
+          "loss": 612.7716596422697
+        },
+        {
+          "round": 8,
+          "accuracy": 0.7981578947368421,
+          "loss": 612.7951670435855
+        },
+        {
+          "round": 9,
+          "accuracy": 0.7988157894736843,
+          "loss": 616.1170105622944
+        }
+      ],
+      "elapsed_s": 44.20733451843262
+    },
+    {
+      "hparams": {
+        "local_lr": 0.001,
+        "distill_alpha": 0.0,
+        "temperature": 2.0
+      },
+      "seed": 0,
+      "final_accuracy": 0.809078947368421,
+      "best_accuracy": 0.809078947368421,
+      "history": [
+        {
+          "round": 0,
+          "accuracy": 0.8046052631578947,
+          "loss": 389.0782306229441
+        },
+        {
+          "round": 1,
+          "accuracy": 0.8057894736842105,
+          "loss": 388.98318937602795
+        },
+        {
+          "round": 2,
+          "accuracy": 0.8057894736842105,
+          "loss": 389.1447918379934
+        },
+        {
+          "round": 3,
+          "accuracy": 0.8063157894736842,
+          "loss": 389.2862872635691
+        },
+        {
+          "round": 4,
+          "accuracy": 0.8069736842105263,
+          "loss": 389.5982132118627
+        },
+        {
+          "round": 5,
+          "accuracy": 0.8077631578947368,
+          "loss": 390.30352179276315
+        },
+        {
+          "round": 6,
+          "accuracy": 0.8072368421052631,
+          "loss": 390.25751715409126
+        },
+        {
+          "round": 7,
+          "accuracy": 0.8077631578947368,
+          "loss": 389.87552239669
+        },
+        {
+          "round": 8,
+          "accuracy": 0.8084210526315789,
+          "loss": 390.872131797389
+        },
+        {
+          "round": 9,
+          "accuracy": 0.809078947368421,
+          "loss": 391.8356226228413
+        }
+      ],
+      "elapsed_s": 44.97402906417847
+    },
+    {
+      "hparams": {
+        "local_lr": 0.001,
+        "distill_alpha": 0.0,
+        "temperature": 3.0
+      },
+      "seed": 0,
+      "final_accuracy": 0.7928947368421052,
+      "best_accuracy": 0.7930263157894737,
+      "history": [
+        {
+          "round": 0,
+          "accuracy": 0.7875,
+          "loss": 1948.7175778680098
+        },
+        {
+          "round": 1,
+          "accuracy": 0.7885526315789474,
+          "loss": 1950.0319091796875
+        },
+        {
+          "round": 2,
+          "accuracy": 0.7896052631578947,
+          "loss": 1947.4090180407072
+        },
+        {
+          "round": 3,
+          "accuracy": 0.7905263157894736,
+          "loss": 1944.6006414473684
+        },
+        {
+          "round": 4,
+          "accuracy": 0.7903947368421053,
+          "loss": 1938.2280581825657
+        },
+        {
+          "round": 5,
+          "accuracy": 0.7918421052631579,
+          "loss": 1934.1551161595394
+        },
+        {
+          "round": 6,
+          "accuracy": 0.7921052631578948,
+          "loss": 1933.4259675678454
+        },
+        {
+          "round": 7,
+          "accuracy": 0.7930263157894737,
+          "loss": 1935.9514699835527
+        },
+        {
+          "round": 8,
+          "accuracy": 0.7930263157894737,
+          "loss": 1933.6626364617598
+        },
+        {
+          "round": 9,
+          "accuracy": 0.7928947368421052,
+          "loss": 1931.1681766550164
+        }
+      ],
+      "elapsed_s": 45.271925926208496
+    },
+    {
+      "hparams": {
+        "local_lr": 0.001,
+        "distill_alpha": 0.2,
+        "temperature": 1.0
+      },
+      "seed": 0,
+      "final_accuracy": 0.7473684210526316,
+      "best_accuracy": 0.7886842105263158,
+      "history": [
+        {
+          "round": 0,
+          "accuracy": 0.7886842105263158,
+          "loss": 2207.3506866776315
+        },
+        {
+          "round": 1,
+          "accuracy": 0.7846052631578947,
+          "loss": 2086.1637492290297
+        },
+        {
+          "round": 2,
+          "accuracy": 0.7802631578947369,
+          "loss": 1976.91251953125
+        },
+        {
+          "round": 3,
+          "accuracy": 0.7739473684210526,
+          "loss": 1879.2406545538652
+        },
+        {
+          "round": 4,
+          "accuracy": 0.7696052631578948,
+          "loss": 1787.5701529091282
+        },
+        {
+          "round": 5,
+          "accuracy": 0.7646052631578948,
+          "loss": 1708.0671432976974
+        },
+        {
+          "round": 6,
+          "accuracy": 0.7601315789473684,
+          "loss": 1629.4936597964638
+        },
+        {
+          "round": 7,
+          "accuracy": 0.7552631578947369,
+          "loss": 1567.5094186883223
+        },
+        {
+          "round": 8,
+          "accuracy": 0.7510526315789474,
+          "loss": 1501.7339974814968
+        },
+        {
+          "round": 9,
+          "accuracy": 0.7473684210526316,
+          "loss": 1440.1359410978619
+        }
+      ],
+      "elapsed_s": 44.69908380508423
+    },
+    {
+      "hparams": {
+        "local_lr": 0.001,
+        "distill_alpha": 0.2,
+        "temperature": 2.0
+      },
+      "seed": 0,
+      "final_accuracy": 0.7005263157894737,
+      "best_accuracy": 0.7888157894736842,
+      "history": [
+        {
+          "round": 0,
+          "accuracy": 0.7888157894736842,
+          "loss": 607.7118345883018
+        },
+        {
+          "round": 1,
+          "accuracy": 0.7776315789473685,
+          "loss": 552.446290026213
+        },
+        {
+          "round": 2,
+          "accuracy": 0.7644736842105263,
+          "loss": 506.75723889802634
+        },
+        {
+          "round": 3,
+          "accuracy": 0.75,
+          "loss": 470.17495778937086
+        },
+        {
+          "round": 4,
+          "accuracy": 0.7414473684210526,
+          "loss": 433.64279585988896
+        },
+        {
+          "round": 5,
+          "accuracy": 0.7314473684210526,
+          "loss": 404.0914701120477
+        },
+        {
+          "round": 6,
+          "accuracy": 0.7209210526315789,
+          "loss": 375.9933599532278
+        },
+        {
+          "round": 7,
+          "accuracy": 0.7143421052631579,
+          "loss": 353.2801802143298
+        },
+        {
+          "round": 8,
+          "accuracy": 0.7068421052631579,
+          "loss": 334.41814992804274
+        },
+        {
+          "round": 9,
+          "accuracy": 0.7005263157894737,
+          "loss": 317.1144984195107
+        }
+      ],
+      "elapsed_s": 45.123589515686035
+    },
+    {
+      "hparams": {
+        "local_lr": 0.001,
+        "distill_alpha": 0.2,
+        "temperature": 3.0
+      },
+      "seed": 0,
+      "final_accuracy": 0.6453947368421052,
+      "best_accuracy": 0.7678947368421053,
+      "history": [
+        {
+          "round": 0,
+          "accuracy": 0.7678947368421053,
+          "loss": 510.0172331799959
+        },
+        {
+          "round": 1,
+          "accuracy": 0.7538157894736842,
+          "loss": 467.42693571391857
+        },
+        {
+          "round": 2,
+          "accuracy": 0.735,
+          "loss": 431.1147790527344
+        },
+        {
+          "round": 3,
+          "accuracy": 0.7130263157894737,
+          "loss": 405.24571770919
+        },
+        {
+          "round": 4,
+          "accuracy": 0.6975,
+          "loss": 376.5384997558594
+        },
+        {
+          "round": 5,
+          "accuracy": 0.6834210526315789,
+          "loss": 349.8453380705181
+        },
+        {
+          "round": 6,
+          "accuracy": 0.6705263157894736,
+          "loss": 330.2952433696546
+        },
+        {
+          "round": 7,
+          "accuracy": 0.6627631578947368,
+          "loss": 310.9637158203125
+        },
+        {
+          "round": 8,
+          "accuracy": 0.6557894736842105,
+          "loss": 294.0788392398232
+        },
+        {
+          "round": 9,
+          "accuracy": 0.6453947368421052,
+          "loss": 280.66346930252877
+        }
+      ],
+      "elapsed_s": 45.50649428367615
+    },
+    {
+      "hparams": {
+        "local_lr": 0.001,
+        "distill_alpha": 0.5,
+        "temperature": 1.0
+      },
+      "seed": 0,
+      "final_accuracy": 0.6848684210526316,
+      "best_accuracy": 0.7888157894736842,
+      "history": [
+        {
+          "round": 0,
+          "accuracy": 0.7888157894736842,
+          "loss": 385.4453338944285
+        },
+        {
+          "round": 1,
+          "accuracy": 0.7764473684210527,
+          "loss": 354.796555625514
+        },
+        {
+          "round": 2,
+          "accuracy": 0.7611842105263158,
+          "loss": 332.6365103310033
+        },
+        {
+          "round": 3,
+          "accuracy": 0.7444736842105263,
+          "loss": 314.9737596692537
+        },
+        {
+          "round": 4,
+          "accuracy": 0.7344736842105263,
+          "loss": 291.0551361083984
+        },
+        {
+          "round": 5,
+          "accuracy": 0.7260526315789474,
+          "loss": 273.1866350675884
+        },
+        {
+          "round": 6,
+          "accuracy": 0.719078947368421,
+          "loss": 253.40525528757195
+        },
+        {
+          "round": 7,
+          "accuracy": 0.7044736842105264,
+          "loss": 241.53538959703948
+        },
+        {
+          "round": 8,
+          "accuracy": 0.6993421052631579,
+          "loss": 225.71743141575863
+        },
+        {
+          "round": 9,
+          "accuracy": 0.6848684210526316,
+          "loss": 217.99307964124176
+        }
+      ],
+      "elapsed_s": 44.74246001243591
+    },
+    {
+      "hparams": {
+        "local_lr": 0.001,
+        "distill_alpha": 0.5,
+        "temperature": 2.0
+      },
+      "seed": 0,
+      "final_accuracy": 0.6380263157894737,
+      "best_accuracy": 0.7896052631578947,
+      "history": [
+        {
+          "round": 0,
+          "accuracy": 0.7896052631578947,
+          "loss": 371.7517824193051
+        },
+        {
+          "round": 1,
+          "accuracy": 0.7780263157894737,
+          "loss": 330.209585988898
+        },
+        {
+          "round": 2,
+          "accuracy": 0.7621052631578947,
+          "loss": 297.70369853772615
+        },
+        {
+          "round": 3,
+          "accuracy": 0.7410526315789474,
+          "loss": 273.54770025956003
+        },
+        {
+          "round": 4,
+          "accuracy": 0.7260526315789474,
+          "loss": 254.73578973067436
+        },
+        {
+          "round": 5,
+          "accuracy": 0.7071052631578948,
+          "loss": 238.61752367521586
+        },
+        {
+          "round": 6,
+          "accuracy": 0.6860526315789474,
+          "loss": 224.81657085217927
+        },
+        {
+          "round": 7,
+          "accuracy": 0.6693421052631578,
+          "loss": 213.89721358449836
+        },
+        {
+          "round": 8,
+          "accuracy": 0.655921052631579,
+          "loss": 206.3545437140214
+        },
+        {
+          "round": 9,
+          "accuracy": 0.6380263157894737,
+          "loss": 199.225137682463
+        }
+      ],
+      "elapsed_s": 45.261736154556274
+    },
+    {
+      "hparams": {
+        "local_lr": 0.001,
+        "distill_alpha": 0.5,
+        "temperature": 3.0
+      },
+      "seed": 0,
+      "final_accuracy": 0.6643421052631578,
+      "best_accuracy": 0.7881578947368421,
+      "history": [
+        {
+          "round": 0,
+          "accuracy": 0.7881578947368421,
+          "loss": 2312.9735480057566
+        },
+        {
+          "round": 1,
+          "accuracy": 0.7803947368421053,
+          "loss": 2096.4153800884046
+        },
+        {
+          "round": 2,
+          "accuracy": 0.7692105263157895,
+          "loss": 1909.8684174547698
+        },
+        {
+          "round": 3,
+          "accuracy": 0.7602631578947369,
+          "loss": 1747.3905458470394
+        },
+        {
+          "round": 4,
+          "accuracy": 0.7481578947368421,
+          "loss": 1601.0752374588815
+        },
+        {
+          "round": 5,
+          "accuracy": 0.7318421052631578,
+          "loss": 1485.6896571751645
+        },
+        {
+          "round": 6,
+          "accuracy": 0.715,
+          "loss": 1390.2265991210938
+        },
+        {
+          "round": 7,
+          "accuracy": 0.6988157894736842,
+          "loss": 1308.7834458521793
+        },
+        {
+          "round": 8,
+          "accuracy": 0.6834210526315789,
+          "loss": 1248.9918507144325
+        },
+        {
+          "round": 9,
+          "accuracy": 0.6643421052631578,
+          "loss": 1197.4111795847039
+        }
+      ],
+      "elapsed_s": 45.514182329177856
+    },
+    {
+      "hparams": {
+        "local_lr": 0.01,
+        "distill_alpha": 0.0,
+        "temperature": 1.0
+      },
+      "seed": 0,
+      "final_accuracy": 0.8101315789473684,
+      "best_accuracy": 0.8101315789473684,
+      "history": [
+        {
+          "round": 0,
+          "accuracy": 0.8078947368421052,
+          "loss": 611.7568703741777
+        },
+        {
+          "round": 1,
+          "accuracy": 0.8076315789473684,
+          "loss": 612.6892876233553
+        },
+        {
+          "round": 2,
+          "accuracy": 0.8072368421052631,
+          "loss": 614.2736942331414
+        },
+        {
+          "round": 3,
+          "accuracy": 0.8080263157894737,
+          "loss": 616.1064226973684
+        },
+        {
+          "round": 4,
+          "accuracy": 0.8069736842105263,
+          "loss": 616.5313978978207
+        },
+        {
+          "round": 5,
+          "accuracy": 0.8077631578947368,
+          "loss": 617.0792485608553
+        },
+        {
+          "round": 6,
+          "accuracy": 0.8082894736842106,
+          "loss": 618.1809930098684
+        },
+        {
+          "round": 7,
+          "accuracy": 0.8092105263157895,
+          "loss": 619.6315371864721
+        },
+        {
+          "round": 8,
+          "accuracy": 0.8086842105263158,
+          "loss": 620.2121623149671
+        },
+        {
+          "round": 9,
+          "accuracy": 0.8101315789473684,
+          "loss": 622.7690218955593
+        }
+      ],
+      "elapsed_s": 45.247780084609985
+    },
+    {
+      "hparams": {
+        "local_lr": 0.01,
+        "distill_alpha": 0.0,
+        "temperature": 2.0
+      },
+      "seed": 0,
+      "final_accuracy": 0.25,
+      "best_accuracy": 0.25,
+      "history": [
+        {
+          "round": 0,
+          "accuracy": 0.25,
+          "loss": NaN
+        },
+        {
+          "round": 1,
+          "accuracy": 0.25,
+          "loss": NaN
+        },
+        {
+          "round": 2,
+          "accuracy": 0.25,
+          "loss": NaN
+        },
+        {
+          "round": 3,
+          "accuracy": 0.25,
+          "loss": NaN
+        },
+        {
+          "round": 4,
+          "accuracy": 0.25,
+          "loss": NaN
+        },
+        {
+          "round": 5,
+          "accuracy": 0.25,
+          "loss": NaN
+        },
+        {
+          "round": 6,
+          "accuracy": 0.25,
+          "loss": NaN
+        },
+        {
+          "round": 7,
+          "accuracy": 0.25,
+          "loss": NaN
+        },
+        {
+          "round": 8,
+          "accuracy": 0.25,
+          "loss": NaN
+        },
+        {
+          "round": 9,
+          "accuracy": 0.25,
+          "loss": NaN
+        }
+      ],
+      "elapsed_s": 44.98390054702759
+    },
+    {
+      "hparams": {
+        "local_lr": 0.01,
+        "distill_alpha": 0.0,
+        "temperature": 3.0
+      },
+      "seed": 0,
+      "final_accuracy": 0.8069736842105263,
+      "best_accuracy": 0.8069736842105263,
+      "history": [
+        {
+          "round": 0,
+          "accuracy": 0.8036842105263158,
+          "loss": 390.64229180586966
+        },
+        {
+          "round": 1,
+          "accuracy": 0.8036842105263158,
+          "loss": 391.3894958174856
+        },
+        {
+          "round": 2,
+          "accuracy": 0.8046052631578947,
+          "loss": 391.1345867598684
+        },
+        {
+          "round": 3,
+          "accuracy": 0.8056578947368421,
+          "loss": 391.5659730288857
+        },
+        {
+          "round": 4,
+          "accuracy": 0.805921052631579,
+          "loss": 391.9124895597759
+        },
+        {
+          "round": 5,
+          "accuracy": 0.8064473684210526,
+          "loss": 393.79847643400495
+        },
+        {
+          "round": 6,
+          "accuracy": 0.8068421052631579,
+          "loss": 394.8729333174856
+        },
+        {
+          "round": 7,
+          "accuracy": 0.8063157894736842,
+          "loss": 394.8143349416632
+        },
+        {
+          "round": 8,
+          "accuracy": 0.8068421052631579,
+          "loss": 394.8036615953947
+        },
+        {
+          "round": 9,
+          "accuracy": 0.8069736842105263,
+          "loss": 395.63860316226356
+        }
+      ],
+      "elapsed_s": 45.39135766029358
+    },
+    {
+      "hparams": {
+        "local_lr": 0.01,
+        "distill_alpha": 0.2,
+        "temperature": 1.0
+      },
+      "seed": 0,
+      "final_accuracy": 0.724078947368421,
+      "best_accuracy": 0.7888157894736842,
+      "history": [
+        {
+          "round": 0,
+          "accuracy": 0.7888157894736842,
+          "loss": 451.7288761821546
+        },
+        {
+          "round": 1,
+          "accuracy": 0.7806578947368421,
+          "loss": 411.9216109426398
+        },
+        {
+          "round": 2,
+          "accuracy": 0.7739473684210526,
+          "loss": 379.7165420692845
+        },
+        {
+          "round": 3,
+          "accuracy": 0.7638157894736842,
+          "loss": 355.1854513389186
+        },
+        {
+          "round": 4,
+          "accuracy": 0.7569736842105264,
+          "loss": 334.339706485146
+        },
+        {
+          "round": 5,
+          "accuracy": 0.7488157894736842,
+          "loss": 317.9880526251542
+        },
+        {
+          "round": 6,
+          "accuracy": 0.7419736842105263,
+          "loss": 303.57561067280017
+        },
+        {
+          "round": 7,
+          "accuracy": 0.7361842105263158,
+          "loss": 291.16897512335527
+        },
+        {
+          "round": 8,
+          "accuracy": 0.7309210526315789,
+          "loss": 279.5410680188631
+        },
+        {
+          "round": 9,
+          "accuracy": 0.724078947368421,
+          "loss": 269.694552708676
+        }
+      ],
+      "elapsed_s": 45.40561604499817
+    },
+    {
+      "hparams": {
+        "local_lr": 0.01,
+        "distill_alpha": 0.2,
+        "temperature": 2.0
+      },
+      "seed": 0,
+      "final_accuracy": 0.6843421052631579,
+      "best_accuracy": 0.7785526315789474,
+      "history": [
+        {
+          "round": 0,
+          "accuracy": 0.7785526315789474,
+          "loss": 700.1779694567228
+        },
+        {
+          "round": 1,
+          "accuracy": 0.7652631578947369,
+          "loss": 640.9917033305921
+        },
+        {
+          "round": 2,
+          "accuracy": 0.7531578947368421,
+          "loss": 592.2838247841283
+        },
+        {
+          "round": 3,
+          "accuracy": 0.7432894736842105,
+          "loss": 550.543275339227
+        },
+        {
+          "round": 4,
+          "accuracy": 0.7327631578947369,
+          "loss": 520.7888837633635
+        },
+        {
+          "round": 5,
+          "accuracy": 0.7239473684210527,
+          "loss": 490.54185983758225
+        },
+        {
+          "round": 6,
+          "accuracy": 0.7151315789473685,
+          "loss": 466.6603648617393
+        },
+        {
+          "round": 7,
+          "accuracy": 0.7032894736842106,
+          "loss": 447.82644248560854
+        },
+        {
+          "round": 8,
+          "accuracy": 0.6944736842105264,
+          "loss": 433.6929305227179
+        },
+        {
+          "round": 9,
+          "accuracy": 0.6843421052631579,
+          "loss": 418.1790858218544
+        }
+      ],
+      "elapsed_s": 45.306262493133545
+    },
+    {
+      "hparams": {
+        "local_lr": 0.01,
+        "distill_alpha": 0.2,
+        "temperature": 3.0
+      },
+      "seed": 0,
+      "final_accuracy": 0.25,
+      "best_accuracy": 0.25,
+      "history": [
+        {
+          "round": 0,
+          "accuracy": 0.25,
+          "loss": NaN
+        },
+        {
+          "round": 1,
+          "accuracy": 0.25,
+          "loss": NaN
+        },
+        {
+          "round": 2,
+          "accuracy": 0.25,
+          "loss": NaN
+        },
+        {
+          "round": 3,
+          "accuracy": 0.25,
+          "loss": NaN
+        },
+        {
+          "round": 4,
+          "accuracy": 0.25,
+          "loss": NaN
+        },
+        {
+          "round": 5,
+          "accuracy": 0.25,
+          "loss": NaN
+        },
+        {
+          "round": 6,
+          "accuracy": 0.25,
+          "loss": NaN
+        },
+        {
+          "round": 7,
+          "accuracy": 0.25,
+          "loss": NaN
+        },
+        {
+          "round": 8,
+          "accuracy": 0.25,
+          "loss": NaN
+        },
+        {
+          "round": 9,
+          "accuracy": 0.25,
+          "loss": NaN
+        }
+      ],
+      "elapsed_s": 45.42498278617859
+    },
+    {
+      "hparams": {
+        "local_lr": 0.01,
+        "distill_alpha": 0.5,
+        "temperature": 1.0
+      },
+      "seed": 0,
+      "final_accuracy": 0.7305263157894737,
+      "best_accuracy": 0.7801315789473684,
+      "history": [
+        {
+          "round": 0,
+          "accuracy": 0.7801315789473684,
+          "loss": 6948.650146484375
+        },
+        {
+          "round": 1,
+          "accuracy": 0.775921052631579,
+          "loss": 6489.465910259046
+        },
+        {
+          "round": 2,
+          "accuracy": 0.7717105263157895,
+          "loss": 6072.740060135691
+        },
+        {
+          "round": 3,
+          "accuracy": 0.7686842105263157,
+          "loss": 5676.117747224506
+        },
+        {
+          "round": 4,
+          "accuracy": 0.7627631578947368,
+          "loss": 5300.058098787006
+        },
+        {
+          "round": 5,
+          "accuracy": 0.7576315789473684,
+          "loss": 4973.047037417763
+        },
+        {
+          "round": 6,
+          "accuracy": 0.7511842105263158,
+          "loss": 4661.302455797698
+        },
+        {
+          "round": 7,
+          "accuracy": 0.7440789473684211,
+          "loss": 4372.788851254112
+        },
+        {
+          "round": 8,
+          "accuracy": 0.7364473684210526,
+          "loss": 4127.868018606086
+        },
+        {
+          "round": 9,
+          "accuracy": 0.7305263157894737,
+          "loss": 3914.583675729852
+        }
+      ],
+      "elapsed_s": 45.392805099487305
+    },
+    {
+      "hparams": {
+        "local_lr": 0.01,
+        "distill_alpha": 0.5,
+        "temperature": 2.0
+      },
+      "seed": 0,
+      "final_accuracy": 0.5994736842105263,
+      "best_accuracy": 0.7823684210526316,
+      "history": [
+        {
+          "round": 0,
+          "accuracy": 0.7823684210526316,
+          "loss": 535.3061752801192
+        },
+        {
+          "round": 1,
+          "accuracy": 0.7546052631578948,
+          "loss": 498.1720327919408
+        },
+        {
+          "round": 2,
+          "accuracy": 0.7244736842105263,
+          "loss": 478.18634894120066
+        },
+        {
+          "round": 3,
+          "accuracy": 0.7023684210526315,
+          "loss": 448.54829576994246
+        },
+        {
+          "round": 4,
+          "accuracy": 0.6777631578947368,
+          "loss": 418.3123743960732
+        },
+        {
+          "round": 5,
+          "accuracy": 0.6606578947368421,
+          "loss": 398.1352517860814
+        },
+        {
+          "round": 6,
+          "accuracy": 0.6363157894736842,
+          "loss": 380.70308510228205
+        },
+        {
+          "round": 7,
+          "accuracy": 0.6243421052631579,
+          "loss": 353.968896484375
+        },
+        {
+          "round": 8,
+          "accuracy": 0.6102631578947368,
+          "loss": 337.8498549290707
+        },
+        {
+          "round": 9,
+          "accuracy": 0.5994736842105263,
+          "loss": 320.7430328047903
+        }
+      ],
+      "elapsed_s": 45.640798568725586
+    },
+    {
+      "hparams": {
+        "local_lr": 0.01,
+        "distill_alpha": 0.5,
+        "temperature": 3.0
+      },
+      "seed": 0,
+      "final_accuracy": 0.6192105263157894,
+      "best_accuracy": 0.7832894736842105,
+      "history": [
+        {
+          "round": 0,
+          "accuracy": 0.7832894736842105,
+          "loss": 2029.7057923005757
+        },
+        {
+          "round": 1,
+          "accuracy": 0.7752631578947369,
+          "loss": 1832.5497101151316
+        },
+        {
+          "round": 2,
+          "accuracy": 0.7628947368421053,
+          "loss": 1662.4432826634456
+        },
+        {
+          "round": 3,
+          "accuracy": 0.7486842105263158,
+          "loss": 1513.063906121505
+        },
+        {
+          "round": 4,
+          "accuracy": 0.7311842105263158,
+          "loss": 1394.7563407175164
+        },
+        {
+          "round": 5,
+          "accuracy": 0.709078947368421,
+          "loss": 1289.9793735865542
+        },
+        {
+          "round": 6,
+          "accuracy": 0.6853947368421053,
+          "loss": 1207.9176929995888
+        },
+        {
+          "round": 7,
+          "accuracy": 0.6636842105263158,
+          "loss": 1139.4113837633636
+        },
+        {
+          "round": 8,
+          "accuracy": 0.6413157894736842,
+          "loss": 1090.2363215717517
+        },
+        {
+          "round": 9,
+          "accuracy": 0.6192105263157894,
+          "loss": 1046.050834061472
+        }
+      ],
+      "elapsed_s": 44.811620473861694
+    }
+  ]
+}
