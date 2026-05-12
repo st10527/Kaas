@@ -97,6 +97,7 @@ def run_one(method_name, args, seed):
     devices = generate_edge_devices(n_devices=args.n_clients, seed=seed)
 
     # ── Build method ──────────────────────────────────────────
+    num_classes = 4  # AG News
     if method_name == "DASH":
         config = DASHConfig(
             budget=50.0,
@@ -111,7 +112,8 @@ def run_one(method_name, args, seed):
             fixed_deadline=5.0,
             sigma_noise=0.3,
         )
-        method = DASH(create_model(), config=config, device=args.device)
+        method = DASH(create_model(num_classes), config=config, device=args.device,
+                     n_classes=num_classes)
 
     elif method_name == "FedAvg":
         config = FedAvgConfig(
@@ -119,7 +121,7 @@ def run_one(method_name, args, seed):
             local_lr=0.01,
             participation_rate=0.1,
         )
-        method = FedAvg(create_model(), config=config, device=args.device)
+        method = FedAvg(create_model(num_classes), config=config, device=args.device)
 
     elif method_name == "RandomSelection":
         from src.methods.kaas_edge import RandomSelectionFD, KaaSEdgeConfig
@@ -132,8 +134,9 @@ def run_one(method_name, args, seed):
             pretrain_epochs=5 if args.quick else 10,
             n_ref_samples=len(public_set),
         )
-        method = RandomSelectionFD(create_model(), config=config,
-                                   device=args.device, select_fraction=0.1)
+        method = RandomSelectionFD(create_model(num_classes), config=config,
+                                   device=args.device, select_fraction=0.1,
+                                   n_classes=num_classes)
     else:
         raise ValueError(f"Unknown method: {method_name}")
 
