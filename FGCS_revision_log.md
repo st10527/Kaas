@@ -59,7 +59,9 @@ Ablation flags：
 
 `time.perf_counter()` 包住整個 `run_round()`（含 `_local_train`、`_compute_logits`、`_do_distill`、`evaluate`）。**沒有 `torch.cuda.synchronize()`**，所以這是 CPU 掛鐘時間，不是純 GPU compute time。
 
-➡️ **論文描述要用「wall-clock time per round, measured on real hardware」，不能寫「GPU time」**。這個測量對 paper 仍然有意義：它反映了整個系統每輪的真實開銷，比純 FLOPS 更接近 reviewer 關心的 efficiency 問題。
+⚠️ **論文描述必須用「per-round real wall-clock time, measured on [GPU model]」，不能寫「GPU time」**。這個量測對 paper 仍然有意義：它反映了整個系統每輪的真實開銷，比純 FLOPS 更接近 reviewer 關心的 efficiency 問題。
+
+對 R1-5.2 的 rebuttal：R1 懷疑「200 nodes on single GPU」是在灌水。正確回應是：`real_wall_clock_s` 記錄的是「在單機 GPU 上序列模擬 200 個 client 的真實計算時間」，而 `sim_wall_clock` 是「假設這些 client 在分散式系統中並行執行時的模擬時間」，兩者概念不同，並不矛盾。
 
 #### no_straggler real_time +23% 的根因
 
@@ -99,9 +101,13 @@ full vs no_quality:    diff=−0.0003  t=−0.060  p(one)=0.479  [full < no_qual
 
 3. **Adaptive timeout（no_timeout）**：final_acc 略高（+0.22%），wall-clock 略短（-12%）。這是「反常」訊號，需主動處理。
 
-   **正確解釋**：no_timeout 用 `fixed_deadline=5.0s`，在 M=50 低 straggler 強度（σ=0.3）下剛好與中位設備延遲匹配，表現與 adaptive 相當。Adaptive timeout 的優勢在高 straggler 強度或大規模設備（M=100/200）才顯現（對應主實驗 §5.4 的 scalability 和 §5.3 的 straggler sweep 結果）。
+   **正確解釋**：`wall_clock = Σ deadline`。no_timeout 的 simulated wall-clock 更短，代表 **adaptive 在這個 setting 下把 deadline 往上調了**。在 M=50、σ_n=0.3 低異質性場景下，延遲分布集中，EMA 持續記錄過少數慢設備的延遲結果，導致 deadline 脱不下來。Fixed=5s 在此情境下反而更保守。這是 **adaptive 對 low-heterogeneity 的預期行為**，不是 weakness——但不能只靠文字說明，需要數據支撐。
 
-   **論文 caption 建議**：*"no\_timeout uses fixed $D_0{=}5$s, which is well-matched to median device latency at M=50 and σ=0.3. The benefit of adaptive timeout is more pronounced at larger M or higher straggler severity (see §5.4)."*
+   **需要補跡：跑 σ_n=1.5 ablation**，預期 no_timeout 在高 straggler 強度下 wall-clock 暴增且精度下降。這樣 paper 可以說：
+
+   > *"Under low heterogeneity (σ_n=0.3), the adaptive and fixed deadline variants perform similarly, as the latency distribution is sufficiently concentrated. Under high heterogeneity (σ_n=1.5), fixed deadlines either time out too many devices (if too tight) or waste wall-clock time (if too loose), whereas adaptive scheduling adjusts to the observed latency distribution (Table X)."*
+
+   **狀態**：已加入 ablation 腳本 `--sigma_noise 1.5` 參數，等德端回從。
 
 4. **Quality weights（no_quality）**：final_acc 幾乎相同，但 best_acc 下降 0.0055（0.3326→0.3271）。**以 best_acc 為切入點**：quality weights 保住了「模型能達到的精度上限」，在需要達到峰值性能的場景（例如 early stopping、或 straggler 嚴重時少數 high-quality device 的貢獻更重要）有實質作用。
 
@@ -222,9 +228,10 @@ nohup python scripts/run_agnews_exp.py --rounds 100 --seeds 3 \
 
 | 決策 | 結論 | 理由 |
 |------|------|------|
-| 把 ablation 擴展到 M=100/200？ | **不跑** | no_timeout 已有乾淨文字解釋；2-3 天 GPU 換來更複雜的 ablation，不值得 |
+| 把 ablation 擴展到 M=100/200？ | **不跑** | 規模擴展由主實驗 §5.4 scalability 覆蓋；ablation 不需要重複 |
+| 補 σ_n=1.5 high-heterogeneity ablation？ | **要跑** | no_timeout 在 σ_n=0.3 下反常，需要 σ_n=1.5 data 證明 adaptive 在高 straggler 強度下確實優於 fixed；否則 R2 會要求補實驗 |
 | AG News α=0 的論文敘事 | **task-specific sensitivity 包裝** | 引用 Hinton 2015，強調 sweep evidence；不讓 reviewer 認為「distillation 沒用」 |
-| 做 paired t-test？ | **不放進 paper** | 3 seeds df=2 power 極低，結果不顯著反而是負訊號；caption 說明 seeds 數量即可 |
+| 做 paired t-test？ | **做了但不放正文** | 3 seeds df=2 power 極低，結果不顯著反而是負訊號；caption 寫「mean ± std over 3 seeds」即可 |
 
 ---
 

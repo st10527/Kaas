@@ -8,8 +8,13 @@ Five variants on CIFAR-100, M=100 clients, 3 seeds:
   no_timeout   -- ablation_use_adaptive_timeout=False
   no_quality   -- ablation_use_quality_weights=False
 
+Supports --sigma_noise to sweep straggler severity.
+Key use-case: compare sigma_noise=0.3 (low) vs sigma_noise=1.5 (high)
+to show that adaptive timeout's value grows with heterogeneity.
+
 Usage:
     python scripts/run_ablation_exp.py [--quick] [--rounds N] [--seeds N]
+    python scripts/run_ablation_exp.py --sigma_noise 1.5 --output results/ablation_sigma15.json
 """
 import argparse, json, os, sys, time
 from pathlib import Path
@@ -88,7 +93,8 @@ def run_one(variant_name, flag_overrides, args, seed):
         distill_epochs=3, distill_lr=0.001,
         pretrain_epochs=5 if args.quick else 10,
         n_ref_samples=len(public_set), straggler_aware=True,
-        timeout_policy="adaptive", fixed_deadline=5.0, sigma_noise=0.3,
+        timeout_policy="adaptive", fixed_deadline=5.0,
+        sigma_noise=args.sigma_noise,   # <-- swept from CLI
         ablation_use_straggler_selection=True,
         ablation_use_water_filling=True,
         ablation_use_adaptive_timeout=True,
@@ -105,10 +111,13 @@ def run_one(variant_name, flag_overrides, args, seed):
             "accuracy": result.accuracy,
             "loss": result.loss,
             "participation_rate": result.participation_rate,
-            "n_participants": result.n_participants,
+            "n_participants": result.n_participants,   # for resource-efficiency analysis
             "energy": result.energy,
-            "real_time_s": result.extra.get("real_time_s", 0.0),
-            "wall_clock": result.extra.get("wall_clock_time", 0.0),
+            # NOTE: real_time_s = perf_counter() over full round (CPU wall-clock,
+            # includes CUDA async + I/O + Python overhead).  NOT pure GPU FLOPS.
+            # Paper should describe as "per-round real wall-clock time on hardware".
+            "real_wall_clock_s": result.extra.get("real_time_s", 0.0),
+            "sim_wall_clock": result.extra.get("wall_clock_time", 0.0),
         })
         if (t + 1) % 10 == 0 or t == 0:
             elapsed = time.time() - t0
@@ -133,25 +142,34 @@ def run_one(variant_name, flag_overrides, args, seed):
 
 def parse_args():
     p = argparse.ArgumentParser(description="DASH ablation study")
-    p.add_argument("--rounds",    type=int, default=100)
-    p.add_argument("--seeds",     type=int, default=3)
-    p.add_argument("--n_clients", type=int, default=100)
-    p.add_argument("--device",    type=str,
+    p.add_argument("--rounds",      type=int, default=100)
+    p.add_argument("--seeds",       type=int, default=3)
+    p.add_argument("--n_clients",   type=int, default=100)
+    p.add_argument("--device",      type=str,
                    default="cuda" if torch.cuda.is_available() else "cpu")
-    p.add_argument("--output",    type=str, default="results/ablation.json")
-    p.add_argument("--quick",     action="store_true")
-    p.add_argument("--variants",  nargs="+", default=None)
+    p.add_argument("--output",      type=str, default=None,
+                   help="Output path (default: results/ablation_sigma{N}.json)")
+    p.add_argument("--sigma_noise", type=float, default=0.3,
+                   help="LogNormal sigma for straggler model (default 0.3 = low; "
+                        "use 1.5 for high-heterogeneity ablation)")
+    p.add_argument("--quick",       action="store_true")
+    p.add_argument("--variants",    nargs="+", default=None)
     return p.parse_args()
 
 
 def main():
     args = parse_args()
+    if args.output is None:
+        sigma_tag = str(args.sigma_noise).replace(".", "")
+        args.output = f"results/ablation_sigma{sigma_tag}.json"
     if args.quick:
         args.rounds = 3
         args.n_clients = 10
         args.seeds = 1
     variants = args.variants or list(ABLATION_VARIANTS.keys())
-    print(f"Device: {args.device}  Seeds: {args.seeds}  Rounds: {args.rounds}  Clients: {args.n_clients}")
+    print(f"Device: {args.device}  Seeds: {args.seeds}  Rounds: {args.rounds}  "
+          f"Clients: {args.n_clients}  sigma_noise: {args.sigma_noise}")
+    print(f"Output: {args.output}")
     all_results = {}
     for variant_name in variants:
         flag_overrides = ABLATION_VARIANTS[variant_name]
