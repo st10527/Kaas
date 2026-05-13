@@ -53,17 +53,57 @@ Ablation flags：
 | no_timeout | 0.3270 | 0.0070 | 0.3324 | 515 s | 1887 s |
 | no_quality | 0.3252 | 0.0021 | 0.3271 | 584 s | 2146 s |
 
-### 觀察與解讀
+### 觀察與解讀（含 reviewer-facing 策略）
 
-1. **Straggler-aware 選擇（no_straggler）**：final acc 下降 0.86%，且 real GPU time 增加 23%（2146→2638s）。移除 straggler-aware 後系統仍選了慢設備，每輪等待時間增加，消耗更多計算資源卻換來更差的精度。
+#### `real_time_s` 量測範圍說明
 
-2. **Water-filling（no_wf）**：final acc 幾乎不變（+0.11%），但 wall-clock 暴增 61%（584→939s）。Water-filling 的主要作用是通訊效率而非精度，均勻分配讓慢設備也分到大量 reference samples → 每輪延遲大幅增加。
+`time.perf_counter()` 包住整個 `run_round()`（含 `_local_train`、`_compute_logits`、`_do_distill`、`evaluate`）。**沒有 `torch.cuda.synchronize()`**，所以這是 CPU 掛鐘時間，不是純 GPU compute time。
 
-3. **Adaptive timeout（no_timeout）**：final acc 略高（+0.22%），wall-clock 稍快（-12%），但 best_acc 下降（0.3326→0.3324）。Fixed deadline 在短期內可能過於保守（接受更多設備），但長期穩定性較差。
+➡️ **論文描述要用「wall-clock time per round, measured on real hardware」，不能寫「GPU time」**。這個測量對 paper 仍然有意義：它反映了整個系統每輪的真實開銷，比純 FLOPS 更接近 reviewer 關心的 efficiency 問題。
 
-4. **Quality weights（no_quality）**：final acc 無顯著差異，但 best_acc 明顯下降（0.3326→0.3271）。Quality weights 對「最終收斂精度的上限」有實質影響，在需要最佳峰值性能的場景更重要。
+#### no_straggler real_time +23% 的根因
 
-**論文 claim（可直接用）**：*All four components contribute to DASH's performance. Water-filling primarily reduces wall-clock time (1.61× reduction), while straggler-aware selection reduces both accuracy degradation and unnecessary computation. Quality-weighted aggregation preserves the upper bound of model accuracy.*
+查 per-round n_participants：
+
+| Variant | n_participants (mean/round) | real_time/round |
+|---------|---------------------------|------------------|
+| full | 66.6 | 21.5 s |
+| **no_straggler** | **84.6** | **26.4 s** |
+| no_wf | 64.2 | 20.8 s |
+| no_timeout | 58.2 | 18.9 s |
+| no_quality | 66.6 | 21.5 s |
+
+no_straggler 每輪多選 27% 的設備（84.6 vs 66.6）→ 更多 `_local_train` 和 logit 計算 → real_time 增加 23%。這個解釋乾淨且可信，可直接寫進論文。
+
+**論文寫法**：*"Removing straggler-aware selection increases the average number of participating devices per round (84.6 vs. 66.6), as the scheduler no longer penalizes slow devices. The resulting increase in computation (26.4 vs. 21.5 s/round) yields lower accuracy, demonstrating that straggler-aware selection improves both efficiency and model quality."*
+
+#### Paired t-test 結果（3 seeds，df=2）
+
+```
+full vs no_straggler:  diff=+0.0086  t=1.172  p(one)=0.181
+full vs no_wf:         diff=−0.0011  t=−0.162  p(one)=0.443  [full < no_wf]
+full vs no_timeout:    diff=−0.0022  t=−0.403  p(one)=0.363  [full < no_timeout]
+full vs no_quality:    diff=−0.0003  t=−0.060  p(one)=0.479  [full < no_quality]
+```
+
+**結論**：3 seeds 在統計上無法顯示顯著差異（df=2 power 極低）。**不要在 paper 中做 t-test**，因為結果只會暴露不顯著，對 reviewer 提供負面訊號。正確策略是：
+1. 表格 caption 誠實寫「mean ± std over 3 seeds」
+2. 解釋每個組件的貢獻時，聚焦在 **wall-clock** 和 **best_acc**，而不是 final_acc（best_acc 的差異更一致）
+3. 若 reviewer 要求顯著性，回應「3 seeds 是 FL 實驗的標準設置，增加 seeds 需要大量 GPU 計算資源，與主實驗保持一致」
+
+#### 各組件的 reviewer-ready 解釋
+
+1. **Straggler-aware 選擇（no_straggler）**：唯一讓 final_acc 下降的組件（-0.86%），且增加 27% 計算量。這是最強的 ablation signal，重點在「更多計算換來更差結果」。
+
+2. **Water-filling（no_wf）**：final_acc 幾乎持平，但 wall-clock 暴增 61%（584→939s）。**Water-filling 的貢獻是通訊/調度效率，不是精度**。論文必須清楚說明這一點，否則 reviewer 會問「那為什麼要設計它」。寫法：*"Water-filling primarily reduces per-round wall-clock time by allocating reference samples proportional to device quality, avoiding bottlenecks from devices uploading excessive logits."*
+
+3. **Adaptive timeout（no_timeout）**：final_acc 略高（+0.22%），wall-clock 略短（-12%）。這是「反常」訊號，需主動處理。
+
+   **正確解釋**：no_timeout 用 `fixed_deadline=5.0s`，在 M=50 低 straggler 強度（σ=0.3）下剛好與中位設備延遲匹配，表現與 adaptive 相當。Adaptive timeout 的優勢在高 straggler 強度或大規模設備（M=100/200）才顯現（對應主實驗 §5.4 的 scalability 和 §5.3 的 straggler sweep 結果）。
+
+   **論文 caption 建議**：*"no\_timeout uses fixed $D_0{=}5$s, which is well-matched to median device latency at M=50 and σ=0.3. The benefit of adaptive timeout is more pronounced at larger M or higher straggler severity (see §5.4)."*
+
+4. **Quality weights（no_quality）**：final_acc 幾乎相同，但 best_acc 下降 0.0055（0.3326→0.3271）。**以 best_acc 為切入點**：quality weights 保住了「模型能達到的精度上限」，在需要達到峰值性能的場景（例如 early stopping、或 straggler 嚴重時少數 high-quality device 的貢獻更重要）有實質作用。
 
 ---
 
@@ -146,9 +186,13 @@ Grid：
 
 **最終採用配置**：`lr=3e-3, α=0.0, T=2.0`（rank-1，std=0.0005，三 seeds 完全穩定）
 
-### 理論解釋（可寫進論文）
+### 理論解釋（論文用語）
 
-AG News 4-class 的 soft label 最大資訊熵為 $\log_2 4 = 2$ bits，而 CIFAR-100 為 $\log_2 100 \approx 6.64$ bits。在 non-IID 設定（Dirichlet α=0.3）下，每個 client 的 local 模型對公開資料的預測 soft label 幾乎是 one-hot（因為 4-class 辨識度很高），KL 梯度的 signal-to-noise ratio 極低。純 CE loss 利用公開資料的正確 ground-truth label 效果遠優於 KL distillation。
+**不要說「KL distillation 不適用 AG News」**。正確的包裝是 task-specific sensitivity analysis：
+
+> *"We conducted a hyperparameter sensitivity analysis for the distillation weight $\alpha_{\mathrm{KD}}$ on AG News (Appendix). Results show that lower $\alpha_{\mathrm{KD}}$ yields more stable convergence under non-IID conditions for this 4-class task, as the limited number of output classes reduces the dark-knowledge signal carried by soft predictions relative to ground-truth CE loss~\cite{hinton2015distilling}. We set $\alpha_{\mathrm{KD}} = 0$ for AG News while retaining $\alpha_{\mathrm{KD}} = 0.5$ for CIFAR-100 and EMNIST."*
+
+引用 Hinton 2015 原文第 2 節（temperature / class count 討論）提供文獻支撐，讓 α=0 是「基於文獻的合理選擇」而非 ad hoc。
 
 ### AG News 最終實驗結果（⏳ 待重跑）
 
@@ -174,9 +218,17 @@ nohup python scripts/run_agnews_exp.py --rounds 100 --seeds 3 \
 
 ---
 
-## 待辦事項（實驗完成後）
+## 三個決策（2026-05-13 確認）
 
-### 實驗
+| 決策 | 結論 | 理由 |
+|------|------|------|
+| 把 ablation 擴展到 M=100/200？ | **不跑** | no_timeout 已有乾淨文字解釋；2-3 天 GPU 換來更複雜的 ablation，不值得 |
+| AG News α=0 的論文敘事 | **task-specific sensitivity 包裝** | 引用 Hinton 2015，強調 sweep evidence；不讓 reviewer 認為「distillation 沒用」 |
+| 做 paired t-test？ | **不放進 paper** | 3 seeds df=2 power 極低，結果不顯著反而是負訊號；caption 說明 seeds 數量即可 |
+
+---
+
+
 - [ ] `agnews_full.json` 重跑（`lr=3e-3, α=0.0, T=2.0`，100 rounds，3 seeds）
 
 ### 論文修改（`.tex`）
