@@ -159,8 +159,8 @@ def run_one(method_name, args, seed):
             "participation_rate": result.participation_rate,
             "n_participants":     result.n_participants,
             "energy":             result.energy,
-            "real_time_s":        result.extra.get("real_time_s", 0.0),
-            "wall_clock":         result.extra.get("wall_clock_time", 0.0),
+            "real_wall_clock_s":  result.extra.get("real_time_s", 0.0),
+            "sim_wall_clock":     result.extra.get("wall_clock_time", 0.0),
         })
         if (t + 1) % 10 == 0 or t == 0:
             elapsed = time.time() - t0
@@ -191,7 +191,10 @@ def run_one(method_name, args, seed):
 def parse_args():
     p = argparse.ArgumentParser(description="DASH AG News experiment (FGCS R2 Q1)")
     p.add_argument("--rounds",    type=int, default=100)
-    p.add_argument("--seeds",     type=int, default=3)
+    p.add_argument("--seeds",     type=int, default=3,
+                   help="Number of seeds to run")
+    p.add_argument("--seed_start",type=int, default=0,
+                   help="Starting seed index (seeds run: seed_start..seed_start+seeds-1)")
     p.add_argument("--n_clients", type=int, default=100)
     p.add_argument("--device",    type=str,
                    default="cuda" if torch.cuda.is_available() else "cpu")
@@ -218,7 +221,7 @@ def main():
     for method_name in methods:
         print(f"\n{'='*60}\n  Method: {method_name}\n{'='*60}")
         seed_results = []
-        for seed in range(args.seeds):
+        for seed in range(args.seed_start, args.seed_start + args.seeds):
             try:
                 seed_results.append(run_one(method_name, args, seed))
             except Exception as exc:

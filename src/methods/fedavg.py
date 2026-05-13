@@ -21,6 +21,7 @@ import numpy as np
 from typing import Dict, List, Any, Optional
 from dataclasses import dataclass
 import copy
+import time
 
 from .base import FederatedMethod, RoundResult
 from ..devices.energy import EnergyCalculator
@@ -80,6 +81,7 @@ class FedAvg(FederatedMethod):
         test_loader: Optional[Any] = None
     ) -> RoundResult:
         """Execute one round of FedAvg."""
+        _t0 = time.perf_counter()
         self.current_round = round_idx
 
         # Select participants
@@ -161,6 +163,8 @@ class FedAvg(FederatedMethod):
                 "method": "FedAvg",
                 "local_epochs": self.config.local_epochs,
                 "comm_bytes": self.config.model_size_bytes * len(participant_ids),
+                "real_time_s": time.perf_counter() - _t0,
+                "wall_clock_time": 0.0,  # FedAvg has no deadline-based sim clock
             }
         )
 

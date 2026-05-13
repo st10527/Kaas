@@ -13,6 +13,7 @@ import torch.nn.functional as F
 import torchvision.transforms as transforms
 import numpy as np
 import copy
+import time
 from typing import Dict, List, Any, Optional, Tuple
 from dataclasses import dataclass
 
@@ -343,6 +344,7 @@ class RandomSelectionFD(FederatedMethod):
 
     def run_round(self, round_idx, devices, client_loaders, public_loader,
                   test_loader=None):
+        _t0 = time.perf_counter()
         self.current_round = round_idx
         if not self._pretrained:
             _do_pretrain(self.server_model, public_loader,
@@ -391,7 +393,9 @@ class RandomSelectionFD(FederatedMethod):
             n_participants=len(participants),
             energy={"training": total_cost*0.4, "inference": total_cost*0.3, "communication": total_cost*0.3},
             extra={"total_cost": total_cost, "method": "RandomSelection",
-                   "select_fraction": self.select_fraction, "comm_mb": total_comm_mb}
+                   "select_fraction": self.select_fraction, "comm_mb": total_comm_mb,
+                   "real_time_s": time.perf_counter() - _t0,
+                   "wall_clock_time": n_select * getattr(self.config, 'fixed_deadline', 5.0)}
         )
         self.round_history.append(result)
         return result

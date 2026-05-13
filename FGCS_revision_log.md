@@ -269,7 +269,31 @@ nohup python scripts/run_agnews_exp.py --rounds 100 --seeds 3 \
 | `6d7152c` | feat: add hyperparameter sweep script（sweep_agnews_hparams.py） |
 | `ba1d2ef` | fix+refine: full sweep 結果更新 FULL_GRID，rounds=50，seeds=3 |
 | `6eab8c7` | fix: 採用 stable best config（lr=3e-3 取代 1e-2） |
+| `cae8039` | feat: --sigma_noise CLI arg, real_wall_clock_s / sim_wall_clock 欄位重新命名（ablation 腳本） |
+| *(pending)* | fix: run_agnews_exp.py history dict 欄位名對齊（real_time_s→real_wall_clock_s, wall_clock→sim_wall_clock） |
 
 ---
 
-*最後更新：2026-05-13*
+## 欄位命名一致性
+
+所有輸出 JSON 統一使用：
+
+| 欄位 | 說明 |
+|------|------|
+| `real_wall_clock_s` | CPU 掛鐘時間（`time.perf_counter()`，整個 `run_round()`） |
+| `sim_wall_clock` | 模擬時間（`Σ deadline`，代表分散式系統的等效耗時） |
+| `n_participants` | 該輪實際參與設備數 |
+
+**注意**：`results/ablation_full.json`（舊版）使用舊欄位名 `real_time_s` / `wall_clock`，分析腳本需注意相容性。重跑 σ_n=0.3 後將輸出新欄位名。
+
+---
+
+## 待完成項目
+
+- [ ] `agnews_full.json` 重跑完成後更新此 log（預期：DASH ~0.81，RandomSelection ~0.79）
+- [ ] σ_n=1.5 ablation 完成後新增對應結果表
+- [ ] σ_n=0.3 ablation 重跑（欄位名已修正）
+- [ ] 論文 Table：ablation σ_n=0.3 vs σ_n=1.5 對照表
+- [ ] 論文 Table：AG News comm cost（FedAvg 4MB vs DASH 80KB/round 估算）
+
+*最後更新：2026-05-14*
