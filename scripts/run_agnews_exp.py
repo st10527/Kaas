@@ -142,7 +142,7 @@ def run_one(method_name, args, seed):
             n_ref_samples=len(public_set),
         )
         method = RandomSelectionFD(create_model(num_classes), config=config,
-                                   device=args.device, select_fraction=0.1,
+                                   device=args.device, select_fraction=args.select_fraction,
                                    n_classes=num_classes)
     else:
         raise ValueError(f"Unknown method: {method_name}")
@@ -203,6 +203,8 @@ def parse_args():
                    help="Smoke-test: 3 rounds, 10 clients, 1 seed")
     p.add_argument("--methods",   nargs="+", default=None,
                    help=f"Subset of methods (default: {METHODS})")
+    p.add_argument("--select_fraction", type=float, default=0.1,
+                   help="RandomSelection participation fraction (default: 0.1 = 10%)")
     return p.parse_args()
 
 
