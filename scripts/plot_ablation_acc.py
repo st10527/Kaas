@@ -90,19 +90,6 @@ def make_figure(means, stds, sigma, out_stem):
             ha="center", va="bottom", fontsize=7.5, color="#222222"
         )
 
-    # annotate the no_timeout accuracy drop at σ=1.5
-    if sigma == 1.5:
-        nt_idx = VARIANT_ORDER.index("no_timeout")
-        drop   = means["full"] - means["no_timeout"]
-        ax.annotate(
-            f"−{drop*100:.2f}%",
-            xy=(x[nt_idx], means["no_timeout"] - stds["no_timeout"]),
-            xytext=(x[nt_idx] + 0.60, means["no_timeout"] - stds["no_timeout"] - 0.006),
-            ha="left", va="top",
-            fontsize=8.5, color=COLOR_NO_TIMEOUT, fontweight="bold",
-            arrowprops=dict(arrowstyle="->", color=COLOR_NO_TIMEOUT, lw=1.3),
-        )
-
     ax.set_ylim(Y_MIN, Y_MAX)
     ax.yaxis.set_major_locator(ticker.MultipleLocator(0.005))
     ax.yaxis.set_major_formatter(ticker.FormatStrFormatter("%.3f"))
